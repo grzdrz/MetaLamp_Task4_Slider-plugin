@@ -1,0 +1,22 @@
+include ../components/RangeSlider/RangeSlider.pug
+
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        title Test page
+        meta(name="viewport" content="width=device-width")
+    body
+        div(class=["test-page"])
+            p TEST
+
+            div(class=["test-page__tested-range-slider-container"])
+                +getRangeSlider({
+                    title: "some range slider",
+                    firstValue: 2000,
+                    lastValue: 6000,
+                    minValue: -1000,
+                    maxValue: 10000,
+                    valueType: "₽",
+                    valueRound: 100,
+                })

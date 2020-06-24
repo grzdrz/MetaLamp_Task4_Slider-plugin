@@ -1,0 +1,97 @@
+@font-face {
+  font-family: "Montserrat";
+  src: url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.woff), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.woff2), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.eot), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.ttf), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.svg);
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.woff), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.woff2), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.eot), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.ttf), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.svg);
+  font-weight: bold;
+  font-style: normal; }
+
+.range-slider {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  width: max-content;
+  height: max-content; }
+  .range-slider__title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 18px; }
+  .range-slider__title {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    text-transform: uppercase;
+    color: #1f2041; }
+  .range-slider__inputs-value-range {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: right;
+    text-transform: uppercase;
+    color: rgba(31, 32, 65, 0.5);
+    letter-spacing: 0.03em; }
+  .range-slider__slider-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: max-content;
+    height: 16px;
+    background: transparent; }
+  .range-slider__first-input, .range-slider__last-input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0; }
+  .range-slider__slider-body-empty {
+    width: 266px;
+    height: 6px;
+    background: #ffffff;
+    border: 1px solid rgba(31, 32, 65, 0.25);
+    border-radius: 3px;
+    position: relative; }
+  .range-slider__slider-body-filled {
+    width: 100px;
+    height: 6px;
+    background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+    margin-left: 30px;
+    position: absolute; }
+  .range-slider__first-slider, .range-slider__last-slider {
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+    position: absolute;
+    border-radius: 50%; }
+  .range-slider__first-slider-outside, .range-slider__last-slider-outside {
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    position: absolute; }
+  .range-slider__subtitle {
+    margin-top: 10px; }
+    .range-slider__subtitle-text {
+      font-family: Montserrat;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 14px;
+      color: rgba(31, 32, 65, 0.5); }
+
+.test-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+  .test-page__tested-range-slider-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 20px 20px; }
+
