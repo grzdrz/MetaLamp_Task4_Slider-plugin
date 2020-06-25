@@ -1,4 +1,6 @@
-import { SliderView } from "./mvc/View.js";
+import { SliderView } from "./mvc/SliderView.js";
+import { InputsView } from "./mvc/InputsView.js";
+/* import { View } from "./mvc/View.js"; */
 import { Model } from "./mvc/Model.js";
 import { Controller } from "./mvc/Controller.js";
 /* let controller = new Controller(); */
@@ -21,25 +23,32 @@ rangeSliders.forEach(e => {
         maxValue: 15000,
         minValue: -5000,
         outsideWidth: 2,
+        firstValue: 2000,
+        lastValue: 6000,
+        valueType: "₽",
+        valueRound: 100,
     });
 
-    let view = new SliderView({
+    let sliderView = new SliderView({
         sliderComponent: e,
         slidersContainer: slidersContainer,
 
         firstSlider: firstSlider,
         firstSliderBorder: firstSliderBorder,
-        firstInput: firstInput,
 
         lastSlider: lastSlider,
         lastSliderBorder: lastSliderBorder,
-        lastInput: lastInput,
 
         emptyStrip: emptyStrip,
         filledStrip: filledStrip,
     });
 
-    let controller = new Controller(model, view);
+    let inputsView = new InputsView({
+        firstInput: firstInput,
+        lastInput: lastInput,
+    });
+
+    let controller = new Controller(model, sliderView, inputsView);
 });
 
 

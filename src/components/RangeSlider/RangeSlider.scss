@@ -54,7 +54,11 @@
     &__last-input {
         position: absolute;
         z-index: -1;
-        opacity: 0;
+        //opacity: 0;
+        margin-top: 100px;
+    }
+    &__last-input {
+        margin-top: 150px;
     }
 
     &__slider-body-empty {

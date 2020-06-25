@@ -7,29 +7,64 @@ import { FilledStrip } from "../elements/FilledStrip.js";
 import { EmptyStrip } from "../elements/EmptyStrip.js"; */
 
 export class Controller {
-    constructor(model, view) {
+    constructor(model, sliderView, inputsView) {
         this.model = model;
-        this.view = view;
-
-        this.view.update = this.update.bind(this);
+        this.sliderView = sliderView;
+        this.inputsView = inputsView;
 
         this.getModelData = this.getModelData.bind(this);
-        this.view.getModelData = this.getModelData;
+        this.sliderView.getModelData = this.getModelData;
 
+        this.updateInputValues = this.updateInputValues.bind(this);
+        this.sliderView.updateInputValues = this.updateInputValues;
+        this.updateInputValues2 = this.updateInputValues2.bind(this);
+        this.inputsView.updateInputValues2 = this.updateInputValues2;
+
+
+        this.model.updateModelData = this.updateModelData;
+
+        this.inputsView.updateInputs = this.updateInputs;
+
+
+        this.sliderView.update = this.update.bind(this);
         this.initialize();
     }
 
     initialize() {
-        this.view.updatePositions();
+        this.sliderView.initialize();
+        this.inputsView.initialize();
     }
 
     update() {
         //рассылка
     }
 
-    getModelData(){
+    getModelData() {
         return this.model.options;
     }
+
+    updateInputValues(data) {
+        this.model.updateModelData(data);
+        this.inputsView.updateInputs(data);
+    }
+    updateInputValues2(data) {
+        this.model.updateModelData(data);
+        this.sliderView.updateSlider();
+    }
+
+    updateModelData(data) {
+        data.firstValue ? this.options.firstValue = data.firstValue : this.options.firstValue;
+        data.lastValue ? this.options.lastValue = data.lastValue : this.options.lastValue;
+    }
+
+    updateInputs(data) {
+        data.firstValue ? this.firstInputDOMElement.value = data.firstValue : this.firstInputDOMElement.value;
+        data.lastValue ? this.lastInputDOMElement.value = data.lastValue : this.lastInputDOMElement.value;
+    }
+
+/*     updateSlider(data){
+
+    } */
 }
 
 

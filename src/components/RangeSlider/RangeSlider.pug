@@ -26,10 +26,10 @@ mixin getRangeSlider(options)
             div(class=["range-slider__first-slider"])
             div(class=["range-slider__last-slider"])
             input(class=["range-slider__first-input"]
-                type="hidden"
+                data-input-number=1
                 value= options.firstValue)
             input(class=["range-slider__last-input"] 
-                type="hidden" 
+                data-input-number=2
                 value= options.lastValue)
         - if(options.subtitleText)
             div(class=["range-slider__subtitle"])
