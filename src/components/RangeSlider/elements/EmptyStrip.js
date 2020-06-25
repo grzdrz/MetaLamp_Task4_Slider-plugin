@@ -1,15 +1,13 @@
 import { Element } from "./Element.js";
 
 export class EmptyStrip extends Element {
-    constructor(controller, DOMElement) {
-        super(controller, DOMElement);
+    constructor(view, DOMElement) {
+        super(view, DOMElement);
 
-        this.position.x = this.calculatePosition();
+        /* this.position.x = this.calculatePosition(); */
+        this.calculatePosition = this.calculatePosition.bind(this);
     }
 
     calculatePosition() {
-        /* let firstSlider = this.controller.model.firstSlider;
-        let lastSlider = this.controller.model.lastSlider;
-        return lastSlider.position.x - firstSlider.position.x; */
     }
 }

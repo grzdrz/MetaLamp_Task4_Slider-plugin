@@ -1,37 +1,49 @@
 import { Element } from "./Element.js";
 
 export class Slider extends Element {
-    constructor(controller, mainDOMElement, outsideDOMElement, inputDOMElement, number) {
-        super(controller, mainDOMElement);
+    constructor(view, mainDOMElement, outsideDOMElement, inputDOMElement, number) {
+        super(view, mainDOMElement);
 
         this.number = number;
         this.outsideDOMElement = outsideDOMElement;
         this.inputDOMElement = inputDOMElement;
 
-        this.position.x = this.calculatePosition();
-        this.outsidePosition = this.calculateOutsidePosition();
+        /* this.position.x = this.calculatePosition();
+        this.outsidePosition = this.calculateOutsidePosition(); */
+        this.calculatePosition = this.calculatePosition.bind(this);
     }
 
     calculatePosition() {
-        let inputMaxValue = this.controller.model.options.maxValue;
-        let inputMinValue = this.controller.model.options.minValue;
-        let slidersContainerWidth = this.controller.model.slidersContainer.size.width;
+        //let inputMaxValue = this.controller.model.options.maxValue;
+        //let inputMinValue = this.controller.model.options.minValue;
+        //let slidersContainerWidth = this.controller.model.slidersContainer.size.width;
+        let modelData = this.view.getModelData();
+        let inputMaxValue = modelData.maxValue;
+        let inputMinValue = modelData.minValue;
+        let slidersContainerWidth = this.view.slidersContainerInstance.size.width;
 
         let dSliderInputFullValue = inputMaxValue - inputMinValue;
         let dSliderStripFullValue = slidersContainerWidth - this.size.width * 2;
 
         if (this.number === 1)
-            return ((this.inputDOMElement.value - inputMinValue) * dSliderStripFullValue) / dSliderInputFullValue;
+            this.position.x = ((this.inputDOMElement.value - inputMinValue) * dSliderStripFullValue) / dSliderInputFullValue;
         else
-            return (((this.inputDOMElement.value - inputMinValue) * dSliderStripFullValue) / dSliderInputFullValue) + this.size.width;
+            this.position.x = (((this.inputDOMElement.value - inputMinValue) * dSliderStripFullValue) / dSliderInputFullValue) + this.size.width;
+
+
+        this.outsidePosition = this.calculateOutsidePosition();
+
+
+        this.setPosition();
     }
 
     calculateOutsidePosition() {
-        return this.position.x - this.controller.model.options.outsideWidth;///
+        let modelData = this.view.getModelData();
+        return this.position.x - modelData.outsideWidth;///
     }
 
     setPosition() {
         super.setPosition();
-        this.controller.view.setLeftMargin(this.outsideDOMElement, this.outsidePosition);
+        this.view.setLeftMargin(this.outsideDOMElement, this.outsidePosition);
     }
 }

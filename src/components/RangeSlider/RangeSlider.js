@@ -1,4 +1,5 @@
-
+import { SliderView } from "./mvc/View.js";
+import { Model } from "./mvc/Model.js";
 import { Controller } from "./mvc/Controller.js";
 /* let controller = new Controller(); */
 
@@ -16,7 +17,13 @@ rangeSliders.forEach(e => {
     let emptyStrip = e.querySelector(".range-slider__slider-body-empty");
 
 
-    let controller = new Controller({
+    let model = new Model({
+        maxValue: 15000,
+        minValue: -5000,
+        outsideWidth: 2,
+    });
+
+    let view = new SliderView({
         sliderComponent: e,
         slidersContainer: slidersContainer,
 
@@ -25,17 +32,14 @@ rangeSliders.forEach(e => {
         firstInput: firstInput,
 
         lastSlider: lastSlider,
-        lastSliderBorder: lastSliderBorder, 
+        lastSliderBorder: lastSliderBorder,
         lastInput: lastInput,
 
         emptyStrip: emptyStrip,
         filledStrip: filledStrip,
-    },
-    {
-        maxValue: 10000,
-        minValue: -1000,
-        outsideWidth: 2,
     });
+
+    let controller = new Controller(model, view);
 });
 
 

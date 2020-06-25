@@ -1,13 +1,18 @@
 export class Element{
-    constructor(controller, DOMElement){//под позицией имеется ввиду левый маргин относительно контейнера
+    constructor(view, DOMElement){//под позицией имеется ввиду левый маргин относительно контейнера
         this.DOMElement = DOMElement;
-        this.controller = controller;
+        this.view = view;
 
         this.position = {};
         this.size = this.DOMElement.getBoundingClientRect();
     }
 
     setPosition() {
-        this.controller.view.setLeftMargin(this.DOMElement, this.position.x);
+        this.view.setLeftMargin(this.DOMElement, this.position.x);
+    }
+
+    setSize(size) {
+        this.size = size;
+        this.view.setSize(this.DOMElement, this.size.width);
     }
 }
