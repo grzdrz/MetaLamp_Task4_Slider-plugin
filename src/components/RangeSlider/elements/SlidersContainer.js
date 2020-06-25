@@ -1,7 +1,7 @@
-export class SlidersContainer {
-    constructor(controller, DOMElement) {
-        this.DOMElement = DOMElement;
+import { Element } from "./Element.js";
 
-        this.controller = controller;
+export class SlidersContainer extends Element {
+    constructor(controller, DOMElement) {
+        super(controller, DOMElement);
     }
 }

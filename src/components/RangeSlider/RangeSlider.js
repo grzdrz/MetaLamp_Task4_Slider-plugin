@@ -1,8 +1,42 @@
 
 import { Controller } from "./mvc/Controller.js";
-let controller = new Controller();
+/* let controller = new Controller(); */
 
-controller.rangeSliderScript();
+let rangeSliders = document.querySelectorAll(".range-slider");
+rangeSliders.forEach(e => {
+    //типо создали элементы для ренж слайдера
+    let slidersContainer = e.querySelector(".range-slider__slider-container");
+    let firstSlider = e.querySelector(".range-slider__first-slider");
+    let firstSliderBorder = e.querySelector(".range-slider__first-slider-outside");
+    let lastSlider = e.querySelector(".range-slider__last-slider");
+    let lastSliderBorder = e.querySelector(".range-slider__last-slider-outside");
+    let firstInput = e.querySelector(".range-slider__first-input");
+    let lastInput = e.querySelector(".range-slider__last-input");
+    let filledStrip = e.querySelector(".range-slider__slider-body-filled");
+    let emptyStrip = e.querySelector(".range-slider__slider-body-empty");
+
+
+    let controller = new Controller({
+        sliderComponent: e,
+        slidersContainer: slidersContainer,
+
+        firstSlider: firstSlider,
+        firstSliderBorder: firstSliderBorder,
+        firstInput: firstInput,
+
+        lastSlider: lastSlider,
+        lastSliderBorder: lastSliderBorder, 
+        lastInput: lastInput,
+
+        emptyStrip: emptyStrip,
+        filledStrip: filledStrip,
+    },
+    {
+        maxValue: 10000,
+        minValue: -1000,
+        outsideWidth: 2,
+    });
+});
 
 
 import "./RangeSlider.scss";

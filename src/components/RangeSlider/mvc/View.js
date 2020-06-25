@@ -3,10 +3,28 @@ export class View {
     }
 
     setLeftMargin(element, marginValue) {
-        element.style.marginLeft = marginValue + "px";
+        let result = marginValue + "px";
+        element.style.marginLeft = result;
+        return result;
     }
 
     setWidth(element, widthValue){
-        element.style.width = widthValue + "px";
+        let result = widthValue + "px";
+        element.style.width = result;
+        return result;
+    }
+
+
+    
+    setLeftMarginTEMP(element, marginValue) {
+        let result = marginValue + "px";
+        element.style.marginLeft = result;
+        return result;
+    }
+
+    setWidthTEMP(element, widthValue) {
+        let result = widthValue + "px";
+        element.style.width = result;
+        return result;
     }
 }
