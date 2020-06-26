@@ -34,19 +34,13 @@ export class Slider extends Element {
             this.position.x = (((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue) + this.size.width;
         }
 
-        this.outsidePosition = this.calculateOutsidePosition();
-
-
-        this.setPosition();
+        this.renderPosition();
     }
 
-    calculateOutsidePosition() {
+    renderPosition(){
+        super.renderPosition();
+
         let modelData = this.view.getModelData();
-        return this.position.x - modelData.outsideWidth;///
-    }
-
-    setPosition() {
-        super.setPosition();
-        this.view.setLeftMargin(this.outsideDOMElement, this.outsidePosition);
+        this.view.setLeftMargin(this.outsideDOMElement, this.position.x - modelData.thicknessOfSliderBorder);
     }
 }

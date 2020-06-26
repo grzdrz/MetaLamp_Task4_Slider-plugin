@@ -22,7 +22,7 @@ rangeSliders.forEach(e => {
     let model = new Model({
         maxValue: 15000,
         minValue: -5000,
-        outsideWidth: 2,
+        thicknessOfSliderBorder: 2,
         firstValue: 2000,
         lastValue: 6000,
         valueType: "₽",

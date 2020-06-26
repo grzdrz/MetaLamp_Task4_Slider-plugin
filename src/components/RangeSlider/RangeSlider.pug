@@ -23,8 +23,8 @@ mixin getRangeSlider(options)
             div(class=["range-slider__slider-body-filled"])
             div(class=["range-slider__first-slider-outside"])
             div(class=["range-slider__last-slider-outside"])
-            div(class=["range-slider__first-slider"])
-            div(class=["range-slider__last-slider"])
+            div(class=["range-slider__first-slider"] data-slider-count-number=1)
+            div(class=["range-slider__last-slider"] data-slider-count-number=2)
             input(class=["range-slider__first-input"]
                 data-input-number=1
                 value= options.firstValue)
