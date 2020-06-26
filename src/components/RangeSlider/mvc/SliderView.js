@@ -12,7 +12,7 @@ export class SliderView extends View {
         this.onSliderMouseDown = this.onSliderMouseDown.bind(this);
 
         this.getModelData = () => { };
-        this.updateSlider = this.updateSlider.bind(this);
+        this.updateInputs = () => { };
 
 
         this.slidersContainerInstance = new SlidersContainer(this, elements.slidersContainer);
@@ -24,7 +24,7 @@ export class SliderView extends View {
 
 
     initialize() {
-        //this.slidersContainerInstance.calculatePosition();
+        this.slidersContainerInstance.calculatePosition();
         this.firstSliderInstance.calculatePosition();
         this.lastSliderInstance.calculatePosition();
         this.emptyStripInstance.calculatePosition();
@@ -45,8 +45,8 @@ export class SliderView extends View {
         this.lastSliderInstance.DOMElement.addEventListener("touchstart", this.onSliderMouseDown);
     }
 
-    updateSlider() {
-        //this.slidersContainerInstance.calculatePosition();
+    update() {
+        this.slidersContainerInstance.calculatePosition();
         this.firstSliderInstance.calculatePosition();
         this.lastSliderInstance.calculatePosition();
         this.emptyStripInstance.calculatePosition();
@@ -169,7 +169,7 @@ export class SliderView extends View {
                     newTargetInputValue = temp3;
 
                     //targetInput.value = newTargetInputValue;
-                    view.updateInputValues({ firstValue: newTargetInputValue });
+                    view.updateInputs({ firstValue: newTargetInputValue });
                     //view.firstSliderInstance.inputDOMElement.value = newTargetInputValue;
 
                     let inputsValueRangeTextInTitle = inputsValueRangeInTitle.textContent;
@@ -204,7 +204,7 @@ export class SliderView extends View {
                     newTargetInputValue = temp3;
 
                     //targetInput.value = newTargetInputValue;
-                    view.updateInputValues({ lastValue: newTargetInputValue });
+                    view.updateInputs({ lastValue: newTargetInputValue });
                     //view.lastSliderInstance.inputDOMElement.value = newTargetInputValue;
 
                     let inputsValueRangeTextInTitle = inputsValueRangeInTitle.textContent;

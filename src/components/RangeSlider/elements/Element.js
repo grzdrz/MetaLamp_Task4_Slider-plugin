@@ -1,10 +1,13 @@
-export class Element{
-    constructor(view, DOMElement){//под позицией имеется ввиду левый маргин относительно контейнера
+export class Element {
+    constructor(view, DOMElement) {//под позицией имеется ввиду левый маргин относительно контейнера
         this.DOMElement = DOMElement;
         this.view = view;
 
         this.position = {};
         this.size = this.DOMElement.getBoundingClientRect();
+    }
+
+    calculatePosition() {
     }
 
     setPosition() {

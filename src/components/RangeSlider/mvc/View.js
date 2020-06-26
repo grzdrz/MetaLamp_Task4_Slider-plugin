@@ -1,7 +1,5 @@
 export class View {
     constructor() {
-        this.update = function () { };
-        this.updateInputValues = function () { };
     }
 
     setLeftMargin(element, marginValue) {

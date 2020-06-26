@@ -17,11 +17,22 @@ export class Slider extends Element {
         let dSliderInputFullValue = modelData.maxValue - modelData.minValue;
         let dSliderStripFullValue = slidersContainerWidth - this.size.width * 2;
 
-        if (this.number === 1)
-            this.position.x = ((modelData.firstValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue;
-        else
-            this.position.x = (((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue) + this.size.width;
+        if (this.number === 1) {
+            if (modelData.firstValue < modelData.minValue) {
+                this.position.x = 0;
+            }
+            else if (modelData.firstValue > modelData.maxValue) {
+                this.position.x = ((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue;
+            }
+            else if (modelData.firstValue > modelData.lastValue)
+                this.position.x = ((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue;
+            else
+                this.position.x = ((modelData.firstValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue;
+        }
+        else {
 
+            this.position.x = (((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue) + this.size.width;
+        }
 
         this.outsidePosition = this.calculateOutsidePosition();
 

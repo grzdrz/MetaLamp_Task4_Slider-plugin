@@ -1,11 +1,3 @@
-/* import { SliderView } from "./View.js";
-import { Model } from "./Model.js"; */
-
-/* import { SlidersContainer } from "../elements/SlidersContainer.js";
-import { Slider } from "../elements/Slider.js";
-import { FilledStrip } from "../elements/FilledStrip.js";
-import { EmptyStrip } from "../elements/EmptyStrip.js"; */
-
 export class Controller {
     constructor(model, sliderView, inputsView) {
         this.model = model;
@@ -14,19 +6,14 @@ export class Controller {
 
         this.getModelData = this.getModelData.bind(this);
         this.sliderView.getModelData = this.getModelData;
+        this.inputsView.getModelData = this.getModelData;
 
-        this.updateInputValues = this.updateInputValues.bind(this);
-        this.sliderView.updateInputValues = this.updateInputValues;
-        this.updateInputValues2 = this.updateInputValues2.bind(this);
-        this.inputsView.updateInputValues2 = this.updateInputValues2;
+        this.updateInputs = this.updateInputs.bind(this);
+        this.sliderView.updateInputs = this.updateInputs;
 
+        this.updateSliders = this.updateSliders.bind(this);
+        this.inputsView.updateSliders = this.updateSliders;
 
-        this.model.updateModelData = this.updateModelData;
-
-        this.inputsView.updateInputs = this.updateInputs;
-
-
-        this.sliderView.update = this.update.bind(this);
         this.initialize();
     }
 
@@ -35,36 +22,18 @@ export class Controller {
         this.inputsView.initialize();
     }
 
-    update() {
-        //рассылка
-    }
-
     getModelData() {
-        return this.model.options;
-    }
-
-    updateInputValues(data) {
-        this.model.updateModelData(data);
-        this.inputsView.updateInputs(data);
-    }
-    updateInputValues2(data) {
-        this.model.updateModelData(data);
-        this.sliderView.updateSlider();
-    }
-
-    updateModelData(data) {
-        data.firstValue ? this.options.firstValue = data.firstValue : this.options.firstValue;
-        data.lastValue ? this.options.lastValue = data.lastValue : this.options.lastValue;
+        return this.model.getOptions();
     }
 
     updateInputs(data) {
-        data.firstValue ? this.firstInputDOMElement.value = data.firstValue : this.firstInputDOMElement.value;
-        data.lastValue ? this.lastInputDOMElement.value = data.lastValue : this.lastInputDOMElement.value;
+        this.model.updateOptions(data);
+        this.inputsView.update(data);
     }
-
-/*     updateSlider(data){
-
-    } */
+    updateSliders(data) {
+        this.model.updateOptions(data);
+        this.sliderView.update();
+    }
 }
 
 
