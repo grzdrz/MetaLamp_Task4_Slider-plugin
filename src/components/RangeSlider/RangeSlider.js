@@ -20,11 +20,11 @@ rangeSliders.forEach(e => {
 
 
     let model = new Model({
-        maxValue: 1000,
+        maxValue: 100,
         minValue: 0,
         thicknessOfSliderBorder: 2,
-        firstValue: 1,
-        lastValue: 1000,
+        firstValue: 0,
+        lastValue: 100,
         valueType: "₽",
         stepSize: 0.00001,
         hasTwoSlider: true,

@@ -251,26 +251,37 @@ export class SliderView extends View {
         let newTargetInputValue = (maxInputDeltaValue * cursorInContainerPosX) / maxDistanceBetweenSliders + inputMinValue;
 
         //расчет текущего значения исходя из размера шага
+        //подменяем текущее значение инпута на число к которому ближе всего текущее значение курсора
+        //т.е. например шаг 10, значение 78 -> на выходе получаем 80, 
+        //или например  шаг 10, значение 73 -> на выходе получаем 70
+        //---------------------------------------------
         let temp1 = newTargetInputValue / modelData.stepSize;
         let temp2 = Math.round(temp1);
         let temp3 = temp2 * modelData.stepSize;
         newTargetInputValue = temp3;
+        //---------------------------------------------
 
         //доп. обработка значения если шаг дробный
-        //------------
+        //--------------------------------------
+        //переводим значение шага в строку(попутно проверяя на наличие формата с экспонентой если дробь длинная)
         let temp411;
         if (this._hasEInNumber(modelData.stepSize)) {
             temp411 = this._getStringOfNumberWithoutE(modelData.stepSize);
         }
         else
             temp411 = modelData.stepSize.toString();
+
+        //выделяем дробную часть
         let temp41 = temp411.split(".");
         let temp42 = temp41[1];
+
+        //если дробная часть существует, то округляем полученное выше значение инпута до длины дробной части шага
+        //тем самым отрезая мусорные значения дроби, которые переодически появляются из-за неточностей при работе js с десятичными числами
         if (temp42) {
             let countOfNumbers = temp42.length;
             newTargetInputValue = newTargetInputValue.toFixed(Number.parseInt(countOfNumbers));
         }
-        //--------------
+        //--------------------------------------
 
         if (newTargetInputValue !== modelData.firstValue) {//типо первый ползунок
             this.updateInputs({ firstValue: newTargetInputValue });
