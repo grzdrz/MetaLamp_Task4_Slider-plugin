@@ -27,6 +27,8 @@ rangeSliders.forEach(e => {
         lastValue: 6000,
         valueType: "₽",
         valueRound: 100,
+        hasTwoSlider: true,
+        isInterval: true,
     });
 
     let sliderView = new SliderView({
