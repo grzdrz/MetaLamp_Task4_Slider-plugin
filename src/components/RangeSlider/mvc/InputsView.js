@@ -17,11 +17,12 @@ export class InputsView extends View {
     initialize() {
         this.firstInputDOMElement.addEventListener("change", this.onFirstInputChange);
         this.lastInputDOMElement.addEventListener("change", this.onLastInputChange);
+        this.update(this.getModelData());
     }
 
     update(data) {
-        data.firstValue ? this.firstInputDOMElement.value = data.firstValue : this.firstInputDOMElement.value;
-        data.lastValue ? this.lastInputDOMElement.value = data.lastValue : this.lastInputDOMElement.value;
+        data.firstValue || data.firstValue === 0 ? this.firstInputDOMElement.value = data.firstValue : this.firstInputDOMElement.value;
+        data.lastValue || data.lastValue === 0 ? this.lastInputDOMElement.value = data.lastValue : this.lastInputDOMElement.value;
     }
 
     onFirstInputChange(event) {
