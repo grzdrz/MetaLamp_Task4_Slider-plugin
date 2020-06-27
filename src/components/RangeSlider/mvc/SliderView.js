@@ -246,12 +246,31 @@ export class SliderView extends View {
         //let targetSliderPosXInContainer = newTargetSliderBoundingCoords.x - containerPositionInDocument.x;
         let maxDistanceBetweenSliders = containerPositionInDocument.width - sliderWidth * 2;
         let maxInputDeltaValue = inputMaxValue - inputMinValue;
-        let newTargetInputValue = Math.round((maxInputDeltaValue * cursorInContainerPosX/* targetSliderPosXInContainer */) / maxDistanceBetweenSliders + inputMinValue);
 
+        //значение в заданных единицах пропорциональное пиксельным координатам курсора в контейнере
+        let newTargetInputValue = (maxInputDeltaValue * cursorInContainerPosX) / maxDistanceBetweenSliders + inputMinValue;
+
+        //расчет текущего значения исходя из размера шага
         let temp1 = newTargetInputValue / modelData.stepSize;
         let temp2 = Math.round(temp1);
         let temp3 = temp2 * modelData.stepSize;
         newTargetInputValue = temp3;
+
+        //доп. обработка значения если шаг дробный
+        //------------
+        let temp411;
+        if (this._hasEInNumber(modelData.stepSize)) {
+            temp411 = this._getStringOfNumberWithoutE(modelData.stepSize);
+        }
+        else
+            temp411 = modelData.stepSize.toString();
+        let temp41 = temp411.split(".");
+        let temp42 = temp41[1];
+        if (temp42) {
+            let countOfNumbers = temp42.length;
+            newTargetInputValue = newTargetInputValue.toFixed(Number.parseInt(countOfNumbers));
+        }
+        //--------------
 
         if (newTargetInputValue !== modelData.firstValue) {//типо первый ползунок
             this.updateInputs({ firstValue: newTargetInputValue });
@@ -281,5 +300,28 @@ export class SliderView extends View {
         //optionsFromMouseDown.handlerMouseMove({ isLastUpdate: true });
 
         //this.update();
+    }
+
+    _hasEInNumber(number) {//проверка на запись очень большого(или маленького) числа через e(например 1e-10)
+        let splitByE = number.toString().split("e");
+        return splitByE.length === 2;
+    }
+    _getStringOfNumberWithoutE(number) {
+        let data = number.toString().split(/[eE]/);
+        if (data.length === 1) return data[0];
+
+        let z = '',
+            sign = this < 0 ? '-' : '',
+            str = data[0].replace('.', ''),
+            mag = Number(data[1]) + 1;
+
+        if (mag < 0) {
+            z = sign + '0.';
+            while (mag++) z += '0';
+            return z + str.replace(/^\-/, '');
+        }
+        mag -= str.length;
+        while (mag--) z += '0';
+        return str + z;
     }
 }

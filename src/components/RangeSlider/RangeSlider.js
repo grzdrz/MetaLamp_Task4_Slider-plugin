@@ -23,10 +23,10 @@ rangeSliders.forEach(e => {
         maxValue: 1000,
         minValue: 0,
         thicknessOfSliderBorder: 2,
-        firstValue: 10,
-        lastValue: 500,
+        firstValue: 1,
+        lastValue: 1000,
         valueType: "₽",
-        stepSize: 100,
+        stepSize: 0.00001,
         hasTwoSlider: true,
         isInterval: true,
     });
