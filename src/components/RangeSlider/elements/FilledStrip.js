@@ -7,14 +7,16 @@ export class FilledStrip extends Element {
         this.calculatePosition = this.calculatePosition.bind(this);
     }
 
+    initialize() {
+        this.calculatePosition();
+    }
+
     calculatePosition() {
         let firstSlider = this.view.firstSliderInstance;
         let lastSlider = this.view.lastSliderInstance;
-        this.position.x = firstSlider.position.x + firstSlider.size.width / 2;
+        this.setPosition({ x: firstSlider.position.x + firstSlider.size.width / 2 });
+        this.setSize({ width: lastSlider.position.x - firstSlider.position.x });
 
-        let width = lastSlider.position.x - firstSlider.position.x;
-
-        this.renderPosition();///////
-        this.setSize({ width: width });
+        super.calculatePosition();
     }
 }

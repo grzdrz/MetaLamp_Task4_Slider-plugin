@@ -66,15 +66,18 @@
     margin-left: 30px;
     position: absolute; }
   .range-slider__first-slider, .range-slider__last-slider {
-    width: 12px;
-    height: 12px;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
     position: absolute;
     border-radius: 50%; }
   .range-slider__first-slider-outside, .range-slider__last-slider-outside {
-    width: 16px;
-    height: 16px;
-    background: white;
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(180deg, #ce2e2e 0%, #eb9525 100%);
     border-radius: 50%;
     position: absolute; }
   .range-slider__subtitle {

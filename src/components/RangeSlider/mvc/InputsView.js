@@ -8,7 +8,7 @@ export class InputsView extends View {
         this.lastInputDOMElement = inputs.lastInput;
 
         this.getModelData = () => { };
-        this.updateSliders = function () { };
+        this.updateSliders = () => { };
 
         this.onFirstInputChange = this.onFirstInputChange.bind(this);
         this.onLastInputChange = this.onLastInputChange.bind(this);
@@ -26,8 +26,12 @@ export class InputsView extends View {
     }
 
     onFirstInputChange(event) {
-        let value = Number.parseInt(event.currentTarget.value);
         let modelData = this.getModelData();
+
+        let value = Number.parseFloat(event.currentTarget.value);
+        if (!value && value !== 0) {
+            value = modelData.minValue;
+        }
 
         if (value > modelData.maxValue || value > modelData.lastValue)
             value = modelData.lastValue;
@@ -39,8 +43,12 @@ export class InputsView extends View {
         this.updateSliders({ firstValue: value });
     }
     onLastInputChange(event) {
-        let value = Number.parseInt(event.currentTarget.value);
         let modelData = this.getModelData();
+
+        let value = Number.parseFloat(event.currentTarget.value);
+        if (!value && value !== 0) {
+            value = modelData.maxValue;
+        }
 
         if (value > modelData.maxValue)
             value = modelData.maxValue;

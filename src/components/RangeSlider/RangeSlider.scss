@@ -10,7 +10,7 @@
 
     $filledBodyWidth: 100px;
     $filledBodyMarginLeft: 30px;
-    $sliderSize: 16px;
+    $sliderSize: 26px;
 
     &__title-container {
         display: flex;
@@ -82,18 +82,19 @@
     &__last-slider {
         width: $sliderSize - 4px;
         height: $sliderSize - 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
         position: absolute;
         border-radius: 50%;
-        //margin-left: $filledBodyMarginLeft - $sliderSize / 2;
-        //margin-left: $filledBodyMarginLeft + $filledBodyWidth - $sliderSize / 2; //test
     }
 
     &__first-slider-outside,
     &__last-slider-outside {
         width: $sliderSize;
         height: $sliderSize;
-        background: white;
+        background: linear-gradient(180deg, #ce2e2e 0%, #eb9525 100%);
         border-radius: 50%;
         position: absolute;
     }

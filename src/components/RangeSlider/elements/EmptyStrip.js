@@ -7,6 +7,11 @@ export class EmptyStrip extends Element {
         this.calculatePosition = this.calculatePosition.bind(this);
     }
 
+    initialize() {
+        this.calculatePosition();
+    }
+
     calculatePosition() {
+
     }
 }

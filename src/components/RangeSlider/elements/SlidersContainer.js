@@ -4,6 +4,6 @@ export class SlidersContainer extends Element {
     constructor(view, DOMElement) {
         super(view, DOMElement);
 
-        this.containerBoundingRect = this.DOMElement.getBoundingClientRect(); //containerBoundingRect
+        this.containerBoundingRect = this.DOMElement.getBoundingClientRect();
     }
 }
