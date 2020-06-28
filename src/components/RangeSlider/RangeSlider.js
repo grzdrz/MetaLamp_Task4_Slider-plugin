@@ -26,7 +26,7 @@ rangeSliders.forEach(e => {
         firstValue: 0,
         lastValue: 100,
         valueType: "₽",
-        stepSize: 10,
+        stepSize: 0.0000001,
         hasTwoSlider: true,
         isInterval: true,
     });
