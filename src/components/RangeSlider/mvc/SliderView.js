@@ -14,15 +14,25 @@ export class SliderView extends View {
         this.getModelData = () => { };
         this.updateInputs = () => { };
 
-        this.slidersContainerInstance = new SlidersContainer(this, elements.slidersContainer);
+        /* this.slidersContainerInstance = new SlidersContainer(this, elements.slidersContainer);
         this.firstSliderInstance = new Slider(this, elements.firstSlider, elements.firstSliderBorder, 1);
         this.lastSliderInstance = new Slider(this, elements.lastSlider, elements.lastSliderBorder, 2);
         this.emptyStripInstance = new EmptyStrip(this, elements.emptyStrip);
-        this.filledStripInstance = new FilledStrip(this, elements.filledStrip);
+        this.filledStripInstance = new FilledStrip(this, elements.filledStrip); */
+        this.elements = elements;
     }
 
 
     initialize() {
+        let modelData = this.getModelData();
+
+        this.slidersContainerInstance = new SlidersContainer(this, this.elements.slidersContainer);
+        this.firstSliderInstance = new Slider(this, this.elements.firstSlider, this.elements.firstSliderBorder, 1);
+        if (modelData.hasTwoSlider) this.lastSliderInstance = new Slider(this, this.elements.lastSlider, this.elements.lastSliderBorder, 2);
+        this.emptyStripInstance = new EmptyStrip(this, this.elements.emptyStrip);
+        this.filledStripInstance = new FilledStrip(this, this.elements.filledStrip);
+
+        //if (modelData.hasTwoSlider) this.lastSliderInstance = undefined;
         for (let elementName in this) {
             if (this[elementName].initialize)
                 this[elementName].initialize();
@@ -31,27 +41,28 @@ export class SliderView extends View {
         this.firstSliderInstance.DOMElement.ondragstart = function () {
             return false;
         };
-        this.lastSliderInstance.DOMElement.ondragstart = function () {
-            return false;
-        };
-
         this.firstSliderInstance.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
-        this.lastSliderInstance.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
         this.firstSliderInstance.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
-        this.lastSliderInstance.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
-
         this.firstSliderInstance.outsideDOMElement.addEventListener("mousedown", (event) => {
-            this._handlerMouseDown(event);
-        });
-        this.lastSliderInstance.outsideDOMElement.addEventListener("mousedown", (event) => {
             this._handlerMouseDown(event);
         });
         this.firstSliderInstance.outsideDOMElement.addEventListener("touchstart", (event) => {
             this._handlerMouseDown(event);
         });
-        this.lastSliderInstance.outsideDOMElement.addEventListener("touchstart", (event) => {
-            this._handlerMouseDown(event);
-        });
+
+        if (modelData.hasTwoSlider) {
+            this.lastSliderInstance.DOMElement.ondragstart = function () {
+                return false;
+            };
+            this.lastSliderInstance.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
+            this.lastSliderInstance.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
+            this.lastSliderInstance.outsideDOMElement.addEventListener("mousedown", (event) => {
+                this._handlerMouseDown(event);
+            });
+            this.lastSliderInstance.outsideDOMElement.addEventListener("touchstart", (event) => {
+                this._handlerMouseDown(event);
+            });
+        }
     }
 
     update() {
@@ -65,6 +76,7 @@ export class SliderView extends View {
     _handlerMouseDown(event) {
         event.preventDefault();
 
+        let modelData = this.getModelData();
         let cursorMouseDownPosX;//место нажатия левой кнопки мыши
         if (event.changedTouches) cursorMouseDownPosX = event.changedTouches[0].pageX;
         else cursorMouseDownPosX = event.clientX;
@@ -78,16 +90,16 @@ export class SliderView extends View {
 
         if (sliderCountNumber === 1) {
             targetSliderInstance = this.firstSliderInstance;
-            otherSliderInstance = this.lastSliderInstance;
+            if (modelData.hasTwoSlider) otherSliderInstance = this.lastSliderInstance;
             targetHandleCountNumber = 1;
         }
-        else {
+        else if (modelData.hasTwoSlider) {
             targetSliderInstance = this.lastSliderInstance;
             otherSliderInstance = this.firstSliderInstance;
             targetHandleCountNumber = 2;
         }
         targetSlider = targetSliderInstance.DOMElement;
-        otherSlider = otherSliderInstance.DOMElement;
+        if (modelData.hasTwoSlider) otherSlider = otherSliderInstance.DOMElement;
 
         let targetSliderBoundingCoords = targetSlider.getBoundingClientRect();
 
@@ -142,8 +154,15 @@ export class SliderView extends View {
             if (newTargetInputValue <= modelData.minValue) {
                 newTargetInputValue = modelData.minValue;
             }
-            else if (newTargetInputValue >= modelData.lastValue) {
-                newTargetInputValue = modelData.lastValue;
+            else if (modelData.hasTwoSlider) {
+                if (newTargetInputValue >= modelData.lastValue) {
+                    newTargetInputValue = modelData.lastValue;
+                }
+            }
+            else {
+                if (newTargetInputValue >= modelData.maxValue) {
+                    newTargetInputValue = modelData.maxValue;
+                }
             }
         }
         else if (optionsFromMouseDown.isLastUpdate && targetHandleCountNumber === 2) {
@@ -155,9 +174,16 @@ export class SliderView extends View {
             }
         }
 
+
+        let isLowestThenLastValue;
+        if (modelData.hasTwoSlider)
+            isLowestThenLastValue = newTargetInputValue <= modelData.lastValue;
+        else
+            isLowestThenLastValue = newTargetInputValue <= modelData.maxValue;
+
         if (targetHandleCountNumber === 1 &&
             newTargetInputValue !== modelData.firstValue &&
-            newTargetInputValue <= modelData.lastValue &&
+            isLowestThenLastValue/* newTargetInputValue <= modelData.lastValue */ &&
             newTargetInputValue >= modelData.minValue) {//первый ползунок
 
             // перезапись значения инпута 
@@ -180,29 +206,32 @@ export class SliderView extends View {
             inputsValueRangeInTitle.textContent = inputsValueRangeTextInTitle;
             //--------------------------------------------------
         }
-        else if (targetHandleCountNumber === 2 &&
-            newTargetInputValue !== modelData.lastValue &&
-            newTargetInputValue >= modelData.firstValue &&
-            newTargetInputValue <= modelData.maxValue) {//второй ползунок
-            // перезапись значения инпута 
-            //--------------------------------------------------
-            this.updateInputs({ lastValue: newTargetInputValue });
-            //--------------------------------------------------
+        else if (modelData.hasTwoSlider) {
+            if (modelData.hasTwoSlider &&
+                targetHandleCountNumber === 2 &&
+                newTargetInputValue !== modelData.lastValue &&
+                newTargetInputValue >= modelData.firstValue &&
+                newTargetInputValue <= modelData.maxValue) {//второй ползунок
+                // перезапись значения инпута 
+                //--------------------------------------------------
+                this.updateInputs({ lastValue: newTargetInputValue });
+                //--------------------------------------------------
 
-            // перезапись значения позиции ползунка
-            //--------------------------------------------------
-            targetSliderInstance.calculatePosition();
-            this.filledStripInstance.calculatePosition();
-            //--------------------------------------------------
+                // перезапись значения позиции ползунка
+                //--------------------------------------------------
+                targetSliderInstance.calculatePosition();
+                this.filledStripInstance.calculatePosition();
+                //--------------------------------------------------
 
-            // перезапись титульника(тест)
-            //--------------------------------------------------
-            let inputsValueRangeTextInTitle = inputsValueRangeInTitle.textContent;
-            let splitedInputsValueRangeTextInTitle = inputsValueRangeTextInTitle.split(/\s/i);
-            splitedInputsValueRangeTextInTitle[2] = newTargetInputValue.toString() + modelData.valueType;
-            inputsValueRangeTextInTitle = splitedInputsValueRangeTextInTitle.join(" ");
-            inputsValueRangeInTitle.textContent = inputsValueRangeTextInTitle;
-            //--------------------------------------------------
+                // перезапись титульника(тест)
+                //--------------------------------------------------
+                let inputsValueRangeTextInTitle = inputsValueRangeInTitle.textContent;
+                let splitedInputsValueRangeTextInTitle = inputsValueRangeTextInTitle.split(/\s/i);
+                splitedInputsValueRangeTextInTitle[2] = newTargetInputValue.toString() + modelData.valueType;
+                inputsValueRangeTextInTitle = splitedInputsValueRangeTextInTitle.join(" ");
+                inputsValueRangeInTitle.textContent = inputsValueRangeTextInTitle;
+                //--------------------------------------------------
+            }
         }
     }
 
@@ -223,16 +252,24 @@ export class SliderView extends View {
     }
 
 
-
+    //if(modelData.hasTwoSlider)
     _calculateValueProportionalToPixelValue(modelData, mouseGlobalPosition, mousePositionInsideTargetSlider, targetHandleCountNumber) {
         let containerBoundingRect = this.slidersContainerInstance.containerBoundingRect;
 
-        let cursorPositionInContainer = mouseGlobalPosition - containerBoundingRect.x - mousePositionInsideTargetSlider /* - this.firstSliderInstance.size.width */;
-        targetHandleCountNumber === 2 ? cursorPositionInContainer -= this.firstSliderInstance.size.width : 0;
-        let maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width * 2;
+        let cursorPositionInContainer = mouseGlobalPosition - containerBoundingRect.x - mousePositionInsideTargetSlider;
+
+        let maxDistanceBetweenSliders;
+        if (modelData.hasTwoSlider) {
+            targetHandleCountNumber === 2 ? cursorPositionInContainer -= this.firstSliderInstance.size.width : 0;
+            maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width * 2;
+        }
+        else {
+            maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width;
+        }
+
         let deltaMaxMinValues = modelData.maxValue - modelData.minValue;
 
-        let proportionalValue = (deltaMaxMinValues * cursorPositionInContainer) / maxDistanceBetweenSliders + modelData.minValue;
+        let proportionalValue = (deltaMaxMinValues * cursorPositionInContainer) / (maxDistanceBetweenSliders) + modelData.minValue;
 
         //расчет текущего значения исходя из размера шага
         return this._calculateNearestPositionForHandler(proportionalValue, modelData.stepSize);

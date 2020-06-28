@@ -23,9 +23,14 @@ export class Slider extends Element {
 
         let slidersContainerWidth = this.view.slidersContainerInstance.size.width;
         let dSliderInputFullValue = modelData.maxValue - modelData.minValue;
-        let dSliderStripFullValue = slidersContainerWidth - this.size.width * 2;
+        let dSliderStripFullValue;
+        if (modelData.hasTwoSlider)
+            dSliderStripFullValue = slidersContainerWidth - this.size.width * 2;
+        else
+            dSliderStripFullValue = slidersContainerWidth - this.size.width;
         if (this.number === 1) {
-            let newTargetSliderPosInContainer = ((modelData.firstValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue;
+            let newTargetSliderPosInContainer;
+            newTargetSliderPosInContainer = ((modelData.firstValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue;
             this.setPosition({ x: newTargetSliderPosInContainer, y: 0 });
         }
         else {
