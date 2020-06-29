@@ -27,8 +27,8 @@ rangeSliders.forEach(e => {
         lastValue: 100,
         valueType: "₽",
         stepSize: 0.0000001,
-        orientation: "horizontal",//vertical | horizontal
-        hasTwoSlider: false,
+        orientation: "vertical",//vertical | horizontal
+        hasTwoSlider: true,
         isInterval: true,
     });
 

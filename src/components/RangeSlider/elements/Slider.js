@@ -21,21 +21,42 @@ export class Slider extends Element {
     calculatePosition() {
         let modelData = this.view.getModelData();
 
-        let slidersContainerWidth = this.view.slidersContainerInstance.size.width;
+        let slidersContainerSize;
+        if (modelData.orientation === "horizontal")
+            slidersContainerSize = this.view.slidersContainerInstance.size.width;
+        else if (modelData.orientation === "vertical")
+            slidersContainerSize = this.view.slidersContainerInstance.size.height;
+
         let dSliderInputFullValue = modelData.maxValue - modelData.minValue;
+
         let dSliderStripFullValue;
-        if (modelData.hasTwoSlider)
-            dSliderStripFullValue = slidersContainerWidth - this.size.width * 2;
-        else
-            dSliderStripFullValue = slidersContainerWidth - this.size.width;
+        if (modelData.hasTwoSlider) {
+            if (modelData.orientation === "horizontal")
+                dSliderStripFullValue = slidersContainerSize - this.size.width * 2;
+            else if (modelData.orientation === "vertical")
+                dSliderStripFullValue = slidersContainerSize - this.size.height * 2;
+        }
+        else {
+            if (modelData.orientation === "horizontal")
+                dSliderStripFullValue = slidersContainerSize - this.size.width;
+            else if (modelData.orientation === "vertical")
+                dSliderStripFullValue = slidersContainerSize - this.size.height;
+        }
+
         if (this.number === 1) {
             let newTargetSliderPosInContainer;
             newTargetSliderPosInContainer = ((modelData.firstValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue;
-            this.setPosition({ x: newTargetSliderPosInContainer, y: 0 });
+            if (modelData.orientation === "horizontal")
+                this.setPosition({ x: newTargetSliderPosInContainer, y: 0 });
+            else if (modelData.orientation === "vertical")
+                this.setPosition({ x: 0, y: newTargetSliderPosInContainer });
         }
         else {
             let newTargetSliderPosInContainer = ((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue + this.size.width;
-            this.setPosition({ x: newTargetSliderPosInContainer, y: 0 });
+            if (modelData.orientation === "horizontal")
+                this.setPosition({ x: newTargetSliderPosInContainer, y: 0 });
+            else if (modelData.orientation === "vertical")
+                this.setPosition({ x: 0, y: newTargetSliderPosInContainer });
         }
 
         this.calculateBorderPosition();
@@ -44,13 +65,13 @@ export class Slider extends Element {
     calculateBorderPosition() {
         let modelData = this.view.getModelData();
         if (modelData.orientation === "horizontal") {
-            this.view.setMargin(this.outsideDOMElement, {
+            this.view.setPosition(this.outsideDOMElement, {
                 x: this.position.x - modelData.borderThickness,
                 y: 0
             });
         }
         else if (modelData.orientation === "vertical") {
-            this.view.setMargin(this.outsideDOMElement, {
+            this.view.setPosition(this.outsideDOMElement, {
                 x: 0,
                 y: this.position.y - modelData.borderThickness
             });

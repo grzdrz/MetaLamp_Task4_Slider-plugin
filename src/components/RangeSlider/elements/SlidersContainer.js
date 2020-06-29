@@ -5,5 +5,8 @@ export class SlidersContainer extends Element {
         super(view, DOMElement);
 
         this.containerBoundingRect = this.DOMElement.getBoundingClientRect();
+        if (this.view.getModelData().orientation === "vertical") {
+            this.containerBoundingRect.y = document.documentElement.clientHeight - (this.containerBoundingRect.y + this.containerBoundingRect.height);
+        }
     }
 }

@@ -2,14 +2,14 @@ export class View {
     /* constructor() {
     } */
 
-    setMargin(element, marginValues) {
-        if (marginValues.x !== undefined) {
-            let leftMargin = `${marginValues.x}px`;
-            element.style.marginLeft = leftMargin;
+    setPosition(element, position) {
+        if (position.x !== undefined) {
+            let left = `${position.x}px`;
+            element.style.left = left;
         }
-        if (marginValues.y !== undefined) {
-            let bottomMargin = `${marginValues.y}px`;
-            element.style.marginBottom = bottomMargin;
+        if (position.y !== undefined) {
+            let bottom = `${position.y}px`;
+            element.style.bottom = bottom;
         }
     }
 

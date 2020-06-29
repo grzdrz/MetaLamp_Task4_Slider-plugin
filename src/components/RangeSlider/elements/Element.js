@@ -30,7 +30,7 @@ export class Element {
     }
 
     renderPosition() {
-        this.view.setMargin(this.DOMElement, this.position);
+        this.view.setPosition(this.DOMElement, this.position);
     }
 
     renderSize() {

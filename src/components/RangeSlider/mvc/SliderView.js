@@ -32,7 +32,6 @@ export class SliderView extends View {
         this.emptyStripInstance = new EmptyStrip(this, this.elements.emptyStrip);
         this.filledStripInstance = new FilledStrip(this, this.elements.filledStrip);
 
-        //if (modelData.hasTwoSlider) this.lastSliderInstance = undefined;
         for (let elementName in this) {
             if (this[elementName].initialize)
                 this[elementName].initialize();
@@ -77,9 +76,17 @@ export class SliderView extends View {
         event.preventDefault();
 
         let modelData = this.getModelData();
-        let cursorMouseDownPosX;//место нажатия левой кнопки мыши
-        if (event.changedTouches) cursorMouseDownPosX = event.changedTouches[0].pageX;
-        else cursorMouseDownPosX = event.clientX;
+        let cursorMouseDownPosition;//место нажатия левой кнопки мыши
+        if (modelData.orientation === "horizontal") {
+            if (event.changedTouches) cursorMouseDownPosition = event.changedTouches[0].pageX;
+            else cursorMouseDownPosition = event.clientX;
+        }
+        else if (modelData.orientation === "vertical") {
+            if (event.changedTouches) cursorMouseDownPosition = event.changedTouches[0].pageY;
+            else cursorMouseDownPosition = event.clientY;
+            cursorMouseDownPosition = document.documentElement.clientHeight - cursorMouseDownPosition;
+        }
+
 
         let sliderCountNumber = Number.parseInt(event.currentTarget.dataset.sliderCountNumber);
         let targetSliderInstance;
@@ -104,7 +111,13 @@ export class SliderView extends View {
         let targetSliderBoundingCoords = targetSlider.getBoundingClientRect();
 
         //расстояние между местом нажатия кнопки мыши внутри бегунка и левым краем бегунка(где внутри бегунка находится курсор)
-        let mousePositionInsideTargetSlider = cursorMouseDownPosX - targetSliderBoundingCoords.x;
+        let mousePositionInsideTargetSlider;
+        if (modelData.orientation === "horizontal") {
+            mousePositionInsideTargetSlider = cursorMouseDownPosition - targetSliderBoundingCoords.x;
+        }
+        else if (modelData.orientation === "vertical") {
+            mousePositionInsideTargetSlider = cursorMouseDownPosition - (document.documentElement.clientHeight - targetSliderBoundingCoords.y - targetSliderBoundingCoords.height);
+        }
 
 
         let optionsForMouseEvents = {
@@ -144,8 +157,15 @@ export class SliderView extends View {
 
 
         let mouseGlobalPosition;
-        if (event.changedTouches) mouseGlobalPosition = event.changedTouches[0].pageX;
-        else mouseGlobalPosition = event.clientX;
+        if (modelData.orientation === "horizontal") {
+            if (event.changedTouches) mouseGlobalPosition = event.changedTouches[0].pageX;
+            else mouseGlobalPosition = event.clientX;
+        }
+        else if (modelData.orientation === "vertical") {
+            if (event.changedTouches) mouseGlobalPosition = event.changedTouches[0].pageY;
+            else mouseGlobalPosition = event.clientY;
+            mouseGlobalPosition = document.documentElement.clientHeight - mouseGlobalPosition;
+        }
 
         //значение в заданных единицах пропорциональное пиксельным координатам курсора в контейнере
         let newTargetInputValue = this._calculateValueProportionalToPixelValue(modelData, mouseGlobalPosition, mousePositionInsideTargetSlider, targetHandleCountNumber);
@@ -256,15 +276,32 @@ export class SliderView extends View {
     _calculateValueProportionalToPixelValue(modelData, mouseGlobalPosition, mousePositionInsideTargetSlider, targetHandleCountNumber) {
         let containerBoundingRect = this.slidersContainerInstance.containerBoundingRect;
 
-        let cursorPositionInContainer = mouseGlobalPosition - containerBoundingRect.x - mousePositionInsideTargetSlider;
+        let cursorPositionInContainer;
+        if (modelData.orientation === "horizontal") {
+            cursorPositionInContainer = mouseGlobalPosition - containerBoundingRect.x - mousePositionInsideTargetSlider;
+        }
+        else if (modelData.orientation === "vertical") {
+            cursorPositionInContainer = mouseGlobalPosition - containerBoundingRect.y - mousePositionInsideTargetSlider;
+        }
 
         let maxDistanceBetweenSliders;
         if (modelData.hasTwoSlider) {
-            targetHandleCountNumber === 2 ? cursorPositionInContainer -= this.firstSliderInstance.size.width : 0;
-            maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width * 2;
+            if (modelData.orientation === "horizontal") {
+                targetHandleCountNumber === 2 ? cursorPositionInContainer -= this.firstSliderInstance.size.width : 0;
+                maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width * 2;
+            }
+            else if (modelData.orientation === "vertical") {
+                targetHandleCountNumber === 2 ? cursorPositionInContainer -= this.firstSliderInstance.size.height : 0;
+                maxDistanceBetweenSliders = containerBoundingRect.height - this.firstSliderInstance.size.height * 2;
+            }
         }
         else {
-            maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width;
+            if (modelData.orientation === "horizontal") {
+                maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width;
+            }
+            else if (modelData.orientation === "vertical") {
+                maxDistanceBetweenSliders = containerBoundingRect.height - this.firstSliderInstance.size.height;
+            }
         }
 
         let deltaMaxMinValues = modelData.maxValue - modelData.minValue;
