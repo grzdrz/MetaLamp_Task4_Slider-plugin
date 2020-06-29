@@ -5,21 +5,37 @@ import { Model } from "./mvc/Model.js";
 import { Controller } from "./mvc/Controller.js";
 /* let controller = new Controller(); */
 
-let rangeSliders = document.querySelectorAll(".range-slider");
-rangeSliders.forEach(e => {
-    //типо создали элементы для ренж слайдера
-    let slidersContainer = e.querySelector(".range-slider__slider-container");
-    let firstSlider = e.querySelector(".range-slider__first-slider");
-    let firstSliderBorder = e.querySelector(".range-slider__first-slider-outside");
-    let lastSlider = e.querySelector(".range-slider__last-slider");
-    let lastSliderBorder = e.querySelector(".range-slider__last-slider-outside");
-    let firstInput = e.querySelector(".range-slider__first-input");
-    let lastInput = e.querySelector(".range-slider__last-input");
-    let filledStrip = e.querySelector(".range-slider__slider-body-filled");
-    let emptyStrip = e.querySelector(".range-slider__slider-body-empty");
+/* import { getRangeSlider } from "./RangeSlider.pug"; */
+
+import "./RangeSlider.scss";
+
+export function createRangeSlider(containerSelector) {
+    let rangeSlidersContainer = document.querySelector(containerSelector);
+
+    let rangeSlider = document.createElement("div");
+    rangeSlider.className = "range-slider";
+
+    let titleContainer = document.createElement("div");
+    titleContainer.className = "range-slider__title-container";
+    rangeSlider.append(titleContainer);
+
+    let mainContentContainer = document.createElement("div");
+    mainContentContainer.className = "range-slider__slider-container";
+    rangeSlider.append(mainContentContainer);
+
+    let inputsContainer = document.createElement("div");
+    inputsContainer.className = "range-slider__inputs-container";
+    rangeSlider.append(inputsContainer);
+
+    rangeSlidersContainer.append(rangeSlider);
 
 
-    let model = new Model({
+    let options = {
+        sliderStripLength: 350,
+        sliderStripThickness: 10,
+        handleWidth: 16,
+        handleHeight: 16, 
+        title: "some range slider",
         maxValue: 100,
         minValue: 0,
         borderThickness: 10,
@@ -30,27 +46,12 @@ rangeSliders.forEach(e => {
         orientation: "vertical",//vertical | horizontal
         hasTwoSlider: true,
         isInterval: true,
-    });
+    };
+    let model = new Model(options);
 
-    let sliderView = new SliderView({
-        sliderComponent: e,
-        slidersContainer: slidersContainer,
+    let sliderView = new SliderView(options, mainContentContainer);
 
-        firstSlider: firstSlider,
-        firstSliderBorder: firstSliderBorder,
-
-        lastSlider: lastSlider,
-        lastSliderBorder: lastSliderBorder,
-
-        emptyStrip: emptyStrip,
-        filledStrip: filledStrip,
-    });
-
-    let inputsView = new InputsView({
-        firstInput: firstInput,
-        lastInput: lastInput,
-    });
+    let inputsView = new InputsView(options, inputsContainer);
 
     let controller = new Controller(model, sliderView, inputsView);
-});
-import "./RangeSlider.scss";
+};

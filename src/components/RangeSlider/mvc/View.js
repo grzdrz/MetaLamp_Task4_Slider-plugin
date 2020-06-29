@@ -1,15 +1,31 @@
 export class View {
-    /* constructor() {
-    } */
+    constructor() {
+    }
+
+    initialize(baseModelData) {
+        this.modelData = baseModelData;
+    }
 
     setPosition(element, position) {
-        if (position.x !== undefined) {
-            let left = `${position.x}px`;
-            element.style.left = left;
+        if (this.modelData.orientation === "vertical") {
+            if (position.x !== undefined) {
+                let left = "auto";
+                element.style.left = left;
+            }
+            if (position.y !== undefined) {
+                let bottom = `${position.y}px`;
+                element.style.bottom = bottom;
+            }
         }
-        if (position.y !== undefined) {
-            let bottom = `${position.y}px`;
-            element.style.bottom = bottom;
+        else {
+            if (position.x !== undefined) {
+                let left = `${position.x}px`;
+                element.style.left = left;
+            }
+            if (position.y !== undefined) {
+                let bottom = "auto";
+                element.style.bottom = bottom;
+            }
         }
     }
 

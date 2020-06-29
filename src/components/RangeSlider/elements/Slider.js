@@ -52,11 +52,14 @@ export class Slider extends Element {
                 this.setPosition({ x: 0, y: newTargetSliderPosInContainer });
         }
         else {
-            let newTargetSliderPosInContainer = ((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue + this.size.width;
-            if (modelData.orientation === "horizontal")
+            if (modelData.orientation === "horizontal") {
+                let newTargetSliderPosInContainer = ((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue + this.size.width;
                 this.setPosition({ x: newTargetSliderPosInContainer, y: 0 });
-            else if (modelData.orientation === "vertical")
+            }
+            else if (modelData.orientation === "vertical") {
+                let newTargetSliderPosInContainer = ((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue + this.size.height;
                 this.setPosition({ x: 0, y: newTargetSliderPosInContainer });
+            }
         }
 
         this.calculateBorderPosition();

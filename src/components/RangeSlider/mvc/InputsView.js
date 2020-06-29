@@ -1,28 +1,40 @@
 import { View } from "./View.js";
 
 export class InputsView extends View {
-    constructor(inputs) {
+    constructor(baseModelData, inputsContainer) {
         super();
 
-        this.firstInputDOMElement = inputs.firstInput;
-        this.lastInputDOMElement = inputs.lastInput;
+        this.inputsContainer = inputsContainer;
+
+        this.firstInputDOMElement = document.createElement("input");
+        this.firstInputDOMElement.className = "range-slider__first-input";
+        this.inputsContainer.append(this.firstInputDOMElement);
+        if (baseModelData.hasTwoSlider) {
+            this.lastInputDOMElement = document.createElement("input");
+            this.lastInputDOMElement.className = "range-slider__last-input";
+            this.inputsContainer.append(this.lastInputDOMElement);
+        }
 
         this.getModelData = () => { };
         this.updateSliders = () => { };
 
         this.onFirstInputChange = this.onFirstInputChange.bind(this);
-        this.onLastInputChange = this.onLastInputChange.bind(this);
+        if (baseModelData.hasTwoSlider) {
+            this.onLastInputChange = this.onLastInputChange.bind(this);
+        }
     }
 
     initialize() {
         this.firstInputDOMElement.addEventListener("change", this.onFirstInputChange);
-        this.lastInputDOMElement.addEventListener("change", this.onLastInputChange);
+        if (this.lastInputDOMElement)
+            this.lastInputDOMElement.addEventListener("change", this.onLastInputChange);
         this.update(this.getModelData());
     }
 
     update(data) {
-        data.firstValue || data.firstValue === 0 ? this.firstInputDOMElement.value = data.firstValue : this.firstInputDOMElement.value;
-        data.lastValue || data.lastValue === 0 ? this.lastInputDOMElement.value = data.lastValue : this.lastInputDOMElement.value;
+        data.firstValue !== undefined ? this.firstInputDOMElement.value = data.firstValue : this.firstInputDOMElement.value;
+        if (this.lastInputDOMElement)
+            data.lastValue !== undefined ? this.lastInputDOMElement.value = data.lastValue : this.lastInputDOMElement.value;
     }
 
     onFirstInputChange(event) {

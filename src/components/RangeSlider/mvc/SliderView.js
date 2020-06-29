@@ -6,31 +6,81 @@ import { FilledStrip } from "../elements/FilledStrip.js";
 import { EmptyStrip } from "../elements/EmptyStrip.js";
 
 export class SliderView extends View {
-    constructor(elements) {
+    constructor(baseModelData, mainContentContainer) {
         super();
+
+        this.slidersContainer = mainContentContainer;
+        if (baseModelData.orientation === "horizontal") {
+            this.slidersContainer.style.width = `${baseModelData.sliderStripLength}px`;
+            //this.slidersContainer.style.height = `${baseModelData.sliderStripThickness}px`;
+        }
+        else if (baseModelData.orientation === "vertical") {
+            this.slidersContainer.style.height = `${baseModelData.sliderStripLength}px`;
+            //this.slidersContainer.style.width = `${baseModelData.sliderStripThickness}px`;
+        }
+
+        this.emptyStrip = document.createElement("div");
+        this.emptyStrip.className = "range-slider__slider-body-empty";
+        if (baseModelData.orientation === "horizontal") {
+            this.emptyStrip.style.width = `${baseModelData.sliderStripLength}px`;
+            this.emptyStrip.style.height = `${baseModelData.sliderStripThickness}px`;
+        }
+        else if (baseModelData.orientation === "vertical") {
+            this.emptyStrip.style.height = `${baseModelData.sliderStripLength}px`;
+            this.emptyStrip.style.width = `${baseModelData.sliderStripThickness}px`;
+        }
+        this.slidersContainer.append(this.emptyStrip);
+
+        this.filledStrip = document.createElement("div");
+        this.filledStrip.className = "range-slider__slider-body-filled";
+        this.slidersContainer.append(this.filledStrip);
+
+        if (baseModelData.borderThickness !== undefined) {
+            this.firstSliderBorder = document.createElement("div");
+            this.firstSliderBorder.className = "range-slider__first-slider-outside";
+            this.firstSliderBorder.dataset.sliderCountNumber = 1;
+            this.slidersContainer.append(this.firstSliderBorder);
+            if (baseModelData.hasTwoSlider) {
+                this.lastSliderBorder = document.createElement("div");
+                this.lastSliderBorder.className = "range-slider__last-slider-outside";
+                this.lastSliderBorder.dataset.sliderCountNumber = 2;
+                this.slidersContainer.append(this.lastSliderBorder);
+            }
+        }
+
+        this.firstSlider = document.createElement("div");
+        this.firstSlider.className = "range-slider__first-slider";
+        this.firstSlider.dataset.sliderCountNumber = 1;
+        this.firstSlider.style.width = `${baseModelData.handleWidth}px`;
+        this.firstSlider.style.height = `${baseModelData.handleHeight}px`;
+        this.slidersContainer.append(this.firstSlider);
+        if (baseModelData.hasTwoSlider) {
+            this.lastSlider = document.createElement("div");
+            this.lastSlider.className = "range-slider__last-slider";
+            this.lastSlider.dataset.sliderCountNumber = 2;
+            this.lastSlider.style.width = `${baseModelData.handleWidth}px`;
+            this.lastSlider.style.height = `${baseModelData.handleHeight}px`;
+            this.slidersContainer.append(this.lastSlider);
+        }
+
+
+        this.slidersContainerInstance = new SlidersContainer(this, this.slidersContainer, baseModelData);
+        this.firstSliderInstance = new Slider(this, this.firstSlider, this.firstSliderBorder, 1);
+        if (baseModelData.hasTwoSlider) this.lastSliderInstance = new Slider(this, this.lastSlider, this.lastSliderBorder, 2);
+        this.emptyStripInstance = new EmptyStrip(this, this.emptyStrip);
+        this.filledStripInstance = new FilledStrip(this, this.filledStrip);
+
 
         this._handlerMouseDown = this._handlerMouseDown.bind(this);
 
         this.getModelData = () => { };
         this.updateInputs = () => { };
-
-        /* this.slidersContainerInstance = new SlidersContainer(this, elements.slidersContainer);
-        this.firstSliderInstance = new Slider(this, elements.firstSlider, elements.firstSliderBorder, 1);
-        this.lastSliderInstance = new Slider(this, elements.lastSlider, elements.lastSliderBorder, 2);
-        this.emptyStripInstance = new EmptyStrip(this, elements.emptyStrip);
-        this.filledStripInstance = new FilledStrip(this, elements.filledStrip); */
-        this.elements = elements;
     }
 
 
     initialize() {
         let modelData = this.getModelData();
-
-        this.slidersContainerInstance = new SlidersContainer(this, this.elements.slidersContainer);
-        this.firstSliderInstance = new Slider(this, this.elements.firstSlider, this.elements.firstSliderBorder, 1);
-        if (modelData.hasTwoSlider) this.lastSliderInstance = new Slider(this, this.elements.lastSlider, this.elements.lastSliderBorder, 2);
-        this.emptyStripInstance = new EmptyStrip(this, this.elements.emptyStrip);
-        this.filledStripInstance = new FilledStrip(this, this.elements.filledStrip);
+        super.initialize(modelData);
 
         for (let elementName in this) {
             if (this[elementName].initialize)
@@ -219,11 +269,11 @@ export class SliderView extends View {
 
             // перезапись титульника(тест)
             //--------------------------------------------------
-            let inputsValueRangeTextInTitle = inputsValueRangeInTitle.textContent;
+            /* let inputsValueRangeTextInTitle = inputsValueRangeInTitle.textContent;
             let splitedInputsValueRangeTextInTitle = inputsValueRangeTextInTitle.split(/\s/i);
             splitedInputsValueRangeTextInTitle[0] = newTargetInputValue.toString() + modelData.valueType;
             inputsValueRangeTextInTitle = splitedInputsValueRangeTextInTitle.join(" ");
-            inputsValueRangeInTitle.textContent = inputsValueRangeTextInTitle;
+            inputsValueRangeInTitle.textContent = inputsValueRangeTextInTitle; */
             //--------------------------------------------------
         }
         else if (modelData.hasTwoSlider) {
@@ -245,11 +295,11 @@ export class SliderView extends View {
 
                 // перезапись титульника(тест)
                 //--------------------------------------------------
-                let inputsValueRangeTextInTitle = inputsValueRangeInTitle.textContent;
+                /* let inputsValueRangeTextInTitle = inputsValueRangeInTitle.textContent;
                 let splitedInputsValueRangeTextInTitle = inputsValueRangeTextInTitle.split(/\s/i);
                 splitedInputsValueRangeTextInTitle[2] = newTargetInputValue.toString() + modelData.valueType;
                 inputsValueRangeTextInTitle = splitedInputsValueRangeTextInTitle.join(" ");
-                inputsValueRangeInTitle.textContent = inputsValueRangeTextInTitle;
+                inputsValueRangeInTitle.textContent = inputsValueRangeTextInTitle; */
                 //--------------------------------------------------
             }
         }
@@ -274,8 +324,21 @@ export class SliderView extends View {
 
     //if(modelData.hasTwoSlider)
     _calculateValueProportionalToPixelValue(modelData, mouseGlobalPosition, mousePositionInsideTargetSlider, targetHandleCountNumber) {
-        let containerBoundingRect = this.slidersContainerInstance.containerBoundingRect;
+        let containerBoundingRect;
+        if (modelData.orientation === "horizontal") {
+            containerBoundingRect = this.slidersContainerInstance.DOMElement.getBoundingClientRect();
+        }
+        else if (modelData.orientation === "vertical") {
+            containerBoundingRect = this.slidersContainerInstance.containerBoundingRect;
+        }
+        // Кусок кода выше нужен, потому что почемуто старый getBoundingClientRect().x выдает некорректные значения для контейнера селектора 
+        // если контейнер плагина отцентрирован в другом флекс-контейнере и при этом сам контейнер плагина растянут
+        // без изменения размера контейнера самого слайдера.
+        // Например, если справа от контейнера слайдера воткнуть другой элемент, то контейнер плагина растянется и старый getBoundingClientRect
+        // выдаст некорректные координаты для контейнера слайдера.
+        // Почему так происходит я так и не понял, поэтому воткнул явный перевызов getBoundingClientRect для контейнера селектора.
 
+        
         let cursorPositionInContainer;
         if (modelData.orientation === "horizontal") {
             cursorPositionInContainer = mouseGlobalPosition - containerBoundingRect.x - mousePositionInsideTargetSlider;

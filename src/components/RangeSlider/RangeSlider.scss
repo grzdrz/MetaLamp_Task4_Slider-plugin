@@ -3,7 +3,7 @@
 
 .range-slider {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     background: white;
     width: max-content;
     height: max-content;
@@ -43,33 +43,29 @@
 
     &__slider-container {
         display: flex;
-        /* align-items: center; */
+        align-items: center;
+        justify-content: center;
         position: relative;
-        width: 50px;
-        height: 200px;
-        /* width: 200px;
-        height: 50px;  */
         background: transparent;
     }
 
-    &__inputs-container{
+    &__inputs-container {
         margin-top: 20px;
+        margin-left: 50px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
     }
     &__first-input,
     &__last-input {
-        z-index: -1;
-        //opacity: 0;
         border: 1px solid black;
     }
     &__last-input {
-        margin-left: 10px;
+        margin-top: 10px;
     }
 
     &__slider-body-empty {
-        /* width: 200px;
-        height: 6px; */
-        width: 6px;
-        height: 200px;
         background: #ffffff;
         border: 1px solid rgba(31, 32, 65, 0.25);
         border-radius: 3px;
@@ -77,17 +73,14 @@
     }
 
     &__slider-body-filled {
-        width: 8px; 
+        width: 8px;
         height: 8px;
         background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
-        //margin-left: $filledBodyMarginLeft;
         position: absolute;
     }
 
     &__first-slider,
     &__last-slider {
-        width: $sliderSize - 4px;
-        height: $sliderSize - 4px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -95,8 +88,8 @@
         position: absolute;
         border-radius: 50%;
 
-        /* left: 0px;
-        bottom: 0px; */
+        left: auto;
+        bottom: 0px;
     }
 
     &__first-slider-outside,
@@ -107,8 +100,8 @@
         border-radius: 50%;
         position: absolute;
 
-        /* left: 0px;
-        bottom: 0px; */
+        left: auto;
+        bottom: 0px;
     }
 
     &__subtitle {

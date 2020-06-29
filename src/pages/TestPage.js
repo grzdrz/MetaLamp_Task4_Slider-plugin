@@ -2,6 +2,7 @@
 /* import { rangeSliderScript } from "../components/RangeSlider/RangeSlider.js";
 rangeSliderScript(); */
 
-import "../components/RangeSlider/RangeSlider.js";
+import { createRangeSlider } from "../components/RangeSlider/RangeSlider.js";
+createRangeSlider(".test-page__tested-range-slider-container");
 
 import "./TestPage.scss"; 

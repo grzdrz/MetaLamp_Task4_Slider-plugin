@@ -11,7 +11,7 @@ html
             p TEST
 
             div(class=["test-page__tested-range-slider-container"])
-                +getRangeSlider({
+                //-+getRangeSlider({
                     title: "some range slider",
                     firstValue: 2000,
                     lastValue: 6000,
@@ -19,4 +19,5 @@ html
                     maxValue: 10000,
                     valueType: "₽",
                     valueRound: 100,
-                })
+                    hasTwoHandle: true,
+                 })
