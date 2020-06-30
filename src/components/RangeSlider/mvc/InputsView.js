@@ -31,7 +31,8 @@ export class InputsView extends View {
         this.update(this.getModelData());
     }
 
-    update(data) {
+    update(/* data */) {
+        let data = this.getModelData();
         data.firstValue !== undefined ? this.firstInputDOMElement.value = data.firstValue : this.firstInputDOMElement.value;
         if (this.lastInputDOMElement)
             data.lastValue !== undefined ? this.lastInputDOMElement.value = data.lastValue : this.lastInputDOMElement.value;

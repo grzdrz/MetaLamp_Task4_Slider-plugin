@@ -1,6 +1,7 @@
 import { SliderView } from "./mvc/SliderView.js";
 import { InputsView } from "./mvc/InputsView.js";
 import { ScaleView } from "./mvc/ScaleView.js";
+import { OptionsPanelView } from "./mvc/OptionsPannelView.js";
 
 import { Model } from "./mvc/Model.js";
 import { Controller } from "./mvc/Controller.js";
@@ -13,6 +14,7 @@ export function createRangeSlider(containerSelector, options) {
 
     let rangeSlidersContainer = document.querySelector(containerSelector);
 
+    //плагин
     let rangeSlider = document.createElement("div");
     rangeSlider.className = "range-slider";
     if (options.orientation === "horizontal") {
@@ -22,19 +24,23 @@ export function createRangeSlider(containerSelector, options) {
         rangeSlider.classList.add("range-slider_vertical");
     }
 
+    //титульник
     let titleContainer = document.createElement("div");
     titleContainer.className = "range-slider__title-container";
     rangeSlider.append(titleContainer);
 
 
+    //слайдер
     let sliderContainer = document.createElement("div");
     sliderContainer.className = "range-slider__slider-container";
     rangeSlider.append(sliderContainer);
 
+    //шкала
     let scaleContainer = document.createElement("div");
     scaleContainer.className = "range-slider__scale-container";
     rangeSlider.append(scaleContainer);
 
+    //слайдер + шкала
     let mainContentContainer = document.createElement("div");
     mainContentContainer.className = "range-slider__main-content-container";
     if (options.orientation === "horizontal") {
@@ -48,15 +54,21 @@ export function createRangeSlider(containerSelector, options) {
     rangeSlider.append(mainContentContainer);
 
 
+    //инпуты
     let inputsContainer = document.createElement("div");
     inputsContainer.className = "range-slider__inputs-container";
+
+    //инпуты + опции
+    let optionsPanelContainer = document.createElement("div");
+    optionsPanelContainer.className = "range-slider__options-panel-container";
     if (options.orientation === "horizontal") {
-        inputsContainer.classList.add("range-slider__inputs-container_horizontal");
+        optionsPanelContainer.classList.add("range-slider__options-panel-container_horizontal");
     }
     else if (options.orientation === "vertical") {
-        inputsContainer.classList.add("range-slider__inputs-container_vertical");
+        optionsPanelContainer.classList.add("range-slider__options-panel-container_vertical");
     }
-    rangeSlider.append(inputsContainer);
+    optionsPanelContainer.append(inputsContainer);
+    rangeSlider.append(optionsPanelContainer);
 
     rangeSlidersContainer.append(rangeSlider);
 
@@ -66,5 +78,7 @@ export function createRangeSlider(containerSelector, options) {
 
     let scaleView = new ScaleView(options, scaleContainer);
 
-    let controller = new Controller(model, sliderView, inputsView, scaleView);
+    let optionsPanelView = new OptionsPanelView(options, optionsPanelContainer);
+
+    let controller = new Controller(model, sliderView, inputsView, scaleView, optionsPanelView);
 };

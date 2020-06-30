@@ -80,6 +80,12 @@ export class ScaleView extends View {
         this._calculatePosition(segment, value);
     }
 
+    update(){
+        let data = this.getModelData();
+
+        //...
+    }
+
     _calculateSegmentsCount(modelData) {
         let dMaxMin = modelData.maxValue - modelData.minValue;
         let temp = dMaxMin / modelData.stepSize;

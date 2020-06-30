@@ -1,14 +1,16 @@
 export class Controller {
-    constructor(model, sliderView, inputsView, scaleView) {
+    constructor(model, sliderView, inputsView, scaleView, optionsPanelView) {
         this.model = model;
         this.sliderView = sliderView;
         this.inputsView = inputsView;
         this.scaleView = scaleView;
+        this.optionsPanelView = optionsPanelView;
 
         this.getModelData = this.getModelData.bind(this);
         this.sliderView.getModelData = this.getModelData;
         this.inputsView.getModelData = this.getModelData;
         this.scaleView.getModelData = this.getModelData;
+        this.optionsPanelView.getModelData = this.getModelData;
 
         this.updateInputs = this.updateInputs.bind(this);
         this.sliderView.updateInputs = this.updateInputs;
@@ -19,6 +21,9 @@ export class Controller {
         this.onScaleSegmentClick = this.onScaleSegmentClick.bind(this);
         this.scaleView.onScaleSegmentClick = this.onScaleSegmentClick;
 
+        this.onStepSizeChange = this.onStepSizeChange.bind(this);
+        this.optionsPanelView.onStepSizeChange = this.onStepSizeChange;
+
         this.initialize();
     }
 
@@ -26,6 +31,7 @@ export class Controller {
         this.sliderView.initialize();
         this.inputsView.initialize();
         this.scaleView.initialize();
+        this.optionsPanelView.initialize();
     }
 
     getModelData() {
@@ -34,7 +40,7 @@ export class Controller {
 
     updateInputs(data) {
         this.model.updateOptions(data);
-        this.inputsView.update(data);
+        this.inputsView.update(/* data */);
     }
     updateSliders(data) {
         this.model.updateOptions(data);
@@ -43,6 +49,13 @@ export class Controller {
     onScaleSegmentClick(data) {
         this.model.updateOptions(data);
         this.sliderView.update();
-        this.inputsView.update(data);
+        this.inputsView.update(/* data */);
+    }
+
+    onStepSizeChange(data) {
+        this.model.updateOptions(data);
+        this.sliderView.update();
+        this.inputsView.update();
+        this.scaleView.update();
     }
 }
