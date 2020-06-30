@@ -1,12 +1,14 @@
 export class Controller {
-    constructor(model, sliderView, inputsView) {
+    constructor(model, sliderView, inputsView, scaleView) {
         this.model = model;
         this.sliderView = sliderView;
         this.inputsView = inputsView;
+        this.scaleView = scaleView;
 
         this.getModelData = this.getModelData.bind(this);
         this.sliderView.getModelData = this.getModelData;
         this.inputsView.getModelData = this.getModelData;
+        this.scaleView.getModelData = this.getModelData;
 
         this.updateInputs = this.updateInputs.bind(this);
         this.sliderView.updateInputs = this.updateInputs;
@@ -20,6 +22,7 @@ export class Controller {
     initialize() {
         this.sliderView.initialize();
         this.inputsView.initialize();
+        this.scaleView.initialize();
     }
 
     getModelData() {
