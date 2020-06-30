@@ -9,15 +9,34 @@ export class ScaleView extends View {
         this.segmentsCount = this._calculateSegmentsCount(baseModelData);
 
         this.scaleContainer = scaleContainer;
-        if (baseModelData.orientation === "horizontal") {
-            scaleContainer.style.width = `${baseModelData.sliderStripLength - baseModelData.handleWidth / 2}px`;
-            scaleContainer.style.marginLeft = `${baseModelData.handleWidth / 2}px`;
-            scaleContainer.classList.add("range-slider__scale-container_horizontal");
+        if (baseModelData.hasTwoSlider) {
+            if (baseModelData.orientation === "horizontal") {
+                scaleContainer.style.width = `${baseModelData.sliderStripLength - baseModelData.handleWidth / 2}px`;
+                scaleContainer.style.marginLeft = `${baseModelData.handleWidth / 2}px`;
+                scaleContainer.classList.add("range-slider__scale-container_horizontal");
+            }
+            else if (baseModelData.orientation === "vertical") {
+                /* scaleContainer.style.height = `${baseModelData.sliderStripLength}px`; */
+                scaleContainer.style.height = `${baseModelData.sliderStripLength - baseModelData.handleHeight / 2}px`;
+                scaleContainer.style.marginBottom = `${baseModelData.handleHeight / 2}px`;
+                scaleContainer.classList.add("range-slider__scale-container_vertical");
+            }
         }
-        else if (baseModelData.orientation === "vertical") {
-            scaleContainer.style.height = `${baseModelData.sliderStripLength}px`;
-            scaleContainer.classList.add("range-slider__scale-container_vertical");
+        else {
+            if (baseModelData.orientation === "horizontal") {
+                scaleContainer.style.width = `${baseModelData.sliderStripLength/*  - baseModelData.handleWidth / 2 */}px`;
+                //scaleContainer.style.marginLeft = `${baseModelData.handleWidth / 2}px`;
+                scaleContainer.classList.add("range-slider__scale-container_horizontal");
+            }
+            else if (baseModelData.orientation === "vertical") {
+                /* scaleContainer.style.height = `${baseModelData.sliderStripLength}px`; */
+                scaleContainer.style.height = `${baseModelData.sliderStripLength/*  - baseModelData.handleHeight / 2 */}px`;
+                //scaleContainer.style.marginBottom = `${baseModelData.handleHeight / 2}px`;
+                scaleContainer.classList.add("range-slider__scale-container_vertical");
+            }
         }
+
+
 
         this.segments = [];
 
@@ -32,7 +51,7 @@ export class ScaleView extends View {
 
         let stepsInSegment = Math.round(this.segmentsCount / this.maxSegmentsCount);
         for (let i = 0; i < this.maxSegmentsCount; i++) {
-            let segment = document.createElement("p");
+            let segment = document.createElement("div");
             this.segments.push(segment);
             let value = i * modelData.stepSize * stepsInSegment/* ((modelData.maxValue - modelData.minValue) / (this.segmentsCount)) */;
             segment.textContent = value.toFixed(4);
@@ -47,7 +66,7 @@ export class ScaleView extends View {
         }
 
         //ластецкий
-        let segment = document.createElement("p");
+        let segment = document.createElement("div");
         this.segments.push(segment);
         let value = modelData.maxValue;
         segment.textContent = value.toFixed(4);
@@ -70,16 +89,24 @@ export class ScaleView extends View {
     _calculatePosition(segment, value) {
         let modelData = this.getModelData();
 
-        let slidersContainerSize;
-        slidersContainerSize = modelData.sliderStripLength - modelData.handleWidth;
+        /* let slidersContainerSize;
+        slidersContainerSize = modelData.sliderStripLength - modelData.handleWidth; */
 
         let dSliderInputFullValue = modelData.maxValue - modelData.minValue;
 
         let dSliderStripFullValue;
-        if (modelData.orientation === "horizontal")
-            dSliderStripFullValue = slidersContainerSize - modelData.handleWidth;
-        else if (modelData.orientation === "vertical")
-            dSliderStripFullValue = slidersContainerSize - modelData.handleHeight;
+        if (modelData.hasTwoSlider) {
+            if (modelData.orientation === "horizontal")
+                dSliderStripFullValue = modelData.sliderStripLength - modelData.handleWidth * 2;
+            else if (modelData.orientation === "vertical")
+                dSliderStripFullValue = modelData.sliderStripLength - modelData.handleHeight * 2;
+        }
+        else {
+            if (modelData.orientation === "horizontal")
+                dSliderStripFullValue = modelData.sliderStripLength - modelData.handleWidth;
+            else if (modelData.orientation === "vertical")
+                dSliderStripFullValue = modelData.sliderStripLength - modelData.handleHeight;
+        }
 
 
         let newTargetSliderPosInContainer;

@@ -7,25 +7,7 @@ import { Controller } from "./mvc/Controller.js";
 
 import "./RangeSlider.scss";
 
-export function createRangeSlider(containerSelector) {
-    let options = {
-        sliderStripLength: 650,
-        sliderStripThickness: 10,
-        handleWidth: 16,
-        handleHeight: 16,
-        title: "some range slider",
-        maxValue: 200,
-        minValue: 0,
-        borderThickness: 10,
-        firstValue: 0,
-        lastValue: 50,
-        valueType: "₽",
-        stepSize: 10,
-        orientation: "horizontal",//vertical | horizontal
-        hasTwoSlider: true,
-        isInterval: true,
-        maxSegmentsCount: 10,
-    };
+export function createRangeSlider(containerSelector, options) {
     let model = new Model(options);
 
 
