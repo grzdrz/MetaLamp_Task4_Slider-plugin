@@ -9,9 +9,15 @@ export class ScaleView extends View {
         this.segmentsCount = this._calculateSegmentsCount(baseModelData);
 
         this.scaleContainer = scaleContainer;
-        //scaleContainer.style.width = `${baseModelData.sliderStripLength - baseModelData.handleWidth}px`;
-        //scaleContainer.style.marginLeft = `${baseModelData.handleWidth}px`;
-        scaleContainer.style.width = `${baseModelData.sliderStripLength}px`;
+        if (baseModelData.orientation === "horizontal") {
+            scaleContainer.style.width = `${baseModelData.sliderStripLength - baseModelData.handleWidth / 2}px`;
+            scaleContainer.style.marginLeft = `${baseModelData.handleWidth / 2}px`;
+        }
+        else if (baseModelData.orientation === "vertical") {
+            /* scaleContainer.style.height = `${baseModelData.sliderStripLength - baseModelData.handleHeight / 2}px`;
+            scaleContainer.style.marginBottom = `${baseModelData.handleHeight / 2}px`; */
+            scaleContainer.style.height = `${baseModelData.sliderStripLength}px`;
+        }
 
         this.getModelData = () => { };
         //this.updateSliders = () => { };
@@ -22,11 +28,11 @@ export class ScaleView extends View {
         super.initialize(modelData);
 
         this.segments = [];
-        let test1 = Math.round(this.segmentsCount / this.maxSegmentsCount);
+        let stepsInSegment = Math.round(this.segmentsCount / this.maxSegmentsCount);
         for (let i = 0; i < this.maxSegmentsCount; i++) {
             let segment = document.createElement("p");
             this.segments.push(segment);
-            let value = i * modelData.stepSize * test1/* ((modelData.maxValue - modelData.minValue) / (this.segmentsCount)) */;
+            let value = i * modelData.stepSize * stepsInSegment/* ((modelData.maxValue - modelData.minValue) / (this.segmentsCount)) */;
             segment.textContent = value.toFixed(4);
             this._calculatePosition(segment, value);
             segment.className = "range-slider__scale-segment";
@@ -61,11 +67,7 @@ export class ScaleView extends View {
         let modelData = this.getModelData();
 
         let slidersContainerSize;
-        if (modelData.orientation === "horizontal")
-            slidersContainerSize = modelData.sliderStripLength;
-        else if (modelData.orientation === "vertical")
-            slidersContainerSize = modelData.sliderStripLength;
-        slidersContainerSize -= modelData.handleWidth;
+        slidersContainerSize = modelData.sliderStripLength - modelData.handleWidth;
 
         let dSliderInputFullValue = modelData.maxValue - modelData.minValue;
 
