@@ -45,11 +45,18 @@ export class InputsView extends View {
             value = modelData.minValue;
         }
 
-        if (value > modelData.maxValue || value > modelData.lastValue)
-            value = modelData.lastValue;
-
-        else if (value < modelData.minValue)
-            value = modelData.minValue;
+        if (modelData.hasTwoSlider) {
+            if (value > modelData.maxValue || value > modelData.lastValue)
+                value = modelData.lastValue;
+            else if (value < modelData.minValue)
+                value = modelData.minValue;
+        }
+        else {
+            if (value > modelData.maxValue)
+                value = modelData.maxValue;
+            else if (value < modelData.minValue)
+                value = modelData.minValue;
+        }
 
         event.currentTarget.value = value;
         this.updateSliders({ firstValue: value });

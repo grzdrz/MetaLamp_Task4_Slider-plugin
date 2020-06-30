@@ -12,6 +12,13 @@
     $filledBodyMarginLeft: 30px;
     $sliderSize: 26px;
 
+    &_horizontal {
+        flex-direction: column;
+    }
+    &_vertical {
+        flex-direction: row;
+    }
+
     &__title-container {
         display: flex;
         flex-direction: row;
@@ -44,12 +51,21 @@
 
     //инпуты
     &__inputs-container {
-        margin-top: 50px;
-        margin-left: 50px;
+        /* margin-top: 50px;
+        margin-left: 50px; */
         display: flex;
         flex-direction: column;
         width: 100%;
         height: 100%;
+
+        &_horizontal {
+            margin-top: 60px;
+            /* margin-left: 50px; */
+        }
+        &_vertical {
+            /* margin-top: 50px; */
+            margin-left: 80px;
+        }
     }
     &__first-input,
     &__last-input {
@@ -64,6 +80,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        &_vertical {
+            flex-direction: row;
+        }
+        &_horizontal {
+            flex-direction: column;
+        }
     }
     &__slider-container {
         display: flex;
@@ -115,14 +138,15 @@
         height: 20px;
         margin-top: 10px;
 
-        &_vertical{
-            flex-direction: row;
+        &_vertical {
+            margin-left: 20px;
         }
-        &_horizontal{
-            flex-direction: column;
+        &_horizontal {
+            margin-top: 20px;
         }
     }
     &__scale-segment {
+        cursor: pointer;
         color: black;
         font-size: 14px;
         position: absolute;

@@ -9,19 +9,19 @@ import "./RangeSlider.scss";
 
 export function createRangeSlider(containerSelector) {
     let options = {
-        sliderStripLength: 350,
+        sliderStripLength: 650,
         sliderStripThickness: 10,
         handleWidth: 16,
         handleHeight: 16,
         title: "some range slider",
-        maxValue: 123,
+        maxValue: 200,
         minValue: 0,
         borderThickness: 10,
         firstValue: 0,
         lastValue: 50,
         valueType: "₽",
-        stepSize: 0.000001,
-        orientation: "vertical",//vertical | horizontal
+        stepSize: 10,
+        orientation: "horizontal",//vertical | horizontal
         hasTwoSlider: true,
         isInterval: true,
         maxSegmentsCount: 10,
@@ -33,6 +33,12 @@ export function createRangeSlider(containerSelector) {
 
     let rangeSlider = document.createElement("div");
     rangeSlider.className = "range-slider";
+    if (options.orientation === "horizontal") {
+        rangeSlider.classList.add("range-slider_horizontal");
+    }
+    else if (options.orientation === "vertical") {
+        rangeSlider.classList.add("range-slider_vertical");
+    }
 
     let titleContainer = document.createElement("div");
     titleContainer.className = "range-slider__title-container";
@@ -50,10 +56,10 @@ export function createRangeSlider(containerSelector) {
     let mainContentContainer = document.createElement("div");
     mainContentContainer.className = "range-slider__main-content-container";
     if (options.orientation === "horizontal") {
-        mainContentContainer.classList.add("range-slider__scale-container_horizontal");
+        mainContentContainer.classList.add("range-slider__main-content-container_horizontal");
     }
     else if (options.orientation === "vertical") {
-        mainContentContainer.classList.add("range-slider__scale-container_vertical");
+        mainContentContainer.classList.add("range-slider__main-content-container_vertical");
     }
     mainContentContainer.append(sliderContainer);
     mainContentContainer.append(scaleContainer);
@@ -62,6 +68,12 @@ export function createRangeSlider(containerSelector) {
 
     let inputsContainer = document.createElement("div");
     inputsContainer.className = "range-slider__inputs-container";
+    if (options.orientation === "horizontal") {
+        inputsContainer.classList.add("range-slider__inputs-container_horizontal");
+    }
+    else if (options.orientation === "vertical") {
+        inputsContainer.classList.add("range-slider__inputs-container_vertical");
+    }
     rangeSlider.append(inputsContainer);
 
     rangeSlidersContainer.append(rangeSlider);

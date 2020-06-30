@@ -12,11 +12,9 @@ export class SliderView extends View {
         this.slidersContainer = mainContentContainer;
         if (baseModelData.orientation === "horizontal") {
             this.slidersContainer.style.width = `${baseModelData.sliderStripLength}px`;
-            //this.slidersContainer.style.height = `${baseModelData.sliderStripThickness}px`;
         }
         else if (baseModelData.orientation === "vertical") {
             this.slidersContainer.style.height = `${baseModelData.sliderStripLength}px`;
-            //this.slidersContainer.style.width = `${baseModelData.sliderStripThickness}px`;
         }
 
         this.emptyStrip = document.createElement("div");

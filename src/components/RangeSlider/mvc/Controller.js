@@ -16,6 +16,9 @@ export class Controller {
         this.updateSliders = this.updateSliders.bind(this);
         this.inputsView.updateSliders = this.updateSliders;
 
+        this.onScaleSegmentClick = this.onScaleSegmentClick.bind(this);
+        this.scaleView.onScaleSegmentClick = this.onScaleSegmentClick;
+
         this.initialize();
     }
 
@@ -36,5 +39,10 @@ export class Controller {
     updateSliders(data) {
         this.model.updateOptions(data);
         this.sliderView.update();
+    }
+    onScaleSegmentClick(data) {
+        this.model.updateOptions(data);
+        this.sliderView.update();
+        this.inputsView.update(data);
     }
 }
