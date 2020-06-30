@@ -51,7 +51,7 @@ export class Slider extends Element {
             else if (modelData.orientation === "vertical")
                 this.setPosition({ x: 0, y: newTargetSliderPosInContainer });
         }
-        else {
+        else { 
             if (modelData.orientation === "horizontal") {
                 let newTargetSliderPosInContainer = ((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue + this.size.width;
                 this.setPosition({ x: newTargetSliderPosInContainer, y: 0 });

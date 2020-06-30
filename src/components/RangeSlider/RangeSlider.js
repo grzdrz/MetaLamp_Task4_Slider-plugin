@@ -48,11 +48,11 @@ export function createRangeSlider(containerSelector) {
         firstValue: 0,
         lastValue: 50,
         valueType: "₽",
-        stepSize: 0.0000001,
+        stepSize: 12,
         orientation: "horizontal",//vertical | horizontal
         hasTwoSlider: true,
         isInterval: true,
-        maxSegmentsCount: 10,
+        maxSegmentsCount: 5,
     };
     let model = new Model(options);
 

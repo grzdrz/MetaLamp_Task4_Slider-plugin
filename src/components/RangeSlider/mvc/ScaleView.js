@@ -9,6 +9,8 @@ export class ScaleView extends View {
         this.segmentsCount = this._calculateSegmentsCount(baseModelData);
 
         this.scaleContainer = scaleContainer;
+        //scaleContainer.style.width = `${baseModelData.sliderStripLength - baseModelData.handleWidth}px`;
+        //scaleContainer.style.marginLeft = `${baseModelData.handleWidth}px`;
         scaleContainer.style.width = `${baseModelData.sliderStripLength}px`;
 
         this.getModelData = () => { };
@@ -20,13 +22,13 @@ export class ScaleView extends View {
         super.initialize(modelData);
 
         this.segments = [];
-        for (let i = 0; i < this.segmentsCount; i++) {
+        let test1 = Math.round(this.segmentsCount / this.maxSegmentsCount);
+        for (let i = 0; i < this.maxSegmentsCount; i++) {
             let segment = document.createElement("p");
             this.segments.push(segment);
-            let value = i * ((modelData.maxValue - modelData.minValue) / this.segmentsCount);
-            segment.textContent = value.toFixed(2);
+            let value = i * modelData.stepSize * test1/* ((modelData.maxValue - modelData.minValue) / (this.segmentsCount)) */;
+            segment.textContent = value.toFixed(4);
             this._calculatePosition(segment, value);
-            //this.setPosition(segment, position);
             segment.className = "range-slider__scale-segment";
             this.scaleContainer.append(segment);
         }
@@ -35,9 +37,8 @@ export class ScaleView extends View {
         let segment = document.createElement("p");
         this.segments.push(segment);
         let value = modelData.maxValue;
-        segment.textContent = value.toFixed(2);
+        segment.textContent = value.toFixed(4);
         this._calculatePosition(segment, value);
-        //this.setPosition(segment, position);
         segment.className = "range-slider__scale-segment";
         this.scaleContainer.append(segment);
     }
@@ -45,14 +46,15 @@ export class ScaleView extends View {
     _calculateSegmentsCount(modelData) {
         let dMaxMin = modelData.maxValue - modelData.minValue;
         let temp = dMaxMin / modelData.stepSize;
-        if (temp <= 1) {
+        /* if (temp <= 1) {
             return 2;
         }
         else if (temp > this.maxSegmentsCount) {
             return this.maxSegmentsCount;
         }
         else
-            return temp;
+            return temp; */
+        return temp;
     }
 
     _calculatePosition(segment, value) {
@@ -60,21 +62,22 @@ export class ScaleView extends View {
 
         let slidersContainerSize;
         if (modelData.orientation === "horizontal")
-            slidersContainerSize = /* this.slidersContainerInstance.size.width */modelData.sliderStripLength;
+            slidersContainerSize = modelData.sliderStripLength;
         else if (modelData.orientation === "vertical")
-            slidersContainerSize = /* this.slidersContainerInstance.size.height */modelData.sliderStripLength;
+            slidersContainerSize = modelData.sliderStripLength;
+        slidersContainerSize -= modelData.handleWidth;
 
         let dSliderInputFullValue = modelData.maxValue - modelData.minValue;
 
         let dSliderStripFullValue;
         if (modelData.orientation === "horizontal")
-            dSliderStripFullValue = slidersContainerSize - /* this.size.width */modelData.handleWidth;
+            dSliderStripFullValue = slidersContainerSize - modelData.handleWidth;
         else if (modelData.orientation === "vertical")
-            dSliderStripFullValue = slidersContainerSize - /* this.size.height */modelData.handleHeight;
+            dSliderStripFullValue = slidersContainerSize - modelData.handleHeight;
 
 
         let newTargetSliderPosInContainer;
-        newTargetSliderPosInContainer = ((value - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue;
+        newTargetSliderPosInContainer = ((value - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue /* - modelData.handleWidth */;
         if (modelData.orientation === "horizontal")
             this.setPosition(segment, { x: newTargetSliderPosInContainer, y: 0 });
         else if (modelData.orientation === "vertical")

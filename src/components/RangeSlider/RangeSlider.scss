@@ -119,14 +119,16 @@
         left: 0px;
         bottom: 0px;
 
-        &::before{
+        //margin-left: 10px;
+
+        /* &::before{
             content: '';
             width: 2px;
             height: 40px;
             background: black;
             position: absolute;
             top: 0px;
-        }
+        } */
     }
 
     /* &__subtitle {
