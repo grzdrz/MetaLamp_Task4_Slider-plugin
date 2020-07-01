@@ -7,7 +7,6 @@ export class OptionsPanelView extends View {
 
         this._handlerStepSizeChange = this._handlerStepSizeChange.bind(this);
 
-        this.getModelData = () => { };
         this.onStepSizeChange = () => { };
     }
 

@@ -34,13 +34,16 @@ export class Controller {
         this.optionsPanelView.initialize();
     }
 
-    getModelData() {
-        return this.model.getOptions();
+    getModelData(optionName) {
+        if (optionName !== undefined)
+            return this.model.getOption(optionName);
+        else
+            return this.model.getOptions();
     }
 
     updateInputs(data) {
         this.model.updateOptions(data);
-        this.inputsView.update(/* data */);
+        this.inputsView.update();
     }
     updateSliders(data) {
         this.model.updateOptions(data);
@@ -49,7 +52,7 @@ export class Controller {
     onScaleSegmentClick(data) {
         this.model.updateOptions(data);
         this.sliderView.update();
-        this.inputsView.update(/* data */);
+        this.inputsView.update();
     }
 
     onStepSizeChange(data) {

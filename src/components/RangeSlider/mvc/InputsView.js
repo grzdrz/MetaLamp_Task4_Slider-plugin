@@ -15,7 +15,6 @@ export class InputsView extends View {
             this.inputsContainer.append(this.lastInputDOMElement);
         }
 
-        this.getModelData = () => { };
         this.updateSliders = () => { };
 
         this.onFirstInputChange = this.onFirstInputChange.bind(this);
@@ -31,7 +30,7 @@ export class InputsView extends View {
         this.update(this.getModelData());
     }
 
-    update(/* data */) {
+    update() {
         let data = this.getModelData();
         data.firstValue !== undefined ? this.firstInputDOMElement.value = data.firstValue : this.firstInputDOMElement.value;
         if (this.lastInputDOMElement)

@@ -1,10 +1,10 @@
 import { Element } from "./Element.js";
 
-export class Slider extends Element {
-    constructor(view, mainDOMElement, outsideDOMElement, number) {
+export class Handle extends Element {
+    constructor(view, mainDOMElement, outsideDOMElement, countNumber) {
         super(view, mainDOMElement);
 
-        this.number = number;
+        this.countNumber = countNumber;
         this.outsideDOMElement = outsideDOMElement;
 
         this.calculatePosition = this.calculatePosition.bind(this);
@@ -21,63 +21,40 @@ export class Slider extends Element {
     calculatePosition() {
         let modelData = this.view.getModelData();
 
-        let slidersContainerSize;
-        if (modelData.orientation === "horizontal")
-            slidersContainerSize = this.view.slidersContainerInstance.size.width;
-        else if (modelData.orientation === "vertical")
-            slidersContainerSize = this.view.slidersContainerInstance.size.height;
+        let sliderContainerLength = modelData.sliderStripLength;
+        let handleSize = (modelData.orientation === "horizontal" ? this.size.width : this.size.height);
+        let dMaxMinValue = modelData.maxValue - modelData.minValue;
 
-        let dSliderInputFullValue = modelData.maxValue - modelData.minValue;
-
-        let dSliderStripFullValue;
+        let usedLength;
         if (modelData.hasTwoSlider) {
-            if (modelData.orientation === "horizontal")
-                dSliderStripFullValue = slidersContainerSize - this.size.width * 2;
-            else if (modelData.orientation === "vertical")
-                dSliderStripFullValue = slidersContainerSize - this.size.height * 2;
+            usedLength = sliderContainerLength - handleSize * 2;
         }
         else {
-            if (modelData.orientation === "horizontal")
-                dSliderStripFullValue = slidersContainerSize - this.size.width;
-            else if (modelData.orientation === "vertical")
-                dSliderStripFullValue = slidersContainerSize - this.size.height;
+            usedLength = sliderContainerLength - handleSize;
         }
 
-        if (this.number === 1) {
-            let newTargetSliderPosInContainer;
-            newTargetSliderPosInContainer = ((modelData.firstValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue;
-            if (modelData.orientation === "horizontal")
-                this.setPosition({ x: newTargetSliderPosInContainer, y: 0 });
-            else if (modelData.orientation === "vertical")
-                this.setPosition({ x: 0, y: newTargetSliderPosInContainer });
+        let handlePositionInContainer
+        if (this.countNumber === 1) {
+            handlePositionInContainer = ((modelData.firstValue - modelData.minValue) * usedLength) / dMaxMinValue;
         }
-        else { 
-            if (modelData.orientation === "horizontal") {
-                let newTargetSliderPosInContainer = ((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue + this.size.width;
-                this.setPosition({ x: newTargetSliderPosInContainer, y: 0 });
-            }
-            else if (modelData.orientation === "vertical") {
-                let newTargetSliderPosInContainer = ((modelData.lastValue - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue + this.size.height;
-                this.setPosition({ x: 0, y: newTargetSliderPosInContainer });
-            }
+        else {
+            handlePositionInContainer = ((modelData.lastValue - modelData.minValue) * usedLength) / dMaxMinValue + handleSize;
         }
+        let position = {
+            x: (modelData.orientation === "horizontal" ? handlePositionInContainer : 0),
+            y: (modelData.orientation === "vertical" ? handlePositionInContainer : 0),
+        };
+        this.setPosition(position);
 
         this.calculateBorderPosition();
     }
 
     calculateBorderPosition() {
         let modelData = this.view.getModelData();
-        if (modelData.orientation === "horizontal") {
-            this.view.setPosition(this.outsideDOMElement, {
-                x: this.position.x - modelData.borderThickness,
-                y: 0
-            });
-        }
-        else if (modelData.orientation === "vertical") {
-            this.view.setPosition(this.outsideDOMElement, {
-                x: 0,
-                y: this.position.y - modelData.borderThickness
-            });
-        }
+        let position = {
+            x: (modelData.orientation === "horizontal" ? this.position.x - modelData.borderThickness : 0),
+            y: (modelData.orientation === "vertical" ? this.position.y - modelData.borderThickness : 0),
+        };
+        this.view.setPosition(this.outsideDOMElement, position);
     }
 }

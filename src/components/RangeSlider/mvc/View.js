@@ -1,13 +1,14 @@
 export class View {
     constructor() {
+        this.getModelData = () => { };
     }
 
-    initialize(baseModelData) {
-        this.modelData = baseModelData;
+    initialize() {
     }
 
     setPosition(element, position) {
-        if (this.modelData.orientation === "vertical") {
+        let orientation = this.getModelData("orientation");
+        if (orientation === "vertical") {
             if (position.x !== undefined) {
                 let left = "auto";
                 element.style.left = left;

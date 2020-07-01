@@ -59,7 +59,9 @@
     color: #1f2041; }
   .range-slider__options-panel-container {
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    border: 2px solid #50bda5;
+    padding: 10px; }
     .range-slider__options-panel-container_horizontal {
       margin-top: 60px; }
     .range-slider__options-panel-container_vertical {

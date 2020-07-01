@@ -36,18 +36,14 @@ export class ScaleView extends View {
             }
         }
 
-
-
         this.segments = [];
 
-        this.getModelData = () => { };
         this.onScaleSegmentClick = () => { };
         this._handlerSelectValue = this._handlerSelectValue.bind(this);
     }
 
     initialize() {
         let modelData = this.getModelData();
-        super.initialize(modelData);
 
         let stepsInSegment = Math.round(this.segmentsCount / this.maxSegmentsCount);
         for (let i = 0; i < this.maxSegmentsCount; i++) {

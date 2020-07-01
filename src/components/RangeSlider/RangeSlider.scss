@@ -52,6 +52,8 @@
     &__options-panel-container {
         display: flex;
         flex-direction: column;
+        border: 2px solid rgb(80, 189, 165);
+        padding: 10px;
 
         &_horizontal {
             margin-top: 60px;
