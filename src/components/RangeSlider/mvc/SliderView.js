@@ -39,14 +39,14 @@ export class SliderView extends View {
         if (modelData.orientation === "horizontal") {
             this.slidersContainer.parentElement.classList.remove("range-slider__main-content-container_vertical");
             this.slidersContainer.parentElement.classList.add("range-slider__main-content-container_horizontal");
-            this.slidersContainer.parentElement.parentElement.classList.remove("range-slider__main-content-container_vertical");
-            this.slidersContainer.parentElement.parentElement.classList.add("range-slider__main-content-container_horizontal");
+            this.slidersContainer.parentElement.parentElement.classList.remove("range-slider_vertical");
+            this.slidersContainer.parentElement.parentElement.classList.add("range-slider_horizontal");
         }
         else {
             this.slidersContainer.parentElement.classList.remove("range-slider__main-content-container_horizontal");
             this.slidersContainer.parentElement.classList.add("range-slider__main-content-container_vertical");
-            this.slidersContainer.parentElement.parentElement.classList.remove("range-slider__main-content-container_horizontal");
-            this.slidersContainer.parentElement.parentElement.classList.add("range-slider__main-content-container_vertical");
+            this.slidersContainer.parentElement.parentElement.classList.remove("range-slider_horizontal");
+            this.slidersContainer.parentElement.parentElement.classList.add("range-slider_vertical");
         }
 
         if (modelData.orientation === "horizontal") {
@@ -312,19 +312,15 @@ export class SliderView extends View {
             mousePositionInsideTargetSlider,
             targetHandleCountNumber
         ] = args;
+
         let containerBoundingRect;
         if (modelData.orientation === "horizontal") {
             containerBoundingRect = this.slidersContainerInstance.DOMElement.getBoundingClientRect();
         }
         else if (modelData.orientation === "vertical") {
-            containerBoundingRect = this.slidersContainerInstance.containerBoundingRect;
+            containerBoundingRect = this.slidersContainerInstance.DOMElement.getBoundingClientRect();
+            containerBoundingRect.y = (document.documentElement.clientHeight - pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height);
         }
-        // Кусок кода выше нужен, потому что почемуто старый getBoundingClientRect().x выдает некорректные значения для контейнера селектора 
-        // если контейнер плагина отцентрирован в другом флекс-контейнере и при этом сам контейнер плагина растянут
-        // без изменения размера контейнера самого слайдера.
-        // Например, если справа от контейнера слайдера воткнуть другой элемент, то контейнер плагина растянется и старый getBoundingClientRect
-        // выдаст некорректные координаты для контейнера слайдера.
-        // Почему так происходит я так и не понял, поэтому воткнул явный перевызов getBoundingClientRect для контейнера селектора.
 
 
         let cursorPositionInContainer;
