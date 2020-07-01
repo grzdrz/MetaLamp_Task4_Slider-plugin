@@ -16,14 +16,17 @@ export class ScaleView extends View {
         this._render();
     }
 
-    update() {
-        let data = this.getModelData();
-
-        //...
+    update(neededRerender) {
+        //let data = this.getModelData();
+        if (neededRerender) {
+            this._render();
+        }
     }
 
     _render() {
         let modelData = this.getModelData();
+
+        this.scaleContainer.innerHTML = "";
 
         this.maxSegmentsCount = modelData.maxSegmentsCount;
 
@@ -35,11 +38,13 @@ export class ScaleView extends View {
             let scaleLength = modelData.sliderStripLength - handleSize / 2;
             if (modelData.orientation === "horizontal") {
                 this.scaleContainer.style.width = `${scaleLength}px`;
+                this.scaleContainer.style.height = "auto";
                 this.scaleContainer.style.marginLeft = `${handleSize / 2}px`;
                 this.scaleContainer.classList.add("range-slider__scale-container_horizontal");
             }
             else if (modelData.orientation === "vertical") {
                 this.scaleContainer.style.height = `${scaleLength}px`;
+                this.scaleContainer.style.width = "auto";
                 this.scaleContainer.style.marginBottom = `${handleSize / 2}px`;
                 this.scaleContainer.classList.add("range-slider__scale-container_vertical");
             }
@@ -47,10 +52,12 @@ export class ScaleView extends View {
         else {
             if (modelData.orientation === "horizontal") {
                 this.scaleContainer.style.width = `${modelData.sliderStripLength}px`;
+                this.scaleContainer.style.height = "auto";
                 this.scaleContainer.classList.add("range-slider__scale-container_horizontal");
             }
             else if (modelData.orientation === "vertical") {
                 this.scaleContainer.style.height = `${modelData.sliderStripLength}px`;
+                this.scaleContainer.style.width = "auto";
                 this.scaleContainer.classList.add("range-slider__scale-container_vertical");
             }
         }

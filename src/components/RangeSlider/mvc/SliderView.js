@@ -20,21 +20,42 @@ export class SliderView extends View {
         this._render();
     }
 
-    update() {
-        for (let elementName in this) {
-            if (this[elementName].calculatePosition)
-                this[elementName].calculatePosition();
+    update(neededRerender) {
+        if (neededRerender) {
+            this._render();
+        }
+        else {
+            for (let elementName in this) {
+                if (this[elementName].calculatePosition)
+                    this[elementName].calculatePosition();
+            }
         }
     }
 
     _render() {
         let modelData = this.getModelData();
 
+        this.slidersContainer.innerHTML = "";
+        if (modelData.orientation === "horizontal") {
+            this.slidersContainer.parentElement.classList.remove("range-slider__main-content-container_vertical");
+            this.slidersContainer.parentElement.classList.add("range-slider__main-content-container_horizontal");
+            this.slidersContainer.parentElement.parentElement.classList.remove("range-slider__main-content-container_vertical");
+            this.slidersContainer.parentElement.parentElement.classList.add("range-slider__main-content-container_horizontal");
+        }
+        else {
+            this.slidersContainer.parentElement.classList.remove("range-slider__main-content-container_horizontal");
+            this.slidersContainer.parentElement.classList.add("range-slider__main-content-container_vertical");
+            this.slidersContainer.parentElement.parentElement.classList.remove("range-slider__main-content-container_horizontal");
+            this.slidersContainer.parentElement.parentElement.classList.add("range-slider__main-content-container_vertical");
+        }
+
         if (modelData.orientation === "horizontal") {
             this.slidersContainer.style.width = `${modelData.sliderStripLength}px`;
+            this.slidersContainer.style.height = "auto";
         }
         else if (modelData.orientation === "vertical") {
             this.slidersContainer.style.height = `${modelData.sliderStripLength}px`;
+            this.slidersContainer.style.width = "auto";
         }
 
         this.emptyStrip = document.createElement("div");
@@ -140,29 +161,19 @@ export class SliderView extends View {
             cursorMouseDownPosition = (document.documentElement.clientHeight + pageYOffset) - cursorMouseDownPosition;
         }
 
-
         let sliderCountNumber = Number.parseInt(event.currentTarget.dataset.sliderCountNumber);
         let targetSliderInstance;
-        let targetSlider;
-        let otherSliderInstance;
-        let otherSlider;
         let targetHandleCountNumber;
-
         if (sliderCountNumber === 1) {
             targetSliderInstance = this.firstSliderInstance;
-            if (modelData.hasTwoSlider) otherSliderInstance = this.lastSliderInstance;
             targetHandleCountNumber = 1;
         }
         else if (modelData.hasTwoSlider) {
             targetSliderInstance = this.lastSliderInstance;
-            otherSliderInstance = this.firstSliderInstance;
             targetHandleCountNumber = 2;
         }
-        targetSlider = targetSliderInstance.DOMElement;
-        if (modelData.hasTwoSlider) otherSlider = otherSliderInstance.DOMElement;
 
-        let targetSliderBoundingCoords = targetSlider.getBoundingClientRect();
-
+        let targetSliderBoundingCoords = targetSliderInstance.DOMElement.getBoundingClientRect();
         //расстояние между местом нажатия кнопки мыши внутри бегунка и левым краем бегунка(где внутри бегунка находится курсор)
         let mousePositionInsideTargetSlider;
         if (modelData.orientation === "horizontal") {
@@ -178,9 +189,6 @@ export class SliderView extends View {
             handlerMouseUp: null,
             mousePositionInsideTargetSlider: mousePositionInsideTargetSlider,
             targetSliderInstance: targetSliderInstance,
-            targetSlider: targetSlider,
-            otherSliderInstance: otherSliderInstance,
-            otherSlider: otherSlider,
             targetHandleCountNumber: targetHandleCountNumber,
             isLastUpdate: false,
         };
@@ -205,7 +213,6 @@ export class SliderView extends View {
             targetSliderInstance,
             targetHandleCountNumber,
         } = optionsFromMouseDown;
-        //let inputsValueRangeInTitle = targetSliderInstance.DOMElement.closest(".range-slider").querySelector(".range-slider__inputs-value-range");
 
         let mouseGlobalPosition;
         if (modelData.orientation === "horizontal") {
@@ -215,11 +222,16 @@ export class SliderView extends View {
         else if (modelData.orientation === "vertical") {
             if (event.changedTouches) mouseGlobalPosition = event.changedTouches[0].pageY;
             else mouseGlobalPosition = event.clientY;
-            mouseGlobalPosition = (/* Number.parseInt(document.height) */document.documentElement.clientHeight + pageYOffset) - mouseGlobalPosition;
+            mouseGlobalPosition = (document.documentElement.clientHeight + pageYOffset) - mouseGlobalPosition;
         }
 
         //значение в заданных единицах пропорциональное пиксельным координатам курсора в контейнере
-        let newTargetInputValue = this._calculateValueProportionalToPixelValue(modelData, mouseGlobalPosition, mousePositionInsideTargetSlider, targetHandleCountNumber);
+        let newTargetInputValue = this._calculateValueProportionalToPixelValue([
+            modelData,
+            mouseGlobalPosition,
+            mousePositionInsideTargetSlider,
+            targetHandleCountNumber
+        ]);
 
         if (optionsFromMouseDown.isLastUpdate && targetHandleCountNumber === 1) {
             if (newTargetInputValue <= modelData.minValue) {
@@ -245,7 +257,6 @@ export class SliderView extends View {
             }
         }
 
-
         let isLowestThenLastValue;
         if (modelData.hasTwoSlider)
             isLowestThenLastValue = newTargetInputValue <= modelData.lastValue;
@@ -254,36 +265,26 @@ export class SliderView extends View {
 
         if (targetHandleCountNumber === 1 &&
             newTargetInputValue !== modelData.firstValue &&
-            isLowestThenLastValue/* newTargetInputValue <= modelData.lastValue */ &&
-            newTargetInputValue >= modelData.minValue) {//первый ползунок
-
+            isLowestThenLastValue &&
+            newTargetInputValue >= modelData.minValue) {
             // перезапись значения инпута 
-            //--------------------------------------------------
             this.updateInputs({ firstValue: newTargetInputValue });
-            //--------------------------------------------------
 
             // перезапись значения позиции ползунка
-            //--------------------------------------------------
             targetSliderInstance.calculatePosition();
             this.filledStripInstance.calculatePosition();
-            //--------------------------------------------------
         }
         else if (modelData.hasTwoSlider) {
-            if (modelData.hasTwoSlider &&
-                targetHandleCountNumber === 2 &&
+            if (targetHandleCountNumber === 2 &&
                 newTargetInputValue !== modelData.lastValue &&
                 newTargetInputValue >= modelData.firstValue &&
-                newTargetInputValue <= modelData.maxValue) {//второй ползунок
+                newTargetInputValue <= modelData.maxValue) {
                 // перезапись значения инпута 
-                //--------------------------------------------------
                 this.updateInputs({ lastValue: newTargetInputValue });
-                //--------------------------------------------------
 
                 // перезапись значения позиции ползунка
-                //--------------------------------------------------
                 targetSliderInstance.calculatePosition();
                 this.filledStripInstance.calculatePosition();
-                //--------------------------------------------------
             }
         }
     }
@@ -304,9 +305,13 @@ export class SliderView extends View {
         // к соответствующим границам за которые они вышли. 
     }
 
-
-    //if(modelData.hasTwoSlider)
-    _calculateValueProportionalToPixelValue(modelData, mouseGlobalPosition, mousePositionInsideTargetSlider, targetHandleCountNumber) {
+    _calculateValueProportionalToPixelValue(args) {
+        let [
+            modelData,
+            mouseGlobalPosition,
+            mousePositionInsideTargetSlider,
+            targetHandleCountNumber
+        ] = args;
         let containerBoundingRect;
         if (modelData.orientation === "horizontal") {
             containerBoundingRect = this.slidersContainerInstance.DOMElement.getBoundingClientRect();

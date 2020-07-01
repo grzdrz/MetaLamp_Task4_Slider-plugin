@@ -24,6 +24,9 @@ export class Controller {
         this.onStepSizeChange = this.onStepSizeChange.bind(this);
         this.optionsPanelView.onStepSizeChange = this.onStepSizeChange;
 
+        this.onOrientationChange = this.onOrientationChange.bind(this);
+        this.optionsPanelView.onOrientationChange = this.onOrientationChange;
+
         this.initialize();
     }
 
@@ -60,5 +63,18 @@ export class Controller {
         this.sliderView.update();
         this.inputsView.update();
         this.scaleView.update();
+    }
+    onOrientationChange() {
+        let orientation = this.model.getOption("orientation");
+        if (orientation === "horizontal") {
+            this.model.updateOptions({ orientation: "vertical" });
+        }
+        else {
+            this.model.updateOptions({ orientation: "horizontal" });
+        }
+
+        this.sliderView.update(true);
+        this.scaleView.update(true);
+        this.optionsPanelView.update();
     }
 }
