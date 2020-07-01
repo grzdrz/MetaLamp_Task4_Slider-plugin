@@ -1,7 +1,7 @@
 import { View } from "./View.js";
 
 export class OptionsPanelView extends View {
-    constructor(baseModelData, containerElement) {
+    constructor(containerElement) {
         super();
         this.containerElement = containerElement;
 

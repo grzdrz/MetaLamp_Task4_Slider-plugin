@@ -45,4 +45,24 @@ let options1 = {
 };
 createRangeSlider(".test-page__tested-range-slider-container", options1);
 
+let options3 = {
+    sliderStripLength: 350,
+    sliderStripThickness: 10,
+    handleWidth: 10,
+    handleHeight: 10,
+    title: "some range slider",
+    maxValue: 200,
+    minValue: 0,
+    borderThickness: 10,
+    firstValue: 0,
+    //lastValue: 50,
+    valueType: "₽",
+    stepSize: 10,
+    orientation: "vertical",// vertical | horizontal
+    hasTwoSlider: false,
+    isInterval: true,
+    maxSegmentsCount: 10,
+};
+createRangeSlider(".test-page__tested-range-slider-container3", options3);
+
 import "./TestPage.scss"; 

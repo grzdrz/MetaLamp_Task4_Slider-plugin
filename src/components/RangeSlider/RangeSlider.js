@@ -11,8 +11,35 @@ import "./RangeSlider.scss";
 export function createRangeSlider(containerSelector, options) {
     let model = new Model(options);
 
-
     let rangeSlidersContainer = document.querySelector(containerSelector);
+    let sliderContainer = document.createElement("div");
+    let inputsContainer = document.createElement("div");
+    let scaleContainer = document.createElement("div");
+    let optionsPanelContainer = document.createElement("div");
+    _render(options, {
+        rangeSlidersContainer: rangeSlidersContainer,
+        sliderContainer: sliderContainer,
+        inputsContainer: inputsContainer,
+        scaleContainer: scaleContainer,
+        optionsPanelContainer: optionsPanelContainer,
+    });
+
+    let sliderView = new SliderView(sliderContainer);
+    let inputsView = new InputsView(options, inputsContainer);
+    let scaleView = new ScaleView(scaleContainer);
+    let optionsPanelView = new OptionsPanelView(optionsPanelContainer);
+
+    let controller = new Controller(model, sliderView, inputsView, scaleView, optionsPanelView);
+};
+
+function _render(options, elements) {
+    let { 
+        rangeSlidersContainer,
+        sliderContainer,
+        inputsContainer,
+        scaleContainer,
+        optionsPanelContainer,
+    } = elements;
 
     //плагин
     let rangeSlider = document.createElement("div");
@@ -31,12 +58,12 @@ export function createRangeSlider(containerSelector, options) {
 
 
     //слайдер
-    let sliderContainer = document.createElement("div");
+    /* sliderContainer = document.createElement("div"); */
     sliderContainer.className = "range-slider__slider-container";
     rangeSlider.append(sliderContainer);
 
     //шкала
-    let scaleContainer = document.createElement("div");
+    /* scaleContainer = document.createElement("div"); */
     scaleContainer.className = "range-slider__scale-container";
     rangeSlider.append(scaleContainer);
 
@@ -55,11 +82,11 @@ export function createRangeSlider(containerSelector, options) {
 
 
     //инпуты
-    let inputsContainer = document.createElement("div");
+    /* inputsContainer = document.createElement("div"); */
     inputsContainer.className = "range-slider__inputs-container";
 
     //инпуты + опции
-    let optionsPanelContainer = document.createElement("div");
+    /* optionsPanelContainer = document.createElement("div"); */
     optionsPanelContainer.className = "range-slider__options-panel-container";
     if (options.orientation === "horizontal") {
         optionsPanelContainer.classList.add("range-slider__options-panel-container_horizontal");
@@ -71,14 +98,4 @@ export function createRangeSlider(containerSelector, options) {
     rangeSlider.append(optionsPanelContainer);
 
     rangeSlidersContainer.append(rangeSlider);
-
-    let sliderView = new SliderView(options, sliderContainer);
-
-    let inputsView = new InputsView(options, inputsContainer);
-
-    let scaleView = new ScaleView(options, scaleContainer);
-
-    let optionsPanelView = new OptionsPanelView(options, optionsPanelContainer);
-
-    let controller = new Controller(model, sliderView, inputsView, scaleView, optionsPanelView);
-};
+}

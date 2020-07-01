@@ -1,125 +1,116 @@
 import { View } from "./View.js";
 
 export class ScaleView extends View {
-    constructor(baseModelData, scaleContainer) {
+    constructor(scaleContainer) {
         super();
 
-        this.maxSegmentsCount = baseModelData.maxSegmentsCount;
-
-        this.segmentsCount = this._calculateSegmentsCount(baseModelData);
+        this.segmentsCount;
 
         this.scaleContainer = scaleContainer;
-        if (baseModelData.hasTwoSlider) {
-            if (baseModelData.orientation === "horizontal") {
-                scaleContainer.style.width = `${baseModelData.sliderStripLength - baseModelData.handleWidth / 2}px`;
-                scaleContainer.style.marginLeft = `${baseModelData.handleWidth / 2}px`;
-                scaleContainer.classList.add("range-slider__scale-container_horizontal");
-            }
-            else if (baseModelData.orientation === "vertical") {
-                /* scaleContainer.style.height = `${baseModelData.sliderStripLength}px`; */
-                scaleContainer.style.height = `${baseModelData.sliderStripLength - baseModelData.handleHeight / 2}px`;
-                scaleContainer.style.marginBottom = `${baseModelData.handleHeight / 2}px`;
-                scaleContainer.classList.add("range-slider__scale-container_vertical");
-            }
-        }
-        else {
-            if (baseModelData.orientation === "horizontal") {
-                scaleContainer.style.width = `${baseModelData.sliderStripLength/*  - baseModelData.handleWidth / 2 */}px`;
-                //scaleContainer.style.marginLeft = `${baseModelData.handleWidth / 2}px`;
-                scaleContainer.classList.add("range-slider__scale-container_horizontal");
-            }
-            else if (baseModelData.orientation === "vertical") {
-                /* scaleContainer.style.height = `${baseModelData.sliderStripLength}px`; */
-                scaleContainer.style.height = `${baseModelData.sliderStripLength/*  - baseModelData.handleHeight / 2 */}px`;
-                //scaleContainer.style.marginBottom = `${baseModelData.handleHeight / 2}px`;
-                scaleContainer.classList.add("range-slider__scale-container_vertical");
-            }
-        }
-
-        this.segments = [];
 
         this.onScaleSegmentClick = () => { };
-        this._handlerSelectValue = this._handlerSelectValue.bind(this);
+        this._handlerSelectSegment = this._handlerSelectSegment.bind(this);
     }
 
     initialize() {
-        let modelData = this.getModelData();
-
-        let stepsInSegment = Math.round(this.segmentsCount / this.maxSegmentsCount);
-        for (let i = 0; i < this.maxSegmentsCount; i++) {
-            let segment = document.createElement("div");
-            this.segments.push(segment);
-            let value = i * modelData.stepSize * stepsInSegment/* ((modelData.maxValue - modelData.minValue) / (this.segmentsCount)) */;
-            segment.textContent = value.toFixed(4);
-            segment.dataset.segmentValue = value;
-
-            segment.className = "range-slider__scale-segment";
-            this.scaleContainer.append(segment);
-
-            segment.addEventListener("click", this._handlerSelectValue);
-
-            this._calculatePosition(segment, value);
-        }
-
-        //ластецкий
-        let segment = document.createElement("div");
-        this.segments.push(segment);
-        let value = modelData.maxValue;
-        segment.textContent = value.toFixed(4);
-        segment.dataset.segmentValue = value;
-
-        segment.className = "range-slider__scale-segment";
-        this.scaleContainer.append(segment);
-
-        segment.addEventListener("click", this._handlerSelectValue);
-
-        this._calculatePosition(segment, value);
+        this._render();
     }
 
-    update(){
+    update() {
         let data = this.getModelData();
 
         //...
     }
 
-    _calculateSegmentsCount(modelData) {
-        let dMaxMin = modelData.maxValue - modelData.minValue;
-        let temp = dMaxMin / modelData.stepSize;
+    _render() {
+        let modelData = this.getModelData();
+
+        this.maxSegmentsCount = modelData.maxSegmentsCount;
+
+        this.segmentsCount = this._calculateSegmentsCount();
+
+        let handleSize = (modelData.orientation === "horizontal" ? modelData.handleWidth : modelData.handleHeight);
+
+        if (modelData.hasTwoSlider) {
+            let scaleLength = modelData.sliderStripLength - handleSize / 2;
+            if (modelData.orientation === "horizontal") {
+                this.scaleContainer.style.width = `${scaleLength}px`;
+                this.scaleContainer.style.marginLeft = `${handleSize / 2}px`;
+                this.scaleContainer.classList.add("range-slider__scale-container_horizontal");
+            }
+            else if (modelData.orientation === "vertical") {
+                this.scaleContainer.style.height = `${scaleLength}px`;
+                this.scaleContainer.style.marginBottom = `${handleSize / 2}px`;
+                this.scaleContainer.classList.add("range-slider__scale-container_vertical");
+            }
+        }
+        else {
+            if (modelData.orientation === "horizontal") {
+                this.scaleContainer.style.width = `${modelData.sliderStripLength}px`;
+                this.scaleContainer.classList.add("range-slider__scale-container_horizontal");
+            }
+            else if (modelData.orientation === "vertical") {
+                this.scaleContainer.style.height = `${modelData.sliderStripLength}px`;
+                this.scaleContainer.classList.add("range-slider__scale-container_vertical");
+            }
+        }
+
+        let stepsInSegment = Math.round(this.segmentsCount / this.maxSegmentsCount);
+        for (let i = 0; i < this.maxSegmentsCount; i++) {
+            let segment = document.createElement("div");
+            segment.className = "range-slider__scale-segment";
+            let segmentValue = i * modelData.stepSize * stepsInSegment;
+            segment.textContent = segmentValue.toFixed(4);
+            segment.dataset.segmentValue = segmentValue;
+            segment.addEventListener("click", this._handlerSelectSegment);
+            this._calculateSegmentPosition(segment, segmentValue);
+            this.scaleContainer.append(segment);
+        }
+        //ластецкий сегмент
+        let segment = document.createElement("div");
+        segment.className = "range-slider__scale-segment";
+        let segmentValue = modelData.maxValue;
+        segment.textContent = segmentValue.toFixed(4);
+        segment.dataset.segmentValue = segmentValue;
+        segment.addEventListener("click", this._handlerSelectSegment);
+        this._calculateSegmentPosition(segment, segmentValue);
+        this.scaleContainer.append(segment);
+    }
+
+    _calculateSegmentsCount() {
+        let maxValue = this.getModelData("maxValue");
+        let minValue = this.getModelData("minValue");
+        let stepSize = this.getModelData("stepSize");
+
+        let dMaxMinValue = maxValue - minValue;
+        let temp = dMaxMinValue / stepSize;
         return temp;
     }
 
-    _calculatePosition(segment, value) {
+    _calculateSegmentPosition(segment, value) {
         let modelData = this.getModelData();
 
-        /* let slidersContainerSize;
-        slidersContainerSize = modelData.sliderStripLength - modelData.handleWidth; */
+        let sliderContainerLength = modelData.sliderStripLength;
+        let handleSize = (modelData.orientation === "horizontal" ? modelData.handleWidth : modelData.handleHeight);
+        let dMaxMinValue = modelData.maxValue - modelData.minValue;
 
-        let dSliderInputFullValue = modelData.maxValue - modelData.minValue;
-
-        let dSliderStripFullValue;
+        let usedLength;
         if (modelData.hasTwoSlider) {
-            if (modelData.orientation === "horizontal")
-                dSliderStripFullValue = modelData.sliderStripLength - modelData.handleWidth * 2;
-            else if (modelData.orientation === "vertical")
-                dSliderStripFullValue = modelData.sliderStripLength - modelData.handleHeight * 2;
+            usedLength = sliderContainerLength - handleSize * 2;
         }
         else {
-            if (modelData.orientation === "horizontal")
-                dSliderStripFullValue = modelData.sliderStripLength - modelData.handleWidth;
-            else if (modelData.orientation === "vertical")
-                dSliderStripFullValue = modelData.sliderStripLength - modelData.handleHeight;
+            usedLength = sliderContainerLength - handleSize;
         }
 
-
-        let newTargetSliderPosInContainer;
-        newTargetSliderPosInContainer = ((value - modelData.minValue) * dSliderStripFullValue) / dSliderInputFullValue /* - modelData.handleWidth */;
-        if (modelData.orientation === "horizontal")
-            this.setPosition(segment, { x: newTargetSliderPosInContainer, y: 0 });
-        else if (modelData.orientation === "vertical")
-            this.setPosition(segment, { x: 0, y: newTargetSliderPosInContainer });
+        let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
+        let position = {
+            x: (modelData.orientation === "horizontal" ? handlePositionInContainer : 0),
+            y: (modelData.orientation === "vertical" ? handlePositionInContainer : 0),
+        };
+        this.setPosition(segment, position);
     }
 
-    _handlerSelectValue(event) {
+    _handlerSelectSegment(event) {
         event.preventDefault();
 
         let modelData = this.getModelData();
@@ -128,6 +119,7 @@ export class ScaleView extends View {
         let currentSegment = event.currentTarget;
         let value = Number.parseFloat(currentSegment.dataset.segmentValue);
 
+        //определяет к какому ползунку ближе выбранный сегмент
         if (modelData.hasTwoSlider) {
             let dSegmentValueFirstValue = Math.abs(modelData.firstValue - value);
             let dSegmentValueLastValue = Math.abs(modelData.lastValue - value);

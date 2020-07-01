@@ -8,7 +8,7 @@ body {
 
 .test-page {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
 
     &__tested-range-slider-container {
@@ -20,6 +20,14 @@ body {
         //padding: 20px 20px;
     }
     &__tested-range-slider-container2 {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 50px;
+        //margin-left: 619px;
+        //padding: 20px 20px;
+    }
+    &__tested-range-slider-container3 {
         display: flex;
         justify-content: center;
         width: 100%;

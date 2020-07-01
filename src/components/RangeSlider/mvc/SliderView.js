@@ -6,23 +6,15 @@ import { FilledStrip } from "../elements/FilledStrip.js";
 import { EmptyStrip } from "../elements/EmptyStrip.js";
 
 export class SliderView extends View {
-    constructor(baseModelData, mainContentContainer) {
+    constructor(mainContentContainer) {
         super();
 
         this.slidersContainer = mainContentContainer;
-        if (baseModelData.orientation === "horizontal") {
-            this.slidersContainer.style.width = `${baseModelData.sliderStripLength}px`;
-        }
-        else if (baseModelData.orientation === "vertical") {
-            this.slidersContainer.style.height = `${baseModelData.sliderStripLength}px`;
-        }
-
 
         this._handlerMouseDown = this._handlerMouseDown.bind(this);
 
         this.updateInputs = () => { };
     }
-
 
     initialize() {
         this._render();
@@ -37,6 +29,13 @@ export class SliderView extends View {
 
     _render() {
         let modelData = this.getModelData();
+
+        if (modelData.orientation === "horizontal") {
+            this.slidersContainer.style.width = `${modelData.sliderStripLength}px`;
+        }
+        else if (modelData.orientation === "vertical") {
+            this.slidersContainer.style.height = `${modelData.sliderStripLength}px`;
+        }
 
         this.emptyStrip = document.createElement("div");
         this.emptyStrip.className = "range-slider__slider-body-empty";
@@ -138,7 +137,7 @@ export class SliderView extends View {
         else if (modelData.orientation === "vertical") {
             if (event.changedTouches) cursorMouseDownPosition = event.changedTouches[0].pageY;
             else cursorMouseDownPosition = event.clientY;
-            cursorMouseDownPosition = document.documentElement.clientHeight - cursorMouseDownPosition;
+            cursorMouseDownPosition = (document.documentElement.clientHeight + pageYOffset) - cursorMouseDownPosition;
         }
 
 
@@ -170,7 +169,7 @@ export class SliderView extends View {
             mousePositionInsideTargetSlider = cursorMouseDownPosition - targetSliderBoundingCoords.x;
         }
         else if (modelData.orientation === "vertical") {
-            mousePositionInsideTargetSlider = cursorMouseDownPosition - (document.documentElement.clientHeight - targetSliderBoundingCoords.y - targetSliderBoundingCoords.height);
+            mousePositionInsideTargetSlider = cursorMouseDownPosition - (document.documentElement.clientHeight - pageYOffset - targetSliderBoundingCoords.y - targetSliderBoundingCoords.height);
         }
 
 
@@ -206,9 +205,7 @@ export class SliderView extends View {
             targetSliderInstance,
             targetHandleCountNumber,
         } = optionsFromMouseDown;
-        let inputsValueRangeInTitle = targetSliderInstance
-            .DOMElement.closest(".range-slider").querySelector(".range-slider__inputs-value-range");
-
+        //let inputsValueRangeInTitle = targetSliderInstance.DOMElement.closest(".range-slider").querySelector(".range-slider__inputs-value-range");
 
         let mouseGlobalPosition;
         if (modelData.orientation === "horizontal") {
@@ -218,7 +215,7 @@ export class SliderView extends View {
         else if (modelData.orientation === "vertical") {
             if (event.changedTouches) mouseGlobalPosition = event.changedTouches[0].pageY;
             else mouseGlobalPosition = event.clientY;
-            mouseGlobalPosition = document.documentElement.clientHeight - mouseGlobalPosition;
+            mouseGlobalPosition = (/* Number.parseInt(document.height) */document.documentElement.clientHeight + pageYOffset) - mouseGlobalPosition;
         }
 
         //значение в заданных единицах пропорциональное пиксельным координатам курсора в контейнере
