@@ -60,12 +60,12 @@ function _render(options, elements) {
     //слайдер
     /* sliderContainer = document.createElement("div"); */
     sliderContainer.className = "range-slider__slider-container";
-    rangeSlider.append(sliderContainer);
+    //rangeSlider.append(sliderContainer);
 
     //шкала
     /* scaleContainer = document.createElement("div"); */
     scaleContainer.className = "range-slider__scale-container";
-    rangeSlider.append(scaleContainer);
+    //rangeSlider.append(scaleContainer);
 
     //слайдер + шкала
     let mainContentContainer = document.createElement("div");

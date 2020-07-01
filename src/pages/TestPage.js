@@ -5,10 +5,10 @@ rangeSliderScript(); */
 import { createRangeSlider } from "../components/RangeSlider/RangeSlider.js";
 
 let options2 = {
-    sliderStripLength: 550,
+    sliderStripLength: 650,
     sliderStripThickness: 5,
-    handleWidth: 16,
-    handleHeight: 16,
+    handleWidth: 10,
+    handleHeight: 10,
     title: "some range slider",
     maxValue: 100,
     minValue: 0,
@@ -17,16 +17,17 @@ let options2 = {
     lastValue: 50,
     valueType: "₽",
     stepSize: 10,
-    orientation: "horizontal",// vertical | horizontal
+    orientation: "vertical",// vertical | horizontal
     hasTwoSlider: true,
     isInterval: true,
     maxSegmentsCount: 10,
+    scaleFontSize: 40,
 };
 createRangeSlider(".test-page__tested-range-slider-container2", options2);
 
 
 let options1 = {
-    sliderStripLength: 350,
+    sliderStripLength: 650,
     sliderStripThickness: 10,
     handleWidth: 10,
     handleHeight: 10,
@@ -42,14 +43,15 @@ let options1 = {
     hasTwoSlider: true,
     isInterval: true,
     maxSegmentsCount: 10,
+    scaleFontSize: 20,
 };
 createRangeSlider(".test-page__tested-range-slider-container", options1);
 
 let options3 = {
-    sliderStripLength: 350,
+    sliderStripLength: 650,
     sliderStripThickness: 10,
-    handleWidth: 10,
-    handleHeight: 10,
+    handleWidth: 40,
+    handleHeight: 40,
     title: "some range slider",
     maxValue: 200,
     minValue: 0,
@@ -62,6 +64,7 @@ let options3 = {
     hasTwoSlider: false,
     isInterval: true,
     maxSegmentsCount: 10,
+    scaleFontSize: 10,
 };
 createRangeSlider(".test-page__tested-range-slider-container3", options3);
 
@@ -82,6 +85,7 @@ let options4 = {
     hasTwoSlider: false,
     isInterval: true,
     maxSegmentsCount: 10,
+    scaleFontSize: 20,
 };
 createRangeSlider(".test-page__tested-range-slider-container4", options4);
 

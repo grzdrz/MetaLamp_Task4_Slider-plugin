@@ -98,8 +98,8 @@
     //слайдер и шкала измерений
     &__main-content-container {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        /* align-items: center;
+        justify-content: center; */
 
         &_vertical {
             flex-direction: row;
@@ -137,6 +137,8 @@
         position: absolute;
         border-radius: 50%;
 
+        opacity: 0.5;
+
         left: auto;
         bottom: 0px;
     }
@@ -148,6 +150,8 @@
         border-radius: 50%;
         position: absolute;
 
+        opacity: 0.5;
+
         left: auto;
         bottom: 0px;
     }
@@ -155,14 +159,14 @@
     &__scale-container {
         display: flex;
         position: relative;
-        height: 20px;
-        margin-top: 10px;
+        /* height: 20px; */
 
         &_vertical {
-            margin-left: 20px;
+            //margin-left: 20px;
+            align-self: flex-end;
         }
         &_horizontal {
-            margin-top: 20px;
+            //margin-top: 20px;
         }
     }
     &__scale-segment {

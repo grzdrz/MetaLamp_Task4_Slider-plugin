@@ -36,6 +36,7 @@ export class SliderView extends View {
         let modelData = this.getModelData();
 
         this.slidersContainer.innerHTML = "";
+        //---------------------------------------------------------------------------------------------------
         if (modelData.orientation === "horizontal") {
             this.slidersContainer.parentElement.classList.remove("range-slider__main-content-container_vertical");
             this.slidersContainer.parentElement.classList.add("range-slider__main-content-container_horizontal");
@@ -48,6 +49,7 @@ export class SliderView extends View {
             this.slidersContainer.parentElement.parentElement.classList.remove("range-slider_horizontal");
             this.slidersContainer.parentElement.parentElement.classList.add("range-slider_vertical");
         }
+        //---------------------------------------------------------------------------------------------------
 
         if (modelData.orientation === "horizontal") {
             this.slidersContainer.style.width = `${modelData.sliderStripLength}px`;
@@ -103,7 +105,7 @@ export class SliderView extends View {
         }
 
 
-        this.slidersContainerInstance = new SlidersContainer(this, this.slidersContainer, modelData);
+        this.slidersContainerInstance = new SlidersContainer(this, this.slidersContainer);
         this.firstSliderInstance = new Handle(this, this.firstSlider, this.firstSliderBorder, 1);
         if (modelData.hasTwoSlider) this.lastSliderInstance = new Handle(this, this.lastSlider, this.lastSliderBorder, 2);
         this.emptyStripInstance = new EmptyStrip(this, this.emptyStrip);
@@ -321,7 +323,6 @@ export class SliderView extends View {
             containerBoundingRect = this.slidersContainerInstance.DOMElement.getBoundingClientRect();
             containerBoundingRect.y = (document.documentElement.clientHeight - pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height);
         }
-
 
         let cursorPositionInContainer;
         if (modelData.orientation === "horizontal") {

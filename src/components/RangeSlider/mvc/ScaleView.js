@@ -39,13 +39,15 @@ export class ScaleView extends View {
             if (modelData.orientation === "horizontal") {
                 this.scaleContainer.style.width = `${scaleLength}px`;
                 this.scaleContainer.style.height = "auto";
-                this.scaleContainer.style.marginLeft = `${handleSize / 2}px`;
+                //this.scaleContainer.style.marginLeft = `${handleSize / 2}px`;
+                this.scaleContainer.classList.remove("range-slider__scale-container_vertical");
                 this.scaleContainer.classList.add("range-slider__scale-container_horizontal");
             }
             else if (modelData.orientation === "vertical") {
                 this.scaleContainer.style.height = `${scaleLength}px`;
                 this.scaleContainer.style.width = "auto";
-                this.scaleContainer.style.marginBottom = `${handleSize / 2}px`;
+                //this.scaleContainer.style.marginBottom = `${handleSize / 2}px`;
+                this.scaleContainer.classList.remove("range-slider__scale-container_horizontal");
                 this.scaleContainer.classList.add("range-slider__scale-container_vertical");
             }
         }
@@ -53,11 +55,13 @@ export class ScaleView extends View {
             if (modelData.orientation === "horizontal") {
                 this.scaleContainer.style.width = `${modelData.sliderStripLength}px`;
                 this.scaleContainer.style.height = "auto";
+                this.scaleContainer.classList.remove("range-slider__scale-container_vertical");
                 this.scaleContainer.classList.add("range-slider__scale-container_horizontal");
             }
             else if (modelData.orientation === "vertical") {
                 this.scaleContainer.style.height = `${modelData.sliderStripLength}px`;
                 this.scaleContainer.style.width = "auto";
+                this.scaleContainer.classList.remove("range-slider__scale-container_horizontal");
                 this.scaleContainer.classList.add("range-slider__scale-container_vertical");
             }
         }
@@ -67,21 +71,27 @@ export class ScaleView extends View {
             let segment = document.createElement("div");
             segment.className = "range-slider__scale-segment";
             let segmentValue = i * modelData.stepSize * stepsInSegment;
-            segment.textContent = segmentValue.toFixed(4);
+            segment.textContent = segmentValue.toFixed(2);
             segment.dataset.segmentValue = segmentValue;
             segment.addEventListener("click", this._handlerSelectSegment);
             this._calculateSegmentPosition(segment, segmentValue);
             this.scaleContainer.append(segment);
+
+            segment.style.fontSize = `${modelData.scaleFontSize}px`;
+            segment.style.lineHeight = `${modelData.scaleFontSize}px`;
         }
         //ластецкий сегмент
         let segment = document.createElement("div");
         segment.className = "range-slider__scale-segment";
         let segmentValue = modelData.maxValue;
-        segment.textContent = segmentValue.toFixed(4);
+        segment.textContent = segmentValue.toFixed(2);
         segment.dataset.segmentValue = segmentValue;
         segment.addEventListener("click", this._handlerSelectSegment);
         this._calculateSegmentPosition(segment, segmentValue);
         this.scaleContainer.append(segment);
+
+        segment.style.fontSize = `${modelData.scaleFontSize}px`;
+        segment.style.lineHeight = `${modelData.scaleFontSize}px`;
     }
 
     _calculateSegmentsCount() {
@@ -109,7 +119,13 @@ export class ScaleView extends View {
             usedLength = sliderContainerLength - handleSize;
         }
 
-        let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
+        let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue/*  + (handleSize - modelData.scaleFontSize / 2) */;
+        if (modelData.hasTwoSlider) {
+            handlePositionInContainer = handlePositionInContainer + handleSize - modelData.scaleFontSize / 2;
+        }
+        else {
+            handlePositionInContainer = handlePositionInContainer - modelData.scaleFontSize / 2 + handleSize / 2;
+        }
         let position = {
             x: (modelData.orientation === "horizontal" ? handlePositionInContainer : 0),
             y: (modelData.orientation === "vertical" ? handlePositionInContainer : 0),
