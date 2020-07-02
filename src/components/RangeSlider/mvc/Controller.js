@@ -27,6 +27,9 @@ export class Controller {
         this.onOrientationChange = this.onOrientationChange.bind(this);
         this.optionsPanelView.onOrientationChange = this.onOrientationChange;
 
+        this.onMaxValueChange = this.onMaxValueChange.bind(this);
+        this.optionsPanelView.onMaxValueChange = this.onMaxValueChange;
+
         this.initialize();
     }
 
@@ -60,9 +63,10 @@ export class Controller {
 
     onStepSizeChange(data) {
         this.model.updateOptions(data);
+        this.sliderView.update(true);
+        this.scaleView.update(true);
+        this.inputsView.update(true);
         this.sliderView.update();
-        this.inputsView.update();
-        this.scaleView.update();
     }
     onOrientationChange() {
         let orientation = this.model.getOption("orientation");
@@ -76,5 +80,11 @@ export class Controller {
         this.sliderView.update(true);
         this.scaleView.update(true);
         this.optionsPanelView.update();
+    }
+    onMaxValueChange(data) {
+        this.model.updateOptions(data);
+        this.sliderView.update(true);
+        this.scaleView.update(true);
+        this.inputsView.update(true);
     }
 }

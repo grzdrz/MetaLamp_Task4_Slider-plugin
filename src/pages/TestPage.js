@@ -11,7 +11,7 @@ let options2 = {
     handleHeight: 10,
     title: "some range slider",
     minValue: 0,
-    maxValue: 100,
+    maxValue: 123,
     borderThickness: 10,
     firstValue: 0,
     lastValue: 50,

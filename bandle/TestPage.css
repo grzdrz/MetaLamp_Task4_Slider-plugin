@@ -15,31 +15,7 @@
   flex-direction: column;
   background: white;
   width: max-content;
-  height: max-content;
-  /*    &__inputs-value-range {
-        font-family: Montserrat;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 12px;
-        line-height: 15px;
-        text-align: right;
-        text-transform: uppercase;
-        color: rgba(31, 32, 65, 0.5);
-        letter-spacing: 0.03em;
-    }
- */
-  /* &__subtitle {
-        margin-top: 10px;
-
-        &-text {
-            font-family: Montserrat;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 12px;
-            line-height: 14px;
-            color: rgba(31, 32, 65, 0.5);
-        }
-    } */ }
+  height: max-content; }
   .range-slider_horizontal {
     flex-direction: column; }
   .range-slider_vertical {
@@ -57,38 +33,6 @@
     line-height: 15px;
     text-transform: uppercase;
     color: #1f2041; }
-  .range-slider__options-panel-container {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid #50bda5;
-    padding: 10px; }
-    .range-slider__options-panel-container_horizontal {
-      margin-top: 100px; }
-    .range-slider__options-panel-container_vertical {
-      margin-left: 100px; }
-  .range-slider__inputs-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%; }
-  .range-slider__inputs-label {
-    display: flex;
-    flex-direction: row;
-    width: max-content; }
-  .range-slider__step-size-text, .range-slider__orientation-text {
-    margin: 0px;
-    margin-left: 10px;
-    text-align: center;
-    display: inline-flex;
-    align-items: flex-end; }
-  .range-slider__first-input, .range-slider__last-input {
-    width: 200px;
-    border: 1px solid black; }
-  .range-slider__last-input {
-    margin-top: 10px; }
-  .range-slider__step-size-input {
-    width: 200px;
-    margin-top: 10px;
-    border: 1px solid black; }
   .range-slider__main-content-container {
     display: flex;
     /* align-items: center;
@@ -144,15 +88,39 @@
     font-size: 14px;
     position: absolute;
     left: 0px;
-    bottom: 0px;
-    /* &::before{
-            content: '';
-            width: 2px;
-            height: 40px;
-            background: black;
-            position: absolute;
-            top: 0px;
-        } */ }
+    bottom: 0px; }
+  .range-slider__options-panel-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #50bda5;
+    padding: 10px; }
+    .range-slider__options-panel-container_horizontal {
+      margin-top: 100px; }
+    .range-slider__options-panel-container_vertical {
+      margin-left: 100px; }
+  .range-slider__inputs-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%; }
+  .range-slider__inputs-label {
+    display: flex;
+    flex-direction: row;
+    width: max-content; }
+  .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text {
+    margin: 0px;
+    margin-left: 10px;
+    text-align: center;
+    display: inline-flex;
+    align-items: flex-end; }
+  .range-slider__first-input, .range-slider__last-input {
+    width: 200px;
+    border: 1px solid black; }
+  .range-slider__last-input {
+    margin-top: 10px; }
+  .range-slider__step-size-input, .range-slider__max-value-input {
+    width: 200px;
+    margin-top: 10px;
+    border: 1px solid black; }
 
 html,
 body {

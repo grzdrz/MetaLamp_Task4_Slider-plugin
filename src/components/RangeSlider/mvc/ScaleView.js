@@ -4,7 +4,10 @@ export class ScaleView extends View {
     constructor(scaleContainer) {
         super();
 
-        this.segmentsCount;
+        // предельная плотность сегментов - сколько максимум сегментов можно вместить в максимальное значение шкалы,
+        // если минимальный размер сегмента равен размеру шага.
+        // т.е. п/п/с === максимальному числу шагов.
+        this.segmentDensityLimit;
 
         this.scaleContainer = scaleContainer;
 
@@ -29,7 +32,7 @@ export class ScaleView extends View {
 
         this.maxSegmentsCount = modelData.maxSegmentsCount;
 
-        this.segmentsCount = this._calculateSegmentsCount();
+        this.segmentDensityLimit = this._calculateSegmentDensityLimit();
 
         let handleSize = (modelData.orientation === "horizontal" ? modelData.handleWidth : modelData.handleHeight);
 
@@ -63,11 +66,14 @@ export class ScaleView extends View {
             }
         }
 
-        let stepsInSegment = Math.round(this.segmentsCount / this.maxSegmentsCount);
+        //let stepsInSegment = Math.round(this.segmentDensityLimit / this.maxSegmentsCount);
+        //let stepsInSegment = this.segmentDensityLimit;
+        let segmentTEST = this.segmentDensityLimit / this.maxSegmentsCount;
         for (let i = 0; i < this.maxSegmentsCount; i++) {
             let segment = document.createElement("div");
             segment.className = "range-slider__scale-segment";
-            let segmentValue = i * modelData.stepSize * stepsInSegment;
+            // let segmentValue = i * modelData.stepSize * stepsInSegment;
+            let segmentValue = i * modelData.stepSize * Math.round(segmentTEST);
             segment.textContent = segmentValue.toFixed(4);
             segment.dataset.segmentValue = segmentValue;
             segment.addEventListener("click", this._handlerSelectSegment);
@@ -91,7 +97,7 @@ export class ScaleView extends View {
         this._calculateSegmentPosition(segment, segmentValue);
     }
 
-    _calculateSegmentsCount() {
+    _calculateSegmentDensityLimit() {
         let maxValue = this.getModelData("maxValue");
         let minValue = this.getModelData("minValue");
         let stepSize = this.getModelData("stepSize");
