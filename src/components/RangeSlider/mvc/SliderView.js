@@ -253,12 +253,6 @@ export class SliderView extends View {
             targetHandleCountNumber
         ]);
 
-        let isLowestThenLastValue;
-        if (modelData.hasTwoSlider)
-            isLowestThenLastValue = newTargetInputValue <= modelData.lastValue;
-        else
-            isLowestThenLastValue = newTargetInputValue <= modelData.maxValue;
-
         if (targetHandleCountNumber === 1 &&
             newTargetInputValue !== modelData.firstValue) {
             if (newTargetInputValue < modelData.minValue)
@@ -348,16 +342,25 @@ export class SliderView extends View {
         let proportionalValue = (deltaMaxMinValues * cursorPositionInContainer) / (maxDistanceBetweenSliders) + modelData.minValue;
 
         //расчет текущего значения исходя из размера шага
-        return this._calculateNearestPositionForHandler(proportionalValue, modelData.stepSize);
+        return this._calculateNearestPositionForHandler(proportionalValue, modelData.stepSize, modelData.minValue);
     }
 
     // подменяем текущее значение инпута на число к которому ближе всего текущее значение курсора
     // т.е. например шаг 10, значение 78 -> на выходе получаем 80, 
     // или например  шаг 10, значение 73 -> на выходе получаем 70
-    _calculateNearestPositionForHandler(value, stepSize) {
-        let temp1 = value / stepSize;
-        let temp2 = Math.round(temp1);
-        let temp3 = temp2 * stepSize;
+    _calculateNearestPositionForHandler(value, stepSize, minValue) {
+        let temp1;
+        let temp3;
+        if (minValue < 0) {
+            temp1 = (value + Math.abs(minValue)) / stepSize;
+            let temp2 = Math.round(temp1);
+            temp3 = temp2 * stepSize - Math.abs(minValue);
+        }
+        else {
+            temp1 = (value - Math.abs(minValue)) / stepSize;
+            let temp2 = Math.round(temp1);
+            temp3 = temp2 * stepSize + Math.abs(minValue);
+        }
         return this._cutOffJunkValuesFromFraction(temp3, stepSize);
     }
 

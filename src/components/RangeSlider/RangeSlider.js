@@ -30,6 +30,8 @@ const defaultOptions = {
 
 export function createRangeSlider(containerSelector, options) {
     for (let optionName in options) {
+        if (optionName === "stepSize")
+            if (options[optionName] === 0) options[optionName] = 1;
         defaultOptions[optionName] = options[optionName];
     }
     defaultOptions.id = sliderInstanceCount;

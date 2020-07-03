@@ -66,14 +66,28 @@ export class ScaleView extends View {
             }
         }
 
-        //let stepsInSegment = Math.round(this.segmentDensityLimit / this.maxSegmentsCount);
-        //let stepsInSegment = this.segmentDensityLimit;
-        let segmentTEST = this.segmentDensityLimit / this.maxSegmentsCount;
-        for (let i = 0; i < this.maxSegmentsCount; i++) {
+        //первый сегмент
+        let firstSegment = document.createElement("div");
+        firstSegment.className = "range-slider__scale-segment";
+        let firstSegmentValue = modelData.minValue;
+        firstSegment.textContent = firstSegmentValue.toFixed(4);
+        firstSegment.dataset.segmentValue = firstSegmentValue;
+        firstSegment.addEventListener("click", this._handlerSelectSegment);
+        firstSegment.style.fontSize = `${modelData.scaleFontSize}px`;
+        firstSegment.style.lineHeight = `${modelData.scaleFontSize}px`;
+        this.scaleContainer.append(firstSegment);
+        this._calculateSegmentPosition(firstSegment, firstSegmentValue);
+
+        let maxSegmentsCount = this.maxSegmentsCount;
+        if (maxSegmentsCount >= this.segmentDensityLimit)
+            maxSegmentsCount = this.segmentDensityLimit;//для относительно больших сегментов
+        let stepsInOneSegment = Math.round(this.segmentDensityLimit / maxSegmentsCount);
+        for (let i = 1; i < maxSegmentsCount; i++) {
             let segment = document.createElement("div");
             segment.className = "range-slider__scale-segment";
-            // let segmentValue = i * modelData.stepSize * stepsInSegment;
-            let segmentValue = i * modelData.stepSize * Math.round(segmentTEST);
+            let segmentValue = i * modelData.stepSize * stepsInOneSegment + modelData.minValue;
+            if (segmentValue >= modelData.maxValue) break;
+
             segment.textContent = segmentValue.toFixed(4);
             segment.dataset.segmentValue = segmentValue;
             segment.addEventListener("click", this._handlerSelectSegment);
@@ -84,17 +98,17 @@ export class ScaleView extends View {
             this._calculateSegmentPosition(segment, segmentValue);
         }
         //ластецкий сегмент
-        let segment = document.createElement("div");
-        segment.className = "range-slider__scale-segment";
-        let segmentValue = modelData.maxValue;
-        segment.textContent = segmentValue.toFixed(4);
-        segment.dataset.segmentValue = segmentValue;
-        segment.addEventListener("click", this._handlerSelectSegment);
-        segment.style.fontSize = `${modelData.scaleFontSize}px`;
-        segment.style.lineHeight = `${modelData.scaleFontSize}px`;
-        this.scaleContainer.append(segment);
+        let lastSegment = document.createElement("div");
+        lastSegment.className = "range-slider__scale-segment";
+        let lastSegmentValue = modelData.maxValue;
+        lastSegment.textContent = lastSegmentValue.toFixed(4);
+        lastSegment.dataset.segmentValue = lastSegmentValue;
+        lastSegment.addEventListener("click", this._handlerSelectSegment);
+        lastSegment.style.fontSize = `${modelData.scaleFontSize}px`;
+        lastSegment.style.lineHeight = `${modelData.scaleFontSize}px`;
+        this.scaleContainer.append(lastSegment);
 
-        this._calculateSegmentPosition(segment, segmentValue);
+        this._calculateSegmentPosition(lastSegment, lastSegmentValue);
     }
 
     _calculateSegmentDensityLimit() {

@@ -77,7 +77,7 @@ export class Controller {
         this.sliderView.update(true);
         this.scaleView.update(true);
         this.inputsView.update(true);
-        this.sliderView.update();
+        /* this.sliderView.update(); */
     }
     onOrientationChange() {
         let orientation = this.model.getOption("orientation");

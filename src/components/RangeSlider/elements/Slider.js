@@ -34,11 +34,30 @@ export class Handle extends Element {
         }
 
         let handlePositionInContainer
+        let firstValue;
+        if (modelData.firstValue > modelData.maxValue)
+            firstValue = firstValue = modelData.maxValue;
+        else if (modelData.firstValue < modelData.minValue)
+            firstValue = modelData.minValue;
+        else
+            firstValue = modelData.firstValue;
+
+        let lastValue = modelData.lastValue;
+        if (modelData.lastValue > modelData.maxValue)
+            lastValue = lastValue = modelData.maxValue;
+        else if (modelData.lastValue < modelData.minValue)
+            lastValue = modelData.minValue;
+        else
+            lastValue = modelData.lastValue;
+
+        /* firstValue += modelData.minValue;
+        lastValue += modelData.minValue; */
+
         if (this.countNumber === 1) {
-            handlePositionInContainer = ((modelData.firstValue - modelData.minValue) * usedLength) / dMaxMinValue;
+            handlePositionInContainer = ((firstValue - modelData.minValue) * usedLength) / dMaxMinValue;
         }
         else {
-            handlePositionInContainer = ((modelData.lastValue - modelData.minValue) * usedLength) / dMaxMinValue + handleSize;
+            handlePositionInContainer = ((lastValue - modelData.minValue) * usedLength) / dMaxMinValue + handleSize;
         }
         let position = {
             x: (modelData.orientation === "horizontal" ? handlePositionInContainer : 0),

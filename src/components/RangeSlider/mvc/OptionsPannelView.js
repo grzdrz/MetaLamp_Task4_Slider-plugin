@@ -10,6 +10,7 @@ export class OptionsPanelView extends View {
         this._handlerMaxValueChange = this._handlerMaxValueChange.bind(this);
         this._handlerMinValueChange = this._handlerMinValueChange.bind(this);
         this._handlerHandlesCountChange = this._handlerHandlesCountChange.bind(this);
+        this._handlerMaxSegmentsCountChange = this._handlerMaxSegmentsCountChange.bind(this);
 
         this.update = this.update.bind(this);
         this.onStepSizeChange = () => { };
@@ -170,12 +171,33 @@ export class OptionsPanelView extends View {
             minValueLabel.addEventListener("change", this._handlerMinValueChange);
         }
 
+        let maxSegmentsCountLabel = document.createElement("label");
+        {
+            maxSegmentsCountLabel.className = "range-slider__inputs-label";
+
+            let maxSegmentsCountInput = document.createElement("input");
+            maxSegmentsCountInput.type = "number";
+            maxSegmentsCountInput.step = "1";
+            maxSegmentsCountInput.value = modelData.maxSegmentsCount;
+            maxSegmentsCountInput.className = "range-slider__max-value-input";
+
+            let maxSegmentsCountText = document.createElement("p");
+            maxSegmentsCountText.className = "range-slider__max-value-text";
+            maxSegmentsCountText.textContent = "maximum segments count";
+
+            maxSegmentsCountLabel.append(maxSegmentsCountInput);
+            maxSegmentsCountLabel.append(maxSegmentsCountText);
+
+            maxSegmentsCountLabel.addEventListener("change", this._handlerMaxSegmentsCountChange);
+        }
+
 
         this.containerElement.append(stepSizeLabel);
         this.containerElement.append(maxValueLabel);
         this.containerElement.append(minValueLabel);
         this.containerElement.append(orientationLabel);
         this.containerElement.append(handlesCountContainer);
+        this.containerElement.append(maxSegmentsCountLabel);
     }
 
     _handlerStepSizeChange(event) {
@@ -184,6 +206,10 @@ export class OptionsPanelView extends View {
         let currentLabel = event.currentTarget;
         let input = currentLabel.querySelector("input");
         let inputValue = Number.parseFloat(input.value);
+        if (inputValue <= 0) {
+            inputValue = 0.1;
+            input.value = inputValue;
+        }
 
         let optionsToUpdate = {
             stepSize: inputValue,
@@ -240,5 +266,17 @@ export class OptionsPanelView extends View {
             };
             this.onHandlesCountChange(optionsToUpdate);
         }
+    }
+    _handlerMaxSegmentsCountChange(event) {
+        event.preventDefault();
+
+        let currentLabel = event.currentTarget;
+        let input = currentLabel.querySelector("input");
+        let inputValue = Number.parseInt(input.value);
+
+        let optionsToUpdate = {
+            maxSegmentsCount: inputValue,
+        };
+        this.onMaxValueChange(optionsToUpdate);
     }
 }
