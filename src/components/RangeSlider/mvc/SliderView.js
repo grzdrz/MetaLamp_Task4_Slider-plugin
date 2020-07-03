@@ -13,7 +13,10 @@ export class SliderView extends View {
 
         this._handlerMouseDown = this._handlerMouseDown.bind(this);
 
+        this._sliderParts = [];
+
         this.updateInputs = () => { };
+        this.updateModelData = () => { };
     }
 
     initialize() {
@@ -34,6 +37,7 @@ export class SliderView extends View {
 
     _render() {
         let modelData = this.getModelData();
+        this._sliderParts = [];
 
         this.slidersContainer.innerHTML = "";
         //---------------------------------------------------------------------------------------------------
@@ -102,18 +106,33 @@ export class SliderView extends View {
             this.lastSlider.style.width = `${modelData.handleWidth}px`;
             this.lastSlider.style.height = `${modelData.handleHeight}px`;
             this.slidersContainer.append(this.lastSlider);
+
+            if (modelData.lastValue < modelData.firstValue)
+                this.updateModelData({
+                    lastValue: modelData.firstValue,
+                });
         }
 
 
         this.slidersContainerInstance = new SlidersContainer(this, this.slidersContainer);
-        this.firstSliderInstance = new Handle(this, this.firstSlider, this.firstSliderBorder, 1);
-        if (modelData.hasTwoSlider) this.lastSliderInstance = new Handle(this, this.lastSlider, this.lastSliderBorder, 2);
-        this.emptyStripInstance = new EmptyStrip(this, this.emptyStrip);
-        this.filledStripInstance = new FilledStrip(this, this.filledStrip);
+        this._sliderParts.push(this.slidersContainerInstance);
 
-        for (let elementName in this) {
-            if (this[elementName].initialize)
-                this[elementName].initialize();
+        this.firstSliderInstance = new Handle(this, this.firstSlider, this.firstSliderBorder, 1);
+        this._sliderParts.push(this.firstSliderInstance);
+
+        if (modelData.hasTwoSlider) {
+            this.lastSliderInstance = new Handle(this, this.lastSlider, this.lastSliderBorder, 2);
+            this._sliderParts.push(this.lastSliderInstance);
+        }
+
+        this.emptyStripInstance = new EmptyStrip(this, this.emptyStrip);
+        this._sliderParts.push(this.emptyStripInstance);
+
+        this.filledStripInstance = new FilledStrip(this, this.filledStrip);
+        this._sliderParts.push(this.filledStripInstance);
+
+        for (let part of this._sliderParts) {/////
+            if (part.initialize) part.initialize();
         }
 
         this._setEventHandlers(modelData);

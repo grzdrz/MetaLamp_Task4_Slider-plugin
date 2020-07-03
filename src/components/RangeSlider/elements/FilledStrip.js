@@ -34,7 +34,7 @@ export class FilledStrip extends Element {
             }
             else if (modelData.orientation === "vertical") {
                 this.setPosition({ y: 0 });
-                this.setSize({ height: firstSlider.position.y });
+                this.setSize({ height: firstSlider.position.y + firstSlider.size.height / 2});
             }
         }
 

@@ -106,7 +106,7 @@
     display: flex;
     flex-direction: row;
     width: max-content; }
-  .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text {
+  .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__handles-count-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;
@@ -117,10 +117,16 @@
     border: 1px solid black; }
   .range-slider__last-input {
     margin-top: 10px; }
-  .range-slider__step-size-input, .range-slider__max-value-input {
+  .range-slider__step-size-input, .range-slider__max-value-input, .range-slider__min-value-input {
     width: 200px;
     margin-top: 10px;
     border: 1px solid black; }
+  .range-slider__handles-count-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+  .range-slider__handles-count-input {
+    width: max-content; }
 
 html,
 body {

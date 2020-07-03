@@ -25,7 +25,9 @@
 
 &__step-size-text,
 &__orientation-text,
-&__max-value-text {
+&__max-value-text,
+&__min-value-text,
+&__handles-count-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;
@@ -42,8 +44,19 @@
 }
 
 &__step-size-input,
-&__max-value-input {
+&__max-value-input,
+&__min-value-input {
     width: 200px;
     margin-top: 10px;
     border: 1px solid black;
+}
+
+&__handles-count-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+&__handles-count-input {
+    width: max-content;
 }

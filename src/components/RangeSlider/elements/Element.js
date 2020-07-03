@@ -16,8 +16,11 @@ export class Element {
     }
 
     setPosition(position) {
-        position.x !== undefined ? this.position.x = position.x : this.position.x;
-        position.y !== undefined ? this.position.y = position.y : this.position.y;
+        this.position.x
+        //position.x !== undefined ? this.position.x = position.x : this.position.x;
+        this.position.x = (position.x !== undefined ? position.x : this.position.x);
+        //position.y !== undefined ? this.position.y = position.y : this.position.y;
+        this.position.y = (position.y !== undefined ? position.y : this.position.y);
 
         this.renderPosition();
     }

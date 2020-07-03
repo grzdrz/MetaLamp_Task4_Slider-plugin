@@ -12,8 +12,11 @@ export class Controller {
         this.scaleView.getModelData = this.getModelData;
         this.optionsPanelView.getModelData = this.getModelData;
 
+        this.updateModelData = this.updateModelData.bind(this);
+
         this.updateInputs = this.updateInputs.bind(this);
         this.sliderView.updateInputs = this.updateInputs;
+        this.sliderView.updateModelData = this.updateModelData;
 
         this.updateSliders = this.updateSliders.bind(this);
         this.inputsView.updateSliders = this.updateSliders;
@@ -29,6 +32,11 @@ export class Controller {
 
         this.onMaxValueChange = this.onMaxValueChange.bind(this);
         this.optionsPanelView.onMaxValueChange = this.onMaxValueChange;
+        this.onMinValueChange = this.onMinValueChange.bind(this);
+        this.optionsPanelView.onMinValueChange = this.onMinValueChange;
+
+        this.onHandlesCountChange = this.onHandlesCountChange.bind(this);
+        this.optionsPanelView.onHandlesCountChange = this.onHandlesCountChange;
 
         this.initialize();
     }
@@ -47,6 +55,9 @@ export class Controller {
             return this.model.getOptions();
     }
 
+    updateModelData(data) {
+        this.model.updateOptions(data);
+    }
     updateInputs(data) {
         this.model.updateOptions(data);
         this.inputsView.update();
@@ -82,6 +93,18 @@ export class Controller {
         this.optionsPanelView.update();
     }
     onMaxValueChange(data) {
+        this.model.updateOptions(data);
+        this.sliderView.update(true);
+        this.scaleView.update(true);
+        this.inputsView.update(true);
+    }
+    onMinValueChange(data) {
+        this.model.updateOptions(data);
+        this.sliderView.update(true);
+        this.scaleView.update(true);
+        this.inputsView.update(true);
+    }
+    onHandlesCountChange(data) {
         this.model.updateOptions(data);
         this.sliderView.update(true);
         this.scaleView.update(true);

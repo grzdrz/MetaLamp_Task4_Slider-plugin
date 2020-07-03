@@ -8,15 +8,41 @@ import { Controller } from "./mvc/Controller.js";
 
 import "./RangeSlider.scss";
 
+let sliderInstanceCount = 0;
+
+const defaultOptions = {
+    sliderStripLength: 500,
+    sliderStripThickness: 10,
+    handleWidth: 15,
+    handleHeight: 15,
+    minValue: -100,
+    maxValue: 100,
+    borderThickness: 5,
+    firstValue: 0,
+    lastValue: 50,
+    stepSize: 10,
+    orientation: "horizontal",// vertical | horizontal
+    hasTwoSlider: false,
+    isInterval: true,
+    maxSegmentsCount: 10,
+    scaleFontSize: 20,
+};
+
 export function createRangeSlider(containerSelector, options) {
-    let model = new Model(options);
+    for (let optionName in options) {
+        defaultOptions[optionName] = options[optionName];
+    }
+    defaultOptions.id = sliderInstanceCount;
+    sliderInstanceCount++;
+
+    let model = new Model(defaultOptions);
 
     let rangeSlidersContainer = document.querySelector(containerSelector);
     let sliderContainer = document.createElement("div");
     let inputsContainer = document.createElement("div");
     let scaleContainer = document.createElement("div");
     let optionsPanelContainer = document.createElement("div");
-    _render(options, {
+    _render({
         rangeSlidersContainer: rangeSlidersContainer,
         sliderContainer: sliderContainer,
         inputsContainer: inputsContainer,
@@ -25,15 +51,15 @@ export function createRangeSlider(containerSelector, options) {
     });
 
     let sliderView = new SliderView(sliderContainer);
-    let inputsView = new InputsView(options, inputsContainer);
+    let inputsView = new InputsView(defaultOptions, inputsContainer);
     let scaleView = new ScaleView(scaleContainer);
     let optionsPanelView = new OptionsPanelView(optionsPanelContainer);
 
     let controller = new Controller(model, sliderView, inputsView, scaleView, optionsPanelView);
 };
 
-function _render(options, elements) {
-    let { 
+function _render(elements) {
+    let {
         rangeSlidersContainer,
         sliderContainer,
         inputsContainer,
@@ -44,10 +70,10 @@ function _render(options, elements) {
     //плагин
     let rangeSlider = document.createElement("div");
     rangeSlider.className = "range-slider";
-    if (options.orientation === "horizontal") {
+    if (defaultOptions.orientation === "horizontal") {
         rangeSlider.classList.add("range-slider_horizontal");
     }
-    else if (options.orientation === "vertical") {
+    else if (defaultOptions.orientation === "vertical") {
         rangeSlider.classList.add("range-slider_vertical");
     }
 
@@ -70,10 +96,10 @@ function _render(options, elements) {
     //слайдер + шкала
     let mainContentContainer = document.createElement("div");
     mainContentContainer.className = "range-slider__main-content-container";
-    if (options.orientation === "horizontal") {
+    if (defaultOptions.orientation === "horizontal") {
         mainContentContainer.classList.add("range-slider__main-content-container_horizontal");
     }
-    else if (options.orientation === "vertical") {
+    else if (defaultOptions.orientation === "vertical") {
         mainContentContainer.classList.add("range-slider__main-content-container_vertical");
     }
     mainContentContainer.append(sliderContainer);
@@ -88,10 +114,10 @@ function _render(options, elements) {
     //инпуты + опции
     /* optionsPanelContainer = document.createElement("div"); */
     optionsPanelContainer.className = "range-slider__options-panel-container";
-    if (options.orientation === "horizontal") {
+    if (defaultOptions.orientation === "horizontal") {
         optionsPanelContainer.classList.add("range-slider__options-panel-container_horizontal");
     }
-    else if (options.orientation === "vertical") {
+    else if (defaultOptions.orientation === "vertical") {
         optionsPanelContainer.classList.add("range-slider__options-panel-container_vertical");
     }
     optionsPanelContainer.append(inputsContainer);
