@@ -1,20 +1,20 @@
 import { SliderPart } from "./SliderPart.js";
+import { Vector } from "../../../Helpers/Vector.js";
 
 export class Handle extends SliderPart {
     constructor(view, mainDOMElement, outsideDOMElement, countNumber) {
         super(view, mainDOMElement);
 
         this.countNumber = countNumber;
+
         this.outsideDOMElement = outsideDOMElement;
+        this.outsidePosition = new Vector(0, 0);
+        this.outsideSize = new Vector(0, 0);
 
         this.calculatePosition = this.calculatePosition.bind(this);
     }
 
     initialize() {
-        let modelData = this.view.getModelData();
-        this.outsideDOMElement.style.width = `${modelData.borderThickness * 2 + this.size.width}px`;
-        this.outsideDOMElement.style.height = `${modelData.borderThickness * 2 + this.size.height}px`;
-
         this.calculatePosition();
     }
 
@@ -65,15 +65,21 @@ export class Handle extends SliderPart {
         };
         this.setPosition(position);
 
-        this.calculateBorderPosition();
+        this.calculateBorder();
     }
 
-    calculateBorderPosition() {
+    calculateBorder() {
         let modelData = this.view.getModelData();
-        let position = {
-            x: (modelData.orientation === "horizontal" ? this.position.x - modelData.borderThickness : 0),
-            y: (modelData.orientation === "vertical" ? this.position.y - modelData.borderThickness : 0),
-        };
-        this.view.setPosition(this.outsideDOMElement, position);
+
+        this.outsidePosition.x = this.position.x - modelData.borderThickness;
+        this.outsidePosition.y = this.position.y - modelData.borderThickness;
+
+        this.outsideSize.x = modelData.borderThickness * 2 + this.size.width;
+        this.outsideSize.y = modelData.borderThickness * 2 + this.size.height;
+        /* this.outsideDOMElement.style.width = `${modelData.borderThickness * 2 + this.size.width}px`;
+    this.outsideDOMElement.style.height = `${modelData.borderThickness * 2 + this.size.height}px`; */
+
+        this.view.setPosition(this.outsideDOMElement, this.outsidePosition);
+        this.view.setSize(this.outsideDOMElement, this.outsideSize);
     }
 }

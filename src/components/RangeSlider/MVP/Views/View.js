@@ -7,35 +7,22 @@ export class View {
     }
 
     setPosition(element, position) {
-        let orientation = this.getModelData("orientation");
-        if (orientation === "vertical") {
-            if (position.x !== undefined) {
-                let left = "auto";
-                element.style.left = left;
-            }
-            if (position.y !== undefined) {
-                let bottom = `${position.y}px`;
-                element.style.bottom = bottom;
-            }
+        if (position.x || position.x === 0) {
+            let left = `${position.x}px`;
+            element.style.left = left;
         }
-        else {
-            if (position.x !== undefined) {
-                let left = `${position.x}px`;
-                element.style.left = left;
-            }
-            if (position.y !== undefined) {
-                let bottom = "auto";
-                element.style.bottom = bottom;
-            }
+        if (position.y || position.y === 0) {
+            let bottom = `${position.y}px`;
+            element.style.bottom = bottom;
         }
     }
 
     setSize(element, size) {
-        if (size.width !== undefined) {
+        if (size.width || size.width === 0) {
             let width = `${size.width}px`;
             element.style.width = width;
         }
-        if (size.height !== undefined) {
+        if (size.height || size.height === 0) {
             let height = `${size.height}px`;
             element.style.height = height;
         }
