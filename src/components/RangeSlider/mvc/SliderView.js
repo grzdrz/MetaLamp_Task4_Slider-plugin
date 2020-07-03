@@ -211,7 +211,6 @@ export class SliderView extends View {
             mousePositionInsideTargetSlider: mousePositionInsideTargetSlider,
             targetSliderInstance: targetSliderInstance,
             targetHandleCountNumber: targetHandleCountNumber,
-            isLastUpdate: false,
         };
         let handlerMouseMove = this._handlerMouseMove.bind(this, optionsForMouseEvents);
 
@@ -254,30 +253,6 @@ export class SliderView extends View {
             targetHandleCountNumber
         ]);
 
-        if (optionsFromMouseDown.isLastUpdate && targetHandleCountNumber === 1) {
-            if (newTargetInputValue <= modelData.minValue) {
-                newTargetInputValue = modelData.minValue;
-            }
-            else if (modelData.hasTwoSlider) {
-                if (newTargetInputValue >= modelData.lastValue) {
-                    newTargetInputValue = modelData.lastValue;
-                }
-            }
-            else {
-                if (newTargetInputValue >= modelData.maxValue) {
-                    newTargetInputValue = modelData.maxValue;
-                }
-            }
-        }
-        else if (optionsFromMouseDown.isLastUpdate && targetHandleCountNumber === 2) {
-            if (newTargetInputValue >= modelData.maxValue) {
-                newTargetInputValue = modelData.maxValue;
-            }
-            else if (newTargetInputValue <= modelData.firstValue) {
-                newTargetInputValue = modelData.firstValue;
-            }
-        }
-
         let isLowestThenLastValue;
         if (modelData.hasTwoSlider)
             isLowestThenLastValue = newTargetInputValue <= modelData.lastValue;
@@ -285,11 +260,15 @@ export class SliderView extends View {
             isLowestThenLastValue = newTargetInputValue <= modelData.maxValue;
 
         if (targetHandleCountNumber === 1 &&
-            newTargetInputValue !== modelData.firstValue &&
-            isLowestThenLastValue &&
-            newTargetInputValue >= modelData.minValue) {
-            // перезапись значения инпута 
-            this.updateInputs({ firstValue: newTargetInputValue });
+            newTargetInputValue !== modelData.firstValue) {
+            if (newTargetInputValue < modelData.minValue)
+                this.updateInputs({ firstValue: modelData.minValue });
+            else if (newTargetInputValue > modelData.lastValue && modelData.hasTwoSlider)
+                this.updateInputs({ firstValue: modelData.lastValue });
+            else if (newTargetInputValue > modelData.maxValue)
+                this.updateInputs({ firstValue: modelData.maxValue });
+            else
+                this.updateInputs({ firstValue: newTargetInputValue });
 
             // перезапись значения позиции ползунка
             targetSliderInstance.calculatePosition();
@@ -297,11 +276,13 @@ export class SliderView extends View {
         }
         else if (modelData.hasTwoSlider) {
             if (targetHandleCountNumber === 2 &&
-                newTargetInputValue !== modelData.lastValue &&
-                newTargetInputValue >= modelData.firstValue &&
-                newTargetInputValue <= modelData.maxValue) {
-                // перезапись значения инпута 
-                this.updateInputs({ lastValue: newTargetInputValue });
+                newTargetInputValue !== modelData.lastValue) {
+                if (newTargetInputValue > modelData.maxValue)
+                    this.updateInputs({ lastValue: modelData.maxValue });
+                else if (newTargetInputValue < modelData.firstValue)
+                    this.updateInputs({ lastValue: modelData.firstValue });
+                else
+                    this.updateInputs({ lastValue: newTargetInputValue });
 
                 // перезапись значения позиции ползунка
                 targetSliderInstance.calculatePosition();
@@ -315,15 +296,6 @@ export class SliderView extends View {
         document.removeEventListener("mouseup", optionsFromMouseDown.handlerMouseUp);
         document.removeEventListener("touchmove", optionsFromMouseDown.handlerMouseMove);
         document.removeEventListener("touchend", optionsFromMouseDown.handlerMouseUp);
-
-        optionsFromMouseDown.isLastUpdate = true;
-        optionsFromMouseDown.handlerMouseMove(event);
-
-        // optionsFromMouseDown.isLastUpdate и последний запуск optionsFromMouseDown.handlerMouseMove нужны для случаев
-        // когда из-за быстрого движения курсора происходит неточный расчет координат курсора и при маленьких размерах хода
-        // можно получить неточные значения на границах(при столкновении ползунков друг с другом или с предельными боковыми границами).
-        // Финальный запуск handlerMouseMove в свою очередь просто приравнивает позиции ползунков и значения инпутов 
-        // к соответствующим границам за которые они вышли. 
     }
 
     _calculateValueProportionalToPixelValue(args) {

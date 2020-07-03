@@ -14,8 +14,8 @@ let options2 = {
     borderThickness: 10,
     firstValue: 0,
     lastValue: 50,
-    stepSize: 10,
-    orientation: "vertical",// vertical | horizontal
+    stepSize: 0.000001,
+    orientation: "horizontal",// vertical | horizontal
     hasTwoSlider: true,
     isInterval: true,
     maxSegmentsCount: 5,
