@@ -1,6 +1,6 @@
-import { Element } from "./Element.js";
+import { SliderPart } from "./SliderPart.js";
 
-export class Handle extends Element {
+export class Handle extends SliderPart {
     constructor(view, mainDOMElement, outsideDOMElement, countNumber) {
         super(view, mainDOMElement);
 

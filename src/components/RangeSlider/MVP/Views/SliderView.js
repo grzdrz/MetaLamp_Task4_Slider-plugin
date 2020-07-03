@@ -1,9 +1,11 @@
 import { View } from "./View.js";
 
-import { SlidersContainer } from "../elements/SlidersContainer.js";
-import { Handle } from "../elements/Slider.js";
-import { FilledStrip } from "../elements/FilledStrip.js";
-import { EmptyStrip } from "../elements/EmptyStrip.js";
+import { SlidersContainer } from "./SliderParts/SliderContainer.js";
+import { Handle } from "./SliderParts/Handle.js";
+import { FilledStrip } from "./SliderParts/FilledStrip.js";
+import { EmptyStrip } from "./SliderParts/EmptyStrip.js";
+
+import { MathFunctions } from "../../Helpers/MathFunctions.js";
 
 export class SliderView extends View {
     constructor(mainContentContainer) {
@@ -15,8 +17,8 @@ export class SliderView extends View {
 
         this._sliderParts = [];
 
-        this.updateInputs = () => { };
-        this.updateModelData = () => { };
+        this.onHandleMove = () => { };
+        this.onModelOptionUpdate = () => { };
     }
 
     initialize() {
@@ -24,13 +26,12 @@ export class SliderView extends View {
     }
 
     update(neededRerender) {
-        if (neededRerender) {
+        if (neededRerender) {//полный перерендер всех элементов слайдера
             this._render();
         }
-        else {
-            for (let elementName in this) {
-                if (this[elementName].calculatePosition)
-                    this[elementName].calculatePosition();
+        else {//или просто обновление их состояний
+            for (let part of this._sliderParts) {/////
+                if (part.calculatePosition) part.calculatePosition();
             }
         }
     }
@@ -108,7 +109,7 @@ export class SliderView extends View {
             this.slidersContainer.append(this.lastSlider);
 
             if (modelData.lastValue < modelData.firstValue)
-                this.updateModelData({
+                this.onModelOptionUpdate({
                     lastValue: modelData.firstValue,
                 });
         }
@@ -213,11 +214,9 @@ export class SliderView extends View {
             targetHandleCountNumber: targetHandleCountNumber,
         };
         let handlerMouseMove = this._handlerMouseMove.bind(this, optionsForMouseEvents);
-
         optionsForMouseEvents.handlerMouseMove = handlerMouseMove;// чтобы обработчик mouseMove можно было отписать
 
         let handlerMouseUp = this._handlerMouseUp.bind(this, optionsForMouseEvents);
-
         optionsForMouseEvents.handlerMouseUp = handlerMouseUp;// -//-
 
         document.addEventListener("mousemove", handlerMouseMove);
@@ -256,13 +255,13 @@ export class SliderView extends View {
         if (targetHandleCountNumber === 1 &&
             newTargetInputValue !== modelData.firstValue) {
             if (newTargetInputValue < modelData.minValue)
-                this.updateInputs({ firstValue: modelData.minValue });
+                this.onHandleMove({ firstValue: modelData.minValue });
             else if (newTargetInputValue > modelData.lastValue && modelData.hasTwoSlider)
-                this.updateInputs({ firstValue: modelData.lastValue });
+                this.onHandleMove({ firstValue: modelData.lastValue });
             else if (newTargetInputValue > modelData.maxValue)
-                this.updateInputs({ firstValue: modelData.maxValue });
+                this.onHandleMove({ firstValue: modelData.maxValue });
             else
-                this.updateInputs({ firstValue: newTargetInputValue });
+                this.onHandleMove({ firstValue: newTargetInputValue });
 
             // перезапись значения позиции ползунка
             targetSliderInstance.calculatePosition();
@@ -272,11 +271,11 @@ export class SliderView extends View {
             if (targetHandleCountNumber === 2 &&
                 newTargetInputValue !== modelData.lastValue) {
                 if (newTargetInputValue > modelData.maxValue)
-                    this.updateInputs({ lastValue: modelData.maxValue });
+                    this.onHandleMove({ lastValue: modelData.maxValue });
                 else if (newTargetInputValue < modelData.firstValue)
-                    this.updateInputs({ lastValue: modelData.firstValue });
+                    this.onHandleMove({ lastValue: modelData.firstValue });
                 else
-                    this.updateInputs({ lastValue: newTargetInputValue });
+                    this.onHandleMove({ lastValue: newTargetInputValue });
 
                 // перезапись значения позиции ползунка
                 targetSliderInstance.calculatePosition();
@@ -300,55 +299,42 @@ export class SliderView extends View {
             targetHandleCountNumber
         ] = args;
 
-        let containerBoundingRect;
-        if (modelData.orientation === "horizontal") {
-            containerBoundingRect = this.slidersContainerInstance.DOMElement.getBoundingClientRect();
-        }
-        else if (modelData.orientation === "vertical") {
-            containerBoundingRect = this.slidersContainerInstance.DOMElement.getBoundingClientRect();
-            containerBoundingRect.y = (document.documentElement.clientHeight - pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height);
-        }
-
+        let containerBoundingRect = this.slidersContainerInstance.DOMElement.getBoundingClientRect();
         let cursorPositionInContainer;
+        let maxDistanceBetweenSliders;
         if (modelData.orientation === "horizontal") {
             cursorPositionInContainer = mouseGlobalPosition - containerBoundingRect.x - mousePositionInsideTargetSlider;
-        }
-        else if (modelData.orientation === "vertical") {
-            cursorPositionInContainer = mouseGlobalPosition - containerBoundingRect.y - mousePositionInsideTargetSlider;
-        }
-
-        let maxDistanceBetweenSliders;
-        if (modelData.hasTwoSlider) {
-            if (modelData.orientation === "horizontal") {
+            if (modelData.hasTwoSlider) {
                 targetHandleCountNumber === 2 ? cursorPositionInContainer -= this.firstSliderInstance.size.width : 0;
                 maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width * 2;
             }
-            else if (modelData.orientation === "vertical") {
+            else {
+                maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width;
+            }
+        }
+        else if (modelData.orientation === "vertical") {
+            containerBoundingRect.y = (document.documentElement.clientHeight - pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height);
+            cursorPositionInContainer = mouseGlobalPosition - containerBoundingRect.y - mousePositionInsideTargetSlider;
+            if (modelData.hasTwoSlider) {
                 targetHandleCountNumber === 2 ? cursorPositionInContainer -= this.firstSliderInstance.size.height : 0;
                 maxDistanceBetweenSliders = containerBoundingRect.height - this.firstSliderInstance.size.height * 2;
             }
-        }
-        else {
-            if (modelData.orientation === "horizontal") {
-                maxDistanceBetweenSliders = containerBoundingRect.width - this.firstSliderInstance.size.width;
-            }
-            else if (modelData.orientation === "vertical") {
+            else {
                 maxDistanceBetweenSliders = containerBoundingRect.height - this.firstSliderInstance.size.height;
             }
         }
 
         let deltaMaxMinValues = modelData.maxValue - modelData.minValue;
-
         let proportionalValue = (deltaMaxMinValues * cursorPositionInContainer) / (maxDistanceBetweenSliders) + modelData.minValue;
 
         //расчет текущего значения исходя из размера шага
-        return this._calculateNearestPositionForHandler(proportionalValue, modelData.stepSize, modelData.minValue);
+        return this._calculateNearestPositionForHandle(proportionalValue, modelData.stepSize, modelData.minValue);
     }
 
     // подменяем текущее значение инпута на число к которому ближе всего текущее значение курсора
     // т.е. например шаг 10, значение 78 -> на выходе получаем 80, 
     // или например  шаг 10, значение 73 -> на выходе получаем 70
-    _calculateNearestPositionForHandler(value, stepSize, minValue) {
+    _calculateNearestPositionForHandle(value, stepSize, minValue) {
         let temp1;
         let temp3;
         if (minValue < 0) {
@@ -361,57 +347,6 @@ export class SliderView extends View {
             let temp2 = Math.round(temp1);
             temp3 = temp2 * stepSize + Math.abs(minValue);
         }
-        return this._cutOffJunkValuesFromFraction(temp3, stepSize);
-    }
-
-    // доп. обработка значения, на случай если шаг дробный для того чтобы убрать лишние дробные значения
-    _cutOffJunkValuesFromFraction(value, stepSize) {
-        // переводим значение шага в строку(попутно проверяя на наличие формата с экспонентой если дробь длинная)
-        let temp411;
-        if (this._hasEInNumber(stepSize)) {
-            temp411 = this._getStringOfNumberWithoutE(stepSize);
-        }
-        else
-            temp411 = stepSize.toString();
-
-        // выделяем дробную часть
-        let temp41 = temp411.split(".");
-        let temp42 = temp41[1];
-
-        // если дробная часть существует, то округляем значение до длины дробной части шага,
-        // тем самым отрезая мусорные значения дроби, которые переодически появляются из-за неточностей при работе js с десятичными числами
-        if (temp42) {
-            let countOfNumbers = temp42.length;
-            return Number.parseFloat(value.toFixed(countOfNumbers));
-        }
-        else return value;
-    }
-
-    // заменяет строку с числом в формате с экспонентой на строку с числом в обычном формате
-    // например "1e-9" -> на выходе получаем "0.000000001"
-    // p.s. код стырен со стаковерфлове
-    _getStringOfNumberWithoutE(number) {
-        let data = number.toString().split(/[eE]/);
-        if (data.length === 1) return data[0];
-
-        let z = '',
-            sign = this < 0 ? '-' : '',
-            str = data[0].replace('.', ''),
-            mag = Number(data[1]) + 1;
-
-        if (mag < 0) {
-            z = sign + '0.';
-            while (mag++) z += '0';
-            return z + str.replace(/^\-/, '');
-        }
-        mag -= str.length;
-        while (mag--) z += '0';
-        return str + z;
-    }
-
-    // проверка на запись очень большого(или маленького) числа через e(например 1e-10)
-    _hasEInNumber(number) {
-        let splitByE = number.toString().split("e");
-        return splitByE.length === 2;
+        return MathFunctions._cutOffJunkValuesFromFraction(temp3, stepSize);
     }
 }

@@ -1,6 +1,6 @@
-import { Element } from "./Element.js";
+import { SliderPart } from "./SliderPart.js";
 
-export class EmptyStrip extends Element {
+export class EmptyStrip extends SliderPart {
     constructor(view, DOMElement) {
         super(view, DOMElement);
 

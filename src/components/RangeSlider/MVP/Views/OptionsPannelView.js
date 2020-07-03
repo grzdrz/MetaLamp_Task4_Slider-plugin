@@ -13,11 +13,8 @@ export class OptionsPanelView extends View {
         this._handlerMaxSegmentsCountChange = this._handlerMaxSegmentsCountChange.bind(this);
 
         this.update = this.update.bind(this);
-        this.onStepSizeChange = () => { };
         this.onOrientationChange = () => { };
-        this.onMaxValueChange = () => { };
-        this.onMinValueChange = () => { };
-        this.onHandlesCountChange = () => { };
+        this.onModelStateUpdate = () => { };
     }
 
     initialize() {
@@ -214,16 +211,27 @@ export class OptionsPanelView extends View {
         let optionsToUpdate = {
             stepSize: inputValue,
         };
-        this.onStepSizeChange(optionsToUpdate);
+        this.onModelStateUpdate(optionsToUpdate);
     }
 
     _handlerOrientationChange(event) {
         event.preventDefault();
 
-        let currentLabel = event.currentTarget;
-        /* if (currentLabel.checked) */
+        let orientation = this.getModelData("orientation");
 
-        this.onOrientationChange();
+        let optionsToUpdate;
+        if (orientation === "horizontal") {
+            optionsToUpdate = {
+                orientation: "vertical",
+            };
+        }
+        else {
+            optionsToUpdate = {
+                orientation: "horizontal",
+            };
+        }
+
+        this.onModelStateUpdate(optionsToUpdate);
     }
     _handlerMaxValueChange(event) {
         event.preventDefault();
@@ -235,7 +243,7 @@ export class OptionsPanelView extends View {
         let optionsToUpdate = {
             maxValue: inputValue,
         };
-        this.onMaxValueChange(optionsToUpdate);
+        this.onModelStateUpdate(optionsToUpdate);
     }
     _handlerMinValueChange(event) {
         event.preventDefault();
@@ -247,25 +255,27 @@ export class OptionsPanelView extends View {
         let optionsToUpdate = {
             minValue: inputValue,
         };
-        this.onMinValueChange(optionsToUpdate);
+        this.onModelStateUpdate(optionsToUpdate);
     }
     _handlerHandlesCountChange(event) {
         event.preventDefault();
 
         let currentLabel = event.currentTarget;
         let handlesCount = currentLabel.dataset.handlesCount;
+
+        let optionsToUpdate;
         if (Number.parseInt(handlesCount) === 1) {
-            let optionsToUpdate = {
+            optionsToUpdate = {
                 hasTwoSlider: false,
             };
-            this.onHandlesCountChange(optionsToUpdate);
         }
         else {
-            let optionsToUpdate = {
+            optionsToUpdate = {
                 hasTwoSlider: true,
             };
-            this.onHandlesCountChange(optionsToUpdate);
         }
+
+        this.onModelStateUpdate(optionsToUpdate);
     }
     _handlerMaxSegmentsCountChange(event) {
         event.preventDefault();
@@ -277,6 +287,6 @@ export class OptionsPanelView extends View {
         let optionsToUpdate = {
             maxSegmentsCount: inputValue,
         };
-        this.onMaxValueChange(optionsToUpdate);
+        this.onModelStateUpdate(optionsToUpdate);
     }
 }

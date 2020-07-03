@@ -1,10 +1,10 @@
-import { SliderView } from "./mvc/SliderView.js";
-import { InputsView } from "./mvc/InputsView.js";
-import { ScaleView } from "./mvc/ScaleView.js";
-import { OptionsPanelView } from "./mvc/OptionsPannelView.js";
+import { SliderView } from "./MVP/Views/SliderView.js";
+import { InputsView } from "./MVP/Views/InputsView.js";
+import { ScaleView } from "./MVP/Views/ScaleView.js";
+import { OptionsPanelView } from "./MVP/Views/OptionsPannelView.js";
 
-import { Model } from "./mvc/Model.js";
-import { Controller } from "./mvc/Controller.js";
+import { Model } from "./MVP/Model.js";
+import { Presenter } from "./MVP/Presenter.js";
 
 import "./RangeSlider.scss";
 
@@ -57,7 +57,7 @@ export function createRangeSlider(containerSelector, options) {
     let scaleView = new ScaleView(scaleContainer);
     let optionsPanelView = new OptionsPanelView(optionsPanelContainer);
 
-    let controller = new Controller(model, sliderView, inputsView, scaleView, optionsPanelView);
+    let presenter = new Presenter(model, sliderView, inputsView, scaleView, optionsPanelView);
 };
 
 function _render(elements) {

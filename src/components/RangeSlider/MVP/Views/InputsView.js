@@ -15,7 +15,8 @@ export class InputsView extends View {
             this.inputsContainer.append(this.lastInputDOMElement);
         }
 
-        this.updateSliders = () => { };
+        //this.updateSliders = () => { };
+        this.onInputChange = () => { };
 
         this.onFirstInputChange = this.onFirstInputChange.bind(this);
         if (baseModelData.hasTwoSlider) {
@@ -59,7 +60,9 @@ export class InputsView extends View {
         }
 
         event.currentTarget.value = value;
-        this.updateSliders({ firstValue: value });
+        this.onInputChange({
+            firstValue: value
+        });
     }
     onLastInputChange(event) {
         let modelData = this.getModelData();
@@ -75,6 +78,8 @@ export class InputsView extends View {
             value = modelData.firstValue;
 
         event.currentTarget.value = value;
-        this.updateSliders({ lastValue: value });
+        this.onInputChange({
+            lastValue: value
+        });
     }
 }

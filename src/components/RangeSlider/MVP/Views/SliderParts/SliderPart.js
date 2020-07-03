@@ -1,4 +1,4 @@
-export class Element {
+export class SliderPart {
     constructor(view, DOMElement) {
         this.DOMElement = DOMElement;
         this.view = view;
