@@ -13,7 +13,7 @@ export class SlidersContainer extends SliderPart {
         this.calculatePosition();
     }
 
-    calculatePosition(){
+    calculatePosition() {
         let modelData = this.view.getModelData();
 
         let radFromDeg = modelData.angle * (Math.PI / 180);

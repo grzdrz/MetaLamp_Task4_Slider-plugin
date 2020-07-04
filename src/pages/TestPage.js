@@ -20,7 +20,7 @@ let options2 = {
     isInterval: true,
     maxSegmentsCount: 5,
     scaleFontSize: 15,
-    angle: 30,
+    angle: 60,
 };
 createRangeSlider(".test-page__tested-range-slider-container2", options2);
 
