@@ -30,16 +30,12 @@ export class EmptyStrip extends SliderPart {
             x: 0,
             y: handleSize.height / 2 - (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2,
         });
-        if (modelData.orientation === "horizontal")
-            this.angle = 0;
-        else
-            this.angle = -90;
 
         let transformOrigin = {//точка вращения - отступ на половину размера ползунка от основания полосы и отступ до центра полосы в ее толщине
             x: handle.size.width / 2,
             y: (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2,
         };
         this.DOMElement.style.transformOrigin = `${transformOrigin.x}px ${transformOrigin.y}px`;
-        this.DOMElement.style.transform = `rotate(${this.angle}deg)`;
+        this.DOMElement.style.transform = `rotate(${-modelData.angle}deg)`;
     }
 }

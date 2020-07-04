@@ -26,6 +26,7 @@ const defaultOptions = {
     isInterval: true,
     maxSegmentsCount: 10,
     scaleFontSize: 20,
+    angle: 0,
 };
 
 export function createRangeSlider(containerSelector, options) {

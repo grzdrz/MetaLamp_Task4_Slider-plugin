@@ -22,7 +22,8 @@ export class Handle extends SliderPart {
         let modelData = this.view.getModelData();
 
         let sliderContainerLength = modelData.sliderStripLength;
-        let handleSize = (modelData.orientation === "horizontal" ? this.size.width : this.size.height);
+        /* let handleSize = (modelData.orientation === "horizontal" ? this.size.width : this.size.height); */
+        let handleSize = this.size.width;
         let dMaxMinValue = modelData.maxValue - modelData.minValue;
 
         let usedLength;
@@ -59,9 +60,14 @@ export class Handle extends SliderPart {
         else {
             handlePositionInContainer = ((lastValue - modelData.minValue) * usedLength) / dMaxMinValue + handleSize;
         }
-        let position = {
+        /* let position = {
             x: (modelData.orientation === "horizontal" ? handlePositionInContainer : 0),
             y: (modelData.orientation === "vertical" ? handlePositionInContainer : 0),
+        }; */
+        let radFromDeg = modelData.angle * (Math.PI / 180);
+        let position = {
+            x: handlePositionInContainer * Math.cos(radFromDeg),
+            y: handlePositionInContainer * Math.sin(radFromDeg),
         };
         this.setPosition(position);
 

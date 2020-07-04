@@ -20,11 +20,12 @@ let options2 = {
     isInterval: true,
     maxSegmentsCount: 5,
     scaleFontSize: 15,
+    angle: 30,
 };
 createRangeSlider(".test-page__tested-range-slider-container2", options2);
 
 
-let options1 = {
+/* let options1 = {
     sliderStripLength: 650,
     sliderStripThickness: 10,
     handleWidth: 10,
@@ -40,6 +41,7 @@ let options1 = {
     isInterval: true,
     maxSegmentsCount: 10,
     scaleFontSize: 20,
+    angle: 90,
 };
 createRangeSlider(".test-page__tested-range-slider-container", options1);
 
@@ -59,6 +61,7 @@ let options3 = {
     isInterval: true,
     maxSegmentsCount: 10,
     scaleFontSize: 10,
+    angle: 0,
 };
 createRangeSlider(".test-page__tested-range-slider-container3", options3);
 
@@ -78,7 +81,8 @@ let options4 = {
     isInterval: true,
     maxSegmentsCount: 10,
     scaleFontSize: 20,
+    angle: 90,
 };
-createRangeSlider(".test-page__tested-range-slider-container4", options4);
+createRangeSlider(".test-page__tested-range-slider-container4", options4); */
 
 import "./TestPage.scss"; 

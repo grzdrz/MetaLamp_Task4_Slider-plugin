@@ -18,11 +18,6 @@ export class FilledStrip extends SliderPart {
         let firstSlider = this.view.firstSliderInstance;
         let lastSlider = this.view.lastSliderInstance;
 
-        if (modelData.orientation === "horizontal")
-            this.angle = 0;
-        else
-            this.angle = 90;
-
         let handle = this.view.firstSliderInstance;
         let handleSize = handle.size;
         let styles = getComputedStyle(this.DOMElement);
@@ -37,7 +32,7 @@ export class FilledStrip extends SliderPart {
                 height: modelData.sliderStripThickness + (borderWidthTop + borderWidthBottom),
                 width: width - (borderWidthLeft + borderWidthRight),
             });
-            let radFromDeg = this.angle * (Math.PI / 180);
+            let radFromDeg = modelData.angle * (Math.PI / 180);
             //превращаем ширину ползунка в вектор, чтобы повернуть его и прибавить его половину к вектору позиции полосы
             let testVector = new Vector(firstSlider.size.width * Math.cos(radFromDeg), firstSlider.size.width * Math.sin(radFromDeg));
             this.setPosition({
@@ -62,7 +57,7 @@ export class FilledStrip extends SliderPart {
             y: (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2,
         };
         this.DOMElement.style.transformOrigin = `${transformOrigin.x}px ${transformOrigin.y}px`;
-        this.DOMElement.style.transform = `rotate(${-this.angle}deg)`;//минус из-за нестандартного направления обхода функции rotate
+        this.DOMElement.style.transform = `rotate(${-modelData.angle}deg)`;//минус из-за нестандартного направления обхода функции rotate
         //------------------------------------------------------------------------------------
 
 

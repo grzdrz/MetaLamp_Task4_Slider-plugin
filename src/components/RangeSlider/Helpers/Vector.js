@@ -56,6 +56,16 @@ export class Vector {
         );
     }
 
+    subtract(vector) {//из текущего вычитает вектор аргумент
+        if ((!vector.x && vector.x !== 0) || (!vector.y && vector.y !== 0))
+            throw new Error("wrong vector");
+
+        return new Vector(
+            this._x - vector.x,
+            this._y - vector.y
+        );
+    }
+
     multiplyByNumber(number) {
         return new Vector(
             this._x * number,
