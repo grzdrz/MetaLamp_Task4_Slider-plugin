@@ -16,11 +16,11 @@ export class EmptyStrip extends SliderPart {
 
         let handle = this.view.firstSliderInstance;
         let handleSize = handle.size;
-        let handleStyles = getComputedStyle(this.DOMElement);
-        let borderWidthLeft = Number.parseInt(handleStyles.borderLeftWidth);
-        let borderWidthRight = Number.parseInt(handleStyles.borderRightWidth);
-        let borderWidthTop = Number.parseInt(handleStyles.borderTopWidth);
-        let borderWidthBottom = Number.parseInt(handleStyles.borderBottomWidth);
+        let styles = getComputedStyle(this.DOMElement);
+        let borderWidthLeft = Number.parseInt(styles.borderLeftWidth);
+        let borderWidthRight = Number.parseInt(styles.borderRightWidth);
+        let borderWidthTop = Number.parseInt(styles.borderTopWidth);
+        let borderWidthBottom = Number.parseInt(styles.borderBottomWidth);
 
         this.setSize({
             height: modelData.sliderStripThickness + (borderWidthTop + borderWidthBottom),

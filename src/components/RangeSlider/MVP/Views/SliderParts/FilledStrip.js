@@ -16,76 +16,53 @@ export class FilledStrip extends SliderPart {
         let modelData = this.view.getModelData();
 
         let firstSlider = this.view.firstSliderInstance;
-        let lastSlider = this.view.lastSliderInstance;///
+        let lastSlider = this.view.lastSliderInstance;
 
-        /* if (modelData.hasTwoSlider) {
-            if (modelData.orientation === "horizontal") {
-                this.setPosition({ x: firstSlider.position.x + firstSlider.size.width / 2 });
-                this.setSize({ width: lastSlider.position.x - firstSlider.position.x });
-            }
-            else if (modelData.orientation === "vertical") {
-                this.setPosition({ y: firstSlider.position.y + firstSlider.size.height / 2 });
-                this.setSize({ height: lastSlider.position.y - firstSlider.position.y });
-            }
-        }
-        else {
-            if (modelData.orientation === "horizontal") {
-                this.setPosition({ x: 0 });
-                this.setSize({ width: firstSlider.position.x + firstSlider.size.width / 2 });
-            }
-            else if (modelData.orientation === "vertical") {
-                this.setPosition({ y: 0 });
-                this.setSize({ height: firstSlider.position.y + firstSlider.size.height / 2 });
-            }
-        } */
-
-        //------------------------------------------------------------------------------------
-        let handle = this.view.firstSliderInstance;
-        let handleSize = handle.size;
-        let handleStyles = getComputedStyle(this.DOMElement);///перенести в место установки сайза
-        let borderWidthLeft = Number.parseInt(handleStyles.borderLeftWidth);
-        let borderWidthRight = Number.parseInt(handleStyles.borderRightWidth);
-        let borderWidthTop = Number.parseInt(handleStyles.borderTopWidth);
-        let borderWidthBottom = Number.parseInt(handleStyles.borderBottomWidth);
-
-        if (modelData.hasTwoSlider) {
-            let firstSliderPos = firstSlider.position.multiplyByNumber(-1);
-            let width = Vector.sum(lastSlider.position, firstSliderPos).length();
-            this.setSize({
-                height: modelData.sliderStripThickness,
-                width: /* lastSlider.position.x - firstSlider.position.x */width,
-            }); 
-            this.setPosition({
-                x: firstSlider.position.x + firstSlider.size.width / 2 - (handleSize.width / 2 - (modelData.sliderStripThickness + borderWidthLeft + borderWidthRight) / 2),
-                y: firstSlider.position.y + firstSlider.size.height / 2 - (handleSize.height / 2 - (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2),
-            });
-            /* this.setPosition({
-                x: handleSize.width / 2 - (modelData.sliderStripThickness + borderWidthLeft + borderWidthRight) / 2,
-                y: handleSize.height / 2 - (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2,
-            }); */
-        }
-        else {
-            let width = firstSlider.position.length() + firstSlider.size.length() / 2;
-            this.setSize({
-                height: modelData.sliderStripThickness,
-                width: /* firstSlider.position.x + firstSlider.size.width / 2 */width,
-            });
-            this.setPosition({
-                x: handleSize.width / 2 - (modelData.sliderStripThickness + borderWidthLeft + borderWidthRight) / 2,
-                y: handleSize.height / 2 - (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2,
-            });
-            /* this.setPosition({
-                x: handleSize.width / 2 - (modelData.sliderStripThickness + borderWidthLeft + borderWidthRight) / 2,
-                y: handleSize.height / 2 - (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2,
-            }); */
-        }
         if (modelData.orientation === "horizontal")
             this.angle = 0;
         else
-            this.angle = -90;
+            this.angle = 90;
 
-        this.DOMElement.style.transformOrigin = `${this.view.emptyStripInstance.position.x}px ${this.view.emptyStripInstance.position.y}px`;
-        this.DOMElement.style.transform = `rotate(${this.angle}deg)`;
+        let handle = this.view.firstSliderInstance;
+        let handleSize = handle.size;
+        let styles = getComputedStyle(this.DOMElement);
+        let borderWidthLeft = Number.parseInt(styles.borderLeftWidth);
+        let borderWidthRight = Number.parseInt(styles.borderRightWidth);
+        let borderWidthTop = Number.parseInt(styles.borderTopWidth);
+        let borderWidthBottom = Number.parseInt(styles.borderBottomWidth);
+
+        if (modelData.hasTwoSlider) {
+            let width = Vector.sum(lastSlider.position, firstSlider.position.multiplyByNumber(-1)).length;
+            this.setSize({
+                height: modelData.sliderStripThickness + (borderWidthTop + borderWidthBottom),
+                width: width - (borderWidthLeft + borderWidthRight),
+            });
+            let radFromDeg = this.angle * (Math.PI / 180);
+            //превращаем ширину ползунка в вектор, чтобы повернуть его и прибавить его половину к вектору позиции полосы
+            let testVector = new Vector(firstSlider.size.width * Math.cos(radFromDeg), firstSlider.size.width * Math.sin(radFromDeg));
+            this.setPosition({
+                x: firstSlider.position.x + testVector.x / 2,
+                y: firstSlider.position.y + testVector.y / 2 + (handleSize.height / 2 - (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2),
+            });
+        }
+        else {
+            let width = firstSlider.position.length + firstSlider.size.width / 2;
+            this.setSize({
+                height: modelData.sliderStripThickness + (borderWidthTop + borderWidthBottom),
+                width: width - (borderWidthLeft + borderWidthRight),
+            });
+            this.setPosition({
+                x: 0,
+                y: handleSize.height / 2 - (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2,
+            });
+        }
+
+        let transformOrigin = {
+            x: handle.size.width / 2,
+            y: (modelData.sliderStripThickness + borderWidthTop + borderWidthBottom) / 2,
+        };
+        this.DOMElement.style.transformOrigin = `${transformOrigin.x}px ${transformOrigin.y}px`;
+        this.DOMElement.style.transform = `rotate(${-this.angle}deg)`;//минус из-за нестандартного направления обхода функции rotate
         //------------------------------------------------------------------------------------
 
 

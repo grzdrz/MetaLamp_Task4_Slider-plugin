@@ -63,7 +63,7 @@ export class Vector {
         );
     }
 
-    length() {
+    get length() {
         return Math.sqrt(this._x * this._x + this._y * this._y);
     }
 }
