@@ -18,12 +18,18 @@ export class View {
     }
 
     setSize(element, size) {
+        let elementStyles = getComputedStyle(element);////извлекаем толщину границ(!!напихать везде границ в сайзы!!)
+        let borderWidthLeft = Number.parseInt(elementStyles.borderLeftWidth);
+        let borderWidthRight = Number.parseInt(elementStyles.borderRightWidth);
+        let borderWidthTop = Number.parseInt(elementStyles.borderTopWidth);
+        let borderWidthBottom = Number.parseInt(elementStyles.borderBottomWidth);
+
         if (size.width || size.width === 0) {
-            let width = `${size.width}px`;
+            let width = `${size.width - (borderWidthLeft + borderWidthRight)}px`;
             element.style.width = width;
         }
         if (size.height || size.height === 0) {
-            let height = `${size.height}px`;
+            let height = `${size.height - (borderWidthTop + borderWidthBottom)}px`;
             element.style.height = height;
         }
     }

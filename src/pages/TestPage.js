@@ -7,14 +7,14 @@ import { createRangeSlider } from "../components/RangeSlider/RangeSlider.js";
 let options2 = {
     sliderStripLength: 650,
     sliderStripThickness: 5,
-    handleWidth: 10,
-    handleHeight: 10,
+    handleWidth: 20,
+    handleHeight: 20,
     minValue: 10,
     maxValue: 123,
     borderThickness: 10,
     firstValue: 0,
     lastValue: 50,
-    stepSize: 15,
+    stepSize: 0.00001,
     orientation: "horizontal",// vertical | horizontal
     hasTwoSlider: true,
     isInterval: true,
