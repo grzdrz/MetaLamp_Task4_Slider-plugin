@@ -18,7 +18,7 @@ export class View {
     }
 
     setSize(element, size) {
-        let elementStyles = getComputedStyle(element);////извлекаем толщину границ(!!напихать везде границ в сайзы!!)
+        let elementStyles = getComputedStyle(element);
         let borderWidthLeft = Number.parseInt(elementStyles.borderLeftWidth);
         let borderWidthRight = Number.parseInt(elementStyles.borderRightWidth);
         let borderWidthTop = Number.parseInt(elementStyles.borderTopWidth);

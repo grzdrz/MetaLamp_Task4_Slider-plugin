@@ -1,21 +1,16 @@
-//import { app } from "../app.js";
-/* import { rangeSliderScript } from "../components/RangeSlider/RangeSlider.js";
-rangeSliderScript(); */
-
 import { createRangeSlider } from "../components/RangeSlider/RangeSlider.js";
 
 let options2 = {
     sliderStripLength: 650,
-    sliderStripThickness: 5,
+    sliderStripThickness: 10,
     handleWidth: 20,
     handleHeight: 20,
-    minValue: 10,
+    minValue: -23,
     maxValue: 123,
     borderThickness: 10,
     firstValue: 0,
     lastValue: 50,
     stepSize: 0.00001,
-    orientation: "horizontal",// vertical | horizontal
     hasTwoSlider: true,
     isInterval: true,
     maxSegmentsCount: 5,

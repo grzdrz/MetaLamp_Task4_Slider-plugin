@@ -22,7 +22,6 @@ export class Handle extends SliderPart {
         let modelData = this.view.getModelData();
 
         let sliderContainerLength = modelData.sliderStripLength;
-        /* let handleSize = (modelData.orientation === "horizontal" ? this.size.width : this.size.height); */
         let handleSize = this.size.width;
         let dMaxMinValue = modelData.maxValue - modelData.minValue;
 
@@ -51,8 +50,6 @@ export class Handle extends SliderPart {
         else
             lastValue = modelData.lastValue;
 
-        /* firstValue += modelData.minValue;
-        lastValue += modelData.minValue; */
 
         if (this.countNumber === 1) {
             handlePositionInContainer = ((firstValue - modelData.minValue) * usedLength) / dMaxMinValue;
@@ -60,10 +57,7 @@ export class Handle extends SliderPart {
         else {
             handlePositionInContainer = ((lastValue - modelData.minValue) * usedLength) / dMaxMinValue + handleSize;
         }
-        /* let position = {
-            x: (modelData.orientation === "horizontal" ? handlePositionInContainer : 0),
-            y: (modelData.orientation === "vertical" ? handlePositionInContainer : 0),
-        }; */
+
         let radFromDeg = modelData.angle * (Math.PI / 180);
         let position = {
             x: handlePositionInContainer * Math.cos(radFromDeg),
@@ -82,8 +76,6 @@ export class Handle extends SliderPart {
 
         this.outsideSize.x = modelData.borderThickness * 2 + this.size.width;
         this.outsideSize.y = modelData.borderThickness * 2 + this.size.height;
-        /* this.outsideDOMElement.style.width = `${modelData.borderThickness * 2 + this.size.width}px`;
-    this.outsideDOMElement.style.height = `${modelData.borderThickness * 2 + this.size.height}px`; */
 
         this.view.setPosition(this.outsideDOMElement, this.outsidePosition);
         this.view.setSize(this.outsideDOMElement, this.outsideSize);

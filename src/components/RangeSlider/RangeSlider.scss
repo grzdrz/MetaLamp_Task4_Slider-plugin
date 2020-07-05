@@ -36,7 +36,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin: 50px;
+        margin: 80px;
     }
     &__slider-container {
         display: flex;
@@ -51,12 +51,16 @@
         border: 1px solid rgba(31, 32, 65, 0.25);
         border-radius: 3px;
         position: absolute;
+
+        //border: 5px solid black;
     }
     &__slider-body-filled {
         width: 8px;
         height: 8px;
         background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
         position: absolute;
+
+        //border: 5px solid black;
     }
     &__first-slider,
     &__last-slider {
@@ -71,6 +75,8 @@
 
         left: auto;
         bottom: 0px;
+
+        //border: 5px solid black;
     }
     &__first-slider-outside,
     &__last-slider-outside {
@@ -84,6 +90,8 @@
 
         left: auto;
         bottom: 0px;
+
+        //border: 2px solid black;
     }
 
     &__scale-container {

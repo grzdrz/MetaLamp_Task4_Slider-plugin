@@ -5,11 +5,6 @@ export class ScaleView extends View {
     constructor(scaleContainer) {
         super();
 
-        // предельная плотность сегментов - сколько максимум сегментов можно вместить в максимальное значение шкалы,
-        // если минимальный размер сегмента равен размеру шага.
-        // т.е. п/п/с === максимальному числу шагов.
-        this.segmentDensityLimit;
-
         this.scaleContainer = scaleContainer;
 
         this.onScaleSegmentClick = () => { };
@@ -33,61 +28,13 @@ export class ScaleView extends View {
 
         this.maxSegmentsCount = modelData.maxSegmentsCount;
 
-        this.segmentDensityLimit = this._calculateSegmentDensityLimit();
-
-        let handleSize = (modelData.orientation === "horizontal" ? modelData.handleWidth : modelData.handleHeight);
-
-        if (modelData.hasTwoSlider) {
-            let scaleLength = modelData.sliderStripLength - handleSize / 2;
-            this.scaleContainer.style.width = `${scaleLength}px`;
-            this.scaleContainer.style.height = "auto";
-            /* if (modelData.orientation === "horizontal") {
-                this.scaleContainer.style.width = `${scaleLength}px`;
-                this.scaleContainer.style.height = "auto";
-                this.scaleContainer.classList.remove("range-slider__scale-container_vertical");
-                this.scaleContainer.classList.add("range-slider__scale-container_horizontal");
-            }
-            else if (modelData.orientation === "vertical") {
-                this.scaleContainer.style.height = `${scaleLength}px`;
-                this.scaleContainer.style.width = "auto";
-                this.scaleContainer.classList.remove("range-slider__scale-container_horizontal");
-                this.scaleContainer.classList.add("range-slider__scale-container_vertical");
-            } */
-        }
-        else {
-            this.scaleContainer.style.width = `${modelData.sliderStripLength}px`;
-            this.scaleContainer.style.height = "auto";
-            /* if (modelData.orientation === "horizontal") {
-                this.scaleContainer.style.width = `${modelData.sliderStripLength}px`;
-                this.scaleContainer.style.height = "auto";
-                this.scaleContainer.classList.remove("range-slider__scale-container_vertical");
-                this.scaleContainer.classList.add("range-slider__scale-container_horizontal");
-            }
-            else if (modelData.orientation === "vertical") {
-                this.scaleContainer.style.height = `${modelData.sliderStripLength}px`;
-                this.scaleContainer.style.width = "auto";
-                this.scaleContainer.classList.remove("range-slider__scale-container_horizontal");
-                this.scaleContainer.classList.add("range-slider__scale-container_vertical");
-            } */
-        }
-
-        //первый сегмент
-        let firstSegment = document.createElement("div");
-        firstSegment.className = "range-slider__scale-segment";
-        let firstSegmentValue = modelData.minValue;
-        firstSegment.textContent = firstSegmentValue.toFixed(4);
-        firstSegment.dataset.segmentValue = firstSegmentValue;
-        firstSegment.addEventListener("click", this._handlerSelectSegment);
-        firstSegment.style.fontSize = `${modelData.scaleFontSize}px`;
-        firstSegment.style.lineHeight = `${modelData.scaleFontSize}px`;
-        this.scaleContainer.append(firstSegment);
-        this._calculateSegmentPosition(firstSegment, firstSegmentValue);
+        let segmentDensityLimit = this._calculateSegmentDensityLimit();
 
         let maxSegmentsCount = this.maxSegmentsCount;
-        if (maxSegmentsCount >= this.segmentDensityLimit)
-            maxSegmentsCount = this.segmentDensityLimit;//для относительно больших сегментов
-        let stepsInOneSegment = Math.round(this.segmentDensityLimit / maxSegmentsCount);
-        for (let i = 1; i < maxSegmentsCount; i++) {
+        if (maxSegmentsCount >= segmentDensityLimit)
+            maxSegmentsCount = segmentDensityLimit;//для относительно больших сегментов
+        let stepsInOneSegment = Math.round(segmentDensityLimit / maxSegmentsCount);
+        for (let i = 0; i < maxSegmentsCount; i++) {
             let segment = document.createElement("div");
             segment.className = "range-slider__scale-segment";
             let segmentValue = i * modelData.stepSize * stepsInOneSegment + modelData.minValue;
@@ -131,7 +78,7 @@ export class ScaleView extends View {
         let radFromDeg = modelData.angle * (Math.PI / 180);
 
         let sliderContainerLength = modelData.sliderStripLength;
-        let handleSize = modelData.handleWidth/* (modelData.orientation === "horizontal" ? modelData.handleWidth : modelData.handleHeight) */;
+        let handleSize = modelData.handleWidth;
         let dMaxMinValue = modelData.maxValue - modelData.minValue;
 
         let usedLength;
@@ -142,25 +89,6 @@ export class ScaleView extends View {
             usedLength = sliderContainerLength - handleSize;
         }
 
-        /* let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
-        if (modelData.hasTwoSlider) {
-            if (modelData.orientation === "vertical")
-                handlePositionInContainer = handlePositionInContainer + handleSize - modelData.scaleFontSize / 2;
-            else {
-                let segmentBR = segment.getBoundingClientRect();
-                let segmentWidth = segmentBR.width;
-                handlePositionInContainer = handlePositionInContainer + handleSize - segmentWidth / 2;
-            }
-        }
-        else {
-            if (modelData.orientation === "vertical")
-                handlePositionInContainer = handlePositionInContainer - modelData.scaleFontSize / 2 + handleSize / 2;
-            else {
-                let segmentBR = segment.getBoundingClientRect();
-                let segmentWidth = segmentBR.width;
-                handlePositionInContainer = handlePositionInContainer - segmentWidth / 2 + handleSize / 2;
-            }
-        } */
         let segmentBR = segment.getBoundingClientRect();
         let segmentWidth = segmentBR.width;
         let segmentSizeVector = new Vector(segmentWidth, modelData.scaleFontSize);
@@ -169,18 +97,16 @@ export class ScaleView extends View {
         let segmentSizeVectorLength = segmentSizeVector.length;
         let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
         if (modelData.hasTwoSlider) {
-            handlePositionInContainer = handlePositionInContainer + handleSize - /* modelData.scaleFontSize */segmentSizeVectorLength / 2;
+            handlePositionInContainer = handlePositionInContainer + handleSize - segmentSizeVectorLength / 2;
         }
         else {
-            handlePositionInContainer = handlePositionInContainer - /* modelData.scaleFontSize */segmentSizeVectorLength / 2 + handleSize / 2;
+            handlePositionInContainer = handlePositionInContainer - segmentSizeVectorLength / 2 + handleSize / 2;
         }
 
         let testMargin = new Vector(30, 30);
         testMargin.x = testMargin.x * Math.cos(radFromDeg); 
         testMargin.y = testMargin.y * Math.sin(radFromDeg); 
         let position = {
-            /* x: (modelData.orientation === "horizontal" ? handlePositionInContainer : 0),
-            y: (modelData.orientation === "vertical" ? handlePositionInContainer : 0), */
             x: handlePositionInContainer * Math.cos(radFromDeg) + testMargin.y,
             y: handlePositionInContainer * Math.sin(radFromDeg) - testMargin.x,
         };

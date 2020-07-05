@@ -21,7 +21,6 @@ const defaultOptions = {
     firstValue: 0,
     lastValue: 50,
     stepSize: 10,
-    orientation: "horizontal",// vertical | horizontal
     hasTwoSlider: false,
     isInterval: true,
     maxSegmentsCount: 10,
