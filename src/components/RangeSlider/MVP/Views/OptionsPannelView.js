@@ -6,14 +6,13 @@ export class OptionsPanelView extends View {
         this.containerElement = containerElement;
 
         this._handlerStepSizeChange = this._handlerStepSizeChange.bind(this);
-        this._handlerOrientationChange = this._handlerOrientationChange.bind(this);
         this._handlerMaxValueChange = this._handlerMaxValueChange.bind(this);
         this._handlerMinValueChange = this._handlerMinValueChange.bind(this);
         this._handlerHandlesCountChange = this._handlerHandlesCountChange.bind(this);
         this._handlerMaxSegmentsCountChange = this._handlerMaxSegmentsCountChange.bind(this);
+        this._handlerAngleSizeChange = this._handlerAngleSizeChange.bind(this);
 
         this.update = this.update.bind(this);
-        this.onOrientationChange = () => { };
         this.onModelStateUpdate = () => { };
     }
 
@@ -22,15 +21,6 @@ export class OptionsPanelView extends View {
     }
 
     update() {
-        let modelData = this.getModelData();
-        if (modelData.orientation === "horizontal") {
-            this.containerElement.classList.remove("range-slider__options-panel-container_vertical");
-            this.containerElement.classList.add("range-slider__options-panel-container_horizontal");
-        }
-        else {
-            this.containerElement.classList.remove("range-slider__options-panel-container_horizontal");
-            this.containerElement.classList.add("range-slider__options-panel-container_vertical");
-        }
     }
 
     _render() {
@@ -55,26 +45,6 @@ export class OptionsPanelView extends View {
             stepSizeLabel.append(stepSizeText);
 
             stepSizeLabel.addEventListener("change", this._handlerStepSizeChange);
-        }
-
-        //вериткально/горизонтольно
-        let orientationLabel = document.createElement("label");
-        {
-            orientationLabel.className = "range-slider__inputs-label";
-
-            let orientationInput = document.createElement("input");
-            orientationInput.type = "checkbox";
-            orientationInput.checked = modelData.orientation === "horizontal";
-            orientationInput.className = "range-slider__orientation-input";
-
-            let orientationText = document.createElement("p");
-            orientationText.className = "range-slider__orientation-text";
-            orientationText.textContent = "orientation";
-
-            orientationLabel.append(orientationInput);
-            orientationLabel.append(orientationText);
-
-            orientationLabel.addEventListener("change", this._handlerOrientationChange);
         }
 
         //1 ползунок/2 ползунка
@@ -188,13 +158,33 @@ export class OptionsPanelView extends View {
             maxSegmentsCountLabel.addEventListener("change", this._handlerMaxSegmentsCountChange);
         }
 
+        let angleSizeLabel = document.createElement("label");
+        {
+            angleSizeLabel.className = "range-slider__inputs-label";
+
+            let angleSizeCountInput = document.createElement("input");
+            angleSizeCountInput.type = "number";
+            angleSizeCountInput.step = "1";
+            angleSizeCountInput.value = modelData.angle;
+            angleSizeCountInput.className = "range-slider__angle-size-input";
+
+            let angleSizeCountText = document.createElement("p");
+            angleSizeCountText.className = "range-slider__angle-size-text";
+            angleSizeCountText.textContent = "angle size";
+
+            angleSizeLabel.append(angleSizeCountInput);
+            angleSizeLabel.append(angleSizeCountText);
+
+            angleSizeLabel.addEventListener("change", this._handlerAngleSizeChange);
+        }
+
 
         this.containerElement.append(stepSizeLabel);
         this.containerElement.append(maxValueLabel);
         this.containerElement.append(minValueLabel);
-        this.containerElement.append(orientationLabel);
         this.containerElement.append(handlesCountContainer);
         this.containerElement.append(maxSegmentsCountLabel);
+        this.containerElement.append(angleSizeLabel);
     }
 
     _handlerStepSizeChange(event) {
@@ -214,25 +204,6 @@ export class OptionsPanelView extends View {
         this.onModelStateUpdate(optionsToUpdate);
     }
 
-    _handlerOrientationChange(event) {
-        event.preventDefault();
-
-        let orientation = this.getModelData("orientation");
-
-        let optionsToUpdate;
-        if (orientation === "horizontal") {
-            optionsToUpdate = {
-                orientation: "vertical",
-            };
-        }
-        else {
-            optionsToUpdate = {
-                orientation: "horizontal",
-            };
-        }
-
-        this.onModelStateUpdate(optionsToUpdate);
-    }
     _handlerMaxValueChange(event) {
         event.preventDefault();
 
@@ -286,6 +257,18 @@ export class OptionsPanelView extends View {
 
         let optionsToUpdate = {
             maxSegmentsCount: inputValue,
+        };
+        this.onModelStateUpdate(optionsToUpdate);
+    }
+    _handlerAngleSizeChange(event) {
+        event.preventDefault();
+
+        let currentLabel = event.currentTarget;
+        let input = currentLabel.querySelector("input");
+        let inputValue = Number.parseInt(input.value);
+
+        let optionsToUpdate = {
+            angle: inputValue,
         };
         this.onModelStateUpdate(optionsToUpdate);
     }

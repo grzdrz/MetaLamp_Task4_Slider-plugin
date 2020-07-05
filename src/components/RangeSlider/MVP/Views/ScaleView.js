@@ -1,4 +1,5 @@
 import { View } from "./View.js";
+import { Vector } from "../../Helpers/Vector.js";
 
 export class ScaleView extends View {
     constructor(scaleContainer) {
@@ -38,7 +39,9 @@ export class ScaleView extends View {
 
         if (modelData.hasTwoSlider) {
             let scaleLength = modelData.sliderStripLength - handleSize / 2;
-            if (modelData.orientation === "horizontal") {
+            this.scaleContainer.style.width = `${scaleLength}px`;
+            this.scaleContainer.style.height = "auto";
+            /* if (modelData.orientation === "horizontal") {
                 this.scaleContainer.style.width = `${scaleLength}px`;
                 this.scaleContainer.style.height = "auto";
                 this.scaleContainer.classList.remove("range-slider__scale-container_vertical");
@@ -49,10 +52,12 @@ export class ScaleView extends View {
                 this.scaleContainer.style.width = "auto";
                 this.scaleContainer.classList.remove("range-slider__scale-container_horizontal");
                 this.scaleContainer.classList.add("range-slider__scale-container_vertical");
-            }
+            } */
         }
         else {
-            if (modelData.orientation === "horizontal") {
+            this.scaleContainer.style.width = `${modelData.sliderStripLength}px`;
+            this.scaleContainer.style.height = "auto";
+            /* if (modelData.orientation === "horizontal") {
                 this.scaleContainer.style.width = `${modelData.sliderStripLength}px`;
                 this.scaleContainer.style.height = "auto";
                 this.scaleContainer.classList.remove("range-slider__scale-container_vertical");
@@ -63,7 +68,7 @@ export class ScaleView extends View {
                 this.scaleContainer.style.width = "auto";
                 this.scaleContainer.classList.remove("range-slider__scale-container_horizontal");
                 this.scaleContainer.classList.add("range-slider__scale-container_vertical");
-            }
+            } */
         }
 
         //первый сегмент
@@ -123,9 +128,10 @@ export class ScaleView extends View {
 
     _calculateSegmentPosition(segment, value) {
         let modelData = this.getModelData();
+        let radFromDeg = modelData.angle * (Math.PI / 180);
 
         let sliderContainerLength = modelData.sliderStripLength;
-        let handleSize = (modelData.orientation === "horizontal" ? modelData.handleWidth : modelData.handleHeight);
+        let handleSize = modelData.handleWidth/* (modelData.orientation === "horizontal" ? modelData.handleWidth : modelData.handleHeight) */;
         let dMaxMinValue = modelData.maxValue - modelData.minValue;
 
         let usedLength;
@@ -136,7 +142,7 @@ export class ScaleView extends View {
             usedLength = sliderContainerLength - handleSize;
         }
 
-        let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
+        /* let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
         if (modelData.hasTwoSlider) {
             if (modelData.orientation === "vertical")
                 handlePositionInContainer = handlePositionInContainer + handleSize - modelData.scaleFontSize / 2;
@@ -154,10 +160,29 @@ export class ScaleView extends View {
                 let segmentWidth = segmentBR.width;
                 handlePositionInContainer = handlePositionInContainer - segmentWidth / 2 + handleSize / 2;
             }
+        } */
+        let segmentBR = segment.getBoundingClientRect();
+        let segmentWidth = segmentBR.width;
+        let segmentSizeVector = new Vector(segmentWidth, modelData.scaleFontSize);
+        segmentSizeVector.x = segmentSizeVector.x * Math.cos(radFromDeg);
+        segmentSizeVector.y = segmentSizeVector.y * Math.sin(radFromDeg);
+        let segmentSizeVectorLength = segmentSizeVector.length;
+        let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
+        if (modelData.hasTwoSlider) {
+            handlePositionInContainer = handlePositionInContainer + handleSize - /* modelData.scaleFontSize */segmentSizeVectorLength / 2;
         }
+        else {
+            handlePositionInContainer = handlePositionInContainer - /* modelData.scaleFontSize */segmentSizeVectorLength / 2 + handleSize / 2;
+        }
+
+        let testMargin = new Vector(30, 30);
+        testMargin.x = testMargin.x * Math.cos(radFromDeg); 
+        testMargin.y = testMargin.y * Math.sin(radFromDeg); 
         let position = {
-            x: (modelData.orientation === "horizontal" ? handlePositionInContainer : 0),
-            y: (modelData.orientation === "vertical" ? handlePositionInContainer : 0),
+            /* x: (modelData.orientation === "horizontal" ? handlePositionInContainer : 0),
+            y: (modelData.orientation === "vertical" ? handlePositionInContainer : 0), */
+            x: handlePositionInContainer * Math.cos(radFromDeg) + testMargin.y,
+            y: handlePositionInContainer * Math.sin(radFromDeg) - testMargin.x,
         };
         this.setPosition(segment, position);
     }

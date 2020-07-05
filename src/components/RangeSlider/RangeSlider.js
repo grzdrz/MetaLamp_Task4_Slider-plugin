@@ -80,11 +80,6 @@ function _render(elements) {
         rangeSlider.classList.add("range-slider_vertical");
     }
 
-    //титульник
-    let titleContainer = document.createElement("div");
-    titleContainer.className = "range-slider__title-container";
-    rangeSlider.append(titleContainer);
-
 
     //слайдер
     /* sliderContainer = document.createElement("div"); */

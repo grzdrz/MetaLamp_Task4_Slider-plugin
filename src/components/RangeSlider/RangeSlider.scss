@@ -5,7 +5,7 @@
     border: 1px solid black;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     background: white;
     width: max-content;
     height: max-content;
@@ -13,13 +13,6 @@
     $filledBodyWidth: 100px;
     $filledBodyMarginLeft: 30px;
     $sliderSize: 26px;
-
-    &_horizontal {
-        flex-direction: column;
-    }
-    &_vertical {
-        flex-direction: row;
-    }
 
     &__title-container {
         display: flex;
@@ -41,15 +34,9 @@
     //слайдер и шкала измерений
     &__main-content-container {
         display: flex;
-        /* align-items: center;
-        justify-content: center; */
-
-        &_vertical {
-            flex-direction: row;
-        }
-        &_horizontal {
-            flex-direction: column;
-        }
+        flex-direction: column;
+        justify-content: center;
+        margin: 50px;
     }
     &__slider-container {
         display: flex;
@@ -102,15 +89,6 @@
     &__scale-container {
         display: flex;
         position: relative;
-        /* height: 20px; */
-
-        &_vertical {
-            //margin-left: 20px;
-            align-self: flex-end;
-        }
-        &_horizontal {
-            //margin-top: 20px;
-        }
     }
     &__scale-segment {
         cursor: pointer;
@@ -121,6 +99,5 @@
         bottom: 0px;
     }
 
-    
     @import "./OptionsPanel.scss";
 }

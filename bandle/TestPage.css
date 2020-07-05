@@ -13,14 +13,10 @@
 .range-slider {
   border: 1px solid black;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background: white;
   width: max-content;
   height: max-content; }
-  .range-slider_horizontal {
-    flex-direction: column; }
-  .range-slider_vertical {
-    flex-direction: row; }
   .range-slider__title-container {
     display: flex;
     flex-direction: row;
@@ -36,12 +32,9 @@
     color: #1f2041; }
   .range-slider__main-content-container {
     display: flex;
-    /* align-items: center;
-        justify-content: center; */ }
-    .range-slider__main-content-container_vertical {
-      flex-direction: row; }
-    .range-slider__main-content-container_horizontal {
-      flex-direction: column; }
+    flex-direction: column;
+    justify-content: center;
+    margin: 50px; }
   .range-slider__slider-container {
     display: flex;
     align-items: center;
@@ -79,10 +72,7 @@
     bottom: 0px; }
   .range-slider__scale-container {
     display: flex;
-    position: relative;
-    /* height: 20px; */ }
-    .range-slider__scale-container_vertical {
-      align-self: flex-end; }
+    position: relative; }
   .range-slider__scale-segment {
     cursor: pointer;
     color: black;
@@ -94,11 +84,8 @@
     display: flex;
     flex-direction: column;
     border: 2px solid #50bda5;
-    padding: 10px; }
-    .range-slider__options-panel-container_horizontal {
-      margin-top: 100px; }
-    .range-slider__options-panel-container_vertical {
-      margin-left: 100px; }
+    padding: 10px;
+    margin-left: 100px; }
   .range-slider__inputs-container {
     display: flex;
     flex-direction: column;
@@ -106,8 +93,9 @@
   .range-slider__inputs-label {
     display: flex;
     flex-direction: row;
+    align-items: center;
     width: max-content; }
-  .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__handles-count-text {
+  .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__handles-count-text, .range-slider__angle-size-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;
@@ -115,11 +103,13 @@
     align-items: flex-end; }
   .range-slider__first-input, .range-slider__last-input {
     width: 200px;
+    height: 30px;
     border: 1px solid black; }
   .range-slider__last-input {
     margin-top: 10px; }
-  .range-slider__step-size-input, .range-slider__max-value-input, .range-slider__min-value-input {
+  .range-slider__step-size-input, .range-slider__max-value-input, .range-slider__min-value-input, .range-slider__angle-size-input {
     width: 200px;
+    height: 30px;
     margin-top: 10px;
     border: 1px solid black; }
   .range-slider__handles-count-container {
