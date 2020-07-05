@@ -75,7 +75,6 @@ export class ScaleView extends View {
 
     _calculateSegmentPosition(segment, value) {
         let modelData = this.getModelData();
-        let radFromDeg = modelData.angle * (Math.PI / 180);
 
         let sliderContainerLength = modelData.sliderStripLength;
         let handleSize = modelData.handleWidth;
@@ -92,8 +91,8 @@ export class ScaleView extends View {
         let segmentBR = segment.getBoundingClientRect();
         let segmentWidth = segmentBR.width;
         let segmentSizeVector = new Vector(segmentWidth, modelData.scaleFontSize);
-        segmentSizeVector.x = segmentSizeVector.x * Math.cos(radFromDeg);
-        segmentSizeVector.y = segmentSizeVector.y * Math.sin(radFromDeg);
+        segmentSizeVector.x = segmentSizeVector.x * Math.cos(modelData.angleInRad);
+        segmentSizeVector.y = segmentSizeVector.y * Math.sin(modelData.angleInRad);
         let segmentSizeVectorLength = segmentSizeVector.length;
         let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
         if (modelData.hasTwoSlider) {
@@ -104,11 +103,11 @@ export class ScaleView extends View {
         }
 
         let testMargin = new Vector(30, 30);
-        testMargin.x = testMargin.x * Math.cos(radFromDeg); 
-        testMargin.y = testMargin.y * Math.sin(radFromDeg); 
+        testMargin.x = testMargin.x * Math.cos(modelData.angleInRad); 
+        testMargin.y = testMargin.y * Math.sin(modelData.angleInRad); 
         let position = {
-            x: handlePositionInContainer * Math.cos(radFromDeg) + testMargin.y,
-            y: handlePositionInContainer * Math.sin(radFromDeg) - testMargin.x,
+            x: handlePositionInContainer * Math.cos(modelData.angleInRad) + testMargin.y,
+            y: handlePositionInContainer * Math.sin(modelData.angleInRad) - testMargin.x,
         };
         this.setPosition(segment, position);
     }

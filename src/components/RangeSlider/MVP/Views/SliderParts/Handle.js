@@ -50,20 +50,23 @@ export class Handle extends SliderPart {
         else
             lastValue = modelData.lastValue;
 
-
         if (this.countNumber === 1) {
             handlePositionInContainer = ((firstValue - modelData.minValue) * usedLength) / dMaxMinValue;
         }
         else {
-            handlePositionInContainer = ((lastValue - modelData.minValue) * usedLength) / dMaxMinValue + handleSize;
+            handlePositionInContainer = ((lastValue - modelData.minValue) * usedLength) / dMaxMinValue;
         }
 
-        let radFromDeg = modelData.angle * (Math.PI / 180);
-        let position = {
-            x: handlePositionInContainer * Math.cos(radFromDeg),
-            y: handlePositionInContainer * Math.sin(radFromDeg),
-        };
-        this.setPosition(position);
+        let newX = handlePositionInContainer * Math.cos(modelData.angleInRad);
+        let newY = handlePositionInContainer * Math.sin(modelData.angleInRad);
+        if (this.countNumber === 2) {
+            newX += handleSize * Math.cos(modelData.angleInRad);
+            newY += handleSize * Math.sin(modelData.angleInRad);
+        }
+        this.setPosition({
+            x: newX,
+            y: newY,
+        });
 
         this.calculateBorder();
     }

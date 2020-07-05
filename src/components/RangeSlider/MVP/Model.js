@@ -1,9 +1,8 @@
+import { Options } from "../Options.js";
+
 export class Model {
     constructor(options) {
-        this._options = {};
-        for (let optionName of Object.keys(options)) {
-            this._options[optionName] = options[optionName];
-        }
+        this._options = options;
     }
 
     addOption(optionName, optonValue) {
@@ -19,11 +18,7 @@ export class Model {
     }
 
     getOptions() {
-        let result = {};
-        for (let optionName of Object.keys(this._options)) {
-            result[optionName] = this._options[optionName];
-        }
-        return result;
+        return new Options(this._options);
     }
 
     updateOptions(options) {

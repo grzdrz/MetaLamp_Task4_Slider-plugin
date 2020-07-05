@@ -27,9 +27,8 @@ export class FilledStrip extends SliderPart {
                 height: modelData.sliderStripThickness,
                 width: width,
             });
-            let radFromDeg = modelData.angle * (Math.PI / 180);
             //превращаем ширину ползунка в вектор, чтобы повернуть его и прибавить его половину к вектору позиции полосы
-            let testVector = new Vector(firstSlider.size.width * Math.cos(radFromDeg), firstSlider.size.width * Math.sin(radFromDeg));
+            let testVector = new Vector(firstSlider.size.width * Math.cos(modelData.angleInRad), firstSlider.size.width * Math.sin(modelData.angleInRad));
             this.setPosition({
                 x: firstSlider.position.x + testVector.x / 2,
                 y: firstSlider.position.y + testVector.y / 2 + (handleSize.height / 2 - (modelData.sliderStripThickness) / 2),

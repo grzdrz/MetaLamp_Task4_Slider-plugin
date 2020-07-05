@@ -15,7 +15,6 @@ export class InputsView extends View {
             this.inputsContainer.append(this.lastInputDOMElement);
         }
 
-        //this.updateSliders = () => { };
         this.onInputChange = () => { };
 
         this.onFirstInputChange = this.onFirstInputChange.bind(this);

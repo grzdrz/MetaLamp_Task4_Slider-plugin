@@ -54,14 +54,6 @@ export class SliderView extends View {
 
         this.emptyStrip = document.createElement("div");
         this.emptyStrip.className = "range-slider__slider-body-empty";
-        if (modelData.orientation === "horizontal") {
-            this.emptyStrip.style.width = `${modelData.sliderStripLength}px`;
-            this.emptyStrip.style.height = `${modelData.sliderStripThickness}px`;
-        }
-        else if (modelData.orientation === "vertical") {
-            this.emptyStrip.style.height = `${modelData.sliderStripLength}px`;
-            this.emptyStrip.style.width = `${modelData.sliderStripThickness}px`;
-        }
         this.slidersContainer.append(this.emptyStrip);
 
         this.filledStrip = document.createElement("div");
@@ -241,8 +233,7 @@ export class SliderView extends View {
         ]);
         let newTargetInputValue = newTargetInputValueVector;
 
-        if (targetHandleCountNumber === 1 &&
-            newTargetInputValue !== modelData.firstValue) {
+        if (targetHandleCountNumber === 1 && newTargetInputValue !== modelData.firstValue) {
             if (newTargetInputValue < modelData.minValue)
                 this.onHandleMove({ firstValue: modelData.minValue });
             else if (newTargetInputValue > modelData.lastValue && modelData.hasTwoSlider)
@@ -256,20 +247,17 @@ export class SliderView extends View {
             targetSliderInstance.calculatePosition();
             this.filledStripInstance.calculatePosition();
         }
-        else if (modelData.hasTwoSlider) {
-            if (targetHandleCountNumber === 2 &&
-                newTargetInputValue !== modelData.lastValue) {
-                if (newTargetInputValue > modelData.maxValue)
-                    this.onHandleMove({ lastValue: modelData.maxValue });
-                else if (newTargetInputValue < modelData.firstValue)
-                    this.onHandleMove({ lastValue: modelData.firstValue });
-                else
-                    this.onHandleMove({ lastValue: newTargetInputValue });
+        else if (targetHandleCountNumber === 2 && newTargetInputValue !== modelData.lastValue && modelData.hasTwoSlider) {
+            if (newTargetInputValue > modelData.maxValue)
+                this.onHandleMove({ lastValue: modelData.maxValue });
+            else if (newTargetInputValue < modelData.firstValue)
+                this.onHandleMove({ lastValue: modelData.firstValue });
+            else
+                this.onHandleMove({ lastValue: newTargetInputValue });
 
-                // перезапись значения позиции ползунка
-                targetSliderInstance.calculatePosition();
-                this.filledStripInstance.calculatePosition();
-            }
+            // перезапись значения позиции ползунка
+            targetSliderInstance.calculatePosition();
+            this.filledStripInstance.calculatePosition();
         }
     }
 
@@ -290,7 +278,6 @@ export class SliderView extends View {
 
         let maxDistanceBetweenSliders = new Vector(0, 0);
         let containerBoundingRect = this.slidersContainerInstance.DOMElement.getBoundingClientRect();
-        let handle = this.firstSliderInstance;
         containerBoundingRect.x = containerBoundingRect.x;
         containerBoundingRect.y = (document.documentElement.clientHeight + pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height);
 
@@ -299,11 +286,11 @@ export class SliderView extends View {
         cursorPositionInContainer.y = mouseGlobalPosition.y - containerBoundingRect.y - mousePositionInsideTargetSlider.y;
         if (modelData.hasTwoSlider) {
             if (targetHandleCountNumber === 2) {
-                cursorPositionInContainer.x = cursorPositionInContainer.x - this.firstSliderInstance.size.width;
-                cursorPositionInContainer.y = cursorPositionInContainer.y - this.firstSliderInstance.size.width/* height */;
+                cursorPositionInContainer.x = cursorPositionInContainer.x - this.firstSliderInstance.size.width * Math.cos(modelData.angleInRad);
+                cursorPositionInContainer.y = cursorPositionInContainer.y - this.firstSliderInstance.size.width * Math.sin(modelData.angleInRad);
             }
             maxDistanceBetweenSliders.x = modelData.sliderStripLength - this.firstSliderInstance.size.width * 2;
-            maxDistanceBetweenSliders.y = modelData.sliderStripLength - this.firstSliderInstance.size.width/* height */ * 2;
+            maxDistanceBetweenSliders.y = modelData.sliderStripLength - this.firstSliderInstance.size.width * 2;
         }
         else {
             maxDistanceBetweenSliders.x = modelData.sliderStripLength - this.firstSliderInstance.size.width;

@@ -5,9 +5,10 @@ export class SliderPart {
         this.DOMElement = DOMElement;
         this.view = view;
 
-        this.position = new Vector(0, 0);// под позицией имеется ввиду левый маргин относительно контейнера
+        this.position = new Vector(0, 0);
         let partBoundingRect = this.DOMElement.getBoundingClientRect();
         this.size = new Vector(partBoundingRect.width, partBoundingRect.height);
+        //позиция и размер в пикселях
     }
 
     initialize() {

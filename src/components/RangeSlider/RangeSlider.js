@@ -6,6 +6,8 @@ import { OptionsPanelView } from "./MVP/Views/OptionsPannelView.js";
 import { Model } from "./MVP/Model.js";
 import { Presenter } from "./MVP/Presenter.js";
 
+import { Options} from "./Options.js";
+
 import "./RangeSlider.scss";
 
 let sliderInstanceCount = 0;
@@ -26,14 +28,14 @@ const defaultOptions = {
     maxSegmentsCount: 10,
     scaleFontSize: 20,
     angle: 0,
+    get angleInRad() {
+        return this.angle * (Math.PI / 180);
+    },
 };
 
 export function createRangeSlider(containerSelector, options) {
-    for (let optionName in options) {
-        if (optionName === "stepSize")
-            if (options[optionName] === 0) options[optionName] = 1;
-        defaultOptions[optionName] = options[optionName];
-    }
+    let defaultOptions = new Options(options);
+
     defaultOptions.id = sliderInstanceCount;
     sliderInstanceCount++;
 
@@ -72,51 +74,26 @@ function _render(elements) {
     //плагин
     let rangeSlider = document.createElement("div");
     rangeSlider.className = "range-slider";
-    if (defaultOptions.orientation === "horizontal") {
-        rangeSlider.classList.add("range-slider_horizontal");
-    }
-    else if (defaultOptions.orientation === "vertical") {
-        rangeSlider.classList.add("range-slider_vertical");
-    }
-
 
     //слайдер
-    /* sliderContainer = document.createElement("div"); */
     sliderContainer.className = "range-slider__slider-container";
-    //rangeSlider.append(sliderContainer);
 
     //шкала
-    /* scaleContainer = document.createElement("div"); */
     scaleContainer.className = "range-slider__scale-container";
-    //rangeSlider.append(scaleContainer);
 
-    //слайдер + шкала
+    //контейнер слайдер + шкала
     let mainContentContainer = document.createElement("div");
     mainContentContainer.className = "range-slider__main-content-container";
-    if (defaultOptions.orientation === "horizontal") {
-        mainContentContainer.classList.add("range-slider__main-content-container_horizontal");
-    }
-    else if (defaultOptions.orientation === "vertical") {
-        mainContentContainer.classList.add("range-slider__main-content-container_vertical");
-    }
     mainContentContainer.append(sliderContainer);
     mainContentContainer.append(scaleContainer);
     rangeSlider.append(mainContentContainer);
 
 
     //инпуты
-    /* inputsContainer = document.createElement("div"); */
     inputsContainer.className = "range-slider__inputs-container";
 
-    //инпуты + опции
-    /* optionsPanelContainer = document.createElement("div"); */
+    //контейнер инпуты + опции
     optionsPanelContainer.className = "range-slider__options-panel-container";
-    if (defaultOptions.orientation === "horizontal") {
-        optionsPanelContainer.classList.add("range-slider__options-panel-container_horizontal");
-    }
-    else if (defaultOptions.orientation === "vertical") {
-        optionsPanelContainer.classList.add("range-slider__options-panel-container_vertical");
-    }
     optionsPanelContainer.append(inputsContainer);
     rangeSlider.append(optionsPanelContainer);
 
