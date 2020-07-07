@@ -1,7 +1,7 @@
 import { createRangeSlider } from "../components/RangeSlider/RangeSlider.js";
 
 let options2 = {
-    sliderStripLength: 650,
+    sliderStripLength: 500,
     sliderStripThickness: 10,
     handleWidth: 20,
     handleHeight: 20,

@@ -81,19 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/app.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/app.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/app.js":
+/***/ "./src/app.ts":
 /*!********************!*\
-  !*** ./src/app.js ***!
+  !*** ./src/app.ts ***!
   \********************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-eval("console.log('some test');\n\n\n//# sourceURL=webpack:///./src/app.js?");
+"use strict";
+eval("\r\nconsole.log('some test');\r\n\n\n//# sourceURL=webpack:///./src/app.ts?");
 
 /***/ })
 

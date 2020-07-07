@@ -1,26 +1,11 @@
 const path = require('path');
-
-//После сборки создает отдельный css файл, в который помещается результат компиляции всего scss древа ссылок,
-//корень которого расположен в js файле точки входа('./src/index.js' в данном случае).
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-//Сжимает древо pug файлов(в данном случае) в единый html файл, подтягивая в него ссылки на js и css бандлеры, созданные на основе
-//корневого js файла указанного в точке входа(/src/index.js в данном случае).
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const webpack = require('webpack');
 
 
 let entries = [
-    { pageName: "TestPage"},
-/*     { pageName: "FormElements", pageType: "UIKit" },
-    { pageName: "ColorsAndType", pageType: "UIKit" },
-    { pageName: "Cards", pageType: "UIKit" },
-    { pageName: "LandingPage", pageType: "WebPages" },
-    { pageName: "SearchRoom", pageType: "WebPages" },
-    { pageName: "Registration", pageType: "WebPages" },
-    { pageName: "SignIn", pageType: "WebPages" },
-    { pageName: "RoomDetails", pageType: "WebPages" }, */
+    //{ pageName: "TestPage" },
 ];
 
 const pluginsOptions = [];
@@ -43,10 +28,10 @@ pluginsOptions.push(new webpack.ProvidePlugin({
 }));
 
 let entryObj = entries.reduce((obj, curEntry) => {
-    obj[curEntry.pageName] = `./src/pages/${curEntry.pageName}.js`;
+    obj[curEntry.pageName] = `./src/pages/${curEntry.pageName}.ts`;
     return obj;
 }, {});
-entryObj.app = "./src/app.js";
+entryObj.app = "./src/app.ts";
 module.exports = {
     entry: entryObj,
 
@@ -59,6 +44,10 @@ module.exports = {
 
     module: {
         rules: [
+            {
+                test: /\.ts$/,
+                use: "ts-loader",
+            },
             {
                 test: /\.pug$/,
                 loaders: [
