@@ -1,6 +1,6 @@
-import { View } from "./View.js";
-import { Vector } from "../../Helpers/Vector.js";
-import { IOptions } from "../Model/Options.js";
+import { View } from "./View";
+import { Vector } from "../../Helpers/Vector";
+import { IOptions } from "../Model/Options";
 
 export class ScaleView extends View {
     public containerElement: HTMLElement;

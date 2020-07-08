@@ -1,14 +1,14 @@
-import { View } from "./View.js";
+import { View } from "./View";
 
 import { SliderPart } from "./SliderParts/SliderPart";
-import { SlidersContainer } from "./SliderParts/SliderContainer.js";
-import { Handle } from "./SliderParts/Handle.js";
-import { FilledStrip } from "./SliderParts/FilledStrip.js";
-import { EmptyStrip } from "./SliderParts/EmptyStrip.js";
+import { SlidersContainer } from "./SliderParts/SliderContainer";
+import { Handle } from "./SliderParts/Handle";
+import { FilledStrip } from "./SliderParts/FilledStrip";
+import { EmptyStrip } from "./SliderParts/EmptyStrip";
 
-import { MathFunctions } from "../../Helpers/MathFunctions.js";
-import { Vector } from "../../Helpers/Vector.js";
-import { IOptions } from "../Model/Options.js";
+import { MathFunctions } from "../../Helpers/MathFunctions";
+import { Vector } from "../../Helpers/Vector";
+import { IOptions } from "../Model/Options";
 
 export class SliderView extends View {
 

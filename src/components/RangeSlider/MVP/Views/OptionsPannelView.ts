@@ -1,4 +1,4 @@
-import { View } from "./View.js";
+import { View } from "./View";
 
 export class OptionsPanelView extends View {
     /* public containerElement: HTMLElement; */
