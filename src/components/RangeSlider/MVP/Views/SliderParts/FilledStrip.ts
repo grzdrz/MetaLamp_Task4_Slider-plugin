@@ -17,14 +17,17 @@ export class FilledStrip extends SliderPart {
         let modelData = this.view.getModelData();
 
         let firstSlider = this.view.firstSliderInstance;
+        if (!firstSlider) throw new Error("handle not exist");
         let lastSlider = this.view.lastSliderInstance;
+        if (!lastSlider) throw new Error("handle not exist");
 
         let handle = this.view.firstSliderInstance;
+        if (!handle) throw new Error("handle not exist");
         let handleSize = handle.size;
 
         if (modelData.hasTwoSlider) {
             let width = lastSlider.position.sum(firstSlider.position.multiplyByNumber(-1)).length;
-            this.setSize(new Vector(modelData.sliderStripThickness, width));
+            this.setSize(new Vector(width, modelData.sliderStripThickness)); width
             //превращаем ширину ползунка в вектор, чтобы повернуть его и прибавить его половину к вектору позиции полосы
             let testVector = new Vector(firstSlider.size.width * Math.cos(modelData.angleInRad), firstSlider.size.width * Math.sin(modelData.angleInRad));
             this.setPosition(new Vector(
@@ -34,7 +37,7 @@ export class FilledStrip extends SliderPart {
         }
         else {
             let width = firstSlider.position.length + firstSlider.size.width / 2;
-            this.setSize(new Vector(modelData.sliderStripThickness, width));
+            this.setSize(new Vector(width, modelData.sliderStripThickness));
             this.setPosition(new Vector(0, handleSize.height / 2 - (modelData.sliderStripThickness) / 2));
         }
 

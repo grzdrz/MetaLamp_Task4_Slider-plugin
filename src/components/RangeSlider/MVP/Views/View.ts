@@ -10,10 +10,10 @@ class View {
     constructor() {
         this.onGetModelData = new Event();
     }
-
+ 
     getModelData(): Options{
         let optionsEventArgs = new OptionsEventArgs();
-        this.onGetModelData.invoke(new OptionsEventArgs());
+        this.onGetModelData.invoke(optionsEventArgs);
         if (!optionsEventArgs.options) throw new Error("broken get model data");
         return optionsEventArgs.options;
     }

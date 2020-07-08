@@ -10,19 +10,17 @@ class EventArgs {
 }
 
 class OptionsEventArgs extends EventArgs {
-    public options: Options | undefined;
+    public options: Options | undefined = undefined;
 }
+ 
+class OptionsToUpdateEventArgs extends EventArgs {
+    public options: IOptions;
 
-class ValuesChangeEventArgs extends EventArgs {
-    public firstValue: number;
-    public lastValue: number;
-
-    constructor(firstValue: number, lastValue: number) {
+    constructor(options: IOptions) {
         super();
 
-        this.firstValue = firstValue;
-        this.lastValue = lastValue;
+        this.options = options;
     }
 }
 
-export { OptionsEventArgs, ValuesChangeEventArgs, EventArgs };
+export { OptionsEventArgs, OptionsToUpdateEventArgs, EventArgs };

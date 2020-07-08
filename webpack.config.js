@@ -5,7 +5,7 @@ const webpack = require('webpack');
 
 
 let entries = [
-    //{ pageName: "TestPage" },
+    { pageName: "TestPage" },
 ];
 
 const pluginsOptions = [];
@@ -39,6 +39,12 @@ module.exports = {
         path: path.resolve(__dirname, 'bandle'),
         filename: '[name].js?v=[hash]'
     },
+
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
+    },
+
+    devtool: "source-map",
 
     plugins: pluginsOptions,
 

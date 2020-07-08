@@ -11,18 +11,18 @@ import { Vector } from "../../Helpers/Vector";
 import { Options, IOptions } from "../Model/Options";
 
 import { Event } from "../../Events/Event";
-import { ValuesChangeEventArgs, EventArgs } from "../../Events/EventArgs";
+import { OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
 
 export class SliderView extends View {
 
     public containerElement: HTMLElement;
-    public firstSlider: HTMLElement = new HTMLElement();
-    public lastSlider: HTMLElement = new HTMLElement();
-    public filledStrip: HTMLElement = new HTMLElement();
-    public emptyStrip: HTMLElement = new HTMLElement();
+    public firstSlider: HTMLElement | undefined;
+    public lastSlider: HTMLElement | undefined;
+    public filledStrip: HTMLElement | undefined;
+    public emptyStrip: HTMLElement | undefined;
 
-    public firstSliderBorder: HTMLElement = new HTMLElement();
-    public lastSliderBorder: HTMLElement = new HTMLElement();
+    public firstSliderBorder: HTMLElement | undefined;
+    public lastSliderBorder: HTMLElement | undefined;
 
     public containerElementInstance: SlidersContainer | undefined;
     public firstSliderInstance: Handle | undefined;
@@ -126,7 +126,7 @@ export class SliderView extends View {
         this.firstSliderInstance = new Handle(this, this.firstSlider, this.firstSliderBorder, 1);
         this._sliderParts.push(this.firstSliderInstance);
 
-        if (modelData.hasTwoSlider) {
+        if (modelData.hasTwoSlider && this.lastSlider && this.lastSliderBorder) {
             this.lastSliderInstance = new Handle(this, this.lastSlider, this.lastSliderBorder, 2);
             this._sliderParts.push(this.lastSliderInstance);
         }
@@ -266,16 +266,17 @@ export class SliderView extends View {
         if (targetHandleCountNumber === 1 && newTargetInputValue !== modelData.firstValue) {
             if (newTargetInputValue < modelData.minValue)
                 //this.onHandleMove({ firstValue: modelData.minValue });
-                this.onHandleMove.invoke(new ValuesChangeEventArgs(modelData.minValue, modelData.lastValue));
+                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: modelData.minValue }));
             else if (newTargetInputValue > modelData.lastValue && modelData.hasTwoSlider)
                 //this.onHandleMove({ firstValue: modelData.lastValue });
-                this.onHandleMove.invoke(new ValuesChangeEventArgs(modelData.lastValue, modelData.lastValue));
+                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: modelData.lastValue }));
             else if (newTargetInputValue > modelData.maxValue)
                 //this.onHandleMove({ firstValue: modelData.maxValue });
-                this.onHandleMove.invoke(new ValuesChangeEventArgs(modelData.maxValue, modelData.lastValue));
+                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: modelData.maxValue }));
             else
                 //this.onHandleMove({ firstValue: newTargetInputValue });
-                this.onHandleMove.invoke(new ValuesChangeEventArgs(newTargetInputValue, modelData.lastValue));
+                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: newTargetInputValue }));
+
 
             // перезапись значения позиции ползунка
             targetSliderInstance.calculatePosition();
@@ -284,13 +285,13 @@ export class SliderView extends View {
         else if (targetHandleCountNumber === 2 && newTargetInputValue !== modelData.lastValue && modelData.hasTwoSlider) {
             if (newTargetInputValue > modelData.maxValue)
                 //this.onHandleMove({ lastValue: modelData.maxValue });
-                this.onHandleMove.invoke(new ValuesChangeEventArgs(modelData.firstValue, modelData.maxValue));
+                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: modelData.maxValue }));
             else if (newTargetInputValue < modelData.firstValue)
                 //this.onHandleMove({ lastValue: modelData.firstValue });
-                this.onHandleMove.invoke(new ValuesChangeEventArgs(modelData.firstValue, modelData.firstValue));
+                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: modelData.firstValue }));
             else
                 //this.onHandleMove({ lastValue: newTargetInputValue });
-                this.onHandleMove.invoke(new ValuesChangeEventArgs(modelData.firstValue, newTargetInputValue));
+                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: newTargetInputValue }));
 
             // перезапись значения позиции ползунка
             targetSliderInstance.calculatePosition();

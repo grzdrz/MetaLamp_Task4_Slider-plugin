@@ -1,17 +1,21 @@
 import { View } from "./View";
 import { Vector } from "../../Helpers/Vector";
 import { IOptions } from "../Model/Options";
+import { Event } from "../../Events/Event";
+import { OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
 
 export class ScaleView extends View {
     public containerElement: HTMLElement;
     public maxSegmentsCount: number = 0;
+
+    public onScaleSegmentClick: Event = new Event;
 
     constructor(scaleContainer: HTMLElement) {
         super();
 
         this.containerElement = scaleContainer;
 
-        this.onScaleSegmentClick = () => { };
+        //this.onScaleSegmentClick = () => { };
         this._handlerSelectSegment = this._handlerSelectSegment.bind(this);
     }
 
@@ -45,7 +49,7 @@ export class ScaleView extends View {
             if (segmentValue >= modelData.maxValue) break;
 
             segment.textContent = segmentValue.toFixed(4);
-            segment.dataset.segmentValue = segmentValue;
+            segment.dataset.segmentValue = segmentValue.toString();
             segment.addEventListener("click", this._handlerSelectSegment);
             segment.style.fontSize = `${modelData.scaleFontSize}px`;
             segment.style.lineHeight = `${modelData.scaleFontSize}px`;
@@ -58,7 +62,7 @@ export class ScaleView extends View {
         lastSegment.className = "range-slider__scale-segment";
         let lastSegmentValue = modelData.maxValue;
         lastSegment.textContent = lastSegmentValue.toFixed(4);
-        lastSegment.dataset.segmentValue = lastSegmentValue;
+        lastSegment.dataset.segmentValue = lastSegmentValue.toString();
         lastSegment.addEventListener("click", this._handlerSelectSegment);
         lastSegment.style.fontSize = `${modelData.scaleFontSize}px`;
         lastSegment.style.lineHeight = `${modelData.scaleFontSize}px`;
@@ -152,6 +156,7 @@ export class ScaleView extends View {
         else
             optionsToUpdate.firstValue = value;
 
-        this.onScaleSegmentClick(optionsToUpdate);
+        //this.onScaleSegmentClick(optionsToUpdate);
+        this.onScaleSegmentClick.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
 }

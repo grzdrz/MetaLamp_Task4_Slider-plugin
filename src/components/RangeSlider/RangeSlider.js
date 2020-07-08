@@ -1,4 +1,4 @@
-import { SliderView } from "./MVP/Views/SliderView.js";
+/* import { SliderView } from "./MVP/Views/SliderView.js";
 import { InputsView } from "./MVP/Views/InputsView.js";
 import { ScaleView } from "./MVP/Views/ScaleView.js";
 import { OptionsPanelView } from "./MVP/Views/OptionsPannelView.js";
@@ -98,4 +98,4 @@ function _render(elements) {
     rangeSlider.append(optionsPanelContainer);
 
     rangeSlidersContainer.append(rangeSlider);
-}
+} */

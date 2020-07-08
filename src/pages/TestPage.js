@@ -1,4 +1,4 @@
-import { createRangeSlider } from "../components/RangeSlider/RangeSlider.js";
+/* import { createRangeSlider } from "../components/RangeSlider/RangeSlider.js";
 
 let options2 = {
     sliderStripLength: 500,
@@ -17,7 +17,7 @@ let options2 = {
     scaleFontSize: 15,
     angle: 0,
 };
-createRangeSlider(".test-page__tested-range-slider-container2", options2);
+createRangeSlider(".test-page__tested-range-slider-container2", options2); */
 
 
 /* let options1 = {
@@ -80,4 +80,4 @@ let options4 = {
 };
 createRangeSlider(".test-page__tested-range-slider-container4", options4); */
 
-import "./TestPage.scss"; 
+/* import "./TestPage.scss";  */

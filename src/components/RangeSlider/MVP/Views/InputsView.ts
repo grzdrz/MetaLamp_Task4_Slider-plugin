@@ -1,11 +1,11 @@
 import { View } from "./View";
 import { Event } from "../../Events/Event";
-import { OptionsEventArgs, ValuesChangeEventArgs,  EventArgs } from "../../Events/EventArgs";
+import { OptionsEventArgs, OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
 
 class InputsView extends View {
     public containerElement: HTMLElement;
-    public firstInputDOMElement: HTMLInputElement = new HTMLInputElement();
-    public lastInputDOMElement: HTMLInputElement = new HTMLInputElement();
+    public firstInputDOMElement: HTMLInputElement | undefined;
+    public lastInputDOMElement: HTMLInputElement | undefined;
 
     public onInputsChange: Event;
 
@@ -28,6 +28,7 @@ class InputsView extends View {
     update() {
         let modelData = this.getModelData();
 
+        if (!this.firstInputDOMElement) throw new Error("this.firstInputDOMElement not exist");
         modelData.firstValue !== undefined ? this.firstInputDOMElement.value = (modelData.firstValue).toString() : this.firstInputDOMElement.value;
         if (this.lastInputDOMElement)
             modelData.lastValue !== undefined ? this.lastInputDOMElement.value = (modelData.lastValue).toString() : this.lastInputDOMElement.value;
@@ -77,7 +78,7 @@ class InputsView extends View {
         }
 
         (<HTMLInputElement>targetElement).value = value.toString();
-        this.onInputsChange.invoke(new ValuesChangeEventArgs(value, modelData.lastValue));
+        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ firstValue: value }));
         /* this.onInputChange({
             firstValue: value
         }); */
@@ -100,7 +101,7 @@ class InputsView extends View {
             value = modelData.firstValue;
 
         (<HTMLInputElement>targetElement).value = value.toString();
-        this.onInputsChange.invoke(new ValuesChangeEventArgs(modelData.firstValue, value));
+        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ lastValue: value }));
         /* this.onInputChange({
             lastValue: value
         }); */

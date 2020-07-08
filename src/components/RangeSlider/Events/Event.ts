@@ -1,15 +1,11 @@
-import { EventArgs } from "./EventArgs"
+import { OptionsToUpdateEventArgs, EventArgs } from "./EventArgs"
 
-class EventHandler {
-    public handler: (args: EventArgs) => void;
-
-    constructor(handler: (args: EventArgs) => void) {
-        this.handler = handler;
-    }
+interface EventHandler {
+    (args: EventArgs): void;
 }
 
 class Event {
-    public handlers: EventHandler[] = new Array<EventHandler>();
+    private handlers: EventHandler[] = new Array<EventHandler>();
     /* public publisher: Object; */
 
     constructor(/* public publisher: Object */) {
@@ -18,10 +14,10 @@ class Event {
     invoke(args?: EventArgs) {
         this.handlers.forEach(eh => {
             if (args) {
-                eh.handler(args);
+                eh(args);
             }
             else {
-                eh.handler(new EventArgs());//можно издавать ивенты не требовательные к входным данным
+                eh(new EventArgs());//можно издавать ивенты не требовательные к входным данным
             }
         });
     }
@@ -32,3 +28,5 @@ class Event {
 }
 
 export { Event };
+
+//концепт ивентов позаимствовал из с#(правда пока не полностью)

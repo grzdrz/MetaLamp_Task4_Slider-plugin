@@ -17,9 +17,10 @@ export class EmptyStrip extends SliderPart {
         let modelData = this.view.getModelData();
 
         let handle = this.view.firstSliderInstance;
+        if (!handle) throw new Error("handle not exist");
         let handleSize = handle.size;
 
-        this.setSize(new Vector(modelData.sliderStripThickness, modelData.sliderStripLength));
+        this.setSize(new Vector(modelData.sliderStripLength, modelData.sliderStripThickness));
         this.setPosition(new Vector(0, handleSize.height / 2 - (modelData.sliderStripThickness) / 2));
 
         let transformOrigin = {//точка вращения - отступ на половину размера ползунка от основания полосы и отступ до центра полосы в ее толщине

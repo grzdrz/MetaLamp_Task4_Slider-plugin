@@ -1,4 +1,4 @@
-import { createRangeSlider } from "../components/RangeSlider/RangeSlider";
+import { RangeSlider } from "../components/RangeSlider/RangeSlider";
 import { Options } from "../components/RangeSlider/MVP/Model/Options";
 
 let options = {
@@ -18,6 +18,6 @@ let options = {
     scaleFontSize: 15,
     angle: 0,
 };
-createRangeSlider(".test-page__tested-range-slider-container2", options);
+RangeSlider.createRangeSlider(".test-page__tested-range-slider-container2", options);
 
 import "./TestPage.scss"; 

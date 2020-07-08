@@ -6,6 +6,9 @@ import { InputsView } from "./Views/InputsView";
 import { ScaleView } from "./Views/ScaleView";
 import { OptionsPanelView } from "./Views/OptionsPanelView";
 
+import { Event } from "../Events/Event";
+import { OptionsEventArgs, OptionsToUpdateEventArgs, EventArgs } from "../Events/EventArgs";
+
 class Presenter {
     private model: Model;
     private sliderView: View;
@@ -20,26 +23,25 @@ class Presenter {
         this.scaleView = scaleView;
         this.optionsPanelView = optionsPanelView;
 
-        this.getModelData = this.getModelData.bind(this);
-        this.sliderView.getModelData = this.getModelData;
-        this.inputsView.getModelData = this.getModelData;
-        this.scaleView.getModelData = this.getModelData;
-        this.optionsPanelView.getModelData = this.getModelData;
+        this.handlerGetModelData = this.handlerGetModelData.bind(this);
+        (<SliderView>this.sliderView).onGetModelData.subscribe(this.handlerGetModelData);
+        (<InputsView>this.inputsView).onGetModelData.subscribe(this.handlerGetModelData);
+        (<ScaleView>this.scaleView).onGetModelData.subscribe(this.handlerGetModelData);
+        (<OptionsPanelView>this.optionsPanelView).onGetModelData.subscribe(this.handlerGetModelData);
 
-        this.onModelOptionUpdate = this.onModelOptionUpdate.bind(this);
-        this.onHandleMove = this.onHandleMove.bind(this);
-        (<SliderView>this.sliderView).onHandleMove = this.onHandleMove;
-        (<SliderView>this.sliderView).onModelOptionUpdate = this.onModelOptionUpdate;
+        this.handlerHandleMove = this.handlerHandleMove.bind(this);
+        (<SliderView>this.sliderView).onHandleMove.subscribe(this.handlerHandleMove);
+        //this.onModelOptionUpdate = this.onModelOptionUpdate.bind(this);
+        //(<SliderView>this.sliderView).onModelOptionUpdate = this.onModelOptionUpdate;
 
-        this.onInputChange = this.onInputChange.bind(this);
-        (<InputsView>this.inputsView).onInputChange = this.onInputChange;
+        this.handlerInputChange = this.handlerInputChange.bind(this);
+        (<InputsView>this.inputsView).onInputsChange.subscribe(this.handlerInputChange);
 
-        this.onScaleSegmentClick = this.onScaleSegmentClick.bind(this);
-        (<ScaleView>this.scaleView).onScaleSegmentClick = this.onScaleSegmentClick;
+        this.handlerScaleSegmentClick = this.handlerScaleSegmentClick.bind(this);
+        (<ScaleView>this.scaleView).onScaleSegmentClick.subscribe(this.handlerScaleSegmentClick);
 
-
-        this.onModelStateUpdate = this.onModelStateUpdate.bind(this);
-        (<OptionsPanelView>this.optionsPanelView).onModelStateUpdate = this.onModelStateUpdate;
+        this.handlerModelStateUpdate = this.handlerModelStateUpdate.bind(this);
+        (<OptionsPanelView>this.optionsPanelView).onModelStateUpdate.subscribe(this.handlerModelStateUpdate);
 
         this.initialize();
     }
@@ -51,36 +53,35 @@ class Presenter {
         this.optionsPanelView.initialize();
     }
 
-    public getModelData(): Options {
-        return this.model.getOptions();
+    public handlerGetModelData(args: EventArgs): void {
+        this.model.getOptions(<OptionsEventArgs>args);
     }
 
-    public onModelOptionUpdate(data: IOptions) {
+    /* public onModelOptionUpdate(data: IOptions) {
         this.model.updateOptions(data);
+    } */
+    public handlerHandleMove(args: EventArgs) {
+        this.model.updateOptions((<OptionsToUpdateEventArgs>args).options);
+        (<InputsView>this.inputsView).update();
     }
 
-    public onHandleMove(data: IOptions) {
-        this.model.updateOptions(data);
-        this.inputsView.update();
+    public handlerInputChange(args: EventArgs): void {
+        this.model.updateOptions((<OptionsToUpdateEventArgs>args).options);
+        (<SliderView>this.sliderView).update(false);
     }
 
-    public onInputChange(data: IOptions) {
-        this.model.updateOptions(data);
-        this.sliderView.update();
+    public handlerScaleSegmentClick(args: EventArgs): void {
+        this.model.updateOptions((<OptionsToUpdateEventArgs>args).options);
+        (<SliderView>this.sliderView).update(false);
+        (<InputsView>this.inputsView).update();
     }
 
-    public onScaleSegmentClick(data: IOptions) {
-        this.model.updateOptions(data);
-        this.sliderView.update();
-        this.inputsView.update();
-    }
-
-    public onModelStateUpdate(data: IOptions) {
-        this.model.updateOptions(data);
-        this.sliderView.update(true);
-        this.scaleView.update(true);
-        this.inputsView.update(true);
-        this.optionsPanelView.update();
+    public handlerModelStateUpdate(args: EventArgs) {
+        this.model.updateOptions((<OptionsToUpdateEventArgs>args).options);
+        (<SliderView>this.sliderView).update(true);
+        (<ScaleView>this.scaleView).update(true);
+        (<InputsView>this.inputsView).update();
+        (<OptionsPanelView>this.optionsPanelView).update();
     }
 }
 

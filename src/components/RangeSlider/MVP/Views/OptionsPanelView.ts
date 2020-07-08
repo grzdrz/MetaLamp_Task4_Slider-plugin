@@ -1,7 +1,11 @@
 import { View } from "./View";
+import { Event } from "../../Events/Event";
+import { OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
 
 export class OptionsPanelView extends View {
     /* public containerElement: HTMLElement; */
+
+    public onModelStateUpdate: Event = new Event();
 
     constructor(public containerElement: HTMLElement) {
         super();
@@ -15,7 +19,7 @@ export class OptionsPanelView extends View {
         this._handlerAngleSizeChange = this._handlerAngleSizeChange.bind(this);
 
         this.update = this.update.bind(this);
-        this.onModelStateUpdate = () => { };
+        //this.onModelStateUpdate = () => { };
     }
 
     initialize() {
@@ -36,7 +40,7 @@ export class OptionsPanelView extends View {
             let stepSizeInput = document.createElement("input");
             stepSizeInput.type = "number";
             stepSizeInput.step = "0.5";
-            stepSizeInput.value = modelData.stepSize;
+            stepSizeInput.value = modelData.stepSize.toString();
             stepSizeInput.className = "range-slider__step-size-input";
 
             let stepSizeText = document.createElement("p");
@@ -106,7 +110,7 @@ export class OptionsPanelView extends View {
             let maxValueInput = document.createElement("input");
             maxValueInput.type = "number";
             maxValueInput.step = "1";
-            maxValueInput.value = modelData.maxValue;
+            maxValueInput.value = modelData.maxValue.toString();
             maxValueInput.className = "range-slider__max-value-input";
 
             let maxValueText = document.createElement("p");
@@ -127,7 +131,7 @@ export class OptionsPanelView extends View {
             let minValueInput = document.createElement("input");
             minValueInput.type = "number";
             minValueInput.step = "1";
-            minValueInput.value = modelData.minValue;
+            minValueInput.value = modelData.minValue.toString();
             minValueInput.className = "range-slider__min-value-input";
 
             let minValueText = document.createElement("p");
@@ -147,7 +151,7 @@ export class OptionsPanelView extends View {
             let maxSegmentsCountInput = document.createElement("input");
             maxSegmentsCountInput.type = "number";
             maxSegmentsCountInput.step = "1";
-            maxSegmentsCountInput.value = modelData.maxSegmentsCount;
+            maxSegmentsCountInput.value = modelData.maxSegmentsCount.toString();
             maxSegmentsCountInput.className = "range-slider__max-value-input";
 
             let maxSegmentsCountText = document.createElement("p");
@@ -167,7 +171,7 @@ export class OptionsPanelView extends View {
             let angleSizeCountInput = document.createElement("input");
             angleSizeCountInput.type = "number";
             angleSizeCountInput.step = "1";
-            angleSizeCountInput.value = modelData.angle;
+            angleSizeCountInput.value = modelData.angle.toString();
             angleSizeCountInput.className = "range-slider__angle-size-input";
 
             let angleSizeCountText = document.createElement("p");
@@ -189,13 +193,14 @@ export class OptionsPanelView extends View {
         this.containerElement.append(angleSizeLabel);
     }
 
-    _handlerStepSizeChange(event: Event) {
+    _handlerStepSizeChange(event: globalThis.Event) {
         event.preventDefault();
 
         let currentLabel = event.currentTarget;
         if (!currentLabel)
             throw new Error("some shit with step size change event");
-        let input = <HTMLInputElement>(currentLabel).querySelector("input");
+        let input = (<HTMLInputElement>currentLabel).querySelector("input");
+        if (!input) throw new Error("input not exist");
         let inputValue = Number.parseFloat(input.value);
         if (inputValue <= 0) {
             inputValue = 0.1;
@@ -205,38 +210,43 @@ export class OptionsPanelView extends View {
         let optionsToUpdate = {
             stepSize: inputValue,
         };
-        this.onModelStateUpdate(optionsToUpdate);
+        //this.onModelStateUpdate(optionsToUpdate);
+        this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
 
-    _handlerMaxValueChange(event: Event) {
+    _handlerMaxValueChange(event: globalThis.Event) {
         event.preventDefault();
 
         let currentLabel = event.currentTarget;
         if (!currentLabel)
             throw new Error("some shit with max value change event");
-        let input = <HTMLInputElement>(currentLabel).querySelector("input");
+        let input = (<HTMLElement>currentLabel).querySelector("input");
+        if (!input) throw new Error("input not exist");
         let inputValue = Number.parseFloat(input.value);
 
         let optionsToUpdate = {
             maxValue: inputValue,
         };
-        this.onModelStateUpdate(optionsToUpdate);
+        //this.onModelStateUpdate(optionsToUpdate);
+        this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
-    _handlerMinValueChange(event: Event) {
+    _handlerMinValueChange(event: globalThis.Event) {
         event.preventDefault();
 
         let currentLabel = event.currentTarget;
         if (!currentLabel)
             throw new Error("some shit with min value change event");
-        let input = <HTMLInputElement>(currentLabel).querySelector("input");
+        let input = (<HTMLElement>currentLabel).querySelector("input");
+        if (!input) throw new Error("input not exist");
         let inputValue = Number.parseFloat(input.value);
 
         let optionsToUpdate = {
             minValue: inputValue,
         };
-        this.onModelStateUpdate(optionsToUpdate);
+        //this.onModelStateUpdate(optionsToUpdate);
+        this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
-    _handlerHandlsCountChange(event: Event) {
+    _handlerHandlsCountChange(event: globalThis.Event) {
         event.preventDefault();
 
         let currentLabel = event.currentTarget;
@@ -258,34 +268,39 @@ export class OptionsPanelView extends View {
             };
         }
 
-        this.onModelStateUpdate(optionsToUpdate);
+        //this.onModelStateUpdate(optionsToUpdate);
+        this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
-    _handlerMaxSegmentsCountChange(event: Event) {
+    _handlerMaxSegmentsCountChange(event: globalThis.Event) {
         event.preventDefault();
 
         let currentLabel = event.currentTarget;
         if (!currentLabel)
             throw new Error("some shit with max segments count change event");
-        let input = <HTMLInputElement>(currentLabel).querySelector("input");
+        let input = (<HTMLElement>currentLabel).querySelector("input");
+        if (!input) throw new Error("input not exist");
         let inputValue = Number.parseInt(input.value);
 
         let optionsToUpdate = {
             maxSegmentsCount: inputValue,
         };
-        this.onModelStateUpdate(optionsToUpdate);
+        //this.onModelStateUpdate(optionsToUpdate);
+        this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
-    _handlerAngleSizeChange(event: Event) {
+    _handlerAngleSizeChange(event: globalThis.Event) {
         event.preventDefault();
 
         let currentLabel = event.currentTarget;
         if (!currentLabel)
             throw new Error("some shit with angle size change event");
-        let input = <HTMLInputElement>(currentLabel).querySelector("input");
+        let input = (<HTMLElement>currentLabel).querySelector("input");
+        if (!input) throw new Error("input not exist");
         let inputValue = Number.parseInt(input.value);
 
         let optionsToUpdate = {
             angle: inputValue,
         };
-        this.onModelStateUpdate(optionsToUpdate);
+        //this.onModelStateUpdate(optionsToUpdate);
+        this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
 }
