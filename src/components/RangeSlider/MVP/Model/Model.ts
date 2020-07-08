@@ -1,4 +1,6 @@
 import { Options, IOptions } from "./Options.js";
+import { Event } from "../../Events/Event";
+import { OptionsEventArgs } from "../../Events/EventArgs";
 
 class Model {
     private _options: Options;
@@ -7,19 +9,15 @@ class Model {
         this._options = options;
     }
 
-    /*    getOption(optionName: string) {
-           return this._options[optionName];
-       } */
-
-    getOptions(): Options {
+    /* getOptions(): Options {
         return new Options(this._options);
+    } */
+
+    getOptions(args: OptionsEventArgs): void {
+        args.options = new Options(this._options);
     }
 
     updateOptions(options: IOptions): void {
-        /* for (let optionName of Object.keys(options)) {
-            this._options[optionName] = options[optionName];
-        } */
-
         this._options.update(options);
     }
 }

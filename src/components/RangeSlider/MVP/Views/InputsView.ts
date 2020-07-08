@@ -1,20 +1,24 @@
 import { View } from "./View";
+import { Event } from "../../Events/Event";
+import { OptionsEventArgs, ValuesChangeEventArgs,  EventArgs } from "../../Events/EventArgs";
 
 class InputsView extends View {
     public containerElement: HTMLElement;
-    public firstInputDOMElement: HTMLElement = new HTMLElement();
-    public lastInputDOMElement: HTMLElement = new HTMLElement();
+    public firstInputDOMElement: HTMLInputElement = new HTMLInputElement();
+    public lastInputDOMElement: HTMLInputElement = new HTMLInputElement();
 
-    constructor(inputsContainer) {
+    public onInputsChange: Event;
+
+    constructor(inputsContainer: HTMLElement) {
         super();
 
         this.containerElement = inputsContainer;
 
-        this.onInputChange = () => { };
+        this.handlerFirstInputChange = this.handlerFirstInputChange.bind(this);
+        this.handlerLastInputChange = this.handlerLastInputChange.bind(this);
 
-        this.onFirstInputChange = this.onFirstInputChange.bind(this);
-        this.onLastInputChange = this.onLastInputChange.bind(this);
-
+        /* this.onInputChange = () => { }; */
+        this.onInputsChange = new Event();
     }
 
     initialize() {
@@ -23,9 +27,10 @@ class InputsView extends View {
 
     update() {
         let modelData = this.getModelData();
-        modelData.firstValue !== undefined ? this.firstInputDOMElement.value = modelData.firstValue : this.firstInputDOMElement.value;
+
+        modelData.firstValue !== undefined ? this.firstInputDOMElement.value = (modelData.firstValue).toString() : this.firstInputDOMElement.value;
         if (this.lastInputDOMElement)
-            modelData.lastValue !== undefined ? this.lastInputDOMElement.value = modelData.lastValue : this.lastInputDOMElement.value;
+            modelData.lastValue !== undefined ? this.lastInputDOMElement.value = (modelData.lastValue).toString() : this.lastInputDOMElement.value;
     }
 
     _render() {
@@ -40,14 +45,14 @@ class InputsView extends View {
             this.containerElement.append(this.lastInputDOMElement);
         }
 
-        this.firstInputDOMElement.addEventListener("change", this.onFirstInputChange);
+        this.firstInputDOMElement.addEventListener("change", this.handlerFirstInputChange);
         if (this.lastInputDOMElement)
-            this.lastInputDOMElement.addEventListener("change", this.onLastInputChange);
+            this.lastInputDOMElement.addEventListener("change", this.handlerLastInputChange);
 
         this.update();
     }
 
-    onFirstInputChange(event: Event) {
+    handlerFirstInputChange(event: globalThis.Event) {
         let modelData = this.getModelData();
 
         let targetElement = event.currentTarget;
@@ -72,13 +77,14 @@ class InputsView extends View {
         }
 
         (<HTMLInputElement>targetElement).value = value.toString();
-        this.onInputChange({
+        this.onInputsChange.invoke(new ValuesChangeEventArgs(value, modelData.lastValue));
+        /* this.onInputChange({
             firstValue: value
-        });
+        }); */
     }
 
-    onLastInputChange(event: Event) {
-        let modelData = this.getModelData();
+    handlerLastInputChange(event: globalThis.Event) {
+        let modelData = this.getModelData();//this.getModelData();
 
         let targetElement = event.currentTarget;
         if (!targetElement)
@@ -94,9 +100,10 @@ class InputsView extends View {
             value = modelData.firstValue;
 
         (<HTMLInputElement>targetElement).value = value.toString();
-        this.onInputChange({
+        this.onInputsChange.invoke(new ValuesChangeEventArgs(modelData.firstValue, value));
+        /* this.onInputChange({
             lastValue: value
-        });
+        }); */
     }
 }
 

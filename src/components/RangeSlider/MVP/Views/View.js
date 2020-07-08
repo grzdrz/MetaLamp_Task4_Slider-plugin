@@ -1,3 +1,5 @@
+import { Event, EventArgs } from "../../Events/Event";
+
 export class View {
     constructor() {
         this.getModelData = () => { };

@@ -1,12 +1,22 @@
-import { Options } from "../Model/Options";
+import { Options, IOptions } from "../Model/Options";
 import { Vector } from "../../Helpers/Vector";
+import { Event } from "../../Events/Event";
+import { OptionsEventArgs, EventArgs } from "../../Events/EventArgs";
 
 class View {
-    /* constructor() {
-        
-    } */
+    public onGetModelData: Event;
+    public modelData: IOptions = {};
 
-    public getModelData() { }/////
+    constructor() {
+        this.onGetModelData = new Event();
+    }
+
+    getModelData(): Options{
+        let optionsEventArgs = new OptionsEventArgs();
+        this.onGetModelData.invoke(new OptionsEventArgs());
+        if (!optionsEventArgs.options) throw new Error("broken get model data");
+        return optionsEventArgs.options;
+    }
 
     initialize() {
     }
