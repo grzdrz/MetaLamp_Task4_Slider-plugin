@@ -26,12 +26,19 @@ export class OptionsPanelView extends View {
         this._render();
     }
 
-    update() {
+    update(neededFullRerender: boolean) {
+        if (neededFullRerender) {
+            this._render();
+        }
+        else {
+            this._render();//////////////////////
+        }
     }
 
     _render() {
         let modelData = this.getModelData();
 
+        this.containerElement.innerHTML = "";
         //размер шага
         let stepSizeLabel = document.createElement("label");
         {

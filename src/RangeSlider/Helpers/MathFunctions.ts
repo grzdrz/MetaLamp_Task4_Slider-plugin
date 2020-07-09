@@ -52,6 +52,16 @@ class MathFunctions {
         let splitByE: string[] = number.toString().split("e");
         return splitByE.length === 2;
     }
+
+    static getFractionOfNumber(number: number): number{
+        let test1 = number.toString().split(".");
+        let test12: string;
+        if (test1.length > 1){
+            test12 = `0.${test1[1]}`;
+            return Number.parseFloat(test12);
+        }
+        return 0;
+    }
 }
 
 export { MathFunctions };

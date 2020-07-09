@@ -77,7 +77,7 @@ class Presenter {
         (<SliderView>this.sliderView).update(true);
         (<ScaleView>this.scaleView).update(true);
         (<InputsView>this.inputsView).update();
-        (<OptionsPanelView>this.optionsPanelView).update();
+        (<OptionsPanelView>this.optionsPanelView).update(false);
     }
 }
 

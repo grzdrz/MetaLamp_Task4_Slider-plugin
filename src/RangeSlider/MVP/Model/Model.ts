@@ -16,14 +16,35 @@ class Model {
     }
 
     updateOptions(options: IOptions): void {
+        if (options.stepSize && this._options.maxValue) options.maxValue = this.validateMaxValue(options.stepSize);
+        if (options.minValue && this._options.stepSize) options.minValue = this.validateMinValue(options.minValue, this._options.stepSize);
         if (options.firstValue) options.firstValue = this.validateValue(options.firstValue, 1);
         if (options.lastValue) options.lastValue = this.validateValue(options.lastValue, 2);
-        /* if (options.stepSize) options.stepSize */
 
         this._options.update(options);
     }
 
-    validateValue(value: number, countNumber: number): number{
+    validateMaxValue(stepSize: number): number {
+        let test2 = (this._options.maxValue - this._options.minValue) / stepSize;
+        let test1 = MathFunctions.getFractionOfNumber(test2);
+        if (test1 === 0) return this._options.maxValue;
+        else {
+            let test3 = Math.round(test2);
+            return stepSize * test3 + this._options.minValue;
+        }
+    }
+
+    validateMinValue(minValue: number, stepSize: number): number {
+        let test2 = (this._options.maxValue - minValue) / stepSize;
+        let test1 = MathFunctions.getFractionOfNumber(test2);
+        if (test1 === 0) return minValue;
+        else {
+            let test3 = Math.round(test2);
+            return this._options.maxValue - stepSize * test3;
+        }
+    }
+
+    validateValue(value: number, countNumber: number): number {
         let newTargetInputValue = this._calculateNearestPositionForHandle(value);
 
         let minValue = this._options.minValue;
@@ -39,7 +60,7 @@ class Model {
             else if (newTargetInputValue > lastValue && hasTwoSlider)
                 newTargetInputValue = lastValue;
             else if (newTargetInputValue > maxValue)
-                newTargetInputValue = maxValue;            
+                newTargetInputValue = maxValue;
             else
                 newTargetInputValue = newTargetInputValue;
         }
@@ -58,11 +79,11 @@ class Model {
     // подменяем текущее значение инпута на число к которому ближе всего текущее значение курсора
     // т.е. например шаг 10, значение 78 -> на выходе получаем 80, 
     // или например  шаг 10, значение 73 -> на выходе получаем 70
-    _calculateNearestPositionForHandle(value: number/* , stepSize: number, minValue: number */): number {
+    _calculateNearestPositionForHandle(value: number): number {
         let temp1;
         let temp3;
-        let minValue = this._options.minValue; 
-        let stepSize = this._options.stepSize; 
+        let minValue = this._options.minValue;
+        let stepSize = this._options.stepSize;
         if (minValue < 0) {
             temp1 = (value + Math.abs(minValue)) / stepSize;
             let temp2 = Math.round(temp1);
