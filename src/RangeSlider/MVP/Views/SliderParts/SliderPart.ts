@@ -8,18 +8,25 @@ export class SliderPart {
     public position: Vector;
     public size: Vector;
 
-    constructor(view: SliderView, DOMElement: HTMLElement) {
-        this.DOMElement = DOMElement;
+    constructor(view: SliderView) {
         this.view = view;
 
-        this.position = new Vector(0, 0);
+        this.DOMElement = document.createElement("div");//заглушка
 
-        let partBoundingRect = this.DOMElement.getBoundingClientRect();
-        this.size = new Vector(partBoundingRect.width, partBoundingRect.height);
+        this.position = new Vector(0, 0);
+        this.size = new Vector(0, 0);
     }
 
     initialize() {
+        this.position = new Vector(0, 0);
+        let partBoundingRect = this.DOMElement.getBoundingClientRect();
+        this.size = new Vector(partBoundingRect.width, partBoundingRect.height);
+
         this.render();
+    }
+
+    buildDOMElement(){
+
     }
 
     render() {

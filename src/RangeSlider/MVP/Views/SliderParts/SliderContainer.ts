@@ -2,9 +2,9 @@ import { SliderPart } from "./SliderPart";
 import { Vector } from "../../../Helpers/Vector";
 import { SliderView } from "../SliderView";
 
-export class SlidersContainer extends SliderPart {
-    constructor(view: SliderView, DOMElement: HTMLElement) {
-        super(view, DOMElement);
+export class SliderContainer extends SliderPart {
+    constructor(view: SliderView) {
+        super(view);
     }
 
     initialize() {
@@ -14,8 +14,7 @@ export class SlidersContainer extends SliderPart {
     render() {
         let modelData = this.view.getModelData();
 
-        let width = modelData.sliderStripLength * Math.cos(modelData.angleInRad);
-        let height = modelData.sliderStripLength * Math.sin(modelData.angleInRad);
-        this.setSize(new Vector(width, height));
+        let size = Vector.calculateVector(modelData.sliderStripLength, modelData.angleInRad);
+        this.setSize(size);
     }
 }

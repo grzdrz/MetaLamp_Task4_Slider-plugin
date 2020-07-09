@@ -45,12 +45,14 @@
     background: #ffffff;
     border: 1px solid rgba(31, 32, 65, 0.25);
     border-radius: 3px;
-    position: absolute; }
+    position: absolute;
+    z-index: 1; }
   .range-slider__slider-body-filled {
     width: 8px;
     height: 8px;
     background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
-    position: absolute; }
+    position: absolute;
+    z-index: 2; }
   .range-slider__first-slider, .range-slider__last-slider {
     display: flex;
     align-items: center;
@@ -60,7 +62,8 @@
     border-radius: 50%;
     opacity: 0.5;
     left: auto;
-    bottom: 0px; }
+    bottom: 0px;
+    z-index: 4; }
   .range-slider__first-slider-outside, .range-slider__last-slider-outside {
     width: 26px;
     height: 26px;
@@ -69,7 +72,8 @@
     position: absolute;
     opacity: 0.5;
     left: auto;
-    bottom: 0px; }
+    bottom: 0px;
+    z-index: 3; }
   .range-slider__scale-container {
     display: flex;
     position: relative; }

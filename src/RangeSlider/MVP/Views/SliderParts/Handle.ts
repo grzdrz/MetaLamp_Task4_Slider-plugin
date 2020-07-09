@@ -5,21 +5,37 @@ import { SliderView } from "../SliderView";
 export class Handle extends SliderPart {
     public countNumber: number;
     public backgroundDOMElement: HTMLElement;
-    public backgroundPosition: Vector;
-    public backgroundSize: Vector;
 
-    constructor(view: SliderView, mainDOMElement: HTMLElement, backgroundDOMElement: HTMLElement, countNumber: number) {
-        super(view, mainDOMElement);
+    constructor(view: SliderView, countNumber: number) {
+        super(view);
+
+        this.backgroundDOMElement = document.createElement("div");//заглушка
 
         this.countNumber = countNumber;
-
-        this.backgroundDOMElement = backgroundDOMElement;
-        this.backgroundPosition = new Vector(0, 0);
-        this.backgroundSize = new Vector(0, 0);
     }
 
     initialize() {
+        this.buildDOMElement();
         this.render();
+    }
+
+
+    buildDOMElement() {
+        let modelData = this.view.getModelData();
+
+        this.DOMElement = document.createElement("div");
+        this.DOMElement.className = `range-slider__${(this.countNumber === 1 ? "first" : "last")}-slider`;
+        this.DOMElement.dataset.sliderCountNumber = this.countNumber.toString();
+        this.DOMElement.style.width = `${modelData.handleWidth}px`;
+        this.DOMElement.style.height = `${modelData.handleHeight}px`;
+        this.view.sliderContainer.DOMElement.append(this.DOMElement);
+
+        this.backgroundDOMElement = document.createElement("div");
+        this.backgroundDOMElement.className = `range-slider__${(this.countNumber === 1 ? "first" : "last")}-slider-outside`;
+        this.backgroundDOMElement.dataset.sliderCountNumber = this.countNumber.toString();
+        this.view.sliderContainer.DOMElement.append(this.backgroundDOMElement);
+
+        this.view.setHandlersOnHandls(this);
     }
 
     render() {
@@ -52,16 +68,20 @@ export class Handle extends SliderPart {
         this.renderBackground();
     }
 
-    renderBackground() {
+    renderBackground() {///////////////////
         let modelData = this.view.getModelData();
 
-        this.backgroundPosition.x = this.position.x - modelData.borderThickness;
-        this.backgroundPosition.y = this.position.y - modelData.borderThickness;
+        let backgroundPositionX = this.position.x - modelData.borderThickness;
+        let backgroundPositionY = this.position.y - modelData.borderThickness;
+        let position = new Vector(backgroundPositionX, backgroundPositionY);
+        //let position = this.position.subtractNumber(modelData.borderThickness);
 
-        this.backgroundSize.x = modelData.borderThickness * 2 + this.size.width;
-        this.backgroundSize.y = modelData.borderThickness * 2 + this.size.height;
+        let backgroundSizeX = modelData.borderThickness * 2 + modelData.handleWidth;
+        let backgroundSizeY = modelData.borderThickness * 2 + modelData.handleHeight;
+        let size = new Vector(backgroundSizeX, backgroundSizeY);
+        //let size = this.size.sumNumber(modelData.borderThickness * 2);
 
-        this.view.renderPosition(this.backgroundDOMElement, this.backgroundPosition);
-        this.view.renderSize(this.backgroundDOMElement, this.backgroundSize);
+        this.view.renderPosition(this.backgroundDOMElement, position);
+        this.view.renderSize(this.backgroundDOMElement, size);
     }
 }

@@ -40,9 +40,15 @@ class Vector {
     sum(vector: Vector): Vector {
         return new Vector(this._x + vector.x, this._y + vector.y);
     }
+    sumNumber(number: number): Vector {
+        return new Vector(this._x + number, this._y + number);
+    }
 
-    subtract(vector: Vector): Vector {//из текущего вычитает вектор аргумент
+    subtract(vector: Vector): Vector {
         return new Vector(this._x - vector.x, this._y - vector.y);
+    }
+    subtractNumber(number: number): Vector {
+        return new Vector(this._x - number, this._y - number);
     }
 
     multiplyByNumber(number: number): Vector {
@@ -54,7 +60,7 @@ class Vector {
     }
 
     ///считает длину проекции текущего вектора на целевой вектор
-    calculateVectorProjectionOnTargetVector(targetVector: Vector){
+    calculateVectorProjectionOnTargetVector(targetVector: Vector) {
         return this.calculateScalarProduct(targetVector) / targetVector.length;
     }
 
@@ -62,7 +68,7 @@ class Vector {
         return Math.sqrt(this._x * this._x + this._y * this._y);
     }
 
-    static calculateVector(length: number, angle: number): Vector{
+    static calculateVector(length: number, angle: number): Vector {
         return new Vector(length * Math.cos(angle), length * Math.sin(angle));
     }
 }

@@ -53,6 +53,7 @@
         position: absolute;
 
         //border: 5px solid black;
+        z-index: 1;
     }
     &__slider-body-filled {
         width: 8px;
@@ -61,6 +62,7 @@
         position: absolute;
 
         //border: 5px solid black;
+        z-index: 2;
     }
     &__first-slider,
     &__last-slider {
@@ -77,6 +79,7 @@
         bottom: 0px;
 
         //border: 5px solid black;
+        z-index: 4;
     }
     &__first-slider-outside,
     &__last-slider-outside {
@@ -92,6 +95,7 @@
         bottom: 0px;
 
         //border: 2px solid black;
+        z-index: 3;
     }
 
     &__scale-container {

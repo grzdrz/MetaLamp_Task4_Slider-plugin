@@ -1,7 +1,7 @@
 import { View } from "./View";
 
 import { SliderPart } from "./SliderParts/SliderPart";
-import { SlidersContainer } from "./SliderParts/SliderContainer";
+import { SliderContainer } from "./SliderParts/SliderContainer";
 import { Handle } from "./SliderParts/Handle";
 import { FilledStrip } from "./SliderParts/FilledStrip";
 import { EmptyStrip } from "./SliderParts/EmptyStrip";
@@ -14,23 +14,13 @@ import { Event } from "../../Events/Event";
 import { OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
 
 export class SliderView extends View {
+    public sliderContainer: SliderContainer;
+    public firstSlider: Handle;
+    public lastSlider: Handle;
+    public filledStrip: FilledStrip;
+    public emptyStrip: EmptyStrip;
 
-    public containerElement: HTMLElement;
-    public firstSlider: HTMLElement | undefined;
-    public lastSlider: HTMLElement | undefined;
-    public filledStrip: HTMLElement | undefined;
-    public emptyStrip: HTMLElement | undefined;
-
-    public firstSliderBorder: HTMLElement | undefined;
-    public lastSliderBorder: HTMLElement | undefined;
-
-    public containerElementInstance: SlidersContainer | undefined;
-    public firstSliderInstance: Handle | undefined;
-    public lastSliderInstance: Handle | undefined;
-    public filledStripInstance: FilledStrip | undefined;
-    public emptyStripInstance: EmptyStrip | undefined;
-
-    private _sliderParts: SliderPart[];
+    public parts: SliderPart[] = new Array<SliderPart>();
 
 
 
@@ -39,125 +29,54 @@ export class SliderView extends View {
     constructor(mainContentContainer: HTMLElement) {
         super();
 
-        this.containerElement = mainContentContainer;
+        this.parts.push(this.sliderContainer = new SliderContainer(this));
+        this.sliderContainer.DOMElement = mainContentContainer;
+
+        this.parts.push(this.emptyStrip = new EmptyStrip(this));
+        this.parts.push(this.firstSlider = new Handle(this, 1));
+        this.parts.push(this.lastSlider = new Handle(this, 2));
+        this.parts.push(this.filledStrip = new FilledStrip(this));
 
         this._handlerMouseDown = this._handlerMouseDown.bind(this);
-
-        this._sliderParts = [];
     }
 
     initialize() {
-        this._render();
+        this.update(true);
     }
 
     update(neededRerender: boolean) {
+        let modelData = this.getModelData();
+
         if (neededRerender) {//полный перерендер всех элементов слайдера
-            this._render();
+            this.sliderContainer.DOMElement.innerHTML = "";
+            this.parts.forEach(part => {
+                if ((part === this.lastSlider && modelData.hasTwoSlider) || part !== this.lastSlider) {
+                    part.buildDOMElement();
+                    part.render();
+                }
+            });
         }
         else {//или просто обновление их состояний
-            for (let part of this._sliderParts) {/////
-                if (part.render) part.render();
-            }
+            this.parts.forEach(part => {
+                if ((part === this.lastSlider && modelData.hasTwoSlider) || part !== this.lastSlider) {
+                    part.render();
+                }
+            });
         }
     }
 
-    _render() {
-        let modelData = this.getModelData();
-        this._sliderParts = [];
-
-        this.containerElement.innerHTML = "";
-
-        this.emptyStrip = document.createElement("div");
-        this.emptyStrip.className = "range-slider__slider-body-empty";
-        this.containerElement.append(this.emptyStrip);
-
-        this.filledStrip = document.createElement("div");
-        this.filledStrip.className = "range-slider__slider-body-filled";
-        this.containerElement.append(this.filledStrip);
-
-        this.firstSliderBorder = document.createElement("div");
-        this.firstSliderBorder.className = "range-slider__first-slider-outside";
-        this.firstSliderBorder.dataset.sliderCountNumber = "1";
-        this.containerElement.append(this.firstSliderBorder);
-        if (modelData.hasTwoSlider) {
-            this.lastSliderBorder = document.createElement("div");
-            this.lastSliderBorder.className = "range-slider__last-slider-outside";
-            this.lastSliderBorder.dataset.sliderCountNumber = "2";
-            this.containerElement.append(this.lastSliderBorder);
-        }
-
-
-        this.firstSlider = document.createElement("div");
-        this.firstSlider.className = "range-slider__first-slider";
-        this.firstSlider.dataset.sliderCountNumber = "1";
-        this.firstSlider.style.width = `${modelData.handleWidth}px`;
-        this.firstSlider.style.height = `${modelData.handleHeight}px`;
-        this.containerElement.append(this.firstSlider);
-        if (modelData.hasTwoSlider) {
-            this.lastSlider = document.createElement("div");
-            this.lastSlider.className = "range-slider__last-slider";
-            this.lastSlider.dataset.sliderCountNumber = "2";
-            this.lastSlider.style.width = `${modelData.handleWidth}px`;
-            this.lastSlider.style.height = `${modelData.handleHeight}px`;
-            this.containerElement.append(this.lastSlider);
-
-            if (!modelData.lastValue) throw new Error("values not exist");
-            if (modelData.lastValue < modelData.firstValue) {
-                /* this.onModelOptionUpdate({
-                    lastValue: modelData.firstValue,
-                }); */
-                //this.onModelOptionUpdate. ;
-            }
-        }
-
-
-        this.containerElementInstance = new SlidersContainer(this, this.containerElement);
-        this._sliderParts.push(this.containerElementInstance);
-
-        this.firstSliderInstance = new Handle(this, this.firstSlider, this.firstSliderBorder, 1);
-        this._sliderParts.push(this.firstSliderInstance);
-
-        if (modelData.hasTwoSlider && this.lastSlider && this.lastSliderBorder) {
-            this.lastSliderInstance = new Handle(this, this.lastSlider, this.lastSliderBorder, 2);
-            this._sliderParts.push(this.lastSliderInstance);
-        }
-
-        this.emptyStripInstance = new EmptyStrip(this, this.emptyStrip);
-        this._sliderParts.push(this.emptyStripInstance);
-
-        this.filledStripInstance = new FilledStrip(this, this.filledStrip);
-        this._sliderParts.push(this.filledStripInstance);
-
-        for (let part of this._sliderParts) {/////
-            if (part.initialize) part.initialize();
-        }
-
-        this.firstSliderInstance.DOMElement.ondragstart = function () {
+    setHandlersOnHandls(handle: Handle) {
+        handle.DOMElement.ondragstart = function () {
             return false;
         };
-        this.firstSliderInstance.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
-        //this.firstSliderInstance.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
-        this.firstSliderInstance.backgroundDOMElement.addEventListener("mousedown", (event: MouseEvent) => {
+        handle.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
+        //handle.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
+        handle.backgroundDOMElement.addEventListener("mousedown", (event: MouseEvent) => {
             this._handlerMouseDown(event);
         });
-        /* this.firstSliderInstance.outsideDOMElement.addEventListener("touchstart", (event: MouseEvent) => {
+        /* handle.outsideDOMElement.addEventListener("touchstart", (event: MouseEvent) => {
             this._handlerMouseDown(event);
         }); */
-
-        if (modelData.hasTwoSlider && this.lastSliderInstance) {
-            this.lastSliderInstance.DOMElement.ondragstart = function () {
-                return false;
-            };
-            this.lastSliderInstance.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
-            //this.lastSliderInstance.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
-            this.lastSliderInstance.backgroundDOMElement.addEventListener("mousedown", (event: MouseEvent) => {
-                this._handlerMouseDown(event);
-            });
-            /* this.lastSliderInstance.outsideDOMElement.addEventListener("touchstart", (event: MouseEvent) => {
-                this._handlerMouseDown(event);
-            }); */
-        }
-        /* this._setEventHandlers(modelData); */
     }
 
     //d&d
@@ -185,21 +104,25 @@ export class SliderView extends View {
             if (sliderCountNumberString !== undefined)
                 sliderCountNumber = Number.parseInt(sliderCountNumberString);
         }
-        let targetSliderInstance;
-        let targetHandleCountNumber;
-        if (sliderCountNumber === 1) {
-            targetSliderInstance = this.firstSliderInstance;
+        let targetSliderInstance: SliderPart;
+        let targetHandleCountNumber: number;
+        if (modelData.hasTwoSlider && sliderCountNumber === 2) {
+            targetSliderInstance = this.lastSlider;
+            targetHandleCountNumber = 2;
+        }
+        else if (modelData.hasTwoSlider && sliderCountNumber === 1) {
+            targetSliderInstance = this.firstSlider;
             targetHandleCountNumber = 1;
         }
-        else if (modelData.hasTwoSlider) {
-            targetSliderInstance = this.lastSliderInstance;
-            targetHandleCountNumber = 2;
+        else {
+            targetSliderInstance = this.firstSlider;
+            targetHandleCountNumber = 1;
         }
         if (!targetSliderInstance || targetHandleCountNumber === undefined) throw new Error("handle not exist");
 
         let targetSliderBoundingCoords = targetSliderInstance.DOMElement.getBoundingClientRect();
         let mousePositionInsideTargetSliderX = cursorMouseDownPosition.x - targetSliderBoundingCoords.x;
-        let mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + pageYOffset - targetSliderBoundingCoords.y - targetSliderInstance.size.height/* targetSliderBoundingCoords.height */);
+        let mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + pageYOffset - targetSliderBoundingCoords.y - modelData.handleHeight);
         let mousePositionInsideTargetSlider = new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
 
 
@@ -207,7 +130,7 @@ export class SliderView extends View {
             handlerMouseMove: (/* optionsFromMouseDown: IMouseEventArgs,  */event: MouseEvent): void => { },
             handlerMouseUp: (/* optionsFromMouseDown: IMouseEventArgs,  */event: MouseEvent): void => { },
             mousePositionInsideTargetSlider: mousePositionInsideTargetSlider,
-            targetSliderInstance: targetSliderInstance,
+            targetSliderInstance: <Handle>targetSliderInstance,
             targetHandleCountNumber: targetHandleCountNumber,
         };
         let handlerMouseMove = this._handlerMouseMove.bind(this, optionsForMouseEvents);
@@ -268,10 +191,10 @@ export class SliderView extends View {
             targetHandleCountNumber
         } = args;
 
-        if (!this.firstSliderInstance) throw new Error("firstSliderInstance not exist");
-        if (!this.containerElementInstance) throw new Error("containerElementInstance not exist");
+        if (!this.firstSlider) throw new Error("firstSliderInstance not exist");
+        if (!this.sliderContainer) throw new Error("containerElementInstance not exist");
 
-        let containerBoundingRect = this.containerElementInstance.DOMElement.getBoundingClientRect();
+        let containerBoundingRect = this.sliderContainer.DOMElement.getBoundingClientRect();
         let containerCoord = new Vector(
             containerBoundingRect.x,
             (document.documentElement.clientHeight + pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height)
@@ -280,13 +203,13 @@ export class SliderView extends View {
         let containerCapacity;
         if (modelData.hasTwoSlider) {
             if (targetHandleCountNumber === 2) {
-                let vectorizedHandleWidth = Vector.calculateVector(this.firstSliderInstance.size.width, modelData.angleInRad);
+                let vectorizedHandleWidth = Vector.calculateVector(/* this.firstSlider.size.width */modelData.handleWidth, modelData.angleInRad);
                 cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
             }
-            containerCapacity = modelData.sliderStripLength - this.firstSliderInstance.size.width * 2;
+            containerCapacity = modelData.sliderStripLength - modelData.handleWidth/* this.firstSlider.size.width */ * 2;
         }
         else {
-            containerCapacity = modelData.sliderStripLength - this.firstSliderInstance.size.width;
+            containerCapacity = modelData.sliderStripLength - modelData.handleWidth/* this.firstSlider.size.width */;
         }
 
         let mainAxisVector = Vector.calculateVector(modelData.sliderStripLength, modelData.angleInRad);
