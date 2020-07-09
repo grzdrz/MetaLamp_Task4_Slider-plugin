@@ -280,43 +280,28 @@ export class SliderView extends View {
         if (!this.firstSliderInstance) throw new Error("firstSliderInstance not exist");
         if (!this.containerElementInstance) throw new Error("containerElementInstance not exist");
 
-        let maxDistanceBetweenSliders = new Vector(0, 0);
         let containerBoundingRect = this.containerElementInstance.DOMElement.getBoundingClientRect();
-        containerBoundingRect.x = containerBoundingRect.x;
-        containerBoundingRect.y = (document.documentElement.clientHeight + pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height);
-
-        let cursorPositionInContainer = new Vector(0, 0);
-        cursorPositionInContainer.x = mouseGlobalPosition.x - containerBoundingRect.x - mousePositionInsideTargetSlider.x;
-        cursorPositionInContainer.y = mouseGlobalPosition.y - containerBoundingRect.y - mousePositionInsideTargetSlider.y;
+        let containerCoord = new Vector(
+            containerBoundingRect.x,
+            (document.documentElement.clientHeight + pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height)
+        );
+        let cursorPositionInContainer = mouseGlobalPosition.subtract(containerCoord).subtract(mousePositionInsideTargetSlider);
+        let containerCapacity;
         if (modelData.hasTwoSlider) {
             if (targetHandleCountNumber === 2) {
-                cursorPositionInContainer.x = cursorPositionInContainer.x - this.firstSliderInstance.size.width * Math.cos(modelData.angleInRad);
-                cursorPositionInContainer.y = cursorPositionInContainer.y - this.firstSliderInstance.size.width * Math.sin(modelData.angleInRad);
+                let vectorizedHandleWidth = Vector.calculateVector(this.firstSliderInstance.size.width, modelData.angleInRad);
+                cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
             }
-            maxDistanceBetweenSliders.x = modelData.sliderStripLength - this.firstSliderInstance.size.width * 2;
-            maxDistanceBetweenSliders.y = modelData.sliderStripLength - this.firstSliderInstance.size.width * 2;
+            containerCapacity = modelData.sliderStripLength - this.firstSliderInstance.size.width * 2;
         }
         else {
-            maxDistanceBetweenSliders.x = modelData.sliderStripLength - this.firstSliderInstance.size.width;
-            maxDistanceBetweenSliders.y = modelData.sliderStripLength - this.firstSliderInstance.size.height;
+            containerCapacity = modelData.sliderStripLength - this.firstSliderInstance.size.width;
         }
 
-        let deltaMaxMinValues = modelData.maxValue - modelData.minValue;
-        let cursorPositionInContainerLength;
-        if (modelData.angle === 0) {
-            cursorPositionInContainerLength = cursorPositionInContainer.x;
-        }
-        else if (modelData.angle === 90) {
-            cursorPositionInContainerLength = cursorPositionInContainer.y;
-        }
-        else if (cursorPositionInContainer.x <= 0 && cursorPositionInContainer.y <= 0) {
-            cursorPositionInContainerLength = new Vector(cursorPositionInContainer.x, cursorPositionInContainer.y).length * (-1);
-        }
-        else {
-            cursorPositionInContainerLength = new Vector(cursorPositionInContainer.x, cursorPositionInContainer.y).length;
-        }
-        let proportionalValue = (deltaMaxMinValues * cursorPositionInContainerLength) / (maxDistanceBetweenSliders.x) + modelData.minValue;
+        let mainAxisVector = Vector.calculateVector(modelData.sliderStripLength, modelData.angleInRad);
+        let cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
 
+        let proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
         if (targetHandleCountNumber === 1)
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: proportionalValue }));
         else

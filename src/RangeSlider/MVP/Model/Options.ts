@@ -62,6 +62,10 @@ class Options implements IOptions {
     get angleInRad(): number {
         return this.angle * (Math.PI / 180);
     }
+
+    get deltaMaxMin(): number{
+        return this.maxValue - this.minValue;
+    }
 }
 
 export { Options, IOptions };

@@ -49,6 +49,15 @@ class Vector {
         return new Vector(this._x * number, this._y * number);
     }
 
+    calculateScalarProduct(vector: Vector) {
+        return this._x * vector.x + this._y * vector.y;
+    }
+
+    ///считает длину проекции текущего вектора на целевой вектор
+    calculateVectorProjectionOnTargetVector(targetVector: Vector){
+        return this.calculateScalarProduct(targetVector) / targetVector.length;
+    }
+
     get length(): number {
         return Math.sqrt(this._x * this._x + this._y * this._y);
     }

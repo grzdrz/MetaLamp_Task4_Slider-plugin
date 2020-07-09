@@ -18,6 +18,7 @@ class Model {
     updateOptions(options: IOptions): void {
         if (options.firstValue) options.firstValue = this.validateValue(options.firstValue, 1);
         if (options.lastValue) options.lastValue = this.validateValue(options.lastValue, 2);
+        /* if (options.stepSize) options.stepSize */
 
         this._options.update(options);
     }
