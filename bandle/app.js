@@ -94,11 +94,8 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-console.log('some test');
-
+eval("\r\nconsole.log('some test');\r\n\n\n//# sourceURL=webpack:///./src/app.ts?");
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=app.js.map?v=ab2c2b5e3ee4fded9e08

@@ -1,6 +1,6 @@
-import { SliderPart } from "./SliderPart.js";
+import { SliderPart } from "./SliderPart";
 import { SliderView } from "../SliderView";
-import { Vector } from "../../../Helpers/Vector.js";
+import { Vector } from "../../../Helpers/Vector";
 
 export class EmptyStrip extends SliderPart {
     constructor(view: SliderView, DOMElement: HTMLElement) {

@@ -163,7 +163,7 @@ export class SliderView extends View {
                 this._handlerMouseDown(event);
             });
             /* this.lastSliderInstance.outsideDOMElement.addEventListener("touchstart", (event: MouseEvent) => {
-                this._handlerMouseDown(event);///////////////////////////////////////////////////
+                this._handlerMouseDown(event);
             }); */
         }
         /* this._setEventHandlers(modelData); */
@@ -254,49 +254,12 @@ export class SliderView extends View {
         let mouseGlobalPosition = new Vector(mouseGlobalPositionX, mouseGlobalPositionY);//место нажатия левой кнопки мыши 
 
         //значение в заданных единицах пропорциональное пиксельным координатам курсора в контейнере
-        let newTargetInputValueVector = this._calculateValueProportionalToPixelValue({
+        this._calculateValueProportionalToPixelValue({
             modelData,
             mouseGlobalPosition,
             mousePositionInsideTargetSlider,
             targetHandleCountNumber
         });
-        let newTargetInputValue = newTargetInputValueVector;
-
-        if (!this.filledStripInstance) throw new Error("filledStripInstance not exist");
-        if (targetHandleCountNumber === 1 && newTargetInputValue !== modelData.firstValue) {
-            if (newTargetInputValue < modelData.minValue)
-                //this.onHandleMove({ firstValue: modelData.minValue });
-                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: modelData.minValue }));
-            else if (newTargetInputValue > modelData.lastValue && modelData.hasTwoSlider)
-                //this.onHandleMove({ firstValue: modelData.lastValue });
-                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: modelData.lastValue }));
-            else if (newTargetInputValue > modelData.maxValue)
-                //this.onHandleMove({ firstValue: modelData.maxValue });
-                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: modelData.maxValue }));
-            else
-                //this.onHandleMove({ firstValue: newTargetInputValue });
-                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: newTargetInputValue }));
-
-
-            // перезапись значения позиции ползунка
-            targetSliderInstance.calculatePosition();
-            this.filledStripInstance.calculatePosition();
-        }
-        else if (targetHandleCountNumber === 2 && newTargetInputValue !== modelData.lastValue && modelData.hasTwoSlider) {
-            if (newTargetInputValue > modelData.maxValue)
-                //this.onHandleMove({ lastValue: modelData.maxValue });
-                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: modelData.maxValue }));
-            else if (newTargetInputValue < modelData.firstValue)
-                //this.onHandleMove({ lastValue: modelData.firstValue });
-                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: modelData.firstValue }));
-            else
-                //this.onHandleMove({ lastValue: newTargetInputValue });
-                this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: newTargetInputValue }));
-
-            // перезапись значения позиции ползунка
-            targetSliderInstance.calculatePosition();
-            this.filledStripInstance.calculatePosition();
-        }
     }
 
     _handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, event: MouseEvent) {
@@ -306,7 +269,7 @@ export class SliderView extends View {
                 document.removeEventListener("touchend", optionsFromMouseDown.handlerMouseUp); */
     }
 
-    _calculateValueProportionalToPixelValue(args: IValueToPixelArgs) {
+    _calculateValueProportionalToPixelValue(args: IValueToPixelArgs): void {
         let {
             modelData,
             mouseGlobalPosition,
@@ -353,26 +316,11 @@ export class SliderView extends View {
             cursorPositionInContainerLength = new Vector(cursorPositionInContainer.x, cursorPositionInContainer.y).length;
         }
         let proportionalValue = (deltaMaxMinValues * cursorPositionInContainerLength) / (maxDistanceBetweenSliders.x) + modelData.minValue;
-        return this._calculateNearestPositionForHandle(proportionalValue, modelData.stepSize, modelData.minValue);
-    }
 
-    // подменяем текущее значение инпута на число к которому ближе всего текущее значение курсора
-    // т.е. например шаг 10, значение 78 -> на выходе получаем 80, 
-    // или например  шаг 10, значение 73 -> на выходе получаем 70
-    _calculateNearestPositionForHandle(value: number, stepSize: number, minValue: number): number {
-        let temp1;
-        let temp3;
-        if (minValue < 0) {
-            temp1 = (value + Math.abs(minValue)) / stepSize;
-            let temp2 = Math.round(temp1);
-            temp3 = temp2 * stepSize - Math.abs(minValue);
-        }
-        else {
-            temp1 = (value - Math.abs(minValue)) / stepSize;
-            let temp2 = Math.round(temp1);
-            temp3 = temp2 * stepSize + Math.abs(minValue);
-        }
-        return MathFunctions.cutOffJunkValuesFromFraction(temp3, stepSize);
+        if (targetHandleCountNumber === 1)
+            this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: proportionalValue }));
+        else
+            this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: proportionalValue }));
     }
 }
 

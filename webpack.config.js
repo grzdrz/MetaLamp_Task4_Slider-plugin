@@ -44,7 +44,7 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js']
     },
 
-    devtool: "source-map",
+    /* devtool: "source-map", */
 
     plugins: pluginsOptions,
 

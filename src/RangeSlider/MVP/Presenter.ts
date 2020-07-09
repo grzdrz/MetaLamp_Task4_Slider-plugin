@@ -31,8 +31,6 @@ class Presenter {
 
         this.handlerHandleMove = this.handlerHandleMove.bind(this);
         (<SliderView>this.sliderView).onHandleMove.subscribe(this.handlerHandleMove);
-        //this.onModelOptionUpdate = this.onModelOptionUpdate.bind(this);
-        //(<SliderView>this.sliderView).onModelOptionUpdate = this.onModelOptionUpdate;
 
         this.handlerInputChange = this.handlerInputChange.bind(this);
         (<InputsView>this.inputsView).onInputsChange.subscribe(this.handlerInputChange);
@@ -57,11 +55,9 @@ class Presenter {
         this.model.getOptions(<OptionsEventArgs>args);
     }
 
-    /* public onModelOptionUpdate(data: IOptions) {
-        this.model.updateOptions(data);
-    } */
     public handlerHandleMove(args: EventArgs) {
         this.model.updateOptions((<OptionsToUpdateEventArgs>args).options);
+        (<SliderView>this.sliderView).update(false);
         (<InputsView>this.inputsView).update();
     }
 

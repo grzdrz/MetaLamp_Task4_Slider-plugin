@@ -1,5 +1,5 @@
-import { RangeSlider } from "../components/RangeSlider/RangeSlider";
-import { Options } from "../components/RangeSlider/MVP/Model/Options";
+import { RangeSlider } from "../RangeSlider/RangeSlider";
+import { Options } from "../RangeSlider/MVP/Model/Options";
 
 let options = {
     sliderStripLength: 500,
