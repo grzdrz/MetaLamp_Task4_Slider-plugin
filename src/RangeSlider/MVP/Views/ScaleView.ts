@@ -121,7 +121,7 @@ export class ScaleView extends View {
         let x = handlePositionInContainer * Math.cos(modelData.angleInRad) + testMargin.y;
         let y = handlePositionInContainer * Math.sin(modelData.angleInRad) - testMargin.x;
         let position = new Vector(x, y);
-        this.setPosition(segment, position);
+        this.renderPosition(segment, position);
     }
 
     _handlerSelectSegment(event: MouseEvent) {

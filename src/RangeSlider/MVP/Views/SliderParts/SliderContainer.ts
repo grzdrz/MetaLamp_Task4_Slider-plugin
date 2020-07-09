@@ -8,10 +8,10 @@ export class SlidersContainer extends SliderPart {
     }
 
     initialize() {
-        this.calculatePosition();
+        this.render();
     }
 
-    calculatePosition() {
+    render() {
         let modelData = this.view.getModelData();
 
         let width = modelData.sliderStripLength * Math.cos(modelData.angleInRad);

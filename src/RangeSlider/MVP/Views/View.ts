@@ -21,7 +21,7 @@ class View {
     initialize() {
     }
 
-    public setPosition(element: HTMLElement, position: Vector) {
+    public renderPosition(element: HTMLElement, position: Vector) {
         let left: string = `${position.x}px`;
         element.style.left = left;
 
@@ -29,7 +29,7 @@ class View {
         element.style.bottom = bottom;
     }
 
-    public setSize(element: HTMLElement, size: Vector) {
+    public renderSize(element: HTMLElement, size: Vector) {
         let elementStyles: CSSStyleDeclaration = getComputedStyle(element);
         let borderWidthLeft: number = Number.parseInt(elementStyles.borderLeftWidth);
         let borderWidthRight: number = Number.parseInt(elementStyles.borderRightWidth);

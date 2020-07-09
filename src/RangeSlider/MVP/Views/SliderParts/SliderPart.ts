@@ -16,36 +16,28 @@ export class SliderPart {
 
         let partBoundingRect = this.DOMElement.getBoundingClientRect();
         this.size = new Vector(partBoundingRect.width, partBoundingRect.height);
-        //позиция и размер в пикселях
     }
 
     initialize() {
-        this.calculatePosition();
+        this.render();
     }
 
-    calculatePosition() {
-        this.renderPosition();
+    render() {
+        this.view.renderPosition(this.DOMElement, this.position);
+        this.view.renderSize(this.DOMElement, this.size);
     }
 
     setPosition(position: Vector) {
         this.position.x = position.x;
         this.position.y = position.y;
 
-        this.renderPosition();
+        this.view.renderPosition(this.DOMElement, this.position);
     }
 
     setSize(size: Vector) {
         this.size.width = size.width;
         this.size.height = size.height;
 
-        this.renderSize();
-    }
-
-    renderPosition() {
-        this.view.setPosition(this.DOMElement, this.position);
-    }
-
-    renderSize() {
-        this.view.setSize(this.DOMElement, this.size);
+        this.view.renderSize(this.DOMElement, this.size);
     }
 }

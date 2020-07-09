@@ -5,15 +5,13 @@ import { SliderView } from "../SliderView";
 export class FilledStrip extends SliderPart {
     constructor(view: SliderView, DOMElement: HTMLElement) {
         super(view, DOMElement);
-
-        this.calculatePosition = this.calculatePosition.bind(this);
     }
 
     initialize() {
-        this.calculatePosition();
+        this.render();
     }
 
-    calculatePosition() {
+    render() {
         let modelData = this.view.getModelData();
 
         let firstSlider = this.view.firstSliderInstance;
@@ -48,6 +46,6 @@ export class FilledStrip extends SliderPart {
         this.DOMElement.style.transformOrigin = `${transformOrigin.x}px ${transformOrigin.y}px`;
         this.DOMElement.style.transform = `rotate(${-modelData.angle}deg)`;//минус из-за нестандартного направления обхода функции rotate
 
-        super.calculatePosition();
+        super.render();
     }
 }

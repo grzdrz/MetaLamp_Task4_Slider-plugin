@@ -56,7 +56,7 @@ export class SliderView extends View {
         }
         else {//или просто обновление их состояний
             for (let part of this._sliderParts) {/////
-                if (part.calculatePosition) part.calculatePosition();
+                if (part.render) part.render();
             }
         }
     }
@@ -66,15 +66,6 @@ export class SliderView extends View {
         this._sliderParts = [];
 
         this.containerElement.innerHTML = "";
-
-        /* if (modelData.orientation === "horizontal") {
-            this.containerElement.style.width = `${modelData.sliderStripLength}px`;
-            this.containerElement.style.height = "auto";
-        }
-        else if (modelData.orientation === "vertical") {
-            this.containerElement.style.height = `${modelData.sliderStripLength}px`;
-            this.containerElement.style.width = "auto";
-        } */
 
         this.emptyStrip = document.createElement("div");
         this.emptyStrip.className = "range-slider__slider-body-empty";
@@ -146,7 +137,7 @@ export class SliderView extends View {
         };
         this.firstSliderInstance.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
         //this.firstSliderInstance.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
-        this.firstSliderInstance.outsideDOMElement.addEventListener("mousedown", (event: MouseEvent) => {
+        this.firstSliderInstance.backgroundDOMElement.addEventListener("mousedown", (event: MouseEvent) => {
             this._handlerMouseDown(event);
         });
         /* this.firstSliderInstance.outsideDOMElement.addEventListener("touchstart", (event: MouseEvent) => {
@@ -159,7 +150,7 @@ export class SliderView extends View {
             };
             this.lastSliderInstance.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
             //this.lastSliderInstance.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
-            this.lastSliderInstance.outsideDOMElement.addEventListener("mousedown", (event: MouseEvent) => {
+            this.lastSliderInstance.backgroundDOMElement.addEventListener("mousedown", (event: MouseEvent) => {
                 this._handlerMouseDown(event);
             });
             /* this.lastSliderInstance.outsideDOMElement.addEventListener("touchstart", (event: MouseEvent) => {
@@ -206,7 +197,7 @@ export class SliderView extends View {
         }
         if (!targetSliderInstance || targetHandleCountNumber === undefined) throw new Error("handle not exist");
 
-        let targetSliderBoundingCoords = targetSliderInstance./* outsideDOMElement */DOMElement.getBoundingClientRect();
+        let targetSliderBoundingCoords = targetSliderInstance.DOMElement.getBoundingClientRect();
         let mousePositionInsideTargetSliderX = cursorMouseDownPosition.x - targetSliderBoundingCoords.x;
         let mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + pageYOffset - targetSliderBoundingCoords.y - targetSliderInstance.size.height/* targetSliderBoundingCoords.height */);
         let mousePositionInsideTargetSlider = new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
