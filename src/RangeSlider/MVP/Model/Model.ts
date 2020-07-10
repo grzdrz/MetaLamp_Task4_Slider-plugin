@@ -16,7 +16,8 @@ class Model {
     }
 
     updateOptions(options: IOptions): void {
-        if (options.stepSize && this._options.maxValue) options.maxValue = this.validateMaxValue(options.stepSize);
+        if (options.stepSize && this._options.maxValue) options.maxValue = this.validateMaxValue(options.stepSize, this._options.maxValue);
+        else if (this._options.stepSize && options.maxValue) options.maxValue = this.validateMaxValue(this._options.stepSize, options.maxValue);
         if (options.minValue && this._options.stepSize) options.minValue = this.validateMinValue(options.minValue, this._options.stepSize);
         if (options.firstValue) options.firstValue = this.validateValue(options.firstValue, 1);
         if (options.lastValue) options.lastValue = this.validateValue(options.lastValue, 2);
@@ -24,10 +25,10 @@ class Model {
         this._options.update(options);
     }
 
-    validateMaxValue(stepSize: number): number {
+    validateMaxValue(stepSize: number, maxValue: number): number {
         let test2 = (this._options.maxValue - this._options.minValue) / stepSize;
         let test1 = MathFunctions.getFractionOfNumber(test2);
-        if (test1 === 0) return this._options.maxValue;
+        if (test1 === 0) return maxValue;
         else {
             let test3 = Math.round(test2);
             return stepSize * test3 + this._options.minValue;

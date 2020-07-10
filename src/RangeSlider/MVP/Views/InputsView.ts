@@ -17,15 +17,14 @@ class InputsView extends View {
         this.handlerFirstInputChange = this.handlerFirstInputChange.bind(this);
         this.handlerLastInputChange = this.handlerLastInputChange.bind(this);
 
-        /* this.onInputChange = () => { }; */
         this.onInputsChange = new Event();
     }
 
     initialize() {
-        this._render();
+        this.render();
     }
 
-    update() {
+    update(neededFullRerender: boolean) {
         let modelData = this.getModelData();
 
         if (!this.firstInputDOMElement) throw new Error("this.firstInputDOMElement not exist");
@@ -34,7 +33,7 @@ class InputsView extends View {
             modelData.lastValue !== undefined ? this.lastInputDOMElement.value = (modelData.lastValue).toString() : this.lastInputDOMElement.value;
     }
 
-    _render() {
+    render() {
         let modelData = this.getModelData();
 
         this.firstInputDOMElement = document.createElement("input");
@@ -50,7 +49,7 @@ class InputsView extends View {
         if (this.lastInputDOMElement)
             this.lastInputDOMElement.addEventListener("change", this.handlerLastInputChange);
 
-        this.update();
+        this.update(false);
     }
 
     handlerFirstInputChange(event: globalThis.Event) {
@@ -79,13 +78,10 @@ class InputsView extends View {
 
         (<HTMLInputElement>targetElement).value = value.toString();
         this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ firstValue: value }));
-        /* this.onInputChange({
-            firstValue: value
-        }); */
     }
 
     handlerLastInputChange(event: globalThis.Event) {
-        let modelData = this.getModelData();//this.getModelData();
+        let modelData = this.getModelData();
 
         let targetElement = event.currentTarget;
         if (!targetElement)
@@ -102,9 +98,6 @@ class InputsView extends View {
 
         (<HTMLInputElement>targetElement).value = value.toString();
         this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ lastValue: value }));
-        /* this.onInputChange({
-            lastValue: value
-        }); */
     }
 }
 

@@ -2,16 +2,31 @@ import { View } from "./View";
 import { Event } from "../../Events/Event";
 import { OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
 
-export class OptionsPanelView extends View {
-    /* public containerElement: HTMLElement; */
+import { OptionPanelElement } from "./OptionsPanelElements/OptionPanelElement";
+import { Angle } from "./OptionsPanelElements/Angle";
+import { HandlsCount } from "./OptionsPanelElements/HandlsCount";
+import { MaxSegmentCount } from "./OptionsPanelElements/MaxSegmentCount";
+import { MaxValue } from "./OptionsPanelElements/MaxValue";
+import { MinValue } from "./OptionsPanelElements/MinValue";
+import { StepSize } from "./OptionsPanelElements/StepSize";
 
+export class OptionsPanelView extends View {
     public onModelStateUpdate: Event = new Event();
 
-    constructor(public containerElement: HTMLElement) {
-        super();
-        /* this.containerElement = containerElement; */
+    public containerElement: HTMLElement;
 
-        this._handlerStepSizeChange = this._handlerStepSizeChange.bind(this);
+    public stepSize: StepSize;
+
+    public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
+
+    constructor(containerElement: HTMLElement) {
+        super();
+
+        this.containerElement = containerElement;
+
+        this.panelElements.push(this.stepSize = new StepSize(this));
+
+        /* this._handlerStepSizeChange = this._handlerStepSizeChange.bind(this); */
         this._handlerMaxValueChange = this._handlerMaxValueChange.bind(this);
         this._handlerMinValueChange = this._handlerMinValueChange.bind(this);
         this._handlerHandlsCountChange = this._handlerHandlsCountChange.bind(this);
@@ -19,38 +34,44 @@ export class OptionsPanelView extends View {
         this._handlerAngleSizeChange = this._handlerAngleSizeChange.bind(this);
 
         this.update = this.update.bind(this);
-        //this.onModelStateUpdate = () => { };
     }
 
     initialize() {
-        this._render();
+        this.update(true);
     }
 
     update(neededFullRerender: boolean) {
         if (neededFullRerender) {
-            this._render();
+            this.panelElements.forEach(el => el.build());
         }
         else {
-            this._render();//////////////////////
+            this.panelElements.forEach(el => el.update());
         }
     }
 
-    _render() {
+/*     render(neededFullRerender: boolean) {
+        let modelData = this.getModelData();
+
+
+    } */
+
+    build() {
         let modelData = this.getModelData();
 
         this.containerElement.innerHTML = "";
+
         //размер шага
         let stepSizeLabel = document.createElement("label");
+        let stepSizeInput = document.createElement("input");
+        let stepSizeText = document.createElement("p");
         {
             stepSizeLabel.className = "range-slider__inputs-label";
 
-            let stepSizeInput = document.createElement("input");
             stepSizeInput.type = "number";
-            stepSizeInput.step = "0.5";
+            stepSizeInput.step = "1";
             stepSizeInput.value = modelData.stepSize.toString();
             stepSizeInput.className = "range-slider__step-size-input";
 
-            let stepSizeText = document.createElement("p");
             stepSizeText.className = "range-slider__step-size-text";
             stepSizeText.textContent = "step size";
 
@@ -64,6 +85,10 @@ export class OptionsPanelView extends View {
         let handlesCountContainer = document.createElement("div");
         let oneHandleLabel = document.createElement("label");
         let twoHandlesLabel = document.createElement("label");
+        let oneHandleInput = document.createElement("input");
+        let oneHandleText = document.createElement("p");
+        let twoHandlesInput = document.createElement("input");
+        let twoHandlesText = document.createElement("p");
         {
             handlesCountContainer.className = "range-slider__handles-count-container";
 
@@ -71,13 +96,13 @@ export class OptionsPanelView extends View {
             oneHandleLabel.className = "range-slider__inputs-label";
             oneHandleLabel.dataset.handlesCount = "1";
 
-            let oneHandleInput = document.createElement("input");
+
             oneHandleInput.name = "handlesCount_" + modelData.id;
             oneHandleInput.type = "radio";
             oneHandleInput.checked = !modelData.hasTwoSlider;
             oneHandleInput.className = "range-slider__handles-count-input";
 
-            let oneHandleText = document.createElement("p");
+
             oneHandleText.className = "range-slider__handles-count-text";
             oneHandleText.textContent = "one handle";
 
@@ -90,13 +115,13 @@ export class OptionsPanelView extends View {
             twoHandlesLabel.className = "range-slider__inputs-label";
             twoHandlesLabel.dataset.handlesCount = "2";
 
-            let twoHandlesInput = document.createElement("input");
+
             twoHandlesInput.name = "handlesCount_" + modelData.id;
             twoHandlesInput.type = "radio";
             twoHandlesInput.checked = modelData.hasTwoSlider;
             twoHandlesInput.className = "range-slider__handles-count-input";
 
-            let twoHandlesText = document.createElement("p");
+
             twoHandlesText.className = "range-slider__handles-count-text";
             twoHandlesText.textContent = "two handles";
 
@@ -116,7 +141,7 @@ export class OptionsPanelView extends View {
 
             let maxValueInput = document.createElement("input");
             maxValueInput.type = "number";
-            maxValueInput.step = "1";
+            maxValueInput.step = modelData.stepSize.toString();
             maxValueInput.value = modelData.maxValue.toString();
             maxValueInput.className = "range-slider__max-value-input";
 
@@ -137,7 +162,8 @@ export class OptionsPanelView extends View {
 
             let minValueInput = document.createElement("input");
             minValueInput.type = "number";
-            minValueInput.step = "1";
+            minValueInput.step = modelData.stepSize.toString();
+            /* minValueInput. */
             minValueInput.value = modelData.minValue.toString();
             minValueInput.className = "range-slider__min-value-input";
 
@@ -209,8 +235,8 @@ export class OptionsPanelView extends View {
         let input = (<HTMLInputElement>currentLabel).querySelector("input");
         if (!input) throw new Error("input not exist");
         let inputValue = Number.parseFloat(input.value);
-        if (inputValue <= 0) {
-            inputValue = 0.1;
+        if (inputValue <= 0) {/////
+            inputValue = 0.000001;
             input.value = inputValue.toString();
         }
 
@@ -234,7 +260,7 @@ export class OptionsPanelView extends View {
         let optionsToUpdate = {
             maxValue: inputValue,
         };
-        //this.onModelStateUpdate(optionsToUpdate);
+
         this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
     _handlerMinValueChange(event: globalThis.Event) {
@@ -250,7 +276,7 @@ export class OptionsPanelView extends View {
         let optionsToUpdate = {
             minValue: inputValue,
         };
-        //this.onModelStateUpdate(optionsToUpdate);
+
         this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
     _handlerHandlsCountChange(event: globalThis.Event) {
@@ -275,7 +301,6 @@ export class OptionsPanelView extends View {
             };
         }
 
-        //this.onModelStateUpdate(optionsToUpdate);
         this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
     _handlerMaxSegmentsCountChange(event: globalThis.Event) {
@@ -291,7 +316,7 @@ export class OptionsPanelView extends View {
         let optionsToUpdate = {
             maxSegmentsCount: inputValue,
         };
-        //this.onModelStateUpdate(optionsToUpdate);
+
         this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
     _handlerAngleSizeChange(event: globalThis.Event) {
@@ -307,7 +332,7 @@ export class OptionsPanelView extends View {
         let optionsToUpdate = {
             angle: inputValue,
         };
-        //this.onModelStateUpdate(optionsToUpdate);
+
         this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
 }

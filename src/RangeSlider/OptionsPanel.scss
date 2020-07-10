@@ -1,16 +1,25 @@
-&__options-panel-container {
+&__inputs-and-options-panel-container {
     display: flex;
     flex-direction: column;
-    border: 2px solid rgb(80, 189, 165);
+    border: 0px;
     padding: 10px;
     margin-left: 100px;
+    border: 2px solid rgb(80, 189, 165);
 }
 
 &__inputs-container {
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-bottom: 20px;
 }
+
+&__options-panel-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 &__inputs-label {
     display: flex;
     flex-direction: row;
@@ -48,6 +57,7 @@
     height: 30px;
     margin-top: 10px;
     border: 1px solid black;
+    font-size: 1.5rem;
 }
 
 &__handles-count-container {

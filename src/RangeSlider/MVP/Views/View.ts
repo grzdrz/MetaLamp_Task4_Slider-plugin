@@ -3,7 +3,7 @@ import { Vector } from "../../Helpers/Vector";
 import { Event } from "../../Events/Event";
 import { OptionsEventArgs, EventArgs } from "../../Events/EventArgs";
 
-class View {
+abstract class View {
     public onGetModelData: Event;
     public modelData: IOptions = {};
 
@@ -20,6 +20,8 @@ class View {
 
     initialize() {
     }
+
+    abstract update(neededFullRerender: boolean): void;
 
     public renderPosition(element: HTMLElement, position: Vector) {
         let left: string = `${position.x}px`;

@@ -71,14 +71,18 @@ class RangeSlider {
         mainContentContainer.append(scaleContainer);
         rangeSlider.append(mainContentContainer);
 
+        //опции + инпуты
+        let optionsContainer = document.createElement("div");
+        optionsContainer.className = "range-slider__inputs-and-options-panel-container";
 
         //инпуты
         inputsContainer.className = "range-slider__inputs-container";
 
-        //контейнер инпуты + опции
+        //опции
         optionsPanelContainer.className = "range-slider__options-panel-container";
-        optionsPanelContainer.append(inputsContainer);
-        rangeSlider.append(optionsPanelContainer);
+        optionsContainer.append(inputsContainer);
+        optionsContainer.append(optionsPanelContainer);
+        rangeSlider.append(optionsContainer);
 
         rangeSlidersContainer.append(rangeSlider);
     }
