@@ -36,13 +36,32 @@ class InputsView extends View {
     render() {
         let modelData = this.getModelData();
 
+        let firstInputContainer = document.createElement("div");
         this.firstInputDOMElement = document.createElement("input");
+        let firstInputText = document.createElement("p");
+
+        firstInputContainer.className = "range-slider__first-input-container";
         this.firstInputDOMElement.className = "range-slider__first-input";
-        this.containerElement.append(this.firstInputDOMElement);
+        firstInputText.className = "range-slider__input-text";
+        firstInputText.textContent = "first value";
+
+        firstInputContainer.append(this.firstInputDOMElement);
+        firstInputContainer.append(firstInputText);
+        this.containerElement.append(firstInputContainer);
+
         if (modelData.hasTwoSlider) {
+            let lastInputContainer = document.createElement("div");
             this.lastInputDOMElement = document.createElement("input");
+            let lastInputText = document.createElement("p");
+
+            lastInputContainer.className = "range-slider__last-input-container";
             this.lastInputDOMElement.className = "range-slider__last-input";
-            this.containerElement.append(this.lastInputDOMElement);
+            lastInputText.className = "range-slider__input-text";
+            lastInputText.textContent = "last value";
+
+            lastInputContainer.append(this.lastInputDOMElement);
+            lastInputContainer.append(lastInputText);
+            this.containerElement.append(lastInputContainer);
         }
 
         this.firstInputDOMElement.addEventListener("change", this.handlerFirstInputChange);

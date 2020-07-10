@@ -58,7 +58,7 @@
     &__slider-body-filled {
         width: 8px;
         height: 8px;
-        background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+        background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
         position: absolute;
 
         //border: 5px solid black;
@@ -69,7 +69,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+        /* background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%); */
         position: absolute;
         border-radius: 50%;
 
@@ -81,11 +81,20 @@
         //border: 5px solid black;
         z-index: 4;
     }
+    &__first-slider {
+        background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
+    }
+    &__last-slider {
+        background: linear-gradient(-90deg, #6fcf97 0%, #66d2ea 100%);
+    }
+
     &__first-slider-outside,
     &__last-slider-outside {
         width: $sliderSize;
         height: $sliderSize;
-        background: linear-gradient(180deg, #ce2e2e 0%, #eb9525 100%);
+        /* background: linear-gradient(90deg, #ce2e2e 0%, #eb9525 100%); */
+        //background: white;
+        background: rgb(216, 111, 111);
         border-radius: 50%;
         position: absolute;
 
@@ -97,6 +106,12 @@
         //border: 2px solid black;
         z-index: 3;
     }
+    /* &__first-slider-outside {
+        background: linear-gradient(90deg, #ce2e2e 0%, #eb9525 100%);
+    }
+    &__last-slider-outside {
+        background: linear-gradient(-90deg, #ce2e2e 0%, #eb9525 100%);
+    } */
 
     &__scale-container {
         display: flex;

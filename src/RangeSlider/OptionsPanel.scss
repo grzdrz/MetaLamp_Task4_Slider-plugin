@@ -20,7 +20,9 @@
     width: 100%;
 }
 
-&__inputs-label {
+&__inputs-label,
+&__first-input-container,
+&__last-input-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -32,18 +34,22 @@
 &__max-value-text,
 &__min-value-text,
 &__handles-count-text,
-&__angle-size-text {
+&__angle-size-text,
+&__input-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;
     display: inline-flex;
     align-items: flex-end;
+    font-size: 1.2rem;
 }
+
 &__first-input,
 &__last-input {
     width: 200px;
     height: 30px;
     border: 1px solid black;
+    font-size: 1.5rem;
 }
 &__last-input {
     margin-top: 10px;
@@ -63,9 +69,13 @@
 &__handles-count-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    padding: 10px 0px;
+    font-size: 1.5rem;
+    //justify-content: space-between;
+    & label:last-child {
+        margin-left: 30px;
+    }
 }
-
 &__handles-count-input {
     width: max-content;
 }

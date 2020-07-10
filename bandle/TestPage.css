@@ -16,7 +16,13 @@
   flex-direction: row;
   background: white;
   width: max-content;
-  height: max-content; }
+  height: max-content;
+  /* &__first-slider-outside {
+        background: linear-gradient(90deg, #ce2e2e 0%, #eb9525 100%);
+    }
+    &__last-slider-outside {
+        background: linear-gradient(-90deg, #ce2e2e 0%, #eb9525 100%);
+    } */ }
   .range-slider__title-container {
     display: flex;
     flex-direction: row;
@@ -50,24 +56,29 @@
   .range-slider__slider-body-filled {
     width: 8px;
     height: 8px;
-    background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+    background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
     position: absolute;
     z-index: 2; }
   .range-slider__first-slider, .range-slider__last-slider {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+    /* background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%); */
     position: absolute;
     border-radius: 50%;
     opacity: 0.5;
     left: auto;
     bottom: 0px;
     z-index: 4; }
+  .range-slider__first-slider {
+    background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%); }
+  .range-slider__last-slider {
+    background: linear-gradient(-90deg, #6fcf97 0%, #66d2ea 100%); }
   .range-slider__first-slider-outside, .range-slider__last-slider-outside {
     width: 26px;
     height: 26px;
-    background: linear-gradient(180deg, #ce2e2e 0%, #eb9525 100%);
+    /* background: linear-gradient(90deg, #ce2e2e 0%, #eb9525 100%); */
+    background: #d86f6f;
     border-radius: 50%;
     position: absolute;
     opacity: 0.5;
@@ -100,21 +111,23 @@
     display: flex;
     flex-direction: column;
     width: 100%; }
-  .range-slider__inputs-label {
+  .range-slider__inputs-label, .range-slider__first-input-container, .range-slider__last-input-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     width: max-content; }
-  .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__handles-count-text, .range-slider__angle-size-text {
+  .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__handles-count-text, .range-slider__angle-size-text, .range-slider__input-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;
     display: inline-flex;
-    align-items: flex-end; }
+    align-items: flex-end;
+    font-size: 1.2rem; }
   .range-slider__first-input, .range-slider__last-input {
     width: 200px;
     height: 30px;
-    border: 1px solid black; }
+    border: 1px solid black;
+    font-size: 1.5rem; }
   .range-slider__last-input {
     margin-top: 10px; }
   .range-slider__step-size-input, .range-slider__max-value-input, .range-slider__min-value-input, .range-slider__angle-size-input {
@@ -126,7 +139,10 @@
   .range-slider__handles-count-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between; }
+    padding: 10px 0px;
+    font-size: 1.5rem; }
+    .range-slider__handles-count-container label:last-child {
+      margin-left: 30px; }
   .range-slider__handles-count-input {
     width: max-content; }
 

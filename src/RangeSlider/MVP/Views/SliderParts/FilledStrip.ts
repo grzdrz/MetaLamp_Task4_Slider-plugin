@@ -40,7 +40,7 @@ export class FilledStrip extends SliderPart {
             this.setPosition(position);
         }
         else {
-            let width = firstSlider.position.length + firstSlider.size.width / 2;
+            let width = firstSlider.position.length + modelData.handleWidth / 2;
             this.setSize(new Vector(width, modelData.sliderStripThickness));
             this.setPosition(new Vector(0, modelData.handleHeight / 2 - (modelData.sliderStripThickness) / 2));
         }
