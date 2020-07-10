@@ -24,6 +24,8 @@ export class MaxValue extends OptionPanelElement {
         maxValueInput.type = "number";
         maxValueInput.step = modelData.stepSize.toString();
         maxValueInput.value = modelData.maxValue.toString();
+        maxValueInput.max = (modelData.maxValue + modelData.stepSize).toString();
+        maxValueInput.min = (modelData.minValue - modelData.stepSize).toString();
         maxValueInput.className = "range-slider__max-value-input";
 
         maxValueText.className = "range-slider__max-value-text";
@@ -44,6 +46,8 @@ export class MaxValue extends OptionPanelElement {
         let input = <HTMLInputElement>this.DOMElement.querySelector(".range-slider__max-value-input");
         input.step = modelData.stepSize.toString();
         input.value = modelData.maxValue.toString();
+        input.max = (modelData.maxValue + modelData.stepSize).toString();
+        input.min = (modelData.minValue - modelData.stepSize).toString();
     }
 
     private handlerMaxValueChange(event: globalThis.Event) {
@@ -52,7 +56,7 @@ export class MaxValue extends OptionPanelElement {
         let currentLabel = event.currentTarget;
         if (!currentLabel)
             throw new Error("some shit with max value change event");
-        let input = (<HTMLElement>currentLabel).querySelector("input");
+        let input = (<HTMLInputElement>currentLabel).querySelector("input");
         if (!input) throw new Error("input not exist");
         let inputValue = Number.parseFloat(input.value);
 

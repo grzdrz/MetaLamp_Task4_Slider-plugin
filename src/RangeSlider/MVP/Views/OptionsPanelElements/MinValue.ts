@@ -23,6 +23,8 @@ export class MinValue extends OptionPanelElement {
         minValueInput.type = "number";
         minValueInput.step = modelData.stepSize.toString();
         minValueInput.value = modelData.minValue.toString();
+        minValueInput.max = (modelData.maxValue + modelData.stepSize).toString();
+        minValueInput.min = (modelData.minValue - modelData.stepSize).toString();
         minValueInput.className = "range-slider__min-value-input";
 
         minValueText.className = "range-slider__min-value-text";
@@ -43,6 +45,8 @@ export class MinValue extends OptionPanelElement {
         let input = <HTMLInputElement>this.DOMElement.querySelector(".range-slider__min-value-input");
         input.step = modelData.stepSize.toString();
         input.value = modelData.minValue.toString();
+        input.max = (modelData.maxValue + modelData.stepSize).toString();
+        input.min = (modelData.minValue - modelData.stepSize).toString();
     }
 
     private handlerMinValueChange(event: globalThis.Event) {
@@ -51,7 +55,7 @@ export class MinValue extends OptionPanelElement {
         let currentLabel = event.currentTarget;
         if (!currentLabel)
             throw new Error("some shit with min value change event");
-        let input = (<HTMLElement>currentLabel).querySelector("input");
+        let input = (<HTMLInputElement>currentLabel).querySelector("input");
         if (!input) throw new Error("input not exist");
         let inputValue = Number.parseFloat(input.value);
 

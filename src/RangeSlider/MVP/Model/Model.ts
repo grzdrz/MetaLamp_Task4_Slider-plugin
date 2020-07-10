@@ -26,7 +26,7 @@ class Model {
     }
 
     validateMaxValue(stepSize: number, maxValue: number): number {
-        let test2 = (this._options.maxValue - this._options.minValue) / stepSize;
+        let test2 = (maxValue - this._options.minValue) / stepSize;
         let test1 = MathFunctions.getFractionOfNumber(test2);
         if (test1 === 0) return maxValue;
         else {
