@@ -16,13 +16,27 @@ class Model {
     }
 
     updateOptions(options: IOptions): void {
-        if (options.stepSize && this._options.maxValue) options.maxValue = this.validateMaxValue(options.stepSize, this._options.maxValue);
-        else if (this._options.stepSize && options.maxValue) options.maxValue = this.validateMaxValue(this._options.stepSize, options.maxValue);
-        if (options.minValue && this._options.stepSize) options.minValue = this.validateMinValue(options.minValue, this._options.stepSize);
-        if (options.firstValue) options.firstValue = this.validateValue(options.firstValue, 1);
-        if (options.lastValue) options.lastValue = this.validateValue(options.lastValue, 2);
-
         this._options.update(options);
+
+        if (options.stepSize !== undefined) {
+            this._options.maxValue = this.validateMaxValue(options.stepSize, this._options.maxValue);
+        }
+        if (options.maxValue !== undefined) {
+            this._options.maxValue = this.validateMaxValue(this._options.stepSize, options.maxValue);
+        }
+        if (options.minValue !== undefined) {
+            this._options.minValue = this.validateMinValue(options.minValue, this._options.stepSize);
+        }
+
+        let neededValidateValue = options.stepSize !== undefined || options.maxValue !== undefined || options.minValue !== undefined;
+        let neededValidateFirstValue = options.firstValue !== undefined || neededValidateValue || options.hasTwoSlider !== undefined;
+        let neededValidateLastValue = options.lastValue !== undefined || neededValidateValue;
+        if (neededValidateFirstValue) {
+            this._options.firstValue = this.validateValue(this._options.firstValue, 1);
+        }
+        if (neededValidateLastValue) {
+            this._options.lastValue = this.validateValue(this._options.lastValue, 2);
+        }
     }
 
     validateMaxValue(stepSize: number, maxValue: number): number {
@@ -45,6 +59,10 @@ class Model {
         }
     }
 
+    /*     validateMinMaxBoundaryValue(minValue: number, maxValue: number): number{
+            if()
+        } */
+
     validateValue(value: number, countNumber: number): number {
         let newTargetInputValue = this._calculateNearestPositionForHandle(value);
 
@@ -55,7 +73,7 @@ class Model {
         let lastValue = this._options.lastValue;
         let hasTwoSlider = this._options.hasTwoSlider;
 
-        if (countNumber === 1 && newTargetInputValue !== firstValue) {
+        if (countNumber === 1) {
             if (newTargetInputValue < minValue)
                 newTargetInputValue = minValue;
             else if (newTargetInputValue > lastValue && hasTwoSlider)
@@ -65,7 +83,7 @@ class Model {
             else
                 newTargetInputValue = newTargetInputValue;
         }
-        else if (countNumber === 2 && newTargetInputValue !== lastValue && hasTwoSlider) {
+        else if (countNumber === 2) {
             if (newTargetInputValue > maxValue)
                 newTargetInputValue = maxValue;
             else if (newTargetInputValue < firstValue)
@@ -97,6 +115,10 @@ class Model {
         }
         return MathFunctions.cutOffJunkValuesFromFraction(temp3, stepSize);
     }
+
+    /* checkForExceedingLimitValues(value: number, maxValue: number, minValue: number){
+        if(value < )
+    } */
 }
 
 export { Model };
