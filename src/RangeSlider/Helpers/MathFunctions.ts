@@ -22,7 +22,8 @@ class MathFunctions {
             let countOfNumbers: number = fractionalPart.length;
             return Number.parseFloat(value.toFixed(countOfNumbers));
         }
-        else return value;
+        else
+            return value;
     }
 
     // заменяет строку с числом в формате с экспонентой на строку с числом в обычном формате
@@ -53,10 +54,10 @@ class MathFunctions {
         return splitByE.length === 2;
     }
 
-    static getFractionOfNumber(number: number): number{
+    static getFractionOfNumber(number: number): number {
         let test1 = number.toString().split(".");
         let test12: string;
-        if (test1.length > 1){
+        if (test1.length > 1) {
             test12 = `0.${test1[1]}`;
             return Number.parseFloat(test12);
         }

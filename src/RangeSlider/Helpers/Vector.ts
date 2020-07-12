@@ -12,28 +12,28 @@ class Vector {
         return this._x;
     }
     set width(value: number) {
-        this._x = (!value && value !== 0 ? this._x : value);
+        this._x = value;
     }
 
     get height(): number {
         return this._y;
     }
     set height(value: number) {
-        this._y = (!value && value !== 0 ? this._y : value);
+        this._y = value;
     }
 
     get x(): number {
         return this._x;
     }
     set x(value: number) {
-        this._x = (!value && value !== 0 ? this._x : value);
+        this._x = value;
     }
 
     get y(): number {
         return this._y;
     }
     set y(value: number) {
-        this._y = (!value && value !== 0 ? this._y : value);
+        this._y = value;
     }
 
 
@@ -47,9 +47,6 @@ class Vector {
     subtract(vector: Vector): Vector {
         return new Vector(this._x - vector.x, this._y - vector.y);
     }
-    subtractNumber(number: number): Vector {
-        return new Vector(this._x - number, this._y - number);
-    }
 
     multiplyByNumber(number: number): Vector {
         return new Vector(this._x * number, this._y * number);
@@ -60,7 +57,7 @@ class Vector {
     }
 
     ///считает длину проекции текущего вектора на целевой вектор
-    calculateVectorProjectionOnTargetVector(targetVector: Vector) {
+    calculateVectorProjectionOnTargetVector(targetVector: Vector): number {
         return this.calculateScalarProduct(targetVector) / targetVector.length;
     }
 
