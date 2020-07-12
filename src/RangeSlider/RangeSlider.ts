@@ -23,6 +23,8 @@ class RangeSlider {
         let model = new Model(defaultOptions);
 
         let rangeSlidersContainer: HTMLElement = <HTMLElement>document.querySelector(containerSelector);
+        if (!rangeSlidersContainer)
+            rangeSlidersContainer = document.createElement("div");
         let sliderContainer: HTMLElement = document.createElement("div");
         let inputsContainer: HTMLElement = document.createElement("div");
         let scaleContainer: HTMLElement = document.createElement("div");
