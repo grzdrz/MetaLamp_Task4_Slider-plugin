@@ -66,10 +66,6 @@ class Model {
         }
     }
 
-    /*     validateMinMaxBoundaryValue(minValue: number, maxValue: number): number{
-            if()
-        } */
-
     validateValue(value: number, countNumber: number): number {
         let newTargetInputValue = this._calculateNearestPositionForHandle(value);
 
@@ -122,10 +118,6 @@ class Model {
         }
         return MathFunctions.cutOffJunkValuesFromFraction(temp3, stepSize);
     }
-
-    /* checkForExceedingLimitValues(value: number, maxValue: number, minValue: number){
-        if(value < )
-    } */
 }
 
 export { Model };

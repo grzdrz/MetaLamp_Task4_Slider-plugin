@@ -19,7 +19,7 @@ interface IOptions {
 class Options implements IOptions {
     public id: number;
 
-    public sliderStripLength: number = 500;
+    public sliderStripLength: number = 100;
     public sliderStripThickness: number = 10;
     public handleWidth: number = 15;
     public handleHeight: number = 15;

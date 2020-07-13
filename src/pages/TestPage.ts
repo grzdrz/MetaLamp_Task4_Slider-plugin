@@ -14,7 +14,7 @@ let options = {
     stepSize: 3,
     hasTwoSlider: true,
     isInterval: true,
-    maxSegmentsCount: 5,
+    maxSegmentsCount: 6,
     scaleFontSize: 15,
     angle: 0,
 };

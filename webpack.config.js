@@ -31,7 +31,6 @@ let entryObj = entries.reduce((obj, curEntry) => {
     obj[curEntry.pageName] = `./src/pages/${curEntry.pageName}.ts`;
     return obj;
 }, {});
-entryObj.app = "./src/app.ts";
 module.exports = {
     entry: entryObj,
 

@@ -15,27 +15,29 @@
   display: flex;
   flex-direction: column;
   background: white;
-  width: max-content;
+  /* width: 500px; */
   height: max-content;
+  /* &__title-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 18px;
+    } */
+  /* &__title {
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 15px;
+        text-transform: uppercase;
+        color: #1f2041;
+    } */
   /* &__first-slider-outside {
         background: linear-gradient(90deg, #ce2e2e 0%, #eb9525 100%);
     }
     &__last-slider-outside {
         background: linear-gradient(-90deg, #ce2e2e 0%, #eb9525 100%);
     } */ }
-  .range-slider__title-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 18px; }
-  .range-slider__title {
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 15px;
-    text-transform: uppercase;
-    color: #1f2041; }
   .range-slider__main-content-container {
     display: flex;
     flex-direction: column;

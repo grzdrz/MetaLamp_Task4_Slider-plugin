@@ -73,29 +73,31 @@ export class SliderView extends View {
             return false;
         };
         handle.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
-        //handle.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
-        handle.backgroundDOMElement.addEventListener("mousedown", (event: MouseEvent) => {
+        handle.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
+        handle.backgroundDOMElement.addEventListener("mousedown", (event: UIEvent) => {
             this._handlerMouseDown(event);
         });
-        /* handle.outsideDOMElement.addEventListener("touchstart", (event: MouseEvent) => {
+        handle.backgroundDOMElement.addEventListener("touchstart", (event: UIEvent) => {
             this._handlerMouseDown(event);
-        }); */
+        });
     }
 
     //d&d
-    _handlerMouseDown(event: MouseEvent) {
+    _handlerMouseDown(event: UIEvent) {
         event.preventDefault();
 
         let modelData = this.getModelData();
         let cursorMouseDownPositionX;
         let cursorMouseDownPositionY;
         if (event instanceof TouchEvent) {
-            cursorMouseDownPositionX = event.changedTouches[0].pageX;
-            cursorMouseDownPositionY = event.changedTouches[0].pageY
+            let touchEvent = <TouchEvent>event;
+            cursorMouseDownPositionX = touchEvent.changedTouches[0].pageX;
+            cursorMouseDownPositionY = touchEvent.changedTouches[0].pageY
         }
         else {
-            cursorMouseDownPositionX = event.clientX;
-            cursorMouseDownPositionY = event.clientY;
+            let mouseEvent = <MouseEvent>event;
+            cursorMouseDownPositionX = mouseEvent.clientX;
+            cursorMouseDownPositionY = mouseEvent.clientY;
         }
         cursorMouseDownPositionY = (document.documentElement.clientHeight + pageYOffset) - cursorMouseDownPositionY;
         //cursorMouseDownPositionX =;
@@ -130,10 +132,9 @@ export class SliderView extends View {
 
 
         let optionsForMouseEvents = {
-            handlerMouseMove: (/* optionsFromMouseDown: IMouseEventArgs,  */event: MouseEvent): void => { },
-            handlerMouseUp: (/* optionsFromMouseDown: IMouseEventArgs,  */event: MouseEvent): void => { },
+            handlerMouseMove: (event: UIEvent): void => { },
+            handlerMouseUp: (event: UIEvent): void => { },
             mousePositionInsideTargetSlider: mousePositionInsideTargetSlider,
-            targetSliderInstance: <Handle>targetSliderInstance,
             targetHandleCountNumber: targetHandleCountNumber,
         };
         let handlerMouseMove = this._handlerMouseMove.bind(this, optionsForMouseEvents);
@@ -144,27 +145,28 @@ export class SliderView extends View {
 
         document.addEventListener("mousemove", handlerMouseMove);
         document.addEventListener("mouseup", handlerMouseUp);
-        /* document.addEventListener("touchmove", handlerMouseMove);
-        document.addEventListener("touchend", handlerMouseUp); */
+        document.addEventListener("touchmove", handlerMouseMove);
+        document.addEventListener("touchend", handlerMouseUp);
     }
 
-    _handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: MouseEvent) {
+    _handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent/* MouseEvent */) {
         let modelData = this.getModelData();
         let {
             mousePositionInsideTargetSlider,
-            targetSliderInstance,
             targetHandleCountNumber,
         } = optionsFromMouseDown;
 
         let mouseGlobalPositionX;
         let mouseGlobalPositionY;
         if (event instanceof TouchEvent) {
-            mouseGlobalPositionX = event.changedTouches[0].pageX;
-            mouseGlobalPositionY = event.changedTouches[0].pageY
+            let touchEvent = <TouchEvent>event;
+            mouseGlobalPositionX = touchEvent.changedTouches[0].pageX;
+            mouseGlobalPositionY = touchEvent.changedTouches[0].pageY
         }
         else {
-            mouseGlobalPositionX = event.clientX;
-            mouseGlobalPositionY = event.clientY;
+            let mouseEvent = <MouseEvent>event;
+            mouseGlobalPositionX = mouseEvent.clientX;
+            mouseGlobalPositionY = mouseEvent.clientY;
         }
         mouseGlobalPositionY = (document.documentElement.clientHeight + pageYOffset) - mouseGlobalPositionY;
         //mouseGlobalPositionX =;
@@ -179,11 +181,11 @@ export class SliderView extends View {
         });
     }
 
-    _handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, event: MouseEvent) {
+    _handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, event: UIEvent) {
         document.removeEventListener("mousemove", optionsFromMouseDown.handlerMouseMove);
         document.removeEventListener("mouseup", optionsFromMouseDown.handlerMouseUp);
-        /*         document.removeEventListener("touchmove", optionsFromMouseDown.handlerMouseMove);
-                document.removeEventListener("touchend", optionsFromMouseDown.handlerMouseUp); */
+        document.removeEventListener("touchmove", optionsFromMouseDown.handlerMouseMove);
+        document.removeEventListener("touchend", optionsFromMouseDown.handlerMouseUp);
     }
 
     _calculateValueProportionalToPixelValue(args: IValueToPixelArgs): void {
@@ -244,10 +246,9 @@ export class SliderView extends View {
 
 
 interface IMouseEventArgs {
-    handlerMouseMove: (/* optionsFromMouseDown: IMouseEventArgs,  */event: MouseEvent) => void,
-    handlerMouseUp: (/* optionsFromMouseDown: IMouseEventArgs,  */event: MouseEvent) => void,
+    handlerMouseMove: (/* optionsFromMouseDown: IMouseEventArgs,  */event: UIEvent) => void,
+    handlerMouseUp: (/* optionsFromMouseDown: IMouseEventArgs,  */event: UIEvent) => void,
     mousePositionInsideTargetSlider: Vector,
-    targetSliderInstance: Handle/* any */,
     targetHandleCountNumber: number,
 }
 
