@@ -209,10 +209,10 @@ export class SliderView extends View {
                 let vectorizedHandleWidth = Vector.calculateVector(/* this.firstSlider.size.width */modelData.handleWidth, modelData.angleInRad);
                 cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
             }
-            containerCapacity = modelData.sliderStripLength - modelData.handleWidth/* this.firstSlider.size.width */ * 2;
+            containerCapacity = modelData.sliderStripLength - modelData.handleWidth * 2;
         }
         else {
-            containerCapacity = modelData.sliderStripLength - modelData.handleWidth/* this.firstSlider.size.width */;
+            containerCapacity = modelData.sliderStripLength - modelData.handleWidth;
         }
 
         let mainAxisVector = Vector.calculateVector(modelData.sliderStripLength, modelData.angleInRad);
@@ -231,7 +231,8 @@ export class SliderView extends View {
         let windowWidth = document.documentElement.clientWidth;
 
         let currentSliderLengthNotEqualOriginalLength = modelData.sliderStripLength !== modelData.originalSliderStripLength;//чтоб уменьшить число ненужных перерендеров
-        let isWindowLongerThanSliderLength = windowWidth > modelData.originalSliderStripLength;
+        //let isWindowLongerThanSliderLength = /* window.pageXOffset === 0 || */ windowWidth > modelData.originalSliderStripLength;
+        let isWindowLongerThanSliderLength = windowWidth > modelData.originalSliderStripLength/* this.sliderContainer.DOMElement.getBoundingClientRect().width */;
         if (!isWindowLongerThanSliderLength)
             this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs({ sliderStripLength: windowWidth }));
         else if (isWindowLongerThanSliderLength && currentSliderLengthNotEqualOriginalLength) {

@@ -40,7 +40,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 80px; }
+    margin-top: 100px;
+    margin-bottom: 100px;
+    align-self: center; }
   .range-slider__slider-container {
     display: flex;
     align-items: center;
@@ -100,7 +102,6 @@
     flex-direction: column;
     border: 0px;
     padding: 10px;
-    margin-left: 100px;
     border: 2px solid #50bda5; }
   .range-slider__inputs-container {
     display: flex;
@@ -115,7 +116,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: max-content; }
+    width: 100%; }
   .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__handles-count-text, .range-slider__angle-size-text, .range-slider__input-text {
     margin: 0px;
     margin-left: 10px;
