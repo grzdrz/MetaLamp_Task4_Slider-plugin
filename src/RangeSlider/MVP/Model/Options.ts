@@ -35,6 +35,9 @@ class Options implements IOptions {
     public scaleFontSize: number = 20;
     public angle: number = 0;
 
+    
+    public originalSliderStripLength: number = 500;
+
     constructor(options: IOptions) {
         this.id = 0;
 
@@ -63,7 +66,7 @@ class Options implements IOptions {
         return this.angle * (Math.PI / 180);
     }
 
-    get deltaMaxMin(): number{
+    get deltaMaxMin(): number {
         return this.maxValue - this.minValue;
     }
 }

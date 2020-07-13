@@ -2,7 +2,7 @@ import { RangeSlider } from "../RangeSlider/RangeSlider";
 import { Options } from "../RangeSlider/MVP/Model/Options";
 
 let options = {
-    sliderStripLength: 500,
+    sliderStripLength: 1000,
     sliderStripThickness: 10,
     handleWidth: 20,
     handleHeight: 20,

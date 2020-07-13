@@ -29,17 +29,18 @@ class Presenter {
         this.scaleView.onGetModelData.subscribe(this.handlerGetModelData);
         this.optionsPanelView.onGetModelData.subscribe(this.handlerGetModelData);
 
+        this.handlerModelStateUpdate = this.handlerModelStateUpdate.bind(this);
+        (<OptionsPanelView>this.optionsPanelView).onModelStateUpdate.subscribe(this.handlerModelStateUpdate);
+
         this.handlerHandleMove = this.handlerHandleMove.bind(this);
         (<SliderView>this.sliderView).onHandleMove.subscribe(this.handlerHandleMove);
+        (<SliderView>this.sliderView).onModelStateUpdate.subscribe(this.handlerModelStateUpdate);
 
         this.handlerInputChange = this.handlerInputChange.bind(this);
         (<InputsView>this.inputsView).onInputsChange.subscribe(this.handlerInputChange);
 
         this.handlerScaleSegmentClick = this.handlerScaleSegmentClick.bind(this);
         (<ScaleView>this.scaleView).onScaleSegmentClick.subscribe(this.handlerScaleSegmentClick);
-
-        this.handlerModelStateUpdate = this.handlerModelStateUpdate.bind(this);
-        (<OptionsPanelView>this.optionsPanelView).onModelStateUpdate.subscribe(this.handlerModelStateUpdate);
 
         this.initialize();
     }

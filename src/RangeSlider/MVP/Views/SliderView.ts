@@ -25,6 +25,7 @@ export class SliderView extends View {
 
 
     public onHandleMove: Event = new Event();
+    public onModelStateUpdate: Event = new Event();
 
     constructor(mainContentContainer: HTMLElement) {
         super();
@@ -38,10 +39,12 @@ export class SliderView extends View {
         this.parts.push(this.filledStrip = new FilledStrip(this));
 
         this._handlerMouseDown = this._handlerMouseDown.bind(this);
+        this.handlerWindowSizeChange = this.handlerWindowSizeChange.bind(this);
     }
 
     initialize() {
         this.update(true);
+        window.onresize = this.handlerWindowSizeChange;
     }
 
     update(neededRerender: boolean) {
@@ -220,6 +223,20 @@ export class SliderView extends View {
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: proportionalValue }));
         else
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: proportionalValue }));
+    }
+
+    handlerWindowSizeChange(event: UIEvent) {
+        let modelData = this.getModelData();
+        let target = <Window>(event.target);
+        let windowWidth = document.documentElement.clientWidth;
+
+        let currentSliderLengthNotEqualOriginalLength = modelData.sliderStripLength !== modelData.originalSliderStripLength;//чтоб уменьшить число ненужных перерендеров
+        let isWindowLongerThanSliderLength = windowWidth > modelData.originalSliderStripLength;
+        if (!isWindowLongerThanSliderLength)
+            this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs({ sliderStripLength: windowWidth }));
+        else if (isWindowLongerThanSliderLength && currentSliderLengthNotEqualOriginalLength) {
+            this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs({ sliderStripLength: modelData.originalSliderStripLength }));
+        }
     }
 }
 
