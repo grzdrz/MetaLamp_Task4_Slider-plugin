@@ -15,7 +15,6 @@ export class ScaleView extends View {
 
         this.containerElement = scaleContainer;
 
-        //this.onScaleSegmentClick = () => { };
         this._handlerSelectSegment = this._handlerSelectSegment.bind(this);
     }
 
@@ -41,7 +40,9 @@ export class ScaleView extends View {
         let maxSegmentsCount = this.maxSegmentsCount;
         if (maxSegmentsCount >= segmentDensityLimit)
             maxSegmentsCount = segmentDensityLimit;//для относительно больших сегментов
+
         let stepsInOneSegment = Math.round(segmentDensityLimit / maxSegmentsCount);
+
         for (let i = 0; i < maxSegmentsCount; i++) {
             let segment = document.createElement("div");
             segment.className = "range-slider__scale-segment";
@@ -72,9 +73,6 @@ export class ScaleView extends View {
     }
 
     _calculateSegmentDensityLimit() {
-        /* let maxValue: number = this.getModelData("maxValue");
-        let minValue: number = this.getModelData("minValue");
-        let stepSize = this.getModelData("stepSize"); */
         let modelData = this.getModelData();
 
         let dMaxMinValue = modelData.maxValue - modelData.minValue;
@@ -105,22 +103,17 @@ export class ScaleView extends View {
         let segmentSizeVectorLength = segmentSizeVector.length;
         let handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
         if (modelData.hasTwoSlider) {
-            handlePositionInContainer = handlePositionInContainer + handleSize - segmentSizeVectorLength / 2;
+            handlePositionInContainer = handlePositionInContainer - segmentSizeVectorLength / 2 + handleSize;
         }
         else {
             handlePositionInContainer = handlePositionInContainer - segmentSizeVectorLength / 2 + handleSize / 2;
         }
 
-        let testMargin = new Vector(30, 30);
-        testMargin.x = testMargin.x * Math.cos(modelData.angleInRad);
-        testMargin.y = testMargin.y * Math.sin(modelData.angleInRad);
-        /* let position = {
-            x: handlePositionInContainer * Math.cos(modelData.angleInRad) + testMargin.y,
-            y: handlePositionInContainer * Math.sin(modelData.angleInRad) - testMargin.x,
-        }; */
-        let x = handlePositionInContainer * Math.cos(modelData.angleInRad) + testMargin.y;
-        let y = handlePositionInContainer * Math.sin(modelData.angleInRad) - testMargin.x;
-        let position = new Vector(x, y);
+        let marginFromSlider = 30;//отступ шкалы от полосы слайдера
+        let vectorizedMargin = Vector.calculateVector(marginFromSlider, modelData.angleInRad);
+        let rotatedMargin = vectorizedMargin.rotateVector(-Math.PI / 2);
+        let vectorizedHandlePosition = Vector.calculateVector(handlePositionInContainer, modelData.angleInRad);
+        let position = vectorizedHandlePosition.sum(rotatedMargin);
         this.renderPosition(segment, position);
     }
 

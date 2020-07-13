@@ -68,6 +68,12 @@ class Vector {
     static calculateVector(length: number, angle: number): Vector {
         return new Vector(length * Math.cos(angle), length * Math.sin(angle));
     }
+
+    rotateVector(angleInRad: number){
+        let newX = this._x * Math.cos(angleInRad) - this._y * Math.sin(angleInRad);
+        let newY = this._x * Math.sin(angleInRad) + this._y * Math.cos(angleInRad);
+        return new Vector(newX, newY);
+    }
 }
 
 export { Vector };

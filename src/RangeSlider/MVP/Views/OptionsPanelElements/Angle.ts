@@ -51,6 +51,11 @@ export class Angle extends OptionPanelElement {
         if (!input) throw new Error("input not exist");
         let inputValue = Number.parseInt(input.value);
 
+        if (inputValue > 90) inputValue = 90;
+        else if (inputValue < 0) inputValue = 0;
+
+        input.value = inputValue.toString();
+
         let optionsToUpdate = {
             angle: inputValue,
         };

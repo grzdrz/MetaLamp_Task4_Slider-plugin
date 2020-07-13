@@ -260,3 +260,87 @@ describe("calculateVectorProjectionOnTargetVector(найти длину прое
         assert.equal(actual, expected);
     });
 });
+
+
+describe("rotateVector(повернуть вектор на заданный угол)", function () {
+    it("Возвращает вектор", function () {
+        let vector1 = new Vector(1, 1);
+        let result = vector1.rotateVector(Math.PI / 2);
+        assert.instanceOf(result, Vector);
+    });
+
+    it("Поворот направленного строго вверх вектора по часовой стрелке на 90 градусов, x", function () {
+        let vector1 = new Vector(0, 1);
+        let result = vector1.rotateVector(-Math.PI / 2);
+        
+        let actualX = Number.parseFloat(result.x.toFixed(4));
+        let expectedX = 1;
+        assert.equal(actualX, expectedX);
+    });
+
+    it("Поворот направленного строго вверх вектора по часовой стрелке на 90 градусов, y", function () {
+        let vector1 = new Vector(0, 1);
+        let result = vector1.rotateVector(-Math.PI / 2);
+
+        let actualY = Number.parseFloat(result.y.toFixed(4));
+        let expectedY = 0;
+        assert.equal(actualY, expectedY);
+    });
+
+
+    it("Поворот направленного строго вправо вектора по часовой стрелке на 90 градусов, x", function () {
+        let vector1 = new Vector(1, 0);
+        let result = vector1.rotateVector(-Math.PI / 2);
+
+        let actualX = Number.parseFloat(result.x.toFixed(4));
+        let expectedX = 0;
+        assert.equal(actualX, expectedX);
+    });
+
+    it("Поворот направленного строго вправо вектора по часовой стрелке на 90 градусов, y", function () {
+        let vector1 = new Vector(1, 0);
+        let result = vector1.rotateVector(-Math.PI / 2);
+
+        let actualY = Number.parseFloat(result.y.toFixed(4));
+        let expectedY = -1;
+        assert.equal(actualY, expectedY);
+    });
+
+
+    it("Поворот направленного строго влево вектора по часовой стрелке на 90 градусов, x", function () {
+        let vector1 = new Vector(-1, 0);
+        let result = vector1.rotateVector(-Math.PI / 2);
+
+        let actualX = Number.parseFloat(result.x.toFixed(4));
+        let expectedX = 0;
+        assert.equal(actualX, expectedX);
+    });
+
+    it("Поворот направленного строго влево вектора по часовой стрелке на 90 градусов, y", function () {
+        let vector1 = new Vector(-1, 0);
+        let result = vector1.rotateVector(-Math.PI / 2);
+
+        let actualY = Number.parseFloat(result.y.toFixed(4));
+        let expectedY = 1;
+        assert.equal(actualY, expectedY);
+    });
+
+
+    it("Поворот вектора направленного под углом 45 градусов по часовой стрелке на 90 градусов, x", function () {
+        let vector1 = new Vector(1, 1);
+        let result = vector1.rotateVector(-Math.PI / 2);
+
+        let actualX = Number.parseFloat(result.x.toFixed(4));
+        let expectedX = 1;
+        assert.equal(actualX, expectedX);
+    });
+
+    it("Поворот вектора направленного под углом 45 градусов по часовой стрелке на 90 градусов, y", function () {
+        let vector1 = new Vector(1, 1);
+        let result = vector1.rotateVector(-Math.PI / 2);
+
+        let actualY = Number.parseFloat(result.y.toFixed(4));
+        let expectedY = -1;
+        assert.equal(actualY, expectedY);
+    });
+});
