@@ -1,8 +1,9 @@
-import { RangeSlider } from "../RangeSlider/RangeSlider";
-import { Options } from "../RangeSlider/MVP/Model/Options";
+/* import { RangeSlider } from "../RangeSlider/RangeSlider"; */
+import "../plugin.ts";
+import $ from "jquery";
 
 let options = {
-    sliderStripLength: 1000,
+    sliderStripLength: 500,
     sliderStripThickness: 10,
     handleWidth: 20,
     handleHeight: 20,
@@ -18,6 +19,26 @@ let options = {
     scaleFontSize: 15,
     angle: 0,
 };
-RangeSlider.createRangeSlider(".test-page__tested-range-slider-container2", options);
+$(".test-page__tested-range-slider-container2").rangeSlider(options);
+
+
+let options2 = {
+    sliderStripLength: 300,
+    sliderStripThickness: 10,
+    handleWidth: 20,
+    handleHeight: 20,
+    minValue: 0,
+    maxValue: 10,
+    borderThickness: 10,
+    firstValue: 0,
+    lastValue: 3,
+    stepSize: 0.0000000003,
+    hasTwoSlider: false,
+    isInterval: true,
+    maxSegmentsCount: 6,
+    scaleFontSize: 15,
+    angle: 90,
+};
+//$(".test-page__tested-range-slider-container").rangeSlider(options2);
 
 import "./TestPage.scss"; 

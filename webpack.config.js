@@ -27,10 +27,13 @@ pluginsOptions.push(new webpack.ProvidePlugin({
     jQuery: 'jquery'
 }));
 
-let entryObj = entries.reduce((obj, curEntry) => {
+/* let entryObj = entries.reduce((obj, curEntry) => {
     obj[curEntry.pageName] = `./src/pages/${curEntry.pageName}.ts`;
     return obj;
-}, {});
+}, {}); */
+let entryObj = {};
+entryObj.plugin = "./src/plugin.ts";
+entryObj.TestPage = "./src/pages/TestPage.ts";
 module.exports = {
     entry: entryObj,
 

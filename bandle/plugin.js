@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/pages/TestPage.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/plugin.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -105,17 +105,6 @@ eval("var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!\n * jQ
 /***/ (function(module, exports, __webpack_require__) {
 
 eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/RangeSlider/RangeSlider.scss?./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js");
-
-/***/ }),
-
-/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/TestPage.scss":
-/*!********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/TestPage.scss ***!
-  \********************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/pages/TestPage.scss?./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js");
 
 /***/ }),
 
@@ -439,29 +428,6 @@ eval("var api = __webpack_require__(/*! ../../node_modules/style-loader/dist/run
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"RangeSlider\", function() { return RangeSlider; });\n/* harmony import */ var _MVP_Views_SliderView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MVP/Views/SliderView */ \"./src/RangeSlider/MVP/Views/SliderView.ts\");\n/* harmony import */ var _MVP_Views_InputsView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MVP/Views/InputsView */ \"./src/RangeSlider/MVP/Views/InputsView.ts\");\n/* harmony import */ var _MVP_Views_ScaleView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MVP/Views/ScaleView */ \"./src/RangeSlider/MVP/Views/ScaleView.ts\");\n/* harmony import */ var _MVP_Views_OptionsPanelView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MVP/Views/OptionsPanelView */ \"./src/RangeSlider/MVP/Views/OptionsPanelView.ts\");\n/* harmony import */ var _MVP_Model_Model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MVP/Model/Model */ \"./src/RangeSlider/MVP/Model/Model.ts\");\n/* harmony import */ var _MVP_Presenter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MVP/Presenter */ \"./src/RangeSlider/MVP/Presenter.ts\");\n/* harmony import */ var _MVP_Model_Options__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MVP/Model/Options */ \"./src/RangeSlider/MVP/Model/Options.ts\");\n/* harmony import */ var _RangeSlider_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./RangeSlider.scss */ \"./src/RangeSlider/RangeSlider.scss\");\n/* harmony import */ var _RangeSlider_scss__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_RangeSlider_scss__WEBPACK_IMPORTED_MODULE_7__);\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nclass RangeSlider {\r\n    static createRangeSlider(containerSelector, options) {\r\n        let defaultOptions = new _MVP_Model_Options__WEBPACK_IMPORTED_MODULE_6__[\"Options\"](options);\r\n        defaultOptions.id = this.sliderInstanceCount;\r\n        this.sliderInstanceCount++;\r\n        let model = new _MVP_Model_Model__WEBPACK_IMPORTED_MODULE_4__[\"Model\"](defaultOptions);\r\n        let rangeSlidersContainer = containerSelector;\r\n        if (!rangeSlidersContainer)\r\n            rangeSlidersContainer = document.createElement(\"div\");\r\n        let sliderContainer = document.createElement(\"div\");\r\n        let inputsContainer = document.createElement(\"div\");\r\n        let scaleContainer = document.createElement(\"div\");\r\n        let optionsPanelContainer = document.createElement(\"div\");\r\n        let elements = [\r\n            rangeSlidersContainer,\r\n            sliderContainer,\r\n            inputsContainer,\r\n            scaleContainer,\r\n            optionsPanelContainer,\r\n        ];\r\n        this.render(elements);\r\n        let sliderView = new _MVP_Views_SliderView__WEBPACK_IMPORTED_MODULE_0__[\"SliderView\"](sliderContainer);\r\n        let inputsView = new _MVP_Views_InputsView__WEBPACK_IMPORTED_MODULE_1__[\"InputsView\"](inputsContainer);\r\n        let scaleView = new _MVP_Views_ScaleView__WEBPACK_IMPORTED_MODULE_2__[\"ScaleView\"](scaleContainer);\r\n        let optionsPanelView = new _MVP_Views_OptionsPanelView__WEBPACK_IMPORTED_MODULE_3__[\"OptionsPanelView\"](optionsPanelContainer);\r\n        let presenter = new _MVP_Presenter__WEBPACK_IMPORTED_MODULE_5__[\"Presenter\"](model, sliderView, inputsView, scaleView, optionsPanelView);\r\n    }\r\n    ;\r\n    static render(elements) {\r\n        let [rangeSlidersContainer, sliderContainer, inputsContainer, scaleContainer, optionsPanelContainer,] = elements;\r\n        //плагин\r\n        let rangeSlider = document.createElement(\"div\");\r\n        rangeSlider.className = \"range-slider\";\r\n        //слайдер\r\n        sliderContainer.className = \"range-slider__slider-container\";\r\n        //шкала\r\n        scaleContainer.className = \"range-slider__scale-container\";\r\n        //контейнер слайдер + шкала\r\n        let mainContentContainer = document.createElement(\"div\");\r\n        mainContentContainer.className = \"range-slider__main-content-container\";\r\n        mainContentContainer.append(sliderContainer);\r\n        mainContentContainer.append(scaleContainer);\r\n        rangeSlider.append(mainContentContainer);\r\n        //опции + инпуты\r\n        let optionsContainer = document.createElement(\"div\");\r\n        optionsContainer.className = \"range-slider__inputs-and-options-panel-container\";\r\n        //инпуты\r\n        inputsContainer.className = \"range-slider__inputs-container\";\r\n        //опции\r\n        optionsPanelContainer.className = \"range-slider__options-panel-container\";\r\n        optionsContainer.append(inputsContainer);\r\n        optionsContainer.append(optionsPanelContainer);\r\n        rangeSlider.append(optionsContainer);\r\n        rangeSlidersContainer.append(rangeSlider);\r\n    }\r\n}\r\nRangeSlider.sliderInstanceCount = 0;\r\n\r\n\n\n//# sourceURL=webpack:///./src/RangeSlider/RangeSlider.ts?");
-
-/***/ }),
-
-/***/ "./src/pages/TestPage.scss":
-/*!*********************************!*\
-  !*** ./src/pages/TestPage.scss ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("var api = __webpack_require__(/*! ../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ \"./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js\");\n            var content = __webpack_require__(/*! !../../node_modules/mini-css-extract-plugin/dist/loader.js!../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./TestPage.scss */ \"./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/TestPage.scss\");\n\n            content = content.__esModule ? content.default : content;\n\n            if (typeof content === 'string') {\n              content = [[module.i, content, '']];\n            }\n\nvar options = {};\n\noptions.insert = \"head\";\noptions.singleton = false;\n\nvar update = api(content, options);\n\n\n\nmodule.exports = content.locals || {};\n\n//# sourceURL=webpack:///./src/pages/TestPage.scss?");
-
-/***/ }),
-
-/***/ "./src/pages/TestPage.ts":
-/*!*******************************!*\
-  !*** ./src/pages/TestPage.ts ***!
-  \*******************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _plugin_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../plugin.ts */ \"./src/plugin.ts\");\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _TestPage_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TestPage.scss */ \"./src/pages/TestPage.scss\");\n/* harmony import */ var _TestPage_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_TestPage_scss__WEBPACK_IMPORTED_MODULE_2__);\n/* import { RangeSlider } from \"../RangeSlider/RangeSlider\"; */\r\n\r\n\r\nlet options = {\r\n    sliderStripLength: 500,\r\n    sliderStripThickness: 10,\r\n    handleWidth: 20,\r\n    handleHeight: 20,\r\n    minValue: -9,\r\n    maxValue: 9,\r\n    borderThickness: 10,\r\n    firstValue: 0,\r\n    lastValue: 3,\r\n    stepSize: 3,\r\n    hasTwoSlider: true,\r\n    isInterval: true,\r\n    maxSegmentsCount: 6,\r\n    scaleFontSize: 15,\r\n    angle: 0,\r\n};\r\n//RangeSlider.createRangeSlider(\".test-page__tested-range-slider-container2\", options);\r\njquery__WEBPACK_IMPORTED_MODULE_1___default()(\".test-page__tested-range-slider-container2\").rangeSlider(options);\r\nlet options2 = {\r\n    sliderStripLength: 300,\r\n    sliderStripThickness: 10,\r\n    handleWidth: 20,\r\n    handleHeight: 20,\r\n    minValue: 0,\r\n    maxValue: 10,\r\n    borderThickness: 10,\r\n    firstValue: 0,\r\n    lastValue: 3,\r\n    stepSize: 0.0000000003,\r\n    hasTwoSlider: false,\r\n    isInterval: true,\r\n    maxSegmentsCount: 6,\r\n    scaleFontSize: 15,\r\n    angle: 90,\r\n};\r\n//$(\".test-page__tested-range-slider-container\").rangeSlider(options2);\r\n\r\n\n\n//# sourceURL=webpack:///./src/pages/TestPage.ts?");
 
 /***/ }),
 

@@ -10,11 +10,10 @@ import { Options, IOptions } from "./MVP/Model/Options";
 
 import "./RangeSlider.scss";
 
-
 class RangeSlider {
     public static sliderInstanceCount: number = 0;
 
-    static createRangeSlider(containerSelector: string, options: IOptions): void {
+    static createRangeSlider(containerSelector: HTMLElement, options: IOptions): void {
         let defaultOptions: Options = new Options(options);
 
         defaultOptions.id = this.sliderInstanceCount;
@@ -22,7 +21,7 @@ class RangeSlider {
 
         let model = new Model(defaultOptions);
 
-        let rangeSlidersContainer: HTMLElement = <HTMLElement>document.querySelector(containerSelector);
+        let rangeSlidersContainer: HTMLElement = containerSelector;
         if (!rangeSlidersContainer)
             rangeSlidersContainer = document.createElement("div");
         let sliderContainer: HTMLElement = document.createElement("div");

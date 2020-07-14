@@ -234,7 +234,7 @@ export class SliderView extends View {
 
         let currentSliderLengthNotEqualOriginalLength = modelData.sliderStripLength !== modelData.originalSliderStripLength;//чтоб уменьшить число ненужных перерендеров
         //let isWindowLongerThanSliderLength = /* window.pageXOffset === 0 || */ windowWidth > modelData.originalSliderStripLength;
-        let isWindowLongerThanSliderLength = windowWidth > modelData.originalSliderStripLength/* this.sliderContainer.DOMElement.getBoundingClientRect().width */;
+        let isWindowLongerThanSliderLength = windowWidth > modelData.originalSliderStripLength || window.pageXOffset > 0/* this.sliderContainer.DOMElement.getBoundingClientRect().width */;
         if (!isWindowLongerThanSliderLength)
             this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs({ sliderStripLength: windowWidth }));
         else if (isWindowLongerThanSliderLength && currentSliderLengthNotEqualOriginalLength) {

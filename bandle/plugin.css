@@ -133,21 +133,3 @@
   .range-slider__handles-count-input {
     width: max-content; }
 
-html,
-body {
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box; }
-
-.test-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px 0px; }
-  .test-page__tested-range-slider-container, .test-page__tested-range-slider-container2, .test-page__tested-range-slider-container3, .test-page__tested-range-slider-container4 {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 50px; }
-
