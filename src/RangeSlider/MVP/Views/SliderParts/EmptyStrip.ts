@@ -28,7 +28,7 @@ export class EmptyStrip extends SliderPart {
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
         this.DOMElement.style.transform = `rotate(${-modelData.angle}deg)`;
 
-        this.setSize(new Vector(modelData.sliderStripLength, modelData.sliderStripThickness));
+        this.setSize(new Vector(this.view.sliderContainer.sliderLength, modelData.sliderStripThickness));
         this.setPosition(new Vector(0, modelData.handleHeight / 2 - (modelData.sliderStripThickness) / 2));
     }
 }

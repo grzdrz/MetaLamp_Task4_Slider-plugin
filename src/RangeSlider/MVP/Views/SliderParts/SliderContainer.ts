@@ -3,6 +3,8 @@ import { Vector } from "../../../Helpers/Vector";
 import { SliderView } from "../SliderView";
 
 export class SliderContainer extends SliderPart {
+    public sliderLength: number = 0;
+
     constructor(view: SliderView) {
         super(view);
     }
@@ -11,10 +13,31 @@ export class SliderContainer extends SliderPart {
         this.render();
     }
 
+    buildDOMElement() { }
+
     render() {
         let modelData = this.view.getModelData();
 
-        let size = Vector.calculateVector(modelData.sliderStripLength, modelData.angleInRad);
+        this.calculateSliderLength();
+
+        let size = Vector.calculateVector(this.sliderLength, modelData.angleInRad);
         this.setSize(size);
+    }
+
+    calculateSliderLength() {
+        let modelData = this.view.getModelData();
+        let test1 = this.DOMElement.closest(".range-slider");
+        let boundingRect;
+        if (test1)
+            boundingRect = test1.getBoundingClientRect();
+        else throw new Error("sdfsdf");
+
+        //координаты точки поверхности эллипса
+        let t = Math.atan2(boundingRect.width * Math.sin(modelData.angleInRad), boundingRect.height * Math.cos(modelData.angleInRad));
+        let x = boundingRect.width * Math.cos(t);
+        let y = boundingRect.height * Math.sin(t);
+
+        let curLength = new Vector(x, y);
+        this.sliderLength = curLength.length;
     }
 }

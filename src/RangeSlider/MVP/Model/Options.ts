@@ -1,6 +1,6 @@
 interface IOptions {
     id?: number;
-    sliderStripLength?: number,
+
     sliderStripThickness?: number,
     handleWidth?: number,
     handleHeight?: number,
@@ -20,7 +20,7 @@ interface IOptions {
 class Options implements IOptions {
     public id: number = 0;
 
-    public sliderStripLength: number = 100;
+
     public sliderStripThickness: number = 10;
     public handleWidth: number = 15;
     public handleHeight: number = 15;
@@ -45,7 +45,7 @@ class Options implements IOptions {
 
     update(options: IOptions): void {
         this.id = (options.id !== undefined ? options.id : this.id);
-        this.sliderStripLength = (options.sliderStripLength !== undefined ? options.sliderStripLength : this.sliderStripLength);
+
         this.sliderStripThickness = (options.sliderStripThickness !== undefined ? options.sliderStripThickness : this.sliderStripThickness);
         this.handleWidth = (options.handleWidth !== undefined ? options.handleWidth : this.handleWidth);
         this.handleHeight = (options.handleHeight !== undefined ? options.handleHeight : this.handleHeight);

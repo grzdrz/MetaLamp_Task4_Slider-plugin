@@ -10,6 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 40px 0px;
 
     &__tested-range-slider-container,
@@ -17,7 +18,9 @@ body {
     &__tested-range-slider-container3,
     &__tested-range-slider-container4 {
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
         width: 100%;
         margin-bottom: 50px;
     }

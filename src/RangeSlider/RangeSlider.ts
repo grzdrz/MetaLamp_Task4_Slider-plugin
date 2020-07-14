@@ -83,9 +83,10 @@ class RangeSlider {
         optionsPanelContainer.className = "range-slider__options-panel-container";
         optionsContainer.append(inputsContainer);
         optionsContainer.append(optionsPanelContainer);
-        rangeSlider.append(optionsContainer);
+        //rangeSlider.append(optionsContainer);
 
         rangeSlidersContainer.append(rangeSlider);
+        rangeSlidersContainer.append(optionsContainer);
     }
 }
 

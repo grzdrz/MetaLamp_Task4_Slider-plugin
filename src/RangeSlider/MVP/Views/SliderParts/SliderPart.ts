@@ -1,7 +1,7 @@
 import { Vector } from "../../../Helpers/Vector";
 import { SliderView } from "../SliderView";
 
-export class SliderPart {
+export abstract class SliderPart {
     public DOMElement: HTMLElement;
     public view: SliderView;
 
@@ -18,21 +18,16 @@ export class SliderPart {
     }
 
     initialize() {
-        this.position = new Vector(0, 0);
+/*         this.position = new Vector(0, 0);
         let partBoundingRect = this.DOMElement.getBoundingClientRect();
         this.size = new Vector(partBoundingRect.width, partBoundingRect.height);
 
-        this.render();
+        this.render(); */
     }
 
-    buildDOMElement(){
+    abstract buildDOMElement(): void;
 
-    }
-
-    render() {
-        this.view.renderPosition(this.DOMElement, this.position);
-        this.view.renderSize(this.DOMElement, this.size);
-    }
+    abstract render(): void;
 
     setPosition(position: Vector) {
         this.position.x = position.x;

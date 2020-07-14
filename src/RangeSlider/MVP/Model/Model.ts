@@ -6,16 +6,13 @@ import { Vector } from "../../Helpers/Vector";
 
 class Model {
     private _options: Options;
-    private originalSliderStripLength: number;
 
     constructor(options: Options) {
         this._options = options;
-        this.originalSliderStripLength = options.sliderStripLength;
     }
 
     getOptions(args: OptionsEventArgs): void {
         args.options = new Options(this._options);
-        args.options.originalSliderStripLength = this.originalSliderStripLength;
     }
 
     updateOptions(options: IOptions): void {
@@ -34,8 +31,7 @@ class Model {
         let neededValidateValue =
             options.stepSize !== undefined ||
             options.maxValue !== undefined ||
-            options.minValue !== undefined ||
-            options.sliderStripLength !== undefined;
+            options.minValue !== undefined;
         let neededValidateFirstValue = options.firstValue !== undefined || neededValidateValue || options.hasTwoSlider !== undefined;
         let neededValidateLastValue = options.lastValue !== undefined || neededValidateValue;
         if (neededValidateFirstValue) {

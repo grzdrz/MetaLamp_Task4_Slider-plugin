@@ -23,7 +23,6 @@ export class SliderView extends View {
     public parts: SliderPart[] = new Array<SliderPart>();
 
 
-
     public onHandleMove: Event = new Event();
     public onModelStateUpdate: Event = new Event();
 
@@ -39,12 +38,16 @@ export class SliderView extends View {
         this.parts.push(this.filledStrip = new FilledStrip(this));
 
         this._handlerMouseDown = this._handlerMouseDown.bind(this);
-        this.handlerWindowSizeChange = this.handlerWindowSizeChange.bind(this);
+
+        this.handlerViewportSizeChange = this.handlerViewportSizeChange.bind(this);
     }
 
     initialize() {
-        this.update(true);
-        window.onresize = this.handlerWindowSizeChange;
+        this.parts.forEach(part => {
+            part.initialize();
+        });
+        //this.update(true);
+        window.addEventListener("resize", this.handlerViewportSizeChange);
     }
 
     update(neededRerender: boolean) {
@@ -208,16 +211,16 @@ export class SliderView extends View {
         let containerCapacity;
         if (modelData.hasTwoSlider) {
             if (targetHandleCountNumber === 2) {
-                let vectorizedHandleWidth = Vector.calculateVector(/* this.firstSlider.size.width */modelData.handleWidth, modelData.angleInRad);
+                let vectorizedHandleWidth = Vector.calculateVector(modelData.handleWidth, modelData.angleInRad);
                 cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
             }
-            containerCapacity = modelData.sliderStripLength - modelData.handleWidth * 2;
+            containerCapacity = this.sliderContainer.sliderLength - modelData.handleWidth * 2;
         }
         else {
-            containerCapacity = modelData.sliderStripLength - modelData.handleWidth;
+            containerCapacity = this.sliderContainer.sliderLength - modelData.handleWidth;
         }
 
-        let mainAxisVector = Vector.calculateVector(modelData.sliderStripLength, modelData.angleInRad);
+        let mainAxisVector = Vector.calculateVector(this.sliderContainer.sliderLength, modelData.angleInRad);
         let cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
 
         let proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
@@ -227,19 +230,8 @@ export class SliderView extends View {
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: proportionalValue }));
     }
 
-    handlerWindowSizeChange(event: UIEvent) {
-        let modelData = this.getModelData();
-        let target = <Window>(event.target);
-        let windowWidth = document.documentElement.clientWidth;
-
-        let currentSliderLengthNotEqualOriginalLength = modelData.sliderStripLength !== modelData.originalSliderStripLength;//чтоб уменьшить число ненужных перерендеров
-        //let isWindowLongerThanSliderLength = /* window.pageXOffset === 0 || */ windowWidth > modelData.originalSliderStripLength;
-        let isWindowLongerThanSliderLength = windowWidth > modelData.originalSliderStripLength || window.pageXOffset > 0/* this.sliderContainer.DOMElement.getBoundingClientRect().width */;
-        if (!isWindowLongerThanSliderLength)
-            this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs({ sliderStripLength: windowWidth }));
-        else if (isWindowLongerThanSliderLength && currentSliderLengthNotEqualOriginalLength) {
-            this.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs({ sliderStripLength: modelData.originalSliderStripLength }));
-        }
+    handlerViewportSizeChange(event: UIEvent) {
+        this.update(/* false */true);
     }
 }
 

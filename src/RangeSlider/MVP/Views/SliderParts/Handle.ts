@@ -46,9 +46,9 @@ export class Handle extends SliderPart {
 
         let usedLength;
         if (modelData.hasTwoSlider)
-            usedLength = modelData.sliderStripLength - handleSize * 2;
+            usedLength = this.view.sliderContainer.sliderLength - handleSize * 2;
         else
-            usedLength = modelData.sliderStripLength - handleSize;
+            usedLength = this.view.sliderContainer.sliderLength - handleSize;
 
         let handlePositionInContainer
         let value;
@@ -74,12 +74,10 @@ export class Handle extends SliderPart {
         let backgroundPositionX = this.position.x - modelData.borderThickness;
         let backgroundPositionY = this.position.y - modelData.borderThickness;
         let position = new Vector(backgroundPositionX, backgroundPositionY);
-        //let position = this.position.subtractNumber(modelData.borderThickness);
 
         let backgroundSizeX = modelData.borderThickness * 2 + modelData.handleWidth;
         let backgroundSizeY = modelData.borderThickness * 2 + modelData.handleHeight;
         let size = new Vector(backgroundSizeX, backgroundSizeY);
-        //let size = this.size.sumNumber(modelData.borderThickness * 2);
 
         this.view.renderPosition(this.backgroundDOMElement, position);
         this.view.renderSize(this.backgroundDOMElement, size);

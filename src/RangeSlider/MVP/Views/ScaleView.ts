@@ -83,7 +83,7 @@ export class ScaleView extends View {
     _calculateSegmentPosition(segment: HTMLElement, value: number) {
         let modelData = this.getModelData();
 
-        let sliderContainerLength = modelData.sliderStripLength;
+        let sliderContainerLength = 0/* this.view.sliderContainer.sliderLength */;//////////////////
         let handleSize = modelData.handleWidth;
         let dMaxMinValue = modelData.maxValue - modelData.minValue;
 

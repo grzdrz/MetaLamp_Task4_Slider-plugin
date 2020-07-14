@@ -5,23 +5,26 @@
     border: 1px solid black;
 
     display: flex;
-    flex-direction: column;
+    //flex-direction: column/* row */;
     background: white;
-    
-    padding: 15px;
 
     $filledBodyWidth: 100px;
     $filledBodyMarginLeft: 30px;
     $sliderSize: 26px;
+
+    height: 300px;
+    width: 50%;
 
     //слайдер и шкала измерений
     &__main-content-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin-top: 100px;
-        margin-bottom: 100px;
+        align-items: center;
         align-self: center;
+
+        height: 100%;
+        width: 100%;
     }
     &__slider-container {
         display: flex;
@@ -29,6 +32,8 @@
         justify-content: center;
         position: relative;
         background: transparent;
+
+        width: 100%;
     }
 
     &__slider-body-empty {
