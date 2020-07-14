@@ -41,45 +41,46 @@ export class Handle extends SliderPart {
     render() {
         let modelData = this.view.getModelData();
 
-        let handleSize = modelData.handleWidth;
-        let dMaxMinValue = modelData.maxValue - modelData.minValue;
+        let transformOriginX = modelData.handleWidth / 2;
+        let transformOriginY = modelData.handleWidth / 2;
+        this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
+        this.DOMElement.style.transform = `rotate(${-modelData.angle}deg)`;//минус из-за нестандартного направления обхода функции rotate
 
-        let usedLength;
-        if (modelData.hasTwoSlider)
-            usedLength = this.view.sliderContainer.sliderLength - handleSize * 2;
-        else
-            usedLength = this.view.sliderContainer.sliderLength - handleSize;
-
-        let handlePositionInContainer
         let value;
         if (this.countNumber === 1)
             value = modelData.firstValue;
         else
             value = modelData.lastValue;
-        handlePositionInContainer = ((value - modelData.minValue) * usedLength) / dMaxMinValue;
+
+        let handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
 
         let vectorizedHandlePositionInContainer = Vector.calculateVector(handlePositionInContainer, modelData.angleInRad);
         if (this.countNumber === 2) {
-            let vectorizedHandleSize = Vector.calculateVector(handleSize, modelData.angleInRad);
+            let vectorizedHandleSize = Vector.calculateVector(modelData.handleWidth, modelData.angleInRad);
             vectorizedHandlePositionInContainer = vectorizedHandlePositionInContainer.sum(vectorizedHandleSize);
         }
         this.setPosition(vectorizedHandlePositionInContainer);
 
-        this.renderBackground();
+        this.renderBackground(vectorizedHandlePositionInContainer);
     }
 
-    renderBackground() {///////////////////
+    renderBackground(position: Vector) {///////////////////
         let modelData = this.view.getModelData();
 
-        let backgroundPositionX = this.position.x - modelData.borderThickness;
-        let backgroundPositionY = this.position.y - modelData.borderThickness;
-        let position = new Vector(backgroundPositionX, backgroundPositionY);
+        let backgroundPositionX = position.x - modelData.borderThickness;
+        let backgroundPositionY = position.y - modelData.borderThickness;
+        let backgroundPosition = new Vector(backgroundPositionX, backgroundPositionY);
 
         let backgroundSizeX = modelData.borderThickness * 2 + modelData.handleWidth;
         let backgroundSizeY = modelData.borderThickness * 2 + modelData.handleHeight;
-        let size = new Vector(backgroundSizeX, backgroundSizeY);
+        let backgroundSize = new Vector(backgroundSizeX, backgroundSizeY);
 
-        this.view.renderPosition(this.backgroundDOMElement, position);
-        this.view.renderSize(this.backgroundDOMElement, size);
+        let transformOriginX = backgroundSizeX / 2;
+        let transformOriginY = backgroundSizeY / 2;
+        this.backgroundDOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
+        this.backgroundDOMElement.style.transform = `rotate(${-modelData.angle}deg)`;
+
+        this.view.renderPosition(this.backgroundDOMElement, backgroundPosition);
+        this.view.renderSize(this.backgroundDOMElement, backgroundSize);
     }
 }

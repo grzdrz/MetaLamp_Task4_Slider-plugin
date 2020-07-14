@@ -12,6 +12,7 @@ import { Options, IOptions } from "../Model/Options";
 
 import { Event } from "../../Events/Event";
 import { OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
+import { Scale } from "./SliderParts/Scale";
 
 export class SliderView extends View {
     public sliderContainer: SliderContainer;
@@ -19,6 +20,7 @@ export class SliderView extends View {
     public lastSlider: Handle;
     public filledStrip: FilledStrip;
     public emptyStrip: EmptyStrip;
+    public scale: Scale;
 
     public parts: SliderPart[] = new Array<SliderPart>();
 
@@ -36,6 +38,7 @@ export class SliderView extends View {
         this.parts.push(this.firstSlider = new Handle(this, 1));
         this.parts.push(this.lastSlider = new Handle(this, 2));
         this.parts.push(this.filledStrip = new FilledStrip(this));
+        this.parts.push(this.scale = new Scale(this));
 
         this._handlerMouseDown = this._handlerMouseDown.bind(this);
 
@@ -46,7 +49,6 @@ export class SliderView extends View {
         this.parts.forEach(part => {
             part.initialize();
         });
-        //this.update(true);
         window.addEventListener("resize", this.handlerViewportSizeChange);
     }
 
@@ -153,7 +155,6 @@ export class SliderView extends View {
     }
 
     _handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent/* MouseEvent */) {
-        let modelData = this.getModelData();
         let {
             mousePositionInsideTargetSlider,
             targetHandleCountNumber,
@@ -174,14 +175,9 @@ export class SliderView extends View {
         mouseGlobalPositionY = (document.documentElement.clientHeight + pageYOffset) - mouseGlobalPositionY;
         //mouseGlobalPositionX =;
         let mouseGlobalPosition = new Vector(mouseGlobalPositionX, mouseGlobalPositionY);//место нажатия левой кнопки мыши 
+        let cursorPositionInContainer = this.calculateCursorPositionInContainer(mouseGlobalPosition, mousePositionInsideTargetSlider)
 
-        //значение в заданных единицах пропорциональное пиксельным координатам курсора в контейнере
-        this._calculateValueProportionalToPixelValue({
-            modelData,
-            mouseGlobalPosition,
-            mousePositionInsideTargetSlider,
-            targetHandleCountNumber
-        });
+        this.calculateProportionalValue(cursorPositionInContainer, targetHandleCountNumber);
     }
 
     _handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, event: UIEvent) {
@@ -191,26 +187,23 @@ export class SliderView extends View {
         document.removeEventListener("touchend", optionsFromMouseDown.handlerMouseUp);
     }
 
-    _calculateValueProportionalToPixelValue(args: IValueToPixelArgs): void {
-        let {
-            modelData,
-            mouseGlobalPosition,
-            mousePositionInsideTargetSlider,
-            targetHandleCountNumber
-        } = args;
-
-        if (!this.firstSlider) throw new Error("firstSliderInstance not exist");
-        if (!this.sliderContainer) throw new Error("containerElementInstance not exist");
-
+    private calculateCursorPositionInContainer(mouseGlobalPosition: Vector, mousePositionInsideTargetSlider: Vector) {
         let containerBoundingRect = this.sliderContainer.DOMElement.getBoundingClientRect();
         let containerCoord = new Vector(
             containerBoundingRect.x,
             (document.documentElement.clientHeight + pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height)
         );
-        let cursorPositionInContainer = mouseGlobalPosition.subtract(containerCoord).subtract(mousePositionInsideTargetSlider);
+
+        return mouseGlobalPosition.subtract(containerCoord).subtract(mousePositionInsideTargetSlider);
+    }
+
+    //значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
+    public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber: number): void {
+        let modelData = this.getModelData();
+
         let containerCapacity;
         if (modelData.hasTwoSlider) {
-            if (targetHandleCountNumber === 2) {
+            if (handleCountNumber === 2) {
                 let vectorizedHandleWidth = Vector.calculateVector(modelData.handleWidth, modelData.angleInRad);
                 cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
             }
@@ -224,13 +217,31 @@ export class SliderView extends View {
         let cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
 
         let proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
-        if (targetHandleCountNumber === 1)
+
+        if (handleCountNumber === 1)
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: proportionalValue }));
         else
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: proportionalValue }));
     }
 
-    handlerViewportSizeChange(event: UIEvent) {
+    //пиксельное значение пропорциональное условному значению
+    public calculateProportionalPixelValue(value: number): number {
+        let modelData = this.getModelData();
+
+        let sliderLength = this.sliderContainer.sliderLength;
+        let handleLength = modelData.handleWidth;
+        let usedLength;
+        if (modelData.hasTwoSlider) {
+            usedLength = sliderLength - handleLength * 2;
+        }
+        else {
+            usedLength = sliderLength - handleLength;
+        }
+
+        return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
+    }
+
+    private handlerViewportSizeChange(event: UIEvent) {
         this.update(/* false */true);
     }
 }
@@ -242,11 +253,4 @@ interface IMouseEventArgs {
     handlerMouseUp: (/* optionsFromMouseDown: IMouseEventArgs,  */event: UIEvent) => void,
     mousePositionInsideTargetSlider: Vector,
     targetHandleCountNumber: number,
-}
-
-interface IValueToPixelArgs {
-    modelData: Options,
-    mouseGlobalPosition: Vector,
-    mousePositionInsideTargetSlider: Vector,
-    targetHandleCountNumber: number
 }

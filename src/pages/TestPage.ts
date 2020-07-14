@@ -17,7 +17,7 @@ let options = {
     isInterval: true,
     maxSegmentsCount: 6,
     scaleFontSize: 15,
-    angle: 90,
+    angle: 0,
 };
 $(".test-page__tested-range-slider-container2").rangeSlider(options);
 

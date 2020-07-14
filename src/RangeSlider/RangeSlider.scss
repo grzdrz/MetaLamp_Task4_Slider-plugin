@@ -28,8 +28,8 @@
     }
     &__slider-container {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        /* align-items: center;
+        justify-content: center; */
         position: relative;
         background: transparent;
 
@@ -61,7 +61,7 @@
         justify-content: center;
         /* background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%); */
         position: absolute;
-        border-radius: 50%;
+        //border-radius: 50%;
 
         opacity: 0.5;
 
@@ -85,7 +85,7 @@
         /* background: linear-gradient(90deg, #ce2e2e 0%, #eb9525 100%); */
         //background: white;
         background: rgb(216, 111, 111);
-        border-radius: 50%;
+        //border-radius: 50%;
         position: absolute;
 
         opacity: 0.5;

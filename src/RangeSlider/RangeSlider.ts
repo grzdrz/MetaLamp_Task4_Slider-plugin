@@ -26,24 +26,24 @@ class RangeSlider {
             rangeSlidersContainer = document.createElement("div");
         let sliderContainer: HTMLElement = document.createElement("div");
         let inputsContainer: HTMLElement = document.createElement("div");
-        let scaleContainer: HTMLElement = document.createElement("div");
+        //let scaleContainer: HTMLElement = document.createElement("div");
         let optionsPanelContainer: HTMLElement = document.createElement("div");
 
         let elements = [
             rangeSlidersContainer,
             sliderContainer,
             inputsContainer,
-            scaleContainer,
+            //scaleContainer,
             optionsPanelContainer,
         ];
         this.render(elements);
 
         let sliderView: SliderView = new SliderView(sliderContainer);
         let inputsView: InputsView = new InputsView(inputsContainer);
-        let scaleView: ScaleView = new ScaleView(scaleContainer);
+        //let scaleView: ScaleView = new ScaleView(scaleContainer);
         let optionsPanelView: OptionsPanelView = new OptionsPanelView(optionsPanelContainer);
 
-        let presenter: Presenter = new Presenter(model, sliderView, inputsView, scaleView, optionsPanelView);
+        let presenter: Presenter = new Presenter(model, sliderView, inputsView, /* scaleView,  */optionsPanelView);
     };
 
     static render(elements: HTMLElement[]): void {
@@ -51,7 +51,7 @@ class RangeSlider {
             rangeSlidersContainer,
             sliderContainer,
             inputsContainer,
-            scaleContainer,
+            //scaleContainer,
             optionsPanelContainer,
         ] = elements;
 
@@ -63,13 +63,13 @@ class RangeSlider {
         sliderContainer.className = "range-slider__slider-container";
 
         //шкала
-        scaleContainer.className = "range-slider__scale-container";
+        //scaleContainer.className = "range-slider__scale-container";
 
         //контейнер слайдер + шкала
         let mainContentContainer: HTMLElement = document.createElement("div");
         mainContentContainer.className = "range-slider__main-content-container";
         mainContentContainer.append(sliderContainer);
-        mainContentContainer.append(scaleContainer);
+        //mainContentContainer.append(scaleContainer);
         rangeSlider.append(mainContentContainer);
 
         //опции + инпуты
