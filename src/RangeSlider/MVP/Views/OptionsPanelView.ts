@@ -1,6 +1,6 @@
 import { View } from "./View";
 import { Event } from "../../Events/Event";
-import { OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
+import { OptionsToUpdateEventArgs, IEventArgs } from "../../Events/EventArgs";
 
 import { OptionPanelElement } from "./OptionsPanelElements/OptionPanelElement";
 import { Angle } from "./OptionsPanelElements/Angle";

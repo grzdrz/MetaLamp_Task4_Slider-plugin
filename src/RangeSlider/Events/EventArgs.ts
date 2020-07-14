@@ -1,26 +1,17 @@
 
 import { Options, IOptions } from "../MVP/Model/Options";
 
-class EventArgs {
-    /* eventTarget: Object;
+interface IEventArgs { }
 
-    constructor(eventTarget: Object){
-
-    } */
-}
-
-class OptionsEventArgs extends EventArgs {
+class OptionsEventArgs implements IEventArgs {
     public options: Options | undefined = undefined;
 }
- 
-class OptionsToUpdateEventArgs extends EventArgs {
+
+class OptionsToUpdateEventArgs implements IEventArgs {
     public options: IOptions;
-
     constructor(options: IOptions) {
-        super();
-
         this.options = options;
     }
 }
 
-export { OptionsEventArgs, OptionsToUpdateEventArgs, EventArgs };
+export { OptionsEventArgs, OptionsToUpdateEventArgs, IEventArgs };

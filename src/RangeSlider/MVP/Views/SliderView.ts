@@ -11,7 +11,7 @@ import { Vector } from "../../Helpers/Vector";
 import { Options, IOptions } from "../Model/Options";
 
 import { Event } from "../../Events/Event";
-import { OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
+import { OptionsToUpdateEventArgs, IEventArgs } from "../../Events/EventArgs";
 import { Scale } from "./SliderParts/Scale";
 
 export class SliderView extends View {

@@ -1,7 +1,7 @@
-import { OptionsToUpdateEventArgs, EventArgs } from "./EventArgs"
+import { OptionsToUpdateEventArgs, IEventArgs } from "./EventArgs"
 
 interface EventHandler {
-    (args: EventArgs): void;
+    (args: IEventArgs): void;
 }
 
 class Event {
@@ -11,15 +11,8 @@ class Event {
     constructor(/* public publisher: Object */) {
     }
 
-    invoke(args?: EventArgs) {
-        this.handlers.forEach(eh => {
-            if (args) {
-                eh(args);
-            }
-            else {
-                eh(new EventArgs());//можно издавать ивенты не требовательные к входным данным
-            }
-        });
+    invoke(args: IEventArgs) {
+        this.handlers.forEach(eventHandler => eventHandler(args));
     }
 
     subscribe(handler: EventHandler) {

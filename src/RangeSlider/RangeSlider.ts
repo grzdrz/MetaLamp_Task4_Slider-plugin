@@ -1,6 +1,5 @@
 import { SliderView } from "./MVP/Views/SliderView";
 import { InputsView } from "./MVP/Views/InputsView";
-import { ScaleView } from "./MVP/Views/ScaleView";
 import { OptionsPanelView } from "./MVP/Views/OptionsPanelView";
 
 import { Model } from "./MVP/Model/Model";
@@ -26,24 +25,21 @@ class RangeSlider {
             rangeSlidersContainer = document.createElement("div");
         let sliderContainer: HTMLElement = document.createElement("div");
         let inputsContainer: HTMLElement = document.createElement("div");
-        //let scaleContainer: HTMLElement = document.createElement("div");
         let optionsPanelContainer: HTMLElement = document.createElement("div");
 
         let elements = [
             rangeSlidersContainer,
             sliderContainer,
             inputsContainer,
-            //scaleContainer,
             optionsPanelContainer,
         ];
         this.render(elements);
 
         let sliderView: SliderView = new SliderView(sliderContainer);
         let inputsView: InputsView = new InputsView(inputsContainer);
-        //let scaleView: ScaleView = new ScaleView(scaleContainer);
         let optionsPanelView: OptionsPanelView = new OptionsPanelView(optionsPanelContainer);
 
-        let presenter: Presenter = new Presenter(model, sliderView, inputsView, /* scaleView,  */optionsPanelView);
+        let presenter: Presenter = new Presenter(model, sliderView, inputsView, optionsPanelView);
     };
 
     static render(elements: HTMLElement[]): void {
@@ -51,7 +47,6 @@ class RangeSlider {
             rangeSlidersContainer,
             sliderContainer,
             inputsContainer,
-            //scaleContainer,
             optionsPanelContainer,
         ] = elements;
 
@@ -61,9 +56,6 @@ class RangeSlider {
 
         //слайдер
         sliderContainer.className = "range-slider__slider-container";
-
-        //шкала
-        //scaleContainer.className = "range-slider__scale-container";
 
         //контейнер слайдер + шкала
         let mainContentContainer: HTMLElement = document.createElement("div");
@@ -83,7 +75,6 @@ class RangeSlider {
         optionsPanelContainer.className = "range-slider__options-panel-container";
         optionsContainer.append(inputsContainer);
         optionsContainer.append(optionsPanelContainer);
-        //rangeSlider.append(optionsContainer);
 
         rangeSlidersContainer.append(rangeSlider);
         rangeSlidersContainer.append(optionsContainer);

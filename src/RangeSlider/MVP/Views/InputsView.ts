@@ -1,6 +1,6 @@
 import { View } from "./View";
 import { Event } from "../../Events/Event";
-import { OptionsEventArgs, OptionsToUpdateEventArgs, EventArgs } from "../../Events/EventArgs";
+import { OptionsEventArgs, OptionsToUpdateEventArgs, IEventArgs } from "../../Events/EventArgs";
 
 class InputsView extends View {
     public containerElement: HTMLElement;
