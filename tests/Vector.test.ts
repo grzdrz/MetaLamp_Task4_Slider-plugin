@@ -1,4 +1,4 @@
-import { Vector } from "../src/RangeSlider/Helpers/Vector";
+import Vector from "../src/RangeSlider/Helpers/Vector";
 
 describe("Vector constructor", function () {
     it("Создание экземмпляра вектора", function () {

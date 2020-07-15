@@ -1,8 +1,8 @@
-import { OptionPanelElement } from "./OptionPanelElement";
-import { OptionsPanelView } from "../OptionsPanelView";
-import { OptionsToUpdateEventArgs } from "../../../Events/EventArgs";
+import OptionPanelElement from "./OptionPanelElement";
+import OptionsPanelView from "../OptionsPanelView";
+import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
 
-export class Angle extends OptionPanelElement {
+class Angle extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -52,7 +52,7 @@ export class Angle extends OptionPanelElement {
         let inputValue = Number.parseInt(input.value);
 
         if (inputValue > 90) inputValue = 90;
-        else if (inputValue < 0) inputValue = 0;
+        else if (inputValue < 0 || inputValue === undefined) inputValue = 0;
 
         input.value = inputValue.toString();
 
@@ -63,3 +63,5 @@ export class Angle extends OptionPanelElement {
         this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
 }
+
+export default Angle;

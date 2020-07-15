@@ -1,16 +1,15 @@
-import { View } from "./View";
-import { Event } from "../../Events/Event";
-import { OptionsToUpdateEventArgs, IEventArgs } from "../../Events/EventArgs";
+import View from "./View";
+import Event from "../../Events/Event";
 
-import { OptionPanelElement } from "./OptionsPanelElements/OptionPanelElement";
-import { Angle } from "./OptionsPanelElements/Angle";
-import { HandlsCount } from "./OptionsPanelElements/HandlsCount";
-import { MaxSegmentCount } from "./OptionsPanelElements/MaxSegmentCount";
-import { MaxValue } from "./OptionsPanelElements/MaxValue";
-import { MinValue } from "./OptionsPanelElements/MinValue";
-import { StepSize } from "./OptionsPanelElements/StepSize";
+import OptionPanelElement from "./OptionsPanelElements/OptionPanelElement";
+import Angle from "./OptionsPanelElements/Angle";
+import HandlsCount from "./OptionsPanelElements/HandlsCount";
+import MaxSegmentCount from "./OptionsPanelElements/MaxSegmentCount";
+import MaxValue from "./OptionsPanelElements/MaxValue";
+import MinValue from "./OptionsPanelElements/MinValue";
+import StepSize from "./OptionsPanelElements/StepSize";
 
-export class OptionsPanelView extends View {
+class OptionsPanelView extends View {
     public onModelStateUpdate: Event = new Event();
 
     public containerElement: HTMLElement;
@@ -50,3 +49,5 @@ export class OptionsPanelView extends View {
         }
     }
 }
+
+export default OptionsPanelView;

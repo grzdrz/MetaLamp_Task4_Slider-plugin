@@ -1,8 +1,9 @@
-import { SliderPart } from "./SliderPart";
-import { Vector } from "../../../Helpers/Vector";
-import { SliderView } from "../SliderView";
+import SliderPart from "./SliderPart";
+import Vector from "../../../Helpers/Vector";
+import SliderView from "../SliderView";
+import View from "../View";
 
-export class Handle extends SliderPart {
+class Handle extends SliderPart {
     public countNumber: number;
     public backgroundDOMElement: HTMLElement;
 
@@ -80,7 +81,9 @@ export class Handle extends SliderPart {
         this.backgroundDOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
         this.backgroundDOMElement.style.transform = `rotate(${-modelData.angle}deg)`;
 
-        this.view.renderPosition(this.backgroundDOMElement, backgroundPosition);
-        this.view.renderSize(this.backgroundDOMElement, backgroundSize);
+        View.renderPosition(this.backgroundDOMElement, backgroundPosition);
+        View.renderSize(this.backgroundDOMElement, backgroundSize);
     }
 }
+
+export default Handle;

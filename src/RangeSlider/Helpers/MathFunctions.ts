@@ -65,4 +65,4 @@ class MathFunctions {
     }
 }
 
-export { MathFunctions };
+export default MathFunctions;

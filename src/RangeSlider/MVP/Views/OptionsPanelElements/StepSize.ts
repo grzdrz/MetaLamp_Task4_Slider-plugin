@@ -1,8 +1,8 @@
-import { OptionPanelElement } from "./OptionPanelElement";
-import { OptionsPanelView } from "../OptionsPanelView";
-import { OptionsToUpdateEventArgs } from "../../../Events/EventArgs";
+import OptionPanelElement from "./OptionPanelElement";
+import OptionsPanelView from "../OptionsPanelView";
+import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
 
-export class StepSize extends OptionPanelElement {
+class StepSize extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -65,3 +65,5 @@ export class StepSize extends OptionPanelElement {
         this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
 }
+
+export default StepSize;

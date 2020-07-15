@@ -1,4 +1,3 @@
-/* import { RangeSlider } from "../RangeSlider/RangeSlider"; */
 import "../plugin.ts";
 import $ from "jquery";
 

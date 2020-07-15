@@ -1,20 +1,18 @@
-import { View } from "./View";
+import View from "./View";
 
-import { SliderPart } from "./SliderParts/SliderPart";
-import { SliderContainer } from "./SliderParts/SliderContainer";
-import { Handle } from "./SliderParts/Handle";
-import { FilledStrip } from "./SliderParts/FilledStrip";
-import { EmptyStrip } from "./SliderParts/EmptyStrip";
+import SliderPart from "./SliderParts/SliderPart";
+import SliderContainer from "./SliderParts/SliderContainer";
+import Handle from "./SliderParts/Handle";
+import FilledStrip from "./SliderParts/FilledStrip";
+import EmptyStrip from "./SliderParts/EmptyStrip";
 
-import { MathFunctions } from "../../Helpers/MathFunctions";
-import { Vector } from "../../Helpers/Vector";
-import { Options, IOptions } from "../Model/Options";
+import Vector from "../../Helpers/Vector";
 
-import { Event } from "../../Events/Event";
-import { OptionsToUpdateEventArgs, IEventArgs } from "../../Events/EventArgs";
-import { Scale } from "./SliderParts/Scale";
+import Event from "../../Events/Event";
+import OptionsToUpdateEventArgs from "../../Events/OptionsToUpdateEventArgs";
+import Scale from "./SliderParts/Scale";
 
-export class SliderView extends View {
+class SliderView extends View {
     public sliderContainer: SliderContainer;
     public firstSlider: Handle;
     public lastSlider: Handle;
@@ -246,7 +244,7 @@ export class SliderView extends View {
     }
 }
 
-
+export default SliderView;
 
 interface IMouseEventArgs {
     handlerMouseMove: (/* optionsFromMouseDown: IMouseEventArgs,  */event: UIEvent) => void,

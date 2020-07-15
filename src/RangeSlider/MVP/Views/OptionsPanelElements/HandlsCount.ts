@@ -1,8 +1,8 @@
-import { OptionPanelElement } from "./OptionPanelElement";
-import { OptionsPanelView } from "../OptionsPanelView";
-import { OptionsToUpdateEventArgs } from "../../../Events/EventArgs";
+import OptionPanelElement from "./OptionPanelElement";
+import OptionsPanelView from "../OptionsPanelView";
+import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
 
-export class HandlsCount extends OptionPanelElement {
+class HandlsCount extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -103,3 +103,5 @@ export class HandlsCount extends OptionPanelElement {
         this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
 }
+
+export default HandlsCount;

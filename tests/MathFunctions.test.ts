@@ -1,4 +1,4 @@
-import { MathFunctions } from "../src/RangeSlider/Helpers/MathFunctions";
+import MathFunctions from "../src/RangeSlider/Helpers/MathFunctions";
 
 describe("cutOffJunkValuesFromFraction(обрезание мусорных значений)", function () {
     it("Отрезать от числа первого параметра с конца n чисел, где n равно длине десятичной части второго параметра",

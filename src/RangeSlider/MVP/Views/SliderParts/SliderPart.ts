@@ -1,8 +1,10 @@
-import { Vector } from "../../../Helpers/Vector";
-import { SliderView } from "../SliderView";
+import Vector from "../../../Helpers/Vector";
+import SliderView from "../SliderView";
+import View from "../View";
 
-export abstract class SliderPart {
+abstract class SliderPart {
     public DOMElement: HTMLElement;
+
     public view: SliderView;
 
     constructor(view: SliderView) {
@@ -18,10 +20,12 @@ export abstract class SliderPart {
     abstract render(): void;
 
     setPosition(position: Vector) {
-        this.view.renderPosition(this.DOMElement, position);
+        View.renderPosition(this.DOMElement, position);
     }
 
     setSize(size: Vector) {
-        this.view.renderSize(this.DOMElement, size);
+        View.renderSize(this.DOMElement, size);
     }
 }
+
+export default SliderPart;

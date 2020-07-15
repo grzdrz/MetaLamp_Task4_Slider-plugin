@@ -1,5 +1,5 @@
-import { RangeSlider } from "./RangeSlider/RangeSlider";
-import { IOptions } from "./RangeSlider/MVP/Model/Options";
+import RangeSlider from "./RangeSlider/RangeSlider";
+import IOptions from "./RangeSlider/MVP/Model/IOptions";
 
 declare global {
     interface JQuery {

@@ -1,6 +1,6 @@
-import { OptionsPanelView } from "../OptionsPanelView";
+import OptionsPanelView from "../OptionsPanelView";
 
-export abstract class OptionPanelElement {
+abstract class OptionPanelElement {
     public DOMElement: HTMLElement;
 
     constructor(public view: OptionsPanelView) {
@@ -13,3 +13,5 @@ export abstract class OptionPanelElement {
 
     abstract update(): void;
 }
+
+export default OptionPanelElement;

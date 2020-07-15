@@ -1,8 +1,8 @@
-import { OptionPanelElement } from "./OptionPanelElement";
-import { OptionsPanelView } from "../OptionsPanelView";
-import { OptionsToUpdateEventArgs } from "../../../Events/EventArgs";
+import OptionPanelElement from "./OptionPanelElement";
+import OptionsPanelView from "../OptionsPanelView";
+import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
 
-export class MaxSegmentCount extends OptionPanelElement {
+class MaxSegmentCount extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -59,3 +59,5 @@ export class MaxSegmentCount extends OptionPanelElement {
         this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
 }
+
+export default MaxSegmentCount;

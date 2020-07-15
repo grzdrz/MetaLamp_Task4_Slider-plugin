@@ -1,8 +1,8 @@
-import { SliderPart } from "./SliderPart";
-import { SliderView } from "../SliderView";
-import { Vector } from "../../../Helpers/Vector";
+import SliderPart from "./SliderPart";
+import SliderView from "../SliderView";
+import Vector from "../../../Helpers/Vector";
 
-export class EmptyStrip extends SliderPart {
+class EmptyStrip extends SliderPart {
     constructor(view: SliderView) {
         super(view);
     }
@@ -32,3 +32,5 @@ export class EmptyStrip extends SliderPart {
         this.setPosition(new Vector(0, modelData.handleHeight / 2 - (modelData.sliderStripThickness) / 2));
     }
 }
+
+export default EmptyStrip;

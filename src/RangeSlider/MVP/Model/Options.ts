@@ -1,25 +1,7 @@
-interface IOptions {
-    id?: number;
-
-    sliderStripThickness?: number,
-    handleWidth?: number,
-    handleHeight?: number,
-    minValue?: number,
-    maxValue?: number,
-    borderThickness?: number,
-    firstValue?: number,
-    lastValue?: number,
-    stepSize?: number,
-    hasTwoSlider?: boolean,
-    isInterval?: boolean,
-    maxSegmentsCount?: number,
-    scaleFontSize?: number,
-    angle?: number
-};
+import IOptions from "./IOptions";
 
 class Options implements IOptions {
     public id: number = 0;
-
 
     public sliderStripThickness: number = 10;
     public handleWidth: number = 15;
@@ -71,4 +53,4 @@ class Options implements IOptions {
     }
 }
 
-export { Options, IOptions };
+export default Options;

@@ -1,10 +1,11 @@
-import { SliderPart } from "./SliderPart";
-import { SliderView } from "../SliderView";
-import { Vector } from "../../../Helpers/Vector";
-import { OptionsToUpdateEventArgs } from "../../../Events/EventArgs";
-import { IOptions } from "../../Model/Options";
+import SliderPart from "./SliderPart";
+import SliderView from "../SliderView";
+import Vector from "../../../Helpers/Vector";
+import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
+import IOptions from "../../Model/IOptions";
+import View from "../View";
 
-export class Scale extends SliderPart {
+class Scale extends SliderPart {
     public maxSegmentsCount: number = 0;
 
     constructor(view: SliderView) {
@@ -94,7 +95,7 @@ export class Scale extends SliderPart {
         let vectorizedHandlePosition = Vector.calculateVector(handlePositionInContainer, modelData.angleInRad);
         let position = vectorizedHandlePosition.sum(rotatedMargin);
 
-        this.view.renderPosition(segment, position);
+        View.renderPosition(segment, position);
     }
 
     private handlerClickOnSegment(event: MouseEvent) {
@@ -132,3 +133,5 @@ export class Scale extends SliderPart {
         this.view.onHandleMove.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
 }
+
+export default Scale;

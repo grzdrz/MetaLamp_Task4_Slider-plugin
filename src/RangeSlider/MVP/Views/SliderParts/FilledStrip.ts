@@ -1,8 +1,8 @@
-import { SliderPart } from "./SliderPart";
-import { Vector } from "../../../Helpers/Vector";
-import { SliderView } from "../SliderView";
+import SliderPart from "./SliderPart";
+import Vector from "../../../Helpers/Vector";
+import SliderView from "../SliderView";
 
-export class FilledStrip extends SliderPart {
+class FilledStrip extends SliderPart {
     constructor(view: SliderView) {
         super(view);
     }
@@ -47,3 +47,5 @@ export class FilledStrip extends SliderPart {
         }
     }
 }
+
+export default FilledStrip;

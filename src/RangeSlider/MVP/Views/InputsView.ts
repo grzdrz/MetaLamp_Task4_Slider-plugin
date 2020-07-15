@@ -1,10 +1,12 @@
-import { View } from "./View";
-import { Event } from "../../Events/Event";
-import { OptionsEventArgs, OptionsToUpdateEventArgs, IEventArgs } from "../../Events/EventArgs";
+import View from "./View";
+import Event from "../../Events/Event";
+import OptionsToUpdateEventArgs from "../../Events/OptionsToUpdateEventArgs";
 
 class InputsView extends View {
     public containerElement: HTMLElement;
+
     public firstInputDOMElement: HTMLInputElement | undefined;
+
     public lastInputDOMElement: HTMLInputElement | undefined;
 
     public onInputsChange: Event;
@@ -120,4 +122,4 @@ class InputsView extends View {
     }
 }
 
-export { InputsView };
+export default InputsView;

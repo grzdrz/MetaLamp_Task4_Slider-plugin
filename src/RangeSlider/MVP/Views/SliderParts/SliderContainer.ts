@@ -1,8 +1,8 @@
-import { SliderPart } from "./SliderPart";
-import { Vector } from "../../../Helpers/Vector";
-import { SliderView } from "../SliderView";
+import SliderPart from "./SliderPart";
+import Vector from "../../../Helpers/Vector";
+import SliderView from "../SliderView";
 
-export class SliderContainer extends SliderPart {
+class SliderContainer extends SliderPart {
     public sliderLength: number = 0;
 
     constructor(view: SliderView) {
@@ -41,3 +41,5 @@ export class SliderContainer extends SliderPart {
         this.sliderLength = curLength.length;
     }
 }
+
+export default SliderContainer;

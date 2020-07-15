@@ -1,17 +1,20 @@
-import { Model } from "./Model/Model";
-import { Options, IOptions } from "./Model/Options";
-import { View } from "./Views/View";
-import { SliderView } from "./Views/SliderView";
-import { InputsView } from "./Views/InputsView";
-import { OptionsPanelView } from "./Views/OptionsPanelView";
+import Model from "./Model/Model";
+import View from "./Views/View";
+import SliderView from "./Views/SliderView";
+import InputsView from "./Views/InputsView";
+import OptionsPanelView from "./Views/OptionsPanelView";
 
-import { Event } from "../Events/Event";
-import { OptionsEventArgs, OptionsToUpdateEventArgs, IEventArgs } from "../Events/EventArgs";
+import OptionsEventArgs from "../Events/OptionsEventArgs";
+import OptionsToUpdateEventArgs from "../Events/OptionsToUpdateEventArgs";
+import EventArgs from "../Events/EventArgs";
 
 class Presenter {
     private model: Model;
+
     private sliderView: View;
+
     private inputsView: View;
+
     private optionsPanelView: View;
 
     constructor(model: Model, sliderView: View, inputsView: View, optionsPanelView: View) {
@@ -29,36 +32,40 @@ class Presenter {
     }
 
     initialize(): void {
-        this.sliderView.onGetModelData.subscribe(this.handlerGetModelData);
+        /* this.sliderView.onGetModelData.subscribe(this.handlerGetModelData);
         this.inputsView.onGetModelData.subscribe(this.handlerGetModelData);
-        this.optionsPanelView.onGetModelData.subscribe(this.handlerGetModelData);
+        this.optionsPanelView.onGetModelData.subscribe(this.handlerGetModelData); */
 
-        (<OptionsPanelView>this.optionsPanelView).onModelStateUpdate.subscribe(this.handlerModelStateUpdate);
-        (<SliderView>this.sliderView).onModelStateUpdate.subscribe(this.handlerModelStateUpdate);
-        (<SliderView>this.sliderView).onHandleMove.subscribe(this.handlerHandleMove);
-        (<InputsView>this.inputsView).onInputsChange.subscribe(this.handlerInputChange);
+        (<OptionsPanelView> this.optionsPanelView).onModelStateUpdate.subscribe(this.handlerModelStateUpdate);
+        (<SliderView> this.sliderView).onModelStateUpdate.subscribe(this.handlerModelStateUpdate);
+        (<SliderView> this.sliderView).onHandleMove.subscribe(this.handlerHandleMove);
+        (<InputsView> this.inputsView).onInputsChange.subscribe(this.handlerInputChange);
 
-        this.sliderView.initialize();
+        /* this.sliderView.initialize();
         this.inputsView.initialize();
-        this.optionsPanelView.initialize();
+        this.optionsPanelView.initialize(); */
+        [this.sliderView, this.inputsView, this.optionsPanelView].forEach((view) => {
+            view.onGetModelData.subscribe(this.handlerGetModelData);
+            view.initialize();
+        });
     }
 
-    public handlerGetModelData(args: IEventArgs): void {
+    public handlerGetModelData(args: EventArgs): void {
         this.model.getOptions(<OptionsEventArgs>args);
     }
 
-    public handlerHandleMove(args: IEventArgs) {
+    public handlerHandleMove(args: EventArgs): void {
         this.model.updateOptions((<OptionsToUpdateEventArgs>args).options);
         this.sliderView.update(false);
         this.inputsView.update(false);
     }
 
-    public handlerInputChange(args: IEventArgs): void {
+    public handlerInputChange(args: EventArgs): void {
         this.model.updateOptions((<OptionsToUpdateEventArgs>args).options);
         this.sliderView.update(false);
     }
 
-    public handlerModelStateUpdate(args: IEventArgs) {
+    public handlerModelStateUpdate(args: EventArgs): void {
         this.model.updateOptions((<OptionsToUpdateEventArgs>args).options);
         this.sliderView.update(true);
         this.inputsView.update(false);
@@ -66,4 +73,4 @@ class Presenter {
     }
 }
 
-export { Presenter };
+export default Presenter;
