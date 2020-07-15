@@ -3,14 +3,25 @@ import Options from "../Model/Options";
 import Vector from "../../Helpers/Vector";
 import Event from "../../Events/Event";
 import OptionsEventArgs from "../../Events/OptionsEventArgs";
+import ViewManager from "./ViewManager";
 
 abstract class View {
+    public containerElement: HTMLElement;
+
+    public viewManager: ViewManager;
+
     public onGetModelData: Event;
+
+    public onViewStateUpdate: Event;
 
     public modelData: IOptions = {};
 
-    constructor() {
+    constructor(containerElement: HTMLElement, viewManager: ViewManager) {
+        this.containerElement = containerElement;
+        this.viewManager = viewManager;
+
         this.onGetModelData = new Event();
+        this.onViewStateUpdate = new Event();
     }
 
     getModelData(): Options {

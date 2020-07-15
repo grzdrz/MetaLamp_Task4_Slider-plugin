@@ -16,16 +16,19 @@ class SliderContainer extends SliderPart {
     public buildDOMElement(): void { }
 
     public render(): void {
-        const modelData = this.view.getModelData();
+        // const modelData = this.view.getModelData();
+        const { angleInRad } = this.view.viewManager.viewData;
 
         this.calculateSliderLength();
 
-        const size = Vector.calculateVector(this.sliderLength, modelData.angleInRad);
+        const size = Vector.calculateVector(this.sliderLength, /* modelData. */angleInRad);
         this.setSize(size);
     }
 
     private calculateSliderLength() {
-        const modelData = this.view.getModelData();
+        // const modelData = this.view.getModelData();
+        const { angleInRad } = this.view.viewManager.viewData;
+
         const test1 = this.DOMElement.closest(".range-slider");
         let boundingRect;
         if (test1) {
@@ -33,7 +36,7 @@ class SliderContainer extends SliderPart {
         } else throw new Error("sdfsdf");
 
         // координаты точки поверхности эллипса
-        const t = Math.atan2(boundingRect.width * Math.sin(modelData.angleInRad), boundingRect.height * Math.cos(modelData.angleInRad));
+        const t = Math.atan2(boundingRect.width * Math.sin(/* modelData. */angleInRad), boundingRect.height * Math.cos(/* modelData. */angleInRad));
         const x = boundingRect.width * Math.cos(t);
         const y = boundingRect.height * Math.sin(t);
 

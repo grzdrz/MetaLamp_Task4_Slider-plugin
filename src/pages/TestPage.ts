@@ -1,8 +1,8 @@
 import "../plugin.ts";
 import $ from "jquery";
+import "./TestPage.scss";
 
-let options = {
-    //sliderStripLength: 500,
+const options = {
     sliderStripThickness: 10,
     handleWidth: 20,
     handleHeight: 20,
@@ -18,10 +18,9 @@ let options = {
     scaleFontSize: 15,
     angle: 0,
 };
-$(".test-page__tested-range-slider-container2").rangeSlider(options);
+$(".test-page__tested-range-slider-container2").rangeSlider(options, {});
 
-
-let options2 = {
+/* let options2 = {
     //sliderStripLength: 300,
     sliderStripThickness: 10,
     handleWidth: 20,
@@ -37,7 +36,5 @@ let options2 = {
     maxSegmentsCount: 6,
     scaleFontSize: 15,
     angle: 90,
-};
-//$(".test-page__tested-range-slider-container").rangeSlider(options2);
-
-import "./TestPage.scss"; 
+}; */
+// $(".test-page__tested-range-slider-container").rangeSlider(options2);

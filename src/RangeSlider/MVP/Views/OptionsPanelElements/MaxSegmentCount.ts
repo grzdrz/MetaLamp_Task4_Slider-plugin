@@ -1,6 +1,7 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
 import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
+import ViewDataEventArgs from "../../../Events/ViewDataEventArgs";
 
 class MaxSegmentCount extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
@@ -13,6 +14,7 @@ class MaxSegmentCount extends OptionPanelElement {
         super.build();
 
         const modelData = this.view.getModelData();
+        const { maxSegmentsCount } = this.view.viewManager.viewData;
 
         const maxSegmentsCountLabel = document.createElement("label");
         const maxSegmentsCountInput = document.createElement("input");
@@ -22,7 +24,7 @@ class MaxSegmentCount extends OptionPanelElement {
 
         maxSegmentsCountInput.type = "number";
         maxSegmentsCountInput.step = "1";
-        maxSegmentsCountInput.value = modelData.maxSegmentsCount.toString();
+        maxSegmentsCountInput.value = /* modelData. */maxSegmentsCount.toString();
         maxSegmentsCountInput.className = "range-slider__max-value-input";
 
         maxSegmentsCountText.className = "range-slider__max-value-text";
@@ -50,11 +52,13 @@ class MaxSegmentCount extends OptionPanelElement {
         if (!input) throw new Error("input not exist");
         const inputValue = Number.parseInt(input.value, 10);
 
-        const optionsToUpdate = {
+        const dataToUpdate = {
             maxSegmentsCount: inputValue,
         };
 
-        this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
+        // this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
+        this.view.onViewStateUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
+        // this.view.viewManager.viewData.update(optionsToUpdate);
     }
 }
 

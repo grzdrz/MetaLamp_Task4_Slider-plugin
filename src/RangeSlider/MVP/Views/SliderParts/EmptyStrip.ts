@@ -3,9 +3,9 @@ import SliderPart from "./SliderPart";
 import Vector from "../../../Helpers/Vector";
 
 class EmptyStrip extends SliderPart {
-/*     constructor(view: SliderView) {
-        super(view);
-    } */
+    /*     constructor(view: SliderView) {
+            super(view);
+        } */
 
     public initialize(): void {
         this.buildDOMElement();
@@ -19,17 +19,23 @@ class EmptyStrip extends SliderPart {
     }
 
     public render(): void {
-        const modelData = this.view.getModelData();
+        // const modelData = this.view.getModelData();
+        const {
+            handleWidth,
+            handleHeight,
+            sliderStripThickness,
+            angle,
+        } = this.view.viewManager.viewData;
 
         // точка вращения - отступ на половину размера ползунка от основания полосы и отступ до центра полосы в ее толщине
-        const transformOriginX = modelData.handleWidth / 2;
-        const transformOriginY = (modelData.sliderStripThickness) / 2;
+        const transformOriginX = handleWidth / 2;
+        const transformOriginY = (sliderStripThickness) / 2;
 
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.DOMElement.style.transform = `rotate(${-modelData.angle}deg)`;
+        this.DOMElement.style.transform = `rotate(${-angle}deg)`;
 
-        this.setSize(new Vector(this.view.sliderContainer.sliderLength, modelData.sliderStripThickness));
-        this.setPosition(new Vector(0, modelData.handleHeight / 2 - (modelData.sliderStripThickness) / 2));
+        this.setSize(new Vector(this.view.sliderContainer.sliderLength, sliderStripThickness));
+        this.setPosition(new Vector(0, handleHeight / 2 - (sliderStripThickness) / 2));
     }
 }
 

@@ -42,7 +42,7 @@ class MinValue extends OptionPanelElement {
     public update(): void {
         const modelData = this.view.getModelData();
 
-        const input = <HTMLInputElement>this.DOMElement.querySelector(".range-slider__min-value-input");
+        const input = <HTMLInputElement> this.DOMElement.querySelector(".range-slider__min-value-input");
         input.step = modelData.stepSize.toString();
         input.value = modelData.minValue.toString();
         input.max = (modelData.maxValue + modelData.stepSize).toString();

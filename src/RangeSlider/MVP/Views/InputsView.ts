@@ -1,9 +1,10 @@
 import View from "./View";
 import Event from "../../Events/Event";
 import OptionsToUpdateEventArgs from "../../Events/OptionsToUpdateEventArgs";
+import ViewManager from "./ViewManager";
 
 class InputsView extends View {
-    public containerElement: HTMLElement;
+    /* public containerElement: HTMLElement; */
 
     public firstInputDOMElement: HTMLInputElement | undefined;
 
@@ -11,10 +12,10 @@ class InputsView extends View {
 
     public onInputsChange: Event;
 
-    constructor(inputsContainer: HTMLElement) {
-        super();
+    constructor(containerElement: HTMLElement, viewManager: ViewManager) {
+        super(containerElement, viewManager);
 
-        this.containerElement = inputsContainer;
+        /* this.containerElement = inputsContainer; */
 
         this.handlerFirstInputChange = this.handlerFirstInputChange.bind(this);
         this.handlerLastInputChange = this.handlerLastInputChange.bind(this);

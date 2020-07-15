@@ -11,6 +11,7 @@ import Vector from "../../Helpers/Vector";
 import Event from "../../Events/Event";
 import OptionsToUpdateEventArgs from "../../Events/OptionsToUpdateEventArgs";
 import Scale from "./SliderParts/Scale";
+import ViewManager from "./ViewManager";
 
 class SliderView extends View {
     public sliderContainer: SliderContainer;
@@ -31,11 +32,11 @@ class SliderView extends View {
 
     public onModelStateUpdate: Event = new Event();
 
-    constructor(mainContentContainer: HTMLElement) {
-        super();
+    constructor(containerElement: HTMLElement, viewManager: ViewManager) {
+        super(containerElement, viewManager);
 
         this.parts.push(this.sliderContainer = new SliderContainer(this));
-        this.sliderContainer.DOMElement = mainContentContainer;
+        this.sliderContainer.DOMElement = containerElement;
 
         this.parts.push(this.emptyStrip = new EmptyStrip(this));
         this.parts.push(this.firstSlider = new Handle(this, 1));
@@ -93,6 +94,8 @@ class SliderView extends View {
         event.preventDefault();
 
         const modelData = this.getModelData();
+        const { handleHeight } = this.viewManager.viewData;
+
         let cursorMouseDownPositionX;
         let cursorMouseDownPositionY;
         if (event instanceof TouchEvent) {
@@ -131,7 +134,7 @@ class SliderView extends View {
 
         const targetSliderBoundingCoords = targetSliderInstance.DOMElement.getBoundingClientRect();
         const mousePositionInsideTargetSliderX = cursorMouseDownPosition.x - targetSliderBoundingCoords.x;
-        const mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + window.pageYOffset - targetSliderBoundingCoords.y - modelData.handleHeight);
+        const mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + window.pageYOffset - targetSliderBoundingCoords.y - /* modelData. */handleHeight);
         const mousePositionInsideTargetSlider = new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
 
         const optionsForMouseEvents = {
@@ -197,19 +200,20 @@ class SliderView extends View {
     // значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
     public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber: number): void {
         const modelData = this.getModelData();
+        const { handleWidth, angleInRad } = this.viewManager.viewData;
 
         let containerCapacity;
         if (modelData.hasTwoSlider) {
             if (handleCountNumber === 2) {
-                const vectorizedHandleWidth = Vector.calculateVector(modelData.handleWidth, modelData.angleInRad);
+                const vectorizedHandleWidth = Vector.calculateVector(/* modelData. */handleWidth, /* modelData. */angleInRad);
                 cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
             }
-            containerCapacity = this.sliderContainer.sliderLength - modelData.handleWidth * 2;
+            containerCapacity = this.sliderContainer.sliderLength - /* modelData. */handleWidth * 2;
         } else {
-            containerCapacity = this.sliderContainer.sliderLength - modelData.handleWidth;
+            containerCapacity = this.sliderContainer.sliderLength - /* modelData. */handleWidth;
         }
 
-        const mainAxisVector = Vector.calculateVector(this.sliderContainer.sliderLength, modelData.angleInRad);
+        const mainAxisVector = Vector.calculateVector(this.sliderContainer.sliderLength, /* modelData. */angleInRad);
         const cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
 
         const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
@@ -226,12 +230,12 @@ class SliderView extends View {
         const modelData = this.getModelData();
 
         const { sliderLength } = this.sliderContainer;
-        const handleLength = modelData.handleWidth;
+        const { handleWidth } = /* modelData.handleWidth */this.viewManager.viewData;
         let usedLength;
         if (modelData.hasTwoSlider) {
-            usedLength = sliderLength - handleLength * 2;
+            usedLength = sliderLength - handleWidth * 2;
         } else {
-            usedLength = sliderLength - handleLength;
+            usedLength = sliderLength - handleWidth;
         }
 
         return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
