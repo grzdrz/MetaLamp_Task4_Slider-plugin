@@ -10,7 +10,7 @@ abstract class SliderPart {
     constructor(view: SliderView) {
         this.view = view;
 
-        this.DOMElement = document.createElement("div");//заглушка
+        this.DOMElement = document.createElement("div");// заглушка
     }
 
     abstract initialize(): void;
@@ -19,11 +19,11 @@ abstract class SliderPart {
 
     abstract render(): void;
 
-    setPosition(position: Vector) {
+    protected setPosition(position: Vector): void {
         View.renderPosition(this.DOMElement, position);
     }
 
-    setSize(size: Vector) {
+    protected setSize(size: Vector): void {
         View.renderSize(this.DOMElement, size);
     }
 }

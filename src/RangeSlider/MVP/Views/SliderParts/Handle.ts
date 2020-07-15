@@ -5,24 +5,23 @@ import View from "../View";
 
 class Handle extends SliderPart {
     public countNumber: number;
+
     public backgroundDOMElement: HTMLElement;
 
     constructor(view: SliderView, countNumber: number) {
         super(view);
 
-        this.backgroundDOMElement = document.createElement("div");//заглушка
-
+        this.backgroundDOMElement = document.createElement("div");// заглушка
         this.countNumber = countNumber;
     }
 
-    initialize() {
+    public initialize(): void {
         this.buildDOMElement();
         this.render();
     }
 
-
-    buildDOMElement() {
-        let modelData = this.view.getModelData();
+    public buildDOMElement(): void {
+        const modelData = this.view.getModelData();
 
         this.DOMElement = document.createElement("div");
         this.DOMElement.className = `range-slider__${(this.countNumber === 1 ? "first" : "last")}-slider`;
@@ -39,25 +38,23 @@ class Handle extends SliderPart {
         this.view.setHandlersOnHandls(this);
     }
 
-    render() {
-        let modelData = this.view.getModelData();
+    public render(): void {
+        const modelData = this.view.getModelData();
 
-        let transformOriginX = modelData.handleWidth / 2;
-        let transformOriginY = modelData.handleWidth / 2;
+        const transformOriginX = modelData.handleWidth / 2;
+        const transformOriginY = modelData.handleWidth / 2;
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.DOMElement.style.transform = `rotate(${-modelData.angle}deg)`;//минус из-за нестандартного направления обхода функции rotate
+        this.DOMElement.style.transform = `rotate(${-modelData.angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
 
         let value;
-        if (this.countNumber === 1)
-            value = modelData.firstValue;
-        else
-            value = modelData.lastValue;
+        if (this.countNumber === 1) value = modelData.firstValue;
+        else value = modelData.lastValue;
 
-        let handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
+        const handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
 
         let vectorizedHandlePositionInContainer = Vector.calculateVector(handlePositionInContainer, modelData.angleInRad);
         if (this.countNumber === 2) {
-            let vectorizedHandleSize = Vector.calculateVector(modelData.handleWidth, modelData.angleInRad);
+            const vectorizedHandleSize = Vector.calculateVector(modelData.handleWidth, modelData.angleInRad);
             vectorizedHandlePositionInContainer = vectorizedHandlePositionInContainer.sum(vectorizedHandleSize);
         }
         this.setPosition(vectorizedHandlePositionInContainer);
@@ -65,19 +62,19 @@ class Handle extends SliderPart {
         this.renderBackground(vectorizedHandlePositionInContainer);
     }
 
-    renderBackground(position: Vector) {///////////////////
-        let modelData = this.view.getModelData();
+    renderBackground(position: Vector): void { // /////////////////
+        const modelData = this.view.getModelData();
 
-        let backgroundPositionX = position.x - modelData.borderThickness;
-        let backgroundPositionY = position.y - modelData.borderThickness;
-        let backgroundPosition = new Vector(backgroundPositionX, backgroundPositionY);
+        const backgroundPositionX = position.x - modelData.borderThickness;
+        const backgroundPositionY = position.y - modelData.borderThickness;
+        const backgroundPosition = new Vector(backgroundPositionX, backgroundPositionY);
 
-        let backgroundSizeX = modelData.borderThickness * 2 + modelData.handleWidth;
-        let backgroundSizeY = modelData.borderThickness * 2 + modelData.handleHeight;
-        let backgroundSize = new Vector(backgroundSizeX, backgroundSizeY);
+        const backgroundSizeX = modelData.borderThickness * 2 + modelData.handleWidth;
+        const backgroundSizeY = modelData.borderThickness * 2 + modelData.handleHeight;
+        const backgroundSize = new Vector(backgroundSizeX, backgroundSizeY);
 
-        let transformOriginX = backgroundSizeX / 2;
-        let transformOriginY = backgroundSizeY / 2;
+        const transformOriginX = backgroundSizeX / 2;
+        const transformOriginY = backgroundSizeY / 2;
         this.backgroundDOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
         this.backgroundDOMElement.style.transform = `rotate(${-modelData.angle}deg)`;
 

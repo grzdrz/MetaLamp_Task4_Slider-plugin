@@ -9,14 +9,14 @@ class MaxSegmentCount extends OptionPanelElement {
         this.handlerMaxSegmentsCountChange = this.handlerMaxSegmentsCountChange.bind(this);
     }
 
-    build() {
+    public build(): void {
         super.build();
 
-        let modelData =  this.view.getModelData();
+        const modelData = this.view.getModelData();
 
-        let maxSegmentsCountLabel = document.createElement("label");
-        let maxSegmentsCountInput = document.createElement("input");
-        let maxSegmentsCountText = document.createElement("p");
+        const maxSegmentsCountLabel = document.createElement("label");
+        const maxSegmentsCountInput = document.createElement("input");
+        const maxSegmentsCountText = document.createElement("p");
 
         maxSegmentsCountLabel.className = "range-slider__inputs-label";
 
@@ -33,26 +33,24 @@ class MaxSegmentCount extends OptionPanelElement {
 
         maxSegmentsCountLabel.addEventListener("change", this.handlerMaxSegmentsCountChange);
 
-
         this.DOMElement.append(maxSegmentsCountLabel);
         this.view.containerElement.append(this.DOMElement);
     }
 
-    update() {
+    public update(): void {
 
     }
 
     private handlerMaxSegmentsCountChange(event: globalThis.Event) {
         event.preventDefault();
 
-        let currentLabel = event.currentTarget;
-        if (!currentLabel)
-            throw new Error("some shit with max segments count change event");
-        let input = (<HTMLElement>currentLabel).querySelector("input");
+        const currentLabel = event.currentTarget;
+        if (!currentLabel) throw new Error("some shit with max segments count change event");
+        const input = (<HTMLElement>currentLabel).querySelector("input");
         if (!input) throw new Error("input not exist");
-        let inputValue = Number.parseInt(input.value);
+        const inputValue = Number.parseInt(input.value, 10);
 
-        let optionsToUpdate = {
+        const optionsToUpdate = {
             maxSegmentsCount: inputValue,
         };
 

@@ -15,10 +15,15 @@ class OptionsPanelView extends View {
     public containerElement: HTMLElement;
 
     public stepSize: StepSize;
+
     public minValue: MinValue;
+
     public maxValue: MaxValue;
+
     public maxSegmentCount: MaxSegmentCount;
+
     public angle: Angle;
+
     public handlsCount: HandlsCount;
 
     public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
@@ -36,16 +41,16 @@ class OptionsPanelView extends View {
         this.panelElements.push(this.handlsCount = new HandlsCount(this));
     }
 
-    initialize() {
+    public initialize(): void {
         this.update(true);
     }
 
-    update(neededFullRerender: boolean) {
+    public update(neededFullRerender: boolean): void {
         if (neededFullRerender) {
-            this.panelElements.forEach(el => el.build());
+            this.panelElements.forEach((element) => element.build());
         }
         else {
-            this.panelElements.forEach(el => el.update());
+            this.panelElements.forEach((element) => element.update());
         }
     }
 }

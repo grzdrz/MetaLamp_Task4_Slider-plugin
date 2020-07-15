@@ -9,22 +9,22 @@ class Angle extends OptionPanelElement {
         this.handlerAngleSizeChange = this.handlerAngleSizeChange.bind(this);
     }
 
-    build() {
+    public build(): void {
         super.build();
 
-        let modelData = this.view.getModelData();
+        const modelData = this.view.getModelData();
 
-        let angleSizeLabel = document.createElement("label");
+        const angleSizeLabel = document.createElement("label");
 
         angleSizeLabel.className = "range-slider__inputs-label";
 
-        let angleSizeCountInput = document.createElement("input");
+        const angleSizeCountInput = document.createElement("input");
         angleSizeCountInput.type = "number";
         angleSizeCountInput.step = "1";
         angleSizeCountInput.value = modelData.angle.toString();
         angleSizeCountInput.className = "range-slider__angle-size-input";
 
-        let angleSizeCountText = document.createElement("p");
+        const angleSizeCountText = document.createElement("p");
         angleSizeCountText.className = "range-slider__angle-size-text";
         angleSizeCountText.textContent = "angle size";
 
@@ -37,26 +37,25 @@ class Angle extends OptionPanelElement {
         this.view.containerElement.append(this.DOMElement);
     }
 
-    update() {
+    public update(): void {
 
     }
 
     private handlerAngleSizeChange(event: globalThis.Event) {
         event.preventDefault();
 
-        let currentLabel = event.currentTarget;
-        if (!currentLabel)
-            throw new Error("some shit with angle size change event");
-        let input = (<HTMLElement>currentLabel).querySelector("input");
+        const currentLabel = event.currentTarget;
+        if (!currentLabel) throw new Error("some shit with angle size change event");
+        const input = (<HTMLElement>currentLabel).querySelector("input");
         if (!input) throw new Error("input not exist");
-        let inputValue = Number.parseInt(input.value);
+        let inputValue = Number.parseInt(input.value, 10);
 
         if (inputValue > 90) inputValue = 90;
         else if (inputValue < 0 || inputValue === undefined) inputValue = 0;
 
         input.value = inputValue.toString();
 
-        let optionsToUpdate = {
+        const optionsToUpdate = {
             angle: inputValue,
         };
 

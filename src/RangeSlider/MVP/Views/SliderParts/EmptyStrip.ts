@@ -1,29 +1,29 @@
 import SliderPart from "./SliderPart";
-import SliderView from "../SliderView";
+/* import SliderView from "../SliderView"; */
 import Vector from "../../../Helpers/Vector";
 
 class EmptyStrip extends SliderPart {
-    constructor(view: SliderView) {
+/*     constructor(view: SliderView) {
         super(view);
-    }
+    } */
 
-    initialize() {
+    public initialize(): void {
         this.buildDOMElement();
         this.render();
     }
 
-    buildDOMElement() {
+    public buildDOMElement(): void {
         this.DOMElement = document.createElement("div");
         this.DOMElement.className = "range-slider__slider-body-empty";
         this.view.sliderContainer.DOMElement.append(this.DOMElement);
     }
 
-    render() {
-        let modelData = this.view.getModelData();
+    public render(): void {
+        const modelData = this.view.getModelData();
 
-        //точка вращения - отступ на половину размера ползунка от основания полосы и отступ до центра полосы в ее толщине
-        let transformOriginX = modelData.handleWidth / 2;
-        let transformOriginY = (modelData.sliderStripThickness) / 2;
+        // точка вращения - отступ на половину размера ползунка от основания полосы и отступ до центра полосы в ее толщине
+        const transformOriginX = modelData.handleWidth / 2;
+        const transformOriginY = (modelData.sliderStripThickness) / 2;
 
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
         this.DOMElement.style.transform = `rotate(${-modelData.angle}deg)`;

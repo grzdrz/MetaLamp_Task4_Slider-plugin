@@ -7,7 +7,7 @@ abstract class OptionPanelElement {
         this.DOMElement = document.createElement("div");
     }
 
-    build() {
+    public build(): void {
         this.DOMElement.innerHTML = "";
     }
 

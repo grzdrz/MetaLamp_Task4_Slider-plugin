@@ -14,16 +14,21 @@ import Scale from "./SliderParts/Scale";
 
 class SliderView extends View {
     public sliderContainer: SliderContainer;
+
     public firstSlider: Handle;
+
     public lastSlider: Handle;
+
     public filledStrip: FilledStrip;
+
     public emptyStrip: EmptyStrip;
+
     public scale: Scale;
 
     public parts: SliderPart[] = new Array<SliderPart>();
 
-
     public onHandleMove: Event = new Event();
+
     public onModelStateUpdate: Event = new Event();
 
     constructor(mainContentContainer: HTMLElement) {
@@ -38,32 +43,31 @@ class SliderView extends View {
         this.parts.push(this.filledStrip = new FilledStrip(this));
         this.parts.push(this.scale = new Scale(this));
 
-        this._handlerMouseDown = this._handlerMouseDown.bind(this);
+        this.handlerMouseDown = this.handlerMouseDown.bind(this);
 
         this.handlerViewportSizeChange = this.handlerViewportSizeChange.bind(this);
     }
 
-    initialize() {
-        this.parts.forEach(part => {
+    public initialize(): void {
+        this.parts.forEach((part) => {
             part.initialize();
         });
         window.addEventListener("resize", this.handlerViewportSizeChange);
     }
 
-    update(neededRerender: boolean) {
-        let modelData = this.getModelData();
+    public update(neededRerender: boolean): void {
+        const modelData = this.getModelData();
 
-        if (neededRerender) {//полный перерендер всех элементов слайдера
+        if (neededRerender) { // полный перерендер всех элементов слайдера
             this.sliderContainer.DOMElement.innerHTML = "";
-            this.parts.forEach(part => {
+            this.parts.forEach((part) => {
                 if ((part === this.lastSlider && modelData.hasTwoSlider) || part !== this.lastSlider) {
                     part.buildDOMElement();
                     part.render();
                 }
             });
-        }
-        else {//или просто обновление их состояний
-            this.parts.forEach(part => {
+        } else { // или просто обновление их состояний
+            this.parts.forEach((part) => {
                 if ((part === this.lastSlider && modelData.hasTwoSlider) || part !== this.lastSlider) {
                     part.render();
                 }
@@ -71,79 +75,75 @@ class SliderView extends View {
         }
     }
 
-    setHandlersOnHandls(handle: Handle) {
-        handle.DOMElement.ondragstart = function () {
-            return false;
-        };
-        handle.DOMElement.addEventListener("mousedown", this._handlerMouseDown);
-        handle.DOMElement.addEventListener("touchstart", this._handlerMouseDown);
+    public setHandlersOnHandls(handleInstance: Handle): void {
+        const handle = handleInstance;
+        handle.DOMElement.ondragstart = () => false;
+        handle.DOMElement.addEventListener("mousedown", this.handlerMouseDown);
+        handle.DOMElement.addEventListener("touchstart", this.handlerMouseDown);
         handle.backgroundDOMElement.addEventListener("mousedown", (event: UIEvent) => {
-            this._handlerMouseDown(event);
+            this.handlerMouseDown(event);
         });
         handle.backgroundDOMElement.addEventListener("touchstart", (event: UIEvent) => {
-            this._handlerMouseDown(event);
+            this.handlerMouseDown(event);
         });
     }
 
-    //d&d
-    _handlerMouseDown(event: UIEvent) {
+    // d&d
+    private handlerMouseDown(event: UIEvent) {
         event.preventDefault();
 
-        let modelData = this.getModelData();
+        const modelData = this.getModelData();
         let cursorMouseDownPositionX;
         let cursorMouseDownPositionY;
         if (event instanceof TouchEvent) {
-            let touchEvent = <TouchEvent>event;
+            const touchEvent = /* <TouchEvent> */event;
             cursorMouseDownPositionX = touchEvent.changedTouches[0].pageX;
-            cursorMouseDownPositionY = touchEvent.changedTouches[0].pageY
-        }
-        else {
-            let mouseEvent = <MouseEvent>event;
+            cursorMouseDownPositionY = touchEvent.changedTouches[0].pageY;
+        } else {
+            const mouseEvent = <MouseEvent>event;
             cursorMouseDownPositionX = mouseEvent.clientX;
             cursorMouseDownPositionY = mouseEvent.clientY;
         }
-        cursorMouseDownPositionY = (document.documentElement.clientHeight + pageYOffset) - cursorMouseDownPositionY;
-        //cursorMouseDownPositionX =;
-        let cursorMouseDownPosition = new Vector(cursorMouseDownPositionX, cursorMouseDownPositionY);//место нажатия левой кнопки мыши 
+        cursorMouseDownPositionY = (document.documentElement.clientHeight + window.pageYOffset) - cursorMouseDownPositionY;
+        // cursorMouseDownPositionX =;
+        const cursorMouseDownPosition = new Vector(cursorMouseDownPositionX, cursorMouseDownPositionY);// место нажатия левой кнопки мыши
 
-        let sliderCountNumber: number = 0;
-        if (event.currentTarget !== null) {////////////////////
-            let sliderCountNumberString = (<HTMLElement>event.currentTarget).dataset.sliderCountNumber;
-            if (sliderCountNumberString !== undefined)
-                sliderCountNumber = Number.parseInt(sliderCountNumberString);
+        let sliderCountNumber = 0;
+        if (event.currentTarget !== null) { // //////////////////
+            const sliderCountNumberString = (<HTMLElement>event.currentTarget).dataset.sliderCountNumber;
+            if (sliderCountNumberString !== undefined) {
+                sliderCountNumber = Number.parseInt(sliderCountNumberString, 10);
+            }
         }
         let targetSliderInstance: SliderPart;
         let targetHandleCountNumber: number;
         if (modelData.hasTwoSlider && sliderCountNumber === 2) {
             targetSliderInstance = this.lastSlider;
             targetHandleCountNumber = 2;
-        }
-        else if (modelData.hasTwoSlider && sliderCountNumber === 1) {
+        } else if (modelData.hasTwoSlider && sliderCountNumber === 1) {
             targetSliderInstance = this.firstSlider;
             targetHandleCountNumber = 1;
-        }
-        else {
+        } else {
             targetSliderInstance = this.firstSlider;
             targetHandleCountNumber = 1;
         }
         if (!targetSliderInstance || targetHandleCountNumber === undefined) throw new Error("handle not exist");
 
-        let targetSliderBoundingCoords = targetSliderInstance.DOMElement.getBoundingClientRect();
-        let mousePositionInsideTargetSliderX = cursorMouseDownPosition.x - targetSliderBoundingCoords.x;
-        let mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + pageYOffset - targetSliderBoundingCoords.y - modelData.handleHeight);
-        let mousePositionInsideTargetSlider = new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
+        const targetSliderBoundingCoords = targetSliderInstance.DOMElement.getBoundingClientRect();
+        const mousePositionInsideTargetSliderX = cursorMouseDownPosition.x - targetSliderBoundingCoords.x;
+        const mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + window.pageYOffset - targetSliderBoundingCoords.y - modelData.handleHeight);
+        const mousePositionInsideTargetSlider = new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
 
-
-        let optionsForMouseEvents = {
-            handlerMouseMove: (event: UIEvent): void => { },
-            handlerMouseUp: (event: UIEvent): void => { },
-            mousePositionInsideTargetSlider: mousePositionInsideTargetSlider,
-            targetHandleCountNumber: targetHandleCountNumber,
+        const optionsForMouseEvents = {
+            handlerMouseMove: (_event: UIEvent): void => { },
+            handlerMouseUp: (_event: UIEvent): void => { },
+            mousePositionInsideTargetSlider,
+            targetHandleCountNumber,
         };
-        let handlerMouseMove = this._handlerMouseMove.bind(this, optionsForMouseEvents);
+        const handlerMouseMove = this.handlerMouseMove.bind(this, optionsForMouseEvents);
         optionsForMouseEvents.handlerMouseMove = handlerMouseMove;// чтобы обработчик mouseMove можно было отписать в mouseUp
 
-        let handlerMouseUp = this._handlerMouseUp.bind(this, optionsForMouseEvents);
+        const handlerMouseUp = this.handlerMouseUp.bind(this, optionsForMouseEvents);
         optionsForMouseEvents.handlerMouseUp = handlerMouseUp;// -//-
 
         document.addEventListener("mousemove", handlerMouseMove);
@@ -152,8 +152,8 @@ class SliderView extends View {
         document.addEventListener("touchend", handlerMouseUp);
     }
 
-    _handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent/* MouseEvent */) {
-        let {
+    private handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent) {
+        const {
             mousePositionInsideTargetSlider,
             targetHandleCountNumber,
         } = optionsFromMouseDown;
@@ -161,24 +161,23 @@ class SliderView extends View {
         let mouseGlobalPositionX;
         let mouseGlobalPositionY;
         if (event instanceof TouchEvent) {
-            let touchEvent = <TouchEvent>event;
+            const touchEvent = /* <TouchEvent> */event;
             mouseGlobalPositionX = touchEvent.changedTouches[0].pageX;
-            mouseGlobalPositionY = touchEvent.changedTouches[0].pageY
-        }
-        else {
-            let mouseEvent = <MouseEvent>event;
+            mouseGlobalPositionY = touchEvent.changedTouches[0].pageY;
+        } else {
+            const mouseEvent = <MouseEvent>event;
             mouseGlobalPositionX = mouseEvent.clientX;
             mouseGlobalPositionY = mouseEvent.clientY;
         }
-        mouseGlobalPositionY = (document.documentElement.clientHeight + pageYOffset) - mouseGlobalPositionY;
-        //mouseGlobalPositionX =;
-        let mouseGlobalPosition = new Vector(mouseGlobalPositionX, mouseGlobalPositionY);//место нажатия левой кнопки мыши 
-        let cursorPositionInContainer = this.calculateCursorPositionInContainer(mouseGlobalPosition, mousePositionInsideTargetSlider)
+        mouseGlobalPositionY = (document.documentElement.clientHeight + window.pageYOffset) - mouseGlobalPositionY;
+        // mouseGlobalPositionX =;
+        const mouseGlobalPosition = new Vector(mouseGlobalPositionX, mouseGlobalPositionY);// место нажатия левой кнопки мыши
+        const cursorPositionInContainer = this.calculateCursorPositionInContainer(mouseGlobalPosition, mousePositionInsideTargetSlider);
 
         this.calculateProportionalValue(cursorPositionInContainer, targetHandleCountNumber);
     }
 
-    _handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, event: UIEvent) {
+    private handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, _event: UIEvent) {
         document.removeEventListener("mousemove", optionsFromMouseDown.handlerMouseMove);
         document.removeEventListener("mouseup", optionsFromMouseDown.handlerMouseUp);
         document.removeEventListener("touchmove", optionsFromMouseDown.handlerMouseMove);
@@ -186,60 +185,59 @@ class SliderView extends View {
     }
 
     private calculateCursorPositionInContainer(mouseGlobalPosition: Vector, mousePositionInsideTargetSlider: Vector) {
-        let containerBoundingRect = this.sliderContainer.DOMElement.getBoundingClientRect();
-        let containerCoord = new Vector(
+        const containerBoundingRect = this.sliderContainer.DOMElement.getBoundingClientRect();
+        const containerCoord = new Vector(
             containerBoundingRect.x,
-            (document.documentElement.clientHeight + pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height)
+            (document.documentElement.clientHeight + window.pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height),
         );
 
         return mouseGlobalPosition.subtract(containerCoord).subtract(mousePositionInsideTargetSlider);
     }
 
-    //значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
+    // значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
     public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber: number): void {
-        let modelData = this.getModelData();
+        const modelData = this.getModelData();
 
         let containerCapacity;
         if (modelData.hasTwoSlider) {
             if (handleCountNumber === 2) {
-                let vectorizedHandleWidth = Vector.calculateVector(modelData.handleWidth, modelData.angleInRad);
+                const vectorizedHandleWidth = Vector.calculateVector(modelData.handleWidth, modelData.angleInRad);
                 cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
             }
             containerCapacity = this.sliderContainer.sliderLength - modelData.handleWidth * 2;
-        }
-        else {
+        } else {
             containerCapacity = this.sliderContainer.sliderLength - modelData.handleWidth;
         }
 
-        let mainAxisVector = Vector.calculateVector(this.sliderContainer.sliderLength, modelData.angleInRad);
-        let cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
+        const mainAxisVector = Vector.calculateVector(this.sliderContainer.sliderLength, modelData.angleInRad);
+        const cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
 
-        let proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
+        const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
 
-        if (handleCountNumber === 1)
+        if (handleCountNumber === 1) {
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: proportionalValue }));
-        else
+        } else {
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: proportionalValue }));
+        }
     }
 
-    //пиксельное значение пропорциональное условному значению
+    // пиксельное значение пропорциональное условному значению
     public calculateProportionalPixelValue(value: number): number {
-        let modelData = this.getModelData();
+        const modelData = this.getModelData();
 
-        let sliderLength = this.sliderContainer.sliderLength;
-        let handleLength = modelData.handleWidth;
+        const { sliderLength } = this.sliderContainer;
+        const handleLength = modelData.handleWidth;
         let usedLength;
         if (modelData.hasTwoSlider) {
             usedLength = sliderLength - handleLength * 2;
-        }
-        else {
+        } else {
             usedLength = sliderLength - handleLength;
         }
 
         return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
     }
 
-    private handlerViewportSizeChange(event: UIEvent) {
+    private handlerViewportSizeChange(_event: UIEvent) {
         this.update(/* false */true);
     }
 }
@@ -247,8 +245,8 @@ class SliderView extends View {
 export default SliderView;
 
 interface IMouseEventArgs {
-    handlerMouseMove: (/* optionsFromMouseDown: IMouseEventArgs,  */event: UIEvent) => void,
-    handlerMouseUp: (/* optionsFromMouseDown: IMouseEventArgs,  */event: UIEvent) => void,
+    handlerMouseMove: (event: UIEvent) => void,
+    handlerMouseUp: (event: UIEvent) => void,
     mousePositionInsideTargetSlider: Vector,
     targetHandleCountNumber: number,
 }

@@ -9,14 +9,14 @@ class StepSize extends OptionPanelElement {
         this.handlerStepSizeChange = this.handlerStepSizeChange.bind(this);
     }
 
-    build() {
+    public build(): void {
         super.build();
 
-        let modelData = this.view.getModelData();
+        const modelData = this.view.getModelData();
 
-        let stepSizeLabel = document.createElement("label");
-        let stepSizeInput = document.createElement("input");
-        let stepSizeText = document.createElement("p");
+        const stepSizeLabel = document.createElement("label");
+        const stepSizeInput = document.createElement("input");
+        const stepSizeText = document.createElement("p");
 
         stepSizeLabel.className = "range-slider__inputs-label";
 
@@ -37,28 +37,27 @@ class StepSize extends OptionPanelElement {
         this.view.containerElement.append(this.DOMElement);
     }
 
-    update() {
-        let modelData = this.view.getModelData();
+    public update(): void {
+        const modelData = this.view.getModelData();
 
-        let input = <HTMLInputElement>this.DOMElement.querySelector(".range-slider__step-size-input");
+        const input = <HTMLInputElement> this.DOMElement.querySelector(".range-slider__step-size-input");
         input.value = modelData.stepSize.toString();
     }
 
     private handlerStepSizeChange(event: globalThis.Event) {
         event.preventDefault();
 
-        let currentLabel = event.currentTarget;
-        if (!currentLabel)
-            throw new Error("some shit with step size change event");
-        let input = (<HTMLInputElement>currentLabel).querySelector("input");
+        const currentLabel = event.currentTarget;
+        if (!currentLabel) throw new Error("some shit with step size change event");
+        const input = (<HTMLInputElement>currentLabel).querySelector("input");
         if (!input) throw new Error("input not exist");
         let inputValue = Number.parseFloat(input.value);
-        if (inputValue <= 0) {/////
+        if (inputValue <= 0) { // ///
             inputValue = 0.000001;
             input.value = inputValue.toString();
         }
 
-        let optionsToUpdate = {
+        const optionsToUpdate = {
             stepSize: inputValue,
         };
 

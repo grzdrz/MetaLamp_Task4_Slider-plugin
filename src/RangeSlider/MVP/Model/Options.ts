@@ -1,25 +1,35 @@
 import IOptions from "./IOptions";
 
 class Options implements IOptions {
-    public id: number = 0;
+    public id = 0;
 
-    public sliderStripThickness: number = 10;
-    public handleWidth: number = 15;
-    public handleHeight: number = 15;
-    public minValue: number = -100;
-    public maxValue: number = 100;
-    public borderThickness: number = 5;
-    public firstValue: number = 0;
-    public lastValue: number = 50;
-    public stepSize: number = 10;
-    public hasTwoSlider: boolean = false;
-    public isInterval: boolean = true;
-    public maxSegmentsCount: number = 10;
-    public scaleFontSize: number = 20;
-    public angle: number = 0;
+    public sliderStripThickness = 10;
 
-    
-    public originalSliderStripLength: number = 500;
+    public handleWidth = 15;
+
+    public handleHeight = 15;
+
+    public minValue = -100;
+
+    public maxValue = 100;
+
+    public borderThickness = 5;
+
+    public firstValue = 0;
+
+    public lastValue = 50;
+
+    public stepSize = 10;
+
+    public hasTwoSlider = false;
+
+    public isInterval = true;
+
+    public maxSegmentsCount = 10;
+
+    public scaleFontSize = 20;
+
+    public angle = 0;
 
     constructor(options: IOptions) {
         this.update(options);

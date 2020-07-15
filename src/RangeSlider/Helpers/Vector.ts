@@ -1,7 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 class Vector {
-    private _x: number = 0;
-    
-    private _y: number = 0;
+    private _x = 0;
+
+    private _y = 0;
 
     constructor(x: number, y: number) {
         this._x = x;
@@ -11,6 +12,7 @@ class Vector {
     get width(): number {
         return this._x;
     }
+
     set width(value: number) {
         this._x = value;
     }
@@ -18,6 +20,7 @@ class Vector {
     get height(): number {
         return this._y;
     }
+
     set height(value: number) {
         this._y = value;
     }
@@ -25,6 +28,7 @@ class Vector {
     get x(): number {
         return this._x;
     }
+
     set x(value: number) {
         this._x = value;
     }
@@ -32,14 +36,15 @@ class Vector {
     get y(): number {
         return this._y;
     }
+
     set y(value: number) {
         this._y = value;
     }
 
-
     sum(vector: Vector): Vector {
         return new Vector(this._x + vector.x, this._y + vector.y);
     }
+
     sumNumber(number: number): Vector {
         return new Vector(this._x + number, this._y + number);
     }
@@ -48,16 +53,16 @@ class Vector {
         return new Vector(this._x - vector.x, this._y - vector.y);
     }
 
-    multiplyByNumber(number: number): Vector {
+    public multiplyByNumber(number: number): Vector {
         return new Vector(this._x * number, this._y * number);
     }
 
-    calculateScalarProduct(vector: Vector) {
+    public calculateScalarProduct(vector: Vector): number {
         return this._x * vector.x + this._y * vector.y;
     }
 
-    ///считает длину проекции текущего вектора на целевой вектор
-    calculateVectorProjectionOnTargetVector(targetVector: Vector): number {
+    // считает длину проекции текущего вектора на целевой вектор
+    public calculateVectorProjectionOnTargetVector(targetVector: Vector): number {
         return this.calculateScalarProduct(targetVector) / targetVector.length;
     }
 
@@ -65,13 +70,13 @@ class Vector {
         return Math.sqrt(this._x * this._x + this._y * this._y);
     }
 
-    static calculateVector(length: number, angle: number): Vector {
+    public static calculateVector(length: number, angle: number): Vector {
         return new Vector(length * Math.cos(angle), length * Math.sin(angle));
     }
 
-    rotateVector(angleInRad: number){
-        let newX = this._x * Math.cos(angleInRad) - this._y * Math.sin(angleInRad);
-        let newY = this._x * Math.sin(angleInRad) + this._y * Math.cos(angleInRad);
+    public rotateVector(angleInRad: number): Vector {
+        const newX = this._x * Math.cos(angleInRad) - this._y * Math.sin(angleInRad);
+        const newY = this._x * Math.sin(angleInRad) + this._y * Math.cos(angleInRad);
         return new Vector(newX, newY);
     }
 }

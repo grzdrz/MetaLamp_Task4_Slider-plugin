@@ -9,14 +9,14 @@ class MinValue extends OptionPanelElement {
         this.handlerMinValueChange = this.handlerMinValueChange.bind(this);
     }
 
-    build() {
+    public build(): void {
         super.build();
 
-        let modelData = this.view.getModelData();
+        const modelData = this.view.getModelData();
 
-        let minValueLabel = document.createElement("label");
-        let minValueInput = document.createElement("input");
-        let minValueText = document.createElement("p");
+        const minValueLabel = document.createElement("label");
+        const minValueInput = document.createElement("input");
+        const minValueText = document.createElement("p");
 
         minValueLabel.className = "range-slider__inputs-label";
 
@@ -39,10 +39,10 @@ class MinValue extends OptionPanelElement {
         this.view.containerElement.append(this.DOMElement);
     }
 
-    update() {
-        let modelData = this.view.getModelData();
+    public update(): void {
+        const modelData = this.view.getModelData();
 
-        let input = <HTMLInputElement>this.DOMElement.querySelector(".range-slider__min-value-input");
+        const input = <HTMLInputElement>this.DOMElement.querySelector(".range-slider__min-value-input");
         input.step = modelData.stepSize.toString();
         input.value = modelData.minValue.toString();
         input.max = (modelData.maxValue + modelData.stepSize).toString();
@@ -52,14 +52,13 @@ class MinValue extends OptionPanelElement {
     private handlerMinValueChange(event: globalThis.Event) {
         event.preventDefault();
 
-        let currentLabel = event.currentTarget;
-        if (!currentLabel)
-            throw new Error("some shit with min value change event");
-        let input = (<HTMLInputElement>currentLabel).querySelector("input");
+        const currentLabel = event.currentTarget;
+        if (!currentLabel) throw new Error("some shit with min value change event");
+        const input = (<HTMLInputElement>currentLabel).querySelector("input");
         if (!input) throw new Error("input not exist");
-        let inputValue = Number.parseFloat(input.value);
+        const inputValue = Number.parseFloat(input.value);
 
-        let optionsToUpdate = {
+        const optionsToUpdate = {
             minValue: inputValue,
         };
 

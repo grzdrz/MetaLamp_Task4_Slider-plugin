@@ -9,15 +9,15 @@ class MaxValue extends OptionPanelElement {
         this.handlerMaxValueChange = this.handlerMaxValueChange.bind(this);
     }
 
-    build() {
+    public build(): void {
         super.build();
 
-        let modelData = this.view.getModelData();
+        const modelData = this.view.getModelData();
 
-        //максимальное значение
-        let maxValueLabel = document.createElement("label");
-        let maxValueInput = document.createElement("input");
-        let maxValueText = document.createElement("p");
+        // максимальное значение
+        const maxValueLabel = document.createElement("label");
+        const maxValueInput = document.createElement("input");
+        const maxValueText = document.createElement("p");
 
         maxValueLabel.className = "range-slider__inputs-label";
 
@@ -40,10 +40,10 @@ class MaxValue extends OptionPanelElement {
         this.view.containerElement.append(this.DOMElement);
     }
 
-    update() {
-        let modelData = this.view.getModelData();
+    public update(): void {
+        const modelData = this.view.getModelData();
 
-        let input = <HTMLInputElement>this.DOMElement.querySelector(".range-slider__max-value-input");
+        const input = <HTMLInputElement> this.DOMElement.querySelector(".range-slider__max-value-input");
         input.step = modelData.stepSize.toString();
         input.value = modelData.maxValue.toString();
         input.max = (modelData.maxValue + modelData.stepSize).toString();
@@ -53,14 +53,13 @@ class MaxValue extends OptionPanelElement {
     private handlerMaxValueChange(event: globalThis.Event) {
         event.preventDefault();
 
-        let currentLabel = event.currentTarget;
-        if (!currentLabel)
-            throw new Error("some shit with max value change event");
-        let input = (<HTMLInputElement>currentLabel).querySelector("input");
+        const currentLabel = event.currentTarget;
+        if (!currentLabel) throw new Error("some shit with max value change event");
+        const input = (<HTMLInputElement>currentLabel).querySelector("input");
         if (!input) throw new Error("input not exist");
-        let inputValue = Number.parseFloat(input.value);
+        const inputValue = Number.parseFloat(input.value);
 
-        let optionsToUpdate = {
+        const optionsToUpdate = {
             maxValue: inputValue,
         };
 
