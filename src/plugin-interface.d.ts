@@ -1,9 +1,9 @@
 import RangeSlider from "./RangeSlider/RangeSlider";
-import IOptions from "./RangeSlider/MVP/Model/IOptions";
+import IModelData from "./RangeSlider/MVP/Model/IModelData";
 import IViewData from "./RangeSlider/MVP/Views/IViewData";
 
 declare global {
     interface JQuery {
-        rangeSlider: (options :IOptions, viewData: IViewData) => RangeSlider;
+        rangeSlider: (options: IModelData, viewData: IViewData) => RangeSlider;
     }
 }

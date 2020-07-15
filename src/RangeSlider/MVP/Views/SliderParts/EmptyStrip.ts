@@ -1,12 +1,7 @@
 import SliderPart from "./SliderPart";
-/* import SliderView from "../SliderView"; */
 import Vector from "../../../Helpers/Vector";
 
 class EmptyStrip extends SliderPart {
-    /*     constructor(view: SliderView) {
-            super(view);
-        } */
-
     public initialize(): void {
         this.buildDOMElement();
         this.render();
@@ -19,7 +14,6 @@ class EmptyStrip extends SliderPart {
     }
 
     public render(): void {
-        // const modelData = this.view.getModelData();
         const {
             handleWidth,
             handleHeight,

@@ -1,8 +1,10 @@
-import IOptions from "../Model/IOptions";
-import Options from "../Model/Options";
+import IModelData from "../Model/IModelData";
+import ModelData from "../Model/ModelData";
 import Vector from "../../Helpers/Vector";
+
 import Event from "../../Events/Event";
 import OptionsEventArgs from "../../Events/OptionsEventArgs";
+
 import ViewManager from "./ViewManager";
 
 abstract class View {
@@ -14,7 +16,7 @@ abstract class View {
 
     public onViewStateUpdate: Event;
 
-    public modelData: IOptions = {};
+    public modelData: IModelData = {};
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         this.containerElement = containerElement;
@@ -24,11 +26,11 @@ abstract class View {
         this.onViewStateUpdate = new Event();
     }
 
-    getModelData(): Options {
+    getModelData(): ModelData {
         const optionsEventArgs = new OptionsEventArgs();
         this.onGetModelData.invoke(optionsEventArgs);
-        if (!optionsEventArgs.options) throw new Error("broken get model data");
-        return optionsEventArgs.options;
+        if (!optionsEventArgs.data) throw new Error("broken get model data");
+        return optionsEventArgs.data;
     }
 
     abstract initialize(): void;

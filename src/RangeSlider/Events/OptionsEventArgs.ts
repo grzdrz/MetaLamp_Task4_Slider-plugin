@@ -1,7 +1,7 @@
 import EventArgs from "./EventArgs";
-import Options from "../MVP/Model/Options";
+import ModelData from "../MVP/Model/ModelData";
 
 class OptionsEventArgs extends EventArgs {
-    public options: Options | undefined = undefined;
+    public data: ModelData | undefined = undefined;
 }
 export default OptionsEventArgs;

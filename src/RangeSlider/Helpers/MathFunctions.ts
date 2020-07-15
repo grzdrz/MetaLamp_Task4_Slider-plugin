@@ -1,3 +1,5 @@
+import Vector from "./Vector";
+
 class MathFunctions {
     // доп. обработка значения, на случай если шаг дробный для того чтобы убрать лишние дробные значения
     static cutOffJunkValuesFromFraction(value: number, stepSize: number): number {
@@ -61,6 +63,13 @@ class MathFunctions {
             return Number.parseFloat(test12);
         }
         return 0;
+    }
+
+    static calculateEllipseSurfacePointCoordinate(width: number, height: number, angleInRad: number): Vector {
+        const t = Math.atan2(width * Math.sin(angleInRad), height * Math.cos(angleInRad));
+        const x = width * Math.cos(t);
+        const y = height * Math.sin(t);
+        return new Vector(x, y);
     }
 }
 

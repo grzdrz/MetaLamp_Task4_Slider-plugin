@@ -13,7 +13,7 @@ body {
     align-items: center;
     padding: 40px 0px;
 
-    &__tested-range-slider-container,
+    &__tested-range-slider-container1,
     &__tested-range-slider-container2,
     &__tested-range-slider-container3,
     &__tested-range-slider-container4 {
@@ -21,7 +21,7 @@ body {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 100%;
+        width: 70%;
         margin-bottom: 50px;
     }
 }

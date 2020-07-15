@@ -13,8 +13,6 @@ import ViewManager from "./ViewManager";
 class OptionsPanelView extends View {
     public onModelStateUpdate: Event = new Event();
 
-    /* public containerElement: HTMLElement; */
-
     public stepSize: StepSize;
 
     public minValue: MinValue;

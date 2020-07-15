@@ -21,14 +21,13 @@ class Handle extends SliderPart {
     }
 
     public buildDOMElement(): void {
-        // const modelData = this.view.getModelData();
         const { handleWidth, handleHeight } = this.view.viewManager.viewData;
 
         this.DOMElement = document.createElement("div");
         this.DOMElement.className = `range-slider__${(this.countNumber === 1 ? "first" : "last")}-slider`;
         this.DOMElement.dataset.sliderCountNumber = this.countNumber.toString();
-        this.DOMElement.style.width = `${/* modelData. */handleWidth}px`;
-        this.DOMElement.style.height = `${/* modelData. */handleHeight}px`;
+        this.DOMElement.style.width = `${handleWidth}px`;
+        this.DOMElement.style.height = `${handleHeight}px`;
         this.view.sliderContainer.DOMElement.append(this.DOMElement);
 
         this.backgroundDOMElement = document.createElement("div");
@@ -43,10 +42,10 @@ class Handle extends SliderPart {
         const modelData = this.view.getModelData();
         const { handleWidth, angle, angleInRad } = this.view.viewManager.viewData;
 
-        const transformOriginX = /* modelData. */handleWidth / 2;
-        const transformOriginY = /* modelData. */handleWidth / 2;
+        const transformOriginX = handleWidth / 2;
+        const transformOriginY = handleWidth / 2;
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.DOMElement.style.transform = `rotate(${/* modelData. */-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
+        this.DOMElement.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
 
         let value;
         if (this.countNumber === 1) value = modelData.firstValue;
@@ -54,9 +53,9 @@ class Handle extends SliderPart {
 
         const handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
 
-        let vectorizedHandlePositionInContainer = Vector.calculateVector(handlePositionInContainer, /* modelData. */angleInRad);
+        let vectorizedHandlePositionInContainer = Vector.calculateVector(handlePositionInContainer, angleInRad);
         if (this.countNumber === 2) {
-            const vectorizedHandleSize = Vector.calculateVector(/* modelData. */handleWidth, /* modelData. */angleInRad);
+            const vectorizedHandleSize = Vector.calculateVector(handleWidth, angleInRad);
             vectorizedHandlePositionInContainer = vectorizedHandlePositionInContainer.sum(vectorizedHandleSize);
         }
         this.setPosition(vectorizedHandlePositionInContainer);
@@ -64,8 +63,7 @@ class Handle extends SliderPart {
         this.renderBackground(vectorizedHandlePositionInContainer);
     }
 
-    renderBackground(position: Vector): void { // /////////////////
-        // const modelData = this.view.getModelData();
+    renderBackground(position: Vector): void {
         const {
             handleWidth,
             handleHeight,

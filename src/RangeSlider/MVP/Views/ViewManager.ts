@@ -1,4 +1,5 @@
 import ViewData from "./ViewData";
+
 import SliderView from "./SliderView";
 import InputsView from "./InputsView";
 import OptionsPanelView from "./OptionsPanelView";

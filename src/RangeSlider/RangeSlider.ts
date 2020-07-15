@@ -1,24 +1,21 @@
-import SliderView from "./MVP/Views/SliderView";
-import InputsView from "./MVP/Views/InputsView";
-import OptionsPanelView from "./MVP/Views/OptionsPanelView";
-
 import Model from "./MVP/Model/Model";
 import Presenter from "./MVP/Presenter";
 
-import IOptions from "./MVP/Model/IOptions";
-import Options from "./MVP/Model/Options";
+import IModelData from "./MVP/Model/IModelData";
+import ModelData from "./MVP/Model/ModelData";
 
 import IViewData from "./MVP/Views/IViewData";
 
-import "./RangeSlider.scss";
 import ViewData from "./MVP/Views/ViewData";
 import ViewManager from "./MVP/Views/ViewManager";
+
+import "./RangeSlider.scss";
 
 class RangeSlider {
     public static sliderInstanceCount = 0;
 
-    static createRangeSlider(containerElement: HTMLElement, options: IOptions, viewData: IViewData): Presenter {
-        const defaultOptions: Options = new Options(options);
+    static createRangeSlider(containerElement: HTMLElement, options: IModelData, viewData: IViewData): Presenter {
+        const defaultOptions = new ModelData(options);
         const defaultViewData = new ViewData(viewData);
 
         defaultOptions.id = this.sliderInstanceCount;

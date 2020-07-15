@@ -1,61 +1,61 @@
-import IOptions from "./IOptions";
-import Options from "./Options";
+import IModelData from "./IModelData";
+import ModelData from "./ModelData";
 import OptionsEventArgs from "../../Events/OptionsEventArgs";
 import MathFunctions from "../../Helpers/MathFunctions";
 
 class Model {
-    private options: Options;
+    private data: ModelData;
 
-    constructor(options: Options) {
-        this.options = options;
+    constructor(data: ModelData) {
+        this.data = data;
     }
 
     getOptions(args: OptionsEventArgs): void {
-        args.options = new Options(this.options);
+        args.data = new ModelData(this.data);
     }
 
-    updateOptions(options: IOptions): void {
-        this.options.update(options);
+    updateOptions(data: IModelData): void {
+        this.data.update(data);
 
-        if (options.stepSize !== undefined) {
-            this.options.maxValue = this.validateMaxValue(options.stepSize, this.options.maxValue);
+        if (data.stepSize !== undefined) {
+            this.data.maxValue = this.validateMaxValue(data.stepSize, this.data.maxValue);
         }
-        if (options.maxValue !== undefined) {
-            this.options.maxValue = this.validateMaxValue(this.options.stepSize, options.maxValue);
+        if (data.maxValue !== undefined) {
+            this.data.maxValue = this.validateMaxValue(this.data.stepSize, data.maxValue);
         }
-        if (options.minValue !== undefined) {
-            this.options.minValue = this.validateMinValue(options.minValue, this.options.stepSize);
+        if (data.minValue !== undefined) {
+            this.data.minValue = this.validateMinValue(data.minValue, this.data.stepSize);
         }
 
-        const neededValidateValue = options.stepSize !== undefined || options.maxValue !== undefined || options.minValue !== undefined;
-        const neededValidateFirstValue = options.firstValue !== undefined || neededValidateValue || options.hasTwoSlider !== undefined;
-        const neededValidateLastValue = options.lastValue !== undefined || neededValidateValue;
+        const neededValidateValue = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined;
+        const neededValidateFirstValue = data.firstValue !== undefined || neededValidateValue || data.hasTwoSlider !== undefined;
+        const neededValidateLastValue = data.lastValue !== undefined || neededValidateValue;
         if (neededValidateFirstValue) {
-            this.options.firstValue = this.validateValue(this.options.firstValue, 1);
+            this.data.firstValue = this.validateValue(this.data.firstValue, 1);
         }
         if (neededValidateLastValue) {
-            this.options.lastValue = this.validateValue(this.options.lastValue, 2);
+            this.data.lastValue = this.validateValue(this.data.lastValue, 2);
         }
     }
 
     validateMaxValue(stepSize: number, maxValue: number): number {
-        const test2 = (maxValue - this.options.minValue) / stepSize;
+        const test2 = (maxValue - this.data.minValue) / stepSize;
         const test1 = MathFunctions.getFractionOfNumber(test2);
 
         if (test1 === 0) return maxValue;
 
         const test3 = Math.round(test2);
-        return stepSize * test3 + this.options.minValue;
+        return stepSize * test3 + this.data.minValue;
     }
 
     validateMinValue(minValue: number, stepSize: number): number {
-        const test2 = (this.options.maxValue - minValue) / stepSize;
+        const test2 = (this.data.maxValue - minValue) / stepSize;
         const test1 = MathFunctions.getFractionOfNumber(test2);
 
         if (test1 === 0) return minValue;
 
         const test3 = Math.round(test2);
-        return this.options.maxValue - stepSize * test3;
+        return this.data.maxValue - stepSize * test3;
     }
 
     validateValue(value: number, countNumber: number): number {
@@ -63,7 +63,7 @@ class Model {
 
         const {
             minValue, maxValue, firstValue, lastValue, hasTwoSlider,
-        } = this.options;
+        } = this.data;
 
         if (countNumber === 1) {
             if (newTargetInputValue < minValue) newTargetInputValue = minValue;
@@ -85,7 +85,7 @@ class Model {
     private calculateNearestPositionForHandle(value: number): number {
         let temp1;
         let temp3;
-        const { minValue, stepSize } = this.options;
+        const { minValue, stepSize } = this.data;
         if (minValue < 0) {
             temp1 = (value + Math.abs(minValue)) / stepSize;
             const temp2 = Math.round(temp1);

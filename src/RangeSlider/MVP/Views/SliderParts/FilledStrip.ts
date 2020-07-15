@@ -1,12 +1,7 @@
 import SliderPart from "./SliderPart";
 import Vector from "../../../Helpers/Vector";
-/* import SliderView from "../SliderView"; */
 
 class FilledStrip extends SliderPart {
-    /* constructor(view: SliderView) {
-        super(view);
-    } */
-
     public initialize(): void {
         this.buildDOMElement();
         this.render();

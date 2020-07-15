@@ -1,13 +1,9 @@
 import SliderPart from "./SliderPart";
 import Vector from "../../../Helpers/Vector";
-/* import SliderView from "../SliderView"; */
+import MathFunctions from "../../../Helpers/MathFunctions";
 
 class SliderContainer extends SliderPart {
     public sliderLength = 0;
-
-    /* constructor(view: SliderView) {
-        super(view);
-    } */
 
     public initialize(): void {
         this.render();
@@ -16,18 +12,16 @@ class SliderContainer extends SliderPart {
     public buildDOMElement(): void { }
 
     public render(): void {
-        // const modelData = this.view.getModelData();
         const { angleInRad } = this.view.viewManager.viewData;
 
         this.calculateSliderLength();
 
-        const size = Vector.calculateVector(this.sliderLength, /* modelData. */angleInRad);
+        const size = Vector.calculateVector(this.sliderLength, angleInRad);
         this.setSize(size);
     }
 
     private calculateSliderLength() {
-        // const modelData = this.view.getModelData();
-        const { angleInRad } = this.view.viewManager.viewData;
+        const { angleInRad, borderThickness } = this.view.viewManager.viewData;
 
         const test1 = this.DOMElement.closest(".range-slider");
         let boundingRect;
@@ -36,11 +30,9 @@ class SliderContainer extends SliderPart {
         } else throw new Error("sdfsdf");
 
         // координаты точки поверхности эллипса
-        const t = Math.atan2(boundingRect.width * Math.sin(/* modelData. */angleInRad), boundingRect.height * Math.cos(/* modelData. */angleInRad));
-        const x = boundingRect.width * Math.cos(t);
-        const y = boundingRect.height * Math.sin(t);
-
-        const curLength = new Vector(x, y);
+        const width = boundingRect.width - borderThickness * 2;
+        const height = boundingRect.height - borderThickness * 2;
+        const curLength = MathFunctions.calculateEllipseSurfacePointCoordinate(width, height, angleInRad);
         this.sliderLength = curLength.length;
     }
 }

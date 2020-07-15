@@ -205,15 +205,15 @@ class SliderView extends View {
         let containerCapacity;
         if (modelData.hasTwoSlider) {
             if (handleCountNumber === 2) {
-                const vectorizedHandleWidth = Vector.calculateVector(/* modelData. */handleWidth, /* modelData. */angleInRad);
+                const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
                 cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
             }
-            containerCapacity = this.sliderContainer.sliderLength - /* modelData. */handleWidth * 2;
+            containerCapacity = this.sliderContainer.sliderLength - handleWidth * 2;
         } else {
-            containerCapacity = this.sliderContainer.sliderLength - /* modelData. */handleWidth;
+            containerCapacity = this.sliderContainer.sliderLength - handleWidth;
         }
 
-        const mainAxisVector = Vector.calculateVector(this.sliderContainer.sliderLength, /* modelData. */angleInRad);
+        const mainAxisVector = Vector.calculateVector(this.sliderContainer.sliderLength, angleInRad);
         const cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
 
         const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;

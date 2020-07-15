@@ -1,6 +1,5 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
 import ViewDataEventArgs from "../../../Events/ViewDataEventArgs";
 
 class Angle extends OptionPanelElement {
@@ -13,7 +12,6 @@ class Angle extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        // const modelData = this.view.getModelData();
         const { angle } = this.view.viewManager.viewData;
 
         const angleSizeLabel = document.createElement("label");
@@ -23,7 +21,7 @@ class Angle extends OptionPanelElement {
         const angleSizeCountInput = document.createElement("input");
         angleSizeCountInput.type = "number";
         angleSizeCountInput.step = "1";
-        angleSizeCountInput.value = /* modelData. */angle.toString();
+        angleSizeCountInput.value = angle.toString();
         angleSizeCountInput.className = "range-slider__angle-size-input";
 
         const angleSizeCountText = document.createElement("p");
@@ -61,9 +59,7 @@ class Angle extends OptionPanelElement {
             angle: inputValue,
         };
 
-        // this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
         this.view.onViewStateUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
-        // this.view.viewManager.viewData.update(optionsToUpdate);
     }
 }
 

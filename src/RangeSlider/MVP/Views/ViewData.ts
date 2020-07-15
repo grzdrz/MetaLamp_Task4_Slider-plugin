@@ -22,7 +22,6 @@ class ViewData implements IViewData {
     }
 
     update(data: IViewData): void {
-        // this.sliderLength = (data.sliderLength !== undefined ? data.sliderLength : this.sliderLength);
         this.sliderStripThickness = (data.sliderStripThickness !== undefined ? data.sliderStripThickness : this.sliderStripThickness);
         this.handleWidth = (data.handleWidth !== undefined ? data.handleWidth : this.handleWidth);
         this.handleHeight = (data.handleHeight !== undefined ? data.handleHeight : this.handleHeight);

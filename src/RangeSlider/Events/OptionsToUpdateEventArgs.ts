@@ -1,12 +1,12 @@
 import EventArgs from "./EventArgs";
-import IOptions from "../MVP/Model/IOptions";
+import IModelData from "../MVP/Model/IModelData";
 
 class OptionsToUpdateEventArgs extends EventArgs {
-    public options: IOptions;
+    public data: IModelData;
 
-    constructor(options: IOptions) {
+    constructor(data: IModelData) {
         super();
-        this.options = options;
+        this.data = data;
     }
 }
 

@@ -4,8 +4,6 @@ import OptionsToUpdateEventArgs from "../../Events/OptionsToUpdateEventArgs";
 import ViewManager from "./ViewManager";
 
 class InputsView extends View {
-    /* public containerElement: HTMLElement; */
-
     public firstInputDOMElement: HTMLInputElement | undefined;
 
     public lastInputDOMElement: HTMLInputElement | undefined;
@@ -14,8 +12,6 @@ class InputsView extends View {
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         super(containerElement, viewManager);
-
-        /* this.containerElement = inputsContainer; */
 
         this.handlerFirstInputChange = this.handlerFirstInputChange.bind(this);
         this.handlerLastInputChange = this.handlerLastInputChange.bind(this);
