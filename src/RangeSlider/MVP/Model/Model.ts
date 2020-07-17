@@ -30,6 +30,15 @@ class Model {
     }
 
     updateOptions(data: IModelData): void {
+        let changedValueIndex = -1;
+        let deltaDirection = 0; // направление смещения значения
+        if (data.values) { // значение, для которого нет соответствующей пары является значением текущего ползунка
+            data.values.forEach((e, i) => {
+                if (e !== this.data.values[i]) changedValueIndex = i;
+            });
+            deltaDirection = data.values[changedValueIndex] - this.data.values[changedValueIndex];
+        }
+
         this.data.update(data);
 
         if (data.stepSize !== undefined) {
@@ -42,42 +51,30 @@ class Model {
             this.data.minValue = this.validateMinValue(data.minValue, this.data.stepSize);
         }
 
-        const neededValidateValue = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined;
-        const neededValidateFirstValue = data.firstValue !== undefined || neededValidateValue/*  || data.hasTwoSlider !== undefined */;
-        const neededValidateLastValue = data.lastValue !== undefined || neededValidateValue;
+        let neededValidateValue = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined || data.values !== undefined;
+        neededValidateValue = neededValidateValue || (changedValueIndex !== -1 && deltaDirection !== 0);// есть сдвинутое значение(чтоб в индекс -1 не передать)
 
-        if (this.data.hasTwoSlider) {
-            if (this.data.canPush && neededValidateFirstValue) {
-                this.data.firstValue = this.validateValue(this.data.firstValue, 1, this.data.canPush);
-                this.data.lastValue = this.validateValue(this.data.lastValue, 2, !this.data.canPush);
-            } else if (this.data.canPush && neededValidateLastValue) {
-                this.data.lastValue = this.validateValue(this.data.lastValue, 2, this.data.canPush);
-                this.data.firstValue = this.validateValue(this.data.firstValue, 1, !this.data.canPush);
-            } else {
-                if (neededValidateFirstValue) {
-                    this.data.firstValue = this.validateValue(this.data.firstValue, 1, this.data.canPush);
+        if (this.data.values.length > 1/* hasTwoSlider */ && neededValidateValue) {
+            // протаскивание всех ползунков после/до текущего 
+            if (deltaDirection > 0) {
+                this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
+                for (let i = changedValueIndex + 1; i < this.data.values.length; i += 1) {
+                    this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
                 }
-                if (neededValidateLastValue) {
-                    this.data.lastValue = this.validateValue(this.data.lastValue, 2, this.data.canPush);
+            } else if (deltaDirection < 0) {
+                this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
+                for (let i = changedValueIndex - 1; i >= 0; i -= 1) {
+                    this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
                 }
             }
-        } else {
-            if (neededValidateFirstValue) {
-                this.data.firstValue = this.validateValue(this.data.firstValue, 1, true);
-                this.data.lastValue = this.validateValue(this.data.lastValue, 2, false);
-            }
-            if (neededValidateLastValue) {
-                this.data.lastValue = this.validateValue(this.data.lastValue, 2, true);
-                this.data.firstValue = this.validateValue(this.data.firstValue, 1, false);
-            }
+            /* if (this.data.values[0] > this.data.values[1]) {
+                this.data.values[0] = this.validateValue(this.data.values[0], 0, this.data.canPush);
+                this.data.values[1] = this.validateValue(this.data.values[1], 1, !this.data.canPush);
+            } else if () {
+                this.data.values[1] = this.validateValue(this.data.values[1], 1, this.data.canPush);
+                this.data.values[0] = this.validateValue(this.data.values[0], 0, !this.data.canPush);
+            } */
         }
-
-        /* if (neededValidateFirstValue || (neededValidateLastValue && this.data.canPush)) {
-            this.data.firstValue = this.validateValue(this.data.firstValue, 1);
-        }
-        if (neededValidateLastValue || (neededValidateFirstValue && this.data.canPush)) {
-            this.data.lastValue = this.validateValue(this.data.lastValue, 2);
-        } */
     }
 
     validateMaxValue(stepSize: number, maxValue: number): number {
@@ -104,15 +101,16 @@ class Model {
         let newTargetInputValue = this.calculateNearestPositionForHandle(value);
 
         const {
-            minValue, maxValue, firstValue, lastValue, hasTwoSlider,
+            minValue, maxValue, /* firstValue, lastValue, *//* values, */ hasTwoSlider,
         } = this.data;
+        const values = this.data.values.map((e) => e);
 
-        if (countNumber === 1) {
-            if (newTargetInputValue > lastValue && hasTwoSlider && /* !this.data. */ !canPush) newTargetInputValue = lastValue;
+        if (countNumber === 0) {
+            if (newTargetInputValue > values[1]/* lastValue */ && hasTwoSlider && /* !this.data. */ !canPush) newTargetInputValue = values[1]/* lastValue */;
             else if (newTargetInputValue < minValue) newTargetInputValue = minValue;
             else if (newTargetInputValue > maxValue) newTargetInputValue = maxValue;
-        } else if (countNumber === 2) {
-            if (newTargetInputValue < firstValue && /* !this.data. */ !canPush) newTargetInputValue = firstValue;
+        } else if (countNumber === 1) {
+            if (newTargetInputValue < values[0]/* firstValue */ && /* !this.data. */ !canPush) newTargetInputValue = values[0]/* firstValue */;
             else if (newTargetInputValue < minValue) newTargetInputValue = minValue;
             else if (newTargetInputValue > maxValue) newTargetInputValue = maxValue;
         }

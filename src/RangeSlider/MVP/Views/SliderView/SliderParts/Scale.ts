@@ -107,19 +107,21 @@ class Scale extends SliderPart {
         const segmentValueString = currentSegment.dataset.segmentValue;
         const value = Number.parseFloat(segmentValueString);
 
+        const values = modelData.values.map((e) => e);
         // определяет к какому ползунку ближе выбранный сегмент
         if (modelData.hasTwoSlider) {
-            const dSegmentValueFirstValue = Math.abs(modelData.firstValue - value);
-            const dSegmentValueLastValue = Math.abs(modelData.lastValue - value);
-            if (dSegmentValueFirstValue < dSegmentValueLastValue) optionsToUpdate.firstValue = value;
-            else if (dSegmentValueFirstValue > dSegmentValueLastValue) optionsToUpdate.lastValue = value;
+            const dSegmentValueFirstValue = Math.abs(/* modelData.firstValue */values[0] - value);
+            const dSegmentValueLastValue = Math.abs(/* modelData.lastValue */values[1] - value);
+            if (dSegmentValueFirstValue < dSegmentValueLastValue) /* optionsToUpdate.firstValue */values[0] = value;
+            else if (dSegmentValueFirstValue > dSegmentValueLastValue) /* optionsToUpdate.lastValue */values[1] = value;
             else {
-                if (value < modelData.firstValue) optionsToUpdate.firstValue = value;
-                else optionsToUpdate.lastValue = value;
+                if (value < values[0]/* modelData.firstValue */) /* optionsToUpdate.firstValue */values[0] = value;
+                else /* optionsToUpdate.lastValue */values[1] = value;
             }
-        } else optionsToUpdate.firstValue = value;
+        } else /* optionsToUpdate.firstValue */values[0] = value;
 
-        this.view.onHandleMove.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
+
+        this.view.onHandleMove.invoke(new OptionsToUpdateEventArgs({ values: values }/* optionsToUpdate */));
     }
 }
 

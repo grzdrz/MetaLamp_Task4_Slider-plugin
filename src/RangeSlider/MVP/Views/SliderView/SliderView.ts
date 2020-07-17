@@ -60,8 +60,8 @@ class SliderView extends View {
         this.parts = [];
 
         this.parts.push(new EmptyStrip(this));
-        this.parts.push(new Handle(this, 1));
-        if (modelData.hasTwoSlider) this.parts.push(new Handle(this, 2));
+        this.parts.push(new Handle(this, 0));
+        if (modelData.hasTwoSlider) this.parts.push(new Handle(this, 1));
         this.parts.push(new FilledStrip(this));
         if (this.viewManager.viewData.hasScale) this.parts.push(new Scale(this));
     }
@@ -73,7 +73,7 @@ class SliderView extends View {
 
         let containerCapacity;
         if (modelData.hasTwoSlider) {
-            if (handleCountNumber === 2) {
+            if (handleCountNumber === 1) {
                 const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
                 cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
             }
@@ -87,11 +87,14 @@ class SliderView extends View {
 
         const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
 
-        if (handleCountNumber === 1) {
+        /* if (handleCountNumber === 1) {
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: proportionalValue }));
         } else {
             this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: proportionalValue }));
-        }
+        } */
+        const valuesArray = modelData.values.map((e) => e);
+        valuesArray[handleCountNumber] = proportionalValue;
+        this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ values: valuesArray }));
     }
 
     // пиксельное значение пропорциональное условному значению

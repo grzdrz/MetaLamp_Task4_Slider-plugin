@@ -29,11 +29,12 @@ class FilledStrip extends SliderPart {
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
         this.DOMElement.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
 
+        const values = modelData.values.map((e) => e);
         const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
-        const firstHandlePosition = this.view.calculateProportionalPixelValue(modelData.firstValue);
+        const firstHandlePosition = this.view.calculateProportionalPixelValue(values[0]/* modelData.firstValue */);
         const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRad);
         if (modelData.hasTwoSlider) {
-            const lastHandlePosition = this.view.calculateProportionalPixelValue(modelData.lastValue);
+            const lastHandlePosition = this.view.calculateProportionalPixelValue(values[1]/* modelData.lastValue */);
             const vectorizedLastHandlePosition = Vector.calculateVector(lastHandlePosition, angleInRad).sum(vectorizedHandleWidth);
 
             const width = vectorizedLastHandlePosition.subtract(vectorizedFirstHandlePosition).length;
