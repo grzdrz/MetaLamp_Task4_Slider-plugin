@@ -51,11 +51,11 @@ class Model {
             this.data.minValue = this.validateMinValue(data.minValue, this.data.stepSize);
         }
 
-        let neededValidateValue = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined || data.values !== undefined;
-        neededValidateValue = neededValidateValue || (changedValueIndex !== -1 && deltaDirection !== 0);// есть сдвинутое значение(чтоб в индекс -1 не передать)
+        const wasSliderParametersChange = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined || data.values !== undefined;
+        const wasHandleMove = (changedValueIndex !== -1 && deltaDirection !== 0);
 
-        if (this.data.values.length > 1/* hasTwoSlider */ && neededValidateValue) {
-            // протаскивание всех ползунков после/до текущего 
+        if (this.data.values.length > 1 && wasHandleMove) {
+            // протаскивание всех ползунков после/до текущего
             if (deltaDirection > 0) {
                 this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
                 for (let i = changedValueIndex + 1; i < this.data.values.length; i += 1) {
@@ -67,13 +67,10 @@ class Model {
                     this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
                 }
             }
-            /* if (this.data.values[0] > this.data.values[1]) {
-                this.data.values[0] = this.validateValue(this.data.values[0], 0, this.data.canPush);
-                this.data.values[1] = this.validateValue(this.data.values[1], 1, !this.data.canPush);
-            } else if () {
-                this.data.values[1] = this.validateValue(this.data.values[1], 1, this.data.canPush);
-                this.data.values[0] = this.validateValue(this.data.values[0], 0, !this.data.canPush);
-            } */
+        } else if (wasSliderParametersChange) {
+            for (let i = 0; i < this.data.values.length; i += 1) {
+                this.data.values[i] = this.validateValue(this.data.values[i], i, false);
+            }
         }
     }
 
@@ -98,21 +95,21 @@ class Model {
     }
 
     validateValue(value: number, countNumber: number, canPush: boolean): number {
-        let newTargetInputValue = this.calculateNearestPositionForHandle(value);
+        const newTargetInputValue = this.calculateNearestPositionForHandle(value);
 
         const {
-            minValue, maxValue, /* firstValue, lastValue, *//* values, */ hasTwoSlider,
+            minValue, maxValue,
         } = this.data;
         const values = this.data.values.map((e) => e);
 
         if (countNumber === 0) {
-            if (newTargetInputValue > values[1]/* lastValue */ && hasTwoSlider && /* !this.data. */ !canPush) newTargetInputValue = values[1]/* lastValue */;
-            else if (newTargetInputValue < minValue) newTargetInputValue = minValue;
-            else if (newTargetInputValue > maxValue) newTargetInputValue = maxValue;
+            if (newTargetInputValue > values[1] && !canPush) return values[1];
+            if (newTargetInputValue < minValue) return minValue;
+            if (newTargetInputValue > maxValue) return maxValue;
         } else if (countNumber === 1) {
-            if (newTargetInputValue < values[0]/* firstValue */ && /* !this.data. */ !canPush) newTargetInputValue = values[0]/* firstValue */;
-            else if (newTargetInputValue < minValue) newTargetInputValue = minValue;
-            else if (newTargetInputValue > maxValue) newTargetInputValue = maxValue;
+            if (newTargetInputValue < values[0] && !canPush) return values[0];
+            if (newTargetInputValue < minValue) return minValue;
+            if (newTargetInputValue > maxValue) return maxValue;
         }
 
         return newTargetInputValue;

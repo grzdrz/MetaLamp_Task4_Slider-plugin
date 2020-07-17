@@ -68,9 +68,6 @@ class Handle extends SliderPart {
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
         this.DOMElement.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
 
-        /* let value;
-        if (this.countNumber === 0) value = modelData.firstValue;
-        else value = modelData.lastValue; */
         const values = modelData.values.map((e) => e);
         const value = values[this.countNumber];
 
@@ -186,7 +183,7 @@ class Handle extends SliderPart {
     }
 
     private calculateCursorPositionInContainer(mouseGlobalPosition: Vector, mousePositionInsideTargetSlider: Vector) {
-        const containerBoundingRect = this.view.containerElement/* sliderContainer.DOMElement */.getBoundingClientRect();
+        const containerBoundingRect = this.view.containerElement.getBoundingClientRect();
         const containerCoord = new Vector(
             containerBoundingRect.x,
             (document.documentElement.clientHeight + window.pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height),

@@ -8,9 +8,6 @@ class ModelData implements IModelData {
     public maxValue = 100;
 
     public values = [0, 0];
-    /* public firstValue = 0;
-
-    public lastValue = 50; */
 
     public stepSize = 10;
 
@@ -30,8 +27,6 @@ class ModelData implements IModelData {
         this.id = (data.id !== undefined ? data.id : this.id);
         this.minValue = (data.minValue !== undefined ? data.minValue : this.minValue);
         this.maxValue = (data.maxValue !== undefined ? data.maxValue : this.maxValue);
-        // this.firstValue = (data.firstValue !== undefined ? data.firstValue : this.firstValue);
-        // this.lastValue = (data.lastValue !== undefined ? data.lastValue : this.lastValue);
         this.stepSize = (data.stepSize !== undefined ? data.stepSize : this.stepSize);
         this.hasTwoSlider = (data.hasTwoSlider !== undefined ? data.hasTwoSlider : this.hasTwoSlider);
         this.canPush = (data.canPush !== undefined ? data.canPush : this.canPush);

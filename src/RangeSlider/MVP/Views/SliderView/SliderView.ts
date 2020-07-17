@@ -27,26 +27,27 @@ class SliderView extends View {
     }
 
     public initialize(): void {
-        this.renderContainer();
         this.createParts();
+        this.renderContainer();
         this.parts.forEach((part) => {
             part.initialize();
         });
-        this.renderContainer();
         window.addEventListener("resize", this.handlerViewportSizeChange);
+
+        this.renderContainer();
     }
 
     public update(neededRerender: boolean): void {
-        this.renderContainer();
-
         if (neededRerender) { // полный перерендер всех элементов слайдера
             this.containerElement.innerHTML = "";
             this.createParts();
+            this.renderContainer();
             this.parts.forEach((part) => {
                 part.buildDOMElement();
                 part.render();
             });
         } else { // или просто обновление их состояний
+            this.renderContainer();
             this.parts.forEach((part) => {
                 part.render();
             });
@@ -87,11 +88,6 @@ class SliderView extends View {
 
         const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
 
-        /* if (handleCountNumber === 1) {
-            this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ firstValue: proportionalValue }));
-        } else {
-            this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ lastValue: proportionalValue }));
-        } */
         const valuesArray = modelData.values.map((e) => e);
         valuesArray[handleCountNumber] = proportionalValue;
         this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ values: valuesArray }));

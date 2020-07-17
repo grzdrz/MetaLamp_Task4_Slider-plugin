@@ -28,9 +28,9 @@ class InputsView extends View {
 
         const values = modelData.values.map((e) => e);
         if (!this.firstInputDOMElement) { throw new Error("this.firstInputDOMElement not exist"); }
-        this.firstInputDOMElement.value = (/* modelData.firstValue */values[0] !== undefined ? (/* modelData.firstValue */values[0]).toString() : this.firstInputDOMElement.value);
+        this.firstInputDOMElement.value = (values[0] !== undefined ? (values[0]).toString() : this.firstInputDOMElement.value);
         if (this.lastInputDOMElement) {
-            this.lastInputDOMElement.value = (/* modelData.lastValue */values[1] !== undefined ? (/* modelData.lastValue */values[1]).toString() : this.lastInputDOMElement.value);
+            this.lastInputDOMElement.value = (values[1] !== undefined ? (values[1]).toString() : this.lastInputDOMElement.value);
         }
     }
 
@@ -84,9 +84,9 @@ class InputsView extends View {
         }
 
         const values = modelData.values.map((e) => e);
-        if (/* modelData.hasTwoSlider */values.length > 1) {
-            if (value > modelData.maxValue || value > values[1]/* modelData.lastValue */) {
-                value = /* modelData.lastValue */values[1];
+        if (values.length > 1) {
+            if (value > modelData.maxValue || value > values[1]) {
+                value = values[1];
             } else if (value < modelData.minValue) {
                 value = modelData.minValue;
             }
@@ -100,7 +100,7 @@ class InputsView extends View {
 
         values[0] = value;
         (<HTMLInputElement>targetElement).value = value.toString();
-        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ values: values/* firstValue: value */ }));
+        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ values: values }));
     }
 
     private handlerLastInputChange(event: globalThis.Event) {
@@ -116,13 +116,13 @@ class InputsView extends View {
         const values = modelData.values.map((e) => e);
         if (value > modelData.maxValue) {
             value = modelData.maxValue;
-        } else if (value < modelData.minValue || value < values[0]/* modelData.firstValue */) {
-            value = /* modelData.firstValue */values[0];
+        } else if (value < modelData.minValue || value < values[0]) {
+            value = values[0];
         }
 
         values[1] = value;
         (<HTMLInputElement>targetElement).value = value.toString();
-        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ values: values/* lastValue: value */ }));
+        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ values: values }));
     }
 }
 
