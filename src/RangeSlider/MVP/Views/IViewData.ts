@@ -6,7 +6,8 @@ interface IViewData {
     borderThickness?: number,
     maxSegmentsCount?: number,
     scaleFontSize?: number,
-    angle?: number
+    angle?: number,
+    hasScale?: boolean,
 }
 
 export default IViewData;

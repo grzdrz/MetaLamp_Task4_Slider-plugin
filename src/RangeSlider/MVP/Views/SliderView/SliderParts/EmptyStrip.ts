@@ -1,5 +1,5 @@
 import SliderPart from "./SliderPart";
-import Vector from "../../../Helpers/Vector";
+import Vector from "../../../../Helpers/Vector";
 
 class EmptyStrip extends SliderPart {
     public initialize(): void {
@@ -8,13 +8,15 @@ class EmptyStrip extends SliderPart {
     }
 
     public buildDOMElement(): void {
-        this.DOMElement = document.createElement("div");
+        super.buildDOMElement();
+
         this.DOMElement.className = "range-slider__slider-body-empty";
-        this.view.sliderContainer.DOMElement.append(this.DOMElement);
+        this.view.containerElement.append(this.DOMElement);
     }
 
     public render(): void {
         const {
+            sliderLength,
             handleWidth,
             handleHeight,
             sliderStripThickness,
@@ -28,7 +30,7 @@ class EmptyStrip extends SliderPart {
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
         this.DOMElement.style.transform = `rotate(${-angle}deg)`;
 
-        this.setSize(new Vector(this.view.sliderContainer.sliderLength, sliderStripThickness));
+        this.setSize(new Vector(sliderLength, sliderStripThickness));
         this.setPosition(new Vector(0, handleHeight / 2 - (sliderStripThickness) / 2));
     }
 }

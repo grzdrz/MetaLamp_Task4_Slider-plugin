@@ -1,7 +1,7 @@
-import View from "./View";
-import Event from "../../Events/Event";
-import OptionsToUpdateEventArgs from "../../Events/OptionsToUpdateEventArgs";
-import ViewManager from "./ViewManager";
+import View from "../View";
+import Event from "../../../Events/Event";
+import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
+import ViewManager from "../ViewManager";
 
 class InputsView extends View {
     public firstInputDOMElement: HTMLInputElement | undefined;

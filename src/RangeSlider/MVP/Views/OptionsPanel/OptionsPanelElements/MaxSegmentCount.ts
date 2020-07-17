@@ -1,6 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ViewDataEventArgs from "../../../Events/ViewDataEventArgs";
+import ViewDataEventArgs from "../../../../Events/ViewDataEventArgs";
 
 class MaxSegmentCount extends OptionPanelElement {
     constructor(view: OptionsPanelView) {

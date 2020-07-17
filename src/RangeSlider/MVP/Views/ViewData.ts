@@ -17,6 +17,8 @@ class ViewData implements IViewData {
 
     public angle = 0;
 
+    public hasScale = true;
+
     constructor(data: IViewData) {
         this.update(data);
     }
@@ -29,6 +31,7 @@ class ViewData implements IViewData {
         this.maxSegmentsCount = (data.maxSegmentsCount !== undefined ? data.maxSegmentsCount : this.maxSegmentsCount);
         this.scaleFontSize = (data.scaleFontSize !== undefined ? data.scaleFontSize : this.scaleFontSize);
         this.angle = (data.angle !== undefined ? data.angle : this.angle);
+        this.hasScale = (data.hasScale !== undefined ? data.hasScale : this.hasScale);
     }
 
     public get angleInRad(): number {

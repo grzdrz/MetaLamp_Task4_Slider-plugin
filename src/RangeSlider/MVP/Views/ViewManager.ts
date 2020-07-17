@@ -1,8 +1,8 @@
 import ViewData from "./ViewData";
 
-import SliderView from "./SliderView";
-import InputsView from "./InputsView";
-import OptionsPanelView from "./OptionsPanelView";
+import SliderView from "./SliderView/SliderView";
+import InputsView from "./InputsView/InputsView";
+import OptionsPanelView from "./OptionsPanel/OptionsPanelView";
 
 class ViewManager {
     public viewData: ViewData;

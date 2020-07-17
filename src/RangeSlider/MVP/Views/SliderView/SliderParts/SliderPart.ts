@@ -1,6 +1,6 @@
-import Vector from "../../../Helpers/Vector";
+import Vector from "../../../../Helpers/Vector";
 import SliderView from "../SliderView";
-import View from "../View";
+import View from "../../View";
 
 abstract class SliderPart {
     public DOMElement: HTMLElement;
@@ -9,13 +9,14 @@ abstract class SliderPart {
 
     constructor(view: SliderView) {
         this.view = view;
-
-        this.DOMElement = document.createElement("div");// заглушка
+        this.DOMElement = document.createElement("div");
     }
 
     abstract initialize(): void;
 
-    abstract buildDOMElement(): void;
+    public buildDOMElement(): void{
+        this.DOMElement.innerHTML = "";
+    }
 
     abstract render(): void;
 

@@ -1,5 +1,5 @@
 import SliderPart from "./SliderPart";
-import Vector from "../../../Helpers/Vector";
+import Vector from "../../../../Helpers/Vector";
 
 class FilledStrip extends SliderPart {
     public initialize(): void {
@@ -8,14 +8,21 @@ class FilledStrip extends SliderPart {
     }
 
     public buildDOMElement(): void {
-        this.DOMElement = document.createElement("div");
+        super.buildDOMElement();
+
         this.DOMElement.className = "range-slider__slider-body-filled";
-        this.view.sliderContainer.DOMElement.append(this.DOMElement);
+        this.view.containerElement.append(this.DOMElement);
     }
 
     public render(): void {
         const modelData = this.view.getModelData();
-        const { handleWidth, handleHeight, angle, angleInRad, sliderStripThickness } = this.view.viewManager.viewData;
+        const {
+            handleWidth,
+            handleHeight,
+            angle,
+            angleInRad,
+            sliderStripThickness,
+        } = this.view.viewManager.viewData;
 
         const transformOriginX = handleWidth / 2;
         const transformOriginY = (sliderStripThickness) / 2;

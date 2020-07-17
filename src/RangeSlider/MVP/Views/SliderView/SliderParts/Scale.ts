@@ -1,9 +1,9 @@
 import SliderPart from "./SliderPart";
 import SliderView from "../SliderView";
-import Vector from "../../../Helpers/Vector";
-import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
-import IModelData from "../../Model/IModelData";
-import View from "../View";
+import Vector from "../../../../Helpers/Vector";
+import OptionsToUpdateEventArgs from "../../../../Events/OptionsToUpdateEventArgs";
+import IModelData from "../../../Model/IModelData";
+import View from "../../View";
 
 class Scale extends SliderPart {
     constructor(view: SliderView) {
@@ -18,9 +18,10 @@ class Scale extends SliderPart {
     }
 
     public buildDOMElement(): void {
-        this.DOMElement = document.createElement("div");
+        super.buildDOMElement();
+
         this.DOMElement.className = "range-slider__scale-container";
-        this.view.sliderContainer.DOMElement.append(this.DOMElement);
+        this.view.containerElement.append(this.DOMElement);
 
         this.buildSegments();
     }

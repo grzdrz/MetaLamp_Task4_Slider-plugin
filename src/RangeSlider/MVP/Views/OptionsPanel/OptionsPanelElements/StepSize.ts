@@ -1,6 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
+import OptionsToUpdateEventArgs from "../../../../Events/OptionsToUpdateEventArgs";
 
 class StepSize extends OptionPanelElement {
     constructor(view: OptionsPanelView) {

@@ -1,6 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
+import OptionsToUpdateEventArgs from "../../../../Events/OptionsToUpdateEventArgs";
 
 class MinValue extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
