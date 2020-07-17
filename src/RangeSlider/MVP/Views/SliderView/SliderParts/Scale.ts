@@ -80,11 +80,12 @@ class Scale extends SliderPart {
         const vectorizedSegmentLength = new Vector(segmentWidth, segmentHeight).length;
 
         let handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
-        if (modelData.hasTwoSlider) {
+        /* if (modelData.hasTwoSlider) {
             handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth;
         } else {
             handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth / 2;
-        }
+        } */
+        handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth * (modelData.values.length / 2);
 
         const marginFromSlider = 30;// отступ шкалы от полосы слайдера
         const vectorizedMargin = Vector.calculateVector(marginFromSlider, angleInRad);
@@ -108,7 +109,7 @@ class Scale extends SliderPart {
 
         const values = modelData.values.map((e) => e);
         // определяет к какому ползунку ближе выбранный сегмент
-        if (modelData.hasTwoSlider) {
+        /* if (modelData.hasTwoSlider) {
             const dSegmentValueFirstValue = Math.abs(values[0] - value);
             const dSegmentValueLastValue = Math.abs(values[1] - value);
             if (dSegmentValueFirstValue < dSegmentValueLastValue) values[0] = value;
@@ -117,10 +118,19 @@ class Scale extends SliderPart {
                 if (value < values[0]) values[0] = value;
                 else values[1] = value;
             }
-        } else /* optionsToUpdate.firstValue */values[0] = value;
+        } else values[0] = value; */
+        const dValues = values.map((e) => Math.abs(e - value));
+        let indexOfSmallestD = 0;
+        dValues.reduce((prev, cur, curIndex) => {
+            if (cur < prev) {
+                indexOfSmallestD = curIndex;
+                return cur;
+            }
+            return prev;
+        }, dValues[0]);
+        values[indexOfSmallestD] = value;
 
-
-        this.view.onHandleMove.invoke(new OptionsToUpdateEventArgs({ values: values }/* optionsToUpdate */));
+        this.view.onHandleMove.invoke(new OptionsToUpdateEventArgs({ values }/* optionsToUpdate */));
     }
 }
 

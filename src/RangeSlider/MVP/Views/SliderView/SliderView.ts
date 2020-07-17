@@ -102,12 +102,13 @@ class SliderView extends View {
         const modelData = this.getModelData();
         const { sliderLength, handleWidth } = this.viewManager.viewData;
 
-        let usedLength;
+        /* let usedLength;
         if (modelData.hasTwoSlider) {
             usedLength = sliderLength - handleWidth * 2;
         } else {
             usedLength = sliderLength - handleWidth;
-        }
+        } */
+        const usedLength = sliderLength - handleWidth * modelData.values.length;
 
         return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
     }

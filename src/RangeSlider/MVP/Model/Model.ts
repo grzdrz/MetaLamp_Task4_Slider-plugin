@@ -102,7 +102,7 @@ class Model {
         } = this.data;
         const values = this.data.values.map((e) => e);
 
-        if (countNumber === 0) {
+        /* if (countNumber === 0) {
             if (newTargetInputValue > values[1] && !canPush) return values[1];
             if (newTargetInputValue < minValue) return minValue;
             if (newTargetInputValue > maxValue) return maxValue;
@@ -110,7 +110,12 @@ class Model {
             if (newTargetInputValue < values[0] && !canPush) return values[0];
             if (newTargetInputValue < minValue) return minValue;
             if (newTargetInputValue > maxValue) return maxValue;
-        }
+        } */
+
+        if (newTargetInputValue > values[countNumber + 1] && !canPush) return values[countNumber + 1];
+        if (newTargetInputValue < values[countNumber - 1] && !canPush) return values[countNumber - 1];
+        if (newTargetInputValue < minValue) return minValue;
+        if (newTargetInputValue > maxValue) return maxValue;
 
         return newTargetInputValue;
     }

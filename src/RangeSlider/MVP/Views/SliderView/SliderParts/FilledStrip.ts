@@ -33,7 +33,7 @@ class FilledStrip extends SliderPart {
         const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
         const firstHandlePosition = this.view.calculateProportionalPixelValue(values[0]);
         const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRad);
-        if (modelData.hasTwoSlider) {
+        if (/* modelData.hasTwoSlider */modelData.values.length) {
             const lastHandlePosition = this.view.calculateProportionalPixelValue(values[1]);
             const vectorizedLastHandlePosition = Vector.calculateVector(lastHandlePosition, angleInRad).sum(vectorizedHandleWidth);
 
