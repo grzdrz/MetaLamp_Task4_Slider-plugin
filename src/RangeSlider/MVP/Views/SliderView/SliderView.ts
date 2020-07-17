@@ -61,8 +61,9 @@ class SliderView extends View {
         this.parts = [];
 
         this.parts.push(new EmptyStrip(this));
-        this.parts.push(new Handle(this, 0));
-        if (modelData.hasTwoSlider) this.parts.push(new Handle(this, 1));
+        modelData.values.forEach((value, index) => {
+            this.parts.push(new Handle(this, index));
+        });
         this.parts.push(new FilledStrip(this));
         if (this.viewManager.viewData.hasScale) this.parts.push(new Scale(this));
     }
@@ -72,7 +73,7 @@ class SliderView extends View {
         const modelData = this.getModelData();
         const { sliderLength, handleWidth, angleInRad } = this.viewManager.viewData;
 
-        let containerCapacity;
+        /* let containerCapacity;
         if (modelData.hasTwoSlider) {
             if (handleCountNumber === 1) {
                 const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
@@ -81,7 +82,10 @@ class SliderView extends View {
             containerCapacity = sliderLength - handleWidth * 2;
         } else {
             containerCapacity = sliderLength - handleWidth;
-        }
+        } */
+        const vectorizedHandleWidth = Vector.calculateVector(handleWidth * handleCountNumber, angleInRad);
+        cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
+        const containerCapacity = sliderLength - handleWidth * (modelData.values.length);
 
         const mainAxisVector = Vector.calculateVector(sliderLength, angleInRad);
         const cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);

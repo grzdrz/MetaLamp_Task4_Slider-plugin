@@ -5,11 +5,10 @@ import "./TestPage.scss";
 const modelData = {
     minValue: -9,
     maxValue: 9,
-    /* firstValue: 0,
-    lastValue: 3, */
     values: [-3, 3],
     stepSize: 0.000001,
     hasTwoSlider: true,
+    canPush: true,
 };
 const viewData = {
     sliderStripThickness: 10,

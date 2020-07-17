@@ -62,8 +62,8 @@ class Presenter {
     public handlerModelStateUpdate(args: EventArgs): void {
         this.model.updateOptions((<OptionsToUpdateEventArgs>args).data);
         this.viewManager.sliderView.update(true);
-        this.viewManager.inputsView.update(false);
-        this.viewManager.optionsPanelView.update(false);
+        this.viewManager.inputsView.update(true);
+        this.viewManager.optionsPanelView.update(true);
     }
 
     public handlerViewStateUpdate(args: EventArgs): void {

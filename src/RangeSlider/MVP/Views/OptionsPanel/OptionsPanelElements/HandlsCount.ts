@@ -27,11 +27,11 @@ class HandlsCount extends OptionPanelElement {
 
         // 1 ползунок
         oneHandleLabel.className = "range-slider__inputs-label";
-        oneHandleLabel.dataset.handlesCount = "1";
+        oneHandleLabel.dataset.handlesCount = "0";
 
         oneHandleInput.name = `handlesCount_${modelData.id}`;
         oneHandleInput.type = "radio";
-        oneHandleInput.checked = !modelData.hasTwoSlider;
+        oneHandleInput.checked = /* ! modelData.hasTwoSlider */modelData.values.length === 1;
         oneHandleInput.className = "range-slider__handles-count-input";
 
         oneHandleText.className = "range-slider__handles-count-text";
@@ -44,11 +44,11 @@ class HandlsCount extends OptionPanelElement {
 
         // 2 ползунка
         twoHandlesLabel.className = "range-slider__inputs-label";
-        twoHandlesLabel.dataset.handlesCount = "2";
+        twoHandlesLabel.dataset.handlesCount = "1";
 
         twoHandlesInput.name = `handlesCount_${modelData.id}`;
         twoHandlesInput.type = "radio";
-        twoHandlesInput.checked = modelData.hasTwoSlider;
+        twoHandlesInput.checked = /* modelData.hasTwoSlider */modelData.values.length === 2;
         twoHandlesInput.className = "range-slider__handles-count-input";
 
         twoHandlesText.className = "range-slider__handles-count-text";
@@ -81,17 +81,27 @@ class HandlsCount extends OptionPanelElement {
         if (!currentLabel) throw new Error("some shit with handls count change event");
         const { handlesCount } = (<HTMLElement>currentLabel).dataset;
         if (!handlesCount) throw new Error("some shit with handls count change event");
+        const handlesCountNumber = Number.parseInt(handlesCount, 10);
 
-        let optionsToUpdate;
+        const modelData = this.view.getModelData();
+        const values = []/* modelData.values.map((e) => e) */;
+        for (let i = 0; i < handlesCountNumber + 1; i += 1) {
+            if (modelData.values.length <= handlesCountNumber) values.push(modelData.values[i]);
+            else values.push(modelData.maxValue);
+        }
+        /* let optionsToUpdate;
         if (Number.parseInt(handlesCount, 10) === 1) {
             optionsToUpdate = {
                 hasTwoSlider: false,
+                values: values,
             };
         } else {
             optionsToUpdate = {
                 hasTwoSlider: true,
+                values: values,
             };
-        }
+        } */
+        const optionsToUpdate = { values };
 
         this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
     }
