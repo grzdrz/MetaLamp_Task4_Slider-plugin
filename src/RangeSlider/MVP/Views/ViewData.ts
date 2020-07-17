@@ -17,6 +17,8 @@ class ViewData implements IViewData {
 
     public angle = 0;
 
+    public hasTwoSlider = true;
+
     public hasScale = true;
 
     constructor(data: IViewData) {
@@ -31,6 +33,7 @@ class ViewData implements IViewData {
         this.maxSegmentsCount = (data.maxSegmentsCount !== undefined ? data.maxSegmentsCount : this.maxSegmentsCount);
         this.scaleFontSize = (data.scaleFontSize !== undefined ? data.scaleFontSize : this.scaleFontSize);
         this.angle = (data.angle !== undefined ? data.angle : this.angle);
+        this.hasTwoSlider = (data.hasTwoSlider !== undefined ? data.hasTwoSlider : this.hasTwoSlider);
         this.hasScale = (data.hasScale !== undefined ? data.hasScale : this.hasScale);
     }
 

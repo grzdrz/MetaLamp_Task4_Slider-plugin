@@ -7,6 +7,7 @@ interface IViewData {
     maxSegmentsCount?: number,
     scaleFontSize?: number,
     angle?: number,
+    hasTwoSlider?: boolean,
     hasScale?: boolean,
 }
 

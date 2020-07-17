@@ -1,13 +1,28 @@
+import Event from "../../Events/Event";
+
 import IModelData from "./IModelData";
 import ModelData from "./ModelData";
 import OptionsEventArgs from "../../Events/OptionsEventArgs";
 import MathFunctions from "../../Helpers/MathFunctions";
+import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
+import ViewData from "../Views/ViewData";
 
 class Model {
     private data: ModelData;
 
+    public onGetViewData: Event;
+
     constructor(data: ModelData) {
         this.data = data;
+
+        this.onGetViewData = new Event();
+    }
+
+    getViewData(): ViewData {
+        const eventArgs = new ViewDataEventArgs();
+        this.onGetViewData.invoke(eventArgs);
+        if (!eventArgs.data) throw new Error("broken get model data");
+        return <ViewData>eventArgs.data;
     }
 
     getOptions(args: OptionsEventArgs): void {
@@ -28,14 +43,41 @@ class Model {
         }
 
         const neededValidateValue = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined;
-        const neededValidateFirstValue = data.firstValue !== undefined || neededValidateValue || data.hasTwoSlider !== undefined;
+        const neededValidateFirstValue = data.firstValue !== undefined || neededValidateValue/*  || data.hasTwoSlider !== undefined */;
         const neededValidateLastValue = data.lastValue !== undefined || neededValidateValue;
-        if (neededValidateFirstValue) {
+
+        if (this.data.hasTwoSlider) {
+            if (this.data.canPush && neededValidateFirstValue) {
+                this.data.firstValue = this.validateValue(this.data.firstValue, 1, this.data.canPush);
+                this.data.lastValue = this.validateValue(this.data.lastValue, 2, !this.data.canPush);
+            } else if (this.data.canPush && neededValidateLastValue) {
+                this.data.lastValue = this.validateValue(this.data.lastValue, 2, this.data.canPush);
+                this.data.firstValue = this.validateValue(this.data.firstValue, 1, !this.data.canPush);
+            } else {
+                if (neededValidateFirstValue) {
+                    this.data.firstValue = this.validateValue(this.data.firstValue, 1, this.data.canPush);
+                }
+                if (neededValidateLastValue) {
+                    this.data.lastValue = this.validateValue(this.data.lastValue, 2, this.data.canPush);
+                }
+            }
+        } else {
+            if (neededValidateFirstValue) {
+                this.data.firstValue = this.validateValue(this.data.firstValue, 1, true);
+                this.data.lastValue = this.validateValue(this.data.lastValue, 2, false);
+            }
+            if (neededValidateLastValue) {
+                this.data.lastValue = this.validateValue(this.data.lastValue, 2, true);
+                this.data.firstValue = this.validateValue(this.data.firstValue, 1, false);
+            }
+        }
+
+        /* if (neededValidateFirstValue || (neededValidateLastValue && this.data.canPush)) {
             this.data.firstValue = this.validateValue(this.data.firstValue, 1);
         }
-        if (neededValidateLastValue) {
+        if (neededValidateLastValue || (neededValidateFirstValue && this.data.canPush)) {
             this.data.lastValue = this.validateValue(this.data.lastValue, 2);
-        }
+        } */
     }
 
     validateMaxValue(stepSize: number, maxValue: number): number {
@@ -58,7 +100,7 @@ class Model {
         return this.data.maxValue - stepSize * test3;
     }
 
-    validateValue(value: number, countNumber: number): number {
+    validateValue(value: number, countNumber: number, canPush: boolean): number {
         let newTargetInputValue = this.calculateNearestPositionForHandle(value);
 
         const {
@@ -66,14 +108,13 @@ class Model {
         } = this.data;
 
         if (countNumber === 1) {
-            if (newTargetInputValue < minValue) newTargetInputValue = minValue;
-            else if (newTargetInputValue > lastValue && hasTwoSlider) newTargetInputValue = lastValue;
+            if (newTargetInputValue > lastValue && hasTwoSlider && /* !this.data. */ !canPush) newTargetInputValue = lastValue;
+            else if (newTargetInputValue < minValue) newTargetInputValue = minValue;
             else if (newTargetInputValue > maxValue) newTargetInputValue = maxValue;
-            /* else newTargetInputValue = newTargetInputValue; */
         } else if (countNumber === 2) {
-            if (newTargetInputValue > maxValue) newTargetInputValue = maxValue;
-            else if (newTargetInputValue < firstValue) newTargetInputValue = firstValue;
-            /* else newTargetInputValue = newTargetInputValue; */
+            if (newTargetInputValue < firstValue && /* !this.data. */ !canPush) newTargetInputValue = firstValue;
+            else if (newTargetInputValue < minValue) newTargetInputValue = minValue;
+            else if (newTargetInputValue > maxValue) newTargetInputValue = maxValue;
         }
 
         return newTargetInputValue;

@@ -44,6 +44,10 @@ class Presenter {
         this.model.getOptions(<OptionsEventArgs>args);
     }
 
+    public handlerGetViewData(args: EventArgs): void {
+        this.viewManager.getData(<ViewDataEventArgs>args);
+    }
+
     public handlerHandleMove(args: EventArgs): void {
         this.model.updateOptions((<OptionsToUpdateEventArgs>args).data);
         this.viewManager.sliderView.update(false);

@@ -6,6 +6,7 @@ interface IModelData {
     lastValue?: number,
     stepSize?: number,
     hasTwoSlider?: boolean,
+    canPush?: boolean,
 }
 
 export default IModelData;

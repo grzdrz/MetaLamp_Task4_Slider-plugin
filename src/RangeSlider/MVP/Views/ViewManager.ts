@@ -3,6 +3,7 @@ import ViewData from "./ViewData";
 import SliderView from "./SliderView/SliderView";
 import InputsView from "./InputsView/InputsView";
 import OptionsPanelView from "./OptionsPanel/OptionsPanelView";
+import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
 
 class ViewManager {
     public viewData: ViewData;
@@ -59,6 +60,10 @@ class ViewManager {
 
         this.containerElement.append(rangeSlider);
         this.containerElement.append(optionsContainer);
+    }
+
+    getData(args: ViewDataEventArgs): void {
+        args.data = new ViewData(this.viewData);
     }
 }
 
