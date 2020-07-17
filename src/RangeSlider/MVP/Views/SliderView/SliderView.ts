@@ -1,7 +1,6 @@
 import View from "../View";
 
 import SliderPart from "./SliderParts/SliderPart";
-// import SliderContainer from "./SliderParts/SliderContainer";
 import Handle from "./SliderParts/Handle";
 import FilledStrip from "./SliderParts/FilledStrip";
 import EmptyStrip from "./SliderParts/EmptyStrip";
@@ -13,20 +12,9 @@ import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
 import Scale from "./SliderParts/Scale";
 import ViewManager from "../ViewManager";
 import MathFunctions from "../../../Helpers/MathFunctions";
-import ViewDataEventArgs from "../../../Events/ViewDataEventArgs";
 
 class SliderView extends View {
-    public firstSlider: Handle;
-
-    public lastSlider: Handle;
-
-    public filledStrip: FilledStrip;
-
-    public emptyStrip: EmptyStrip;
-
-    public scale: Scale;
-
-    public parts: SliderPart[] = new Array<SliderPart>();
+    public parts: SliderPart[] = [];
 
     public onHandleMove: Event = new Event();
 
@@ -35,17 +23,12 @@ class SliderView extends View {
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         super(containerElement, viewManager);
 
-        this.parts.push(this.emptyStrip = new EmptyStrip(this));
-        this.parts.push(this.firstSlider = new Handle(this, 1));
-        this.parts.push(this.lastSlider = new Handle(this, 2));
-        this.parts.push(this.filledStrip = new FilledStrip(this));
-        this.parts.push(this.scale = new Scale(this));
-
         this.handlerViewportSizeChange = this.handlerViewportSizeChange.bind(this);
     }
 
     public initialize(): void {
         this.renderContainer();
+        this.createParts();
         this.parts.forEach((part) => {
             part.initialize();
         });
@@ -54,27 +37,33 @@ class SliderView extends View {
     }
 
     public update(neededRerender: boolean): void {
-        const modelData = this.getModelData();
-
         this.renderContainer();
 
         if (neededRerender) { // полный перерендер всех элементов слайдера
             this.containerElement.innerHTML = "";
+            this.createParts();
             this.parts.forEach((part) => {
-                if ((part === this.lastSlider && modelData.hasTwoSlider) || part !== this.lastSlider) {
-                    part.buildDOMElement();
-                    part.render();
-                }
+                part.buildDOMElement();
+                part.render();
             });
         } else { // или просто обновление их состояний
             this.parts.forEach((part) => {
-                if ((part === this.lastSlider && modelData.hasTwoSlider) || part !== this.lastSlider) {
-                    part.render();
-                }
+                part.render();
             });
         }
 
         this.renderContainer();
+    }
+
+    public createParts(): void {
+        const modelData = this.getModelData();
+        this.parts = [];
+
+        this.parts.push(new EmptyStrip(this));
+        this.parts.push(new Handle(this, 1));
+        if (modelData.hasTwoSlider) this.parts.push(new Handle(this, 2));
+        this.parts.push(new FilledStrip(this));
+        if (this.viewManager.viewData.hasScale) this.parts.push(new Scale(this));
     }
 
     // значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
