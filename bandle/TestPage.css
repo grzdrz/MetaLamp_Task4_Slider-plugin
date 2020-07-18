@@ -107,6 +107,22 @@
     display: inline-flex;
     align-items: flex-end;
     font-size: 1.2rem; }
+  .range-slider__filled-strips-inputs-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%; }
+  .range-slider__filled-strips-title {
+    font-size: 1.2rem;
+    margin-bottom: 5px; }
+  .range-slider__filled-strips-inputs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%; }
+  .range-slider__filled-strips-input {
+    width: 20px;
+    height: 20px; }
 
 html,
 body {

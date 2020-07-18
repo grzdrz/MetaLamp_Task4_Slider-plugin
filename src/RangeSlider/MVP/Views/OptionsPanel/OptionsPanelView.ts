@@ -9,9 +9,12 @@ import MaxValue from "./OptionsPanelElements/MaxValue";
 import MinValue from "./OptionsPanelElements/MinValue";
 import StepSize from "./OptionsPanelElements/StepSize";
 import ViewManager from "../ViewManager";
+import ListOfFilledStrip from "./OptionsPanelElements/ListOfFilledStrip";
 
 class OptionsPanelView extends View {
     public onModelStateUpdate: Event = new Event();
+
+    public listOfFilledStrip: ListOfFilledStrip;
 
     public stepSize: StepSize;
 
@@ -32,12 +35,13 @@ class OptionsPanelView extends View {
 
         this.containerElement = containerElement;
 
+        this.panelElements.push(this.listOfFilledStrip = new ListOfFilledStrip(this));// //////
+        this.panelElements.push(this.handlsCount = new HandlesCount(this));
         this.panelElements.push(this.stepSize = new StepSize(this));
         this.panelElements.push(this.minValue = new MinValue(this));
         this.panelElements.push(this.maxValue = new MaxValue(this));
         this.panelElements.push(this.maxSegmentCount = new MaxSegmentCount(this));
         this.panelElements.push(this.angle = new Angle(this));
-        this.panelElements.push(this.handlsCount = new HandlesCount(this));
     }
 
     public initialize(): void {
@@ -45,6 +49,8 @@ class OptionsPanelView extends View {
     }
 
     public update(neededFullRerender: boolean): void {
+        // this.listOfFilledStrip.build();// //////
+
         if (neededFullRerender) {
             this.panelElements.forEach((element) => element.build());
         } else {

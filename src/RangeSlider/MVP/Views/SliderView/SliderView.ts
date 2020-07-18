@@ -64,7 +64,10 @@ class SliderView extends View {
         modelData.values.forEach((value, index) => {
             this.parts.push(new Handle(this, index));
         });
-        this.parts.push(new FilledStrip(this));
+        this.viewManager.viewData.filledStrips.forEach((value, index) => {
+            if (value) this.parts.push(new FilledStrip(this, index));
+        });
+        /* this.parts.push(new FilledStrip(this)); */
         if (this.viewManager.viewData.hasScale) this.parts.push(new Scale(this));
     }
 

@@ -17,7 +17,7 @@ class ViewData implements IViewData {
 
     public angle = 0;
 
-    // public hasTwoSlider = true;
+    public filledStrips = [true];
 
     public hasScale = true;
 
@@ -34,6 +34,7 @@ class ViewData implements IViewData {
         this.scaleFontSize = (data.scaleFontSize !== undefined ? data.scaleFontSize : this.scaleFontSize);
         this.angle = (data.angle !== undefined ? data.angle : this.angle);
         // this.hasTwoSlider = (data.hasTwoSlider !== undefined ? data.hasTwoSlider : this.hasTwoSlider);
+        this.filledStrips = (data.filledStrips !== undefined ? data.filledStrips : this.filledStrips);
         this.hasScale = (data.hasScale !== undefined ? data.hasScale : this.hasScale);
     }
 

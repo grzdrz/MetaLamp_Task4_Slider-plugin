@@ -18,5 +18,6 @@ const viewData = {
     maxSegmentsCount: 6,
     scaleFontSize: 15,
     angle: 0,
+    filledStrips: [true, false],
 };
 $(".test-page__tested-range-slider-container1").rangeSlider(modelData, viewData);
