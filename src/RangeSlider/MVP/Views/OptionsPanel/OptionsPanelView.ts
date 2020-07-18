@@ -3,7 +3,7 @@ import Event from "../../../Events/Event";
 
 import OptionPanelElement from "./OptionsPanelElements/OptionPanelElement";
 import Angle from "./OptionsPanelElements/Angle";
-import HandlsCount from "./OptionsPanelElements/HandlsCount";
+import HandlesCount from "./OptionsPanelElements/HandlesCount";
 import MaxSegmentCount from "./OptionsPanelElements/MaxSegmentCount";
 import MaxValue from "./OptionsPanelElements/MaxValue";
 import MinValue from "./OptionsPanelElements/MinValue";
@@ -23,7 +23,7 @@ class OptionsPanelView extends View {
 
     public angle: Angle;
 
-    public handlsCount: HandlsCount;
+    public handlsCount: HandlesCount;
 
     public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
 
@@ -37,7 +37,7 @@ class OptionsPanelView extends View {
         this.panelElements.push(this.maxValue = new MaxValue(this));
         this.panelElements.push(this.maxSegmentCount = new MaxSegmentCount(this));
         this.panelElements.push(this.angle = new Angle(this));
-        this.panelElements.push(this.handlsCount = new HandlsCount(this));
+        this.panelElements.push(this.handlsCount = new HandlesCount(this));
     }
 
     public initialize(): void {

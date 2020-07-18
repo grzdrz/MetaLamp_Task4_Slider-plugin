@@ -4,17 +4,14 @@ import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
 import ViewManager from "../ViewManager";
 
 class InputsView extends View {
-    public firstInputDOMElement: HTMLInputElement | undefined;
-
-    public lastInputDOMElement: HTMLInputElement | undefined;
+    public valueInputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();
 
     public onInputsChange: Event;
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         super(containerElement, viewManager);
 
-        this.handlerFirstInputChange = this.handlerFirstInputChange.bind(this);
-        this.handlerLastInputChange = this.handlerLastInputChange.bind(this);
+        this.handlerValueInputChange = this.handlerValueInputChange.bind(this);
 
         this.onInputsChange = new Event();
     }
@@ -27,102 +24,50 @@ class InputsView extends View {
         const modelData = this.getModelData();
 
         const values = modelData.values.map((e) => e);
-        if (!this.firstInputDOMElement) { throw new Error("this.firstInputDOMElement not exist"); }
-        this.firstInputDOMElement.value = (values[0] !== undefined ? (values[0]).toString() : this.firstInputDOMElement.value);
-        if (this.lastInputDOMElement) {
-            this.lastInputDOMElement.value = (values[1] !== undefined ? (values[1]).toString() : this.lastInputDOMElement.value);
-        }
+        if (_neededFullRerender) this.render();
+        this.valueInputsDOMElements.forEach((e, i) => {
+            e.value = values[i].toString();
+        });
     }
 
     public render(): void {
         const modelData = this.getModelData();
 
-        const firstInputContainer = document.createElement("div");
-        this.firstInputDOMElement = document.createElement("input");
-        const firstInputText = document.createElement("p");
+        this.containerElement.innerHTML = "";
+        this.valueInputsDOMElements = [];
+        for (let i = 0; i < modelData.values.length; i += 1) {
+            const valueInputContainer = document.createElement("div");
+            const valueInput = document.createElement("input");
+            this.valueInputsDOMElements.push(valueInput);
+            const valueInputText = document.createElement("p");
 
-        firstInputContainer.className = "range-slider__first-input-container";
-        this.firstInputDOMElement.className = "range-slider__first-input";
-        firstInputText.className = "range-slider__input-text";
-        firstInputText.textContent = "first value";
+            valueInputContainer.className = "range-slider__value-input-container";
+            valueInput.dataset.countNumber = `${i}`;
+            valueInput.className = "range-slider__value-input";
+            valueInput.value = `${modelData.minValue}`;
+            valueInputText.className = "range-slider__value-input-text";
+            valueInputText.textContent = `value ${i + 1}`;
 
-        firstInputContainer.append(this.firstInputDOMElement);
-        firstInputContainer.append(firstInputText);
-        this.containerElement.append(firstInputContainer);
+            valueInputContainer.append(valueInput);
+            valueInputContainer.append(valueInputText);
+            this.containerElement.append(valueInputContainer);
 
-        if (modelData.hasTwoSlider) {
-            const lastInputContainer = document.createElement("div");
-            this.lastInputDOMElement = document.createElement("input");
-            const lastInputText = document.createElement("p");
-
-            lastInputContainer.className = "range-slider__last-input-container";
-            this.lastInputDOMElement.className = "range-slider__last-input";
-            lastInputText.className = "range-slider__input-text";
-            lastInputText.textContent = "last value";
-
-            lastInputContainer.append(this.lastInputDOMElement);
-            lastInputContainer.append(lastInputText);
-            this.containerElement.append(lastInputContainer);
-        }
-
-        this.firstInputDOMElement.addEventListener("change", this.handlerFirstInputChange);
-        if (this.lastInputDOMElement) {
-            this.lastInputDOMElement.addEventListener("change", this.handlerLastInputChange);
+            valueInput.addEventListener("change", this.handlerValueInputChange);
         }
 
         this.update(false);
     }
 
-    handlerFirstInputChange(event: globalThis.Event) {
+    handlerValueInputChange(event: globalThis.Event): void {
         const modelData = this.getModelData();
 
-        const targetElement = event.currentTarget;
-        if (!targetElement) { throw new Error(); }
-        let value = Number.parseFloat((<HTMLInputElement>targetElement).value);
-        if (!value && value !== 0) {
-            value = modelData.minValue;
-        }
-
         const values = modelData.values.map((e) => e);
-        if (values.length > 1) {
-            if (value > modelData.maxValue || value > values[1]) {
-                value = values[1];
-            } else if (value < modelData.minValue) {
-                value = modelData.minValue;
-            }
-        } else {
-            if (value > modelData.maxValue) {
-                value = modelData.maxValue;
-            } else if (value < modelData.minValue) {
-                value = modelData.minValue;
-            }
-        }
+        this.valueInputsDOMElements.forEach((e, i) => {
+            const value = Number.parseFloat(e.value);
+            values[i] = value;
+        });
 
-        values[0] = value;
-        (<HTMLInputElement>targetElement).value = value.toString();
-        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ values: values }));
-    }
-
-    private handlerLastInputChange(event: globalThis.Event) {
-        const modelData = this.getModelData();
-
-        const targetElement = event.currentTarget;
-        if (!targetElement) { throw new Error(); }
-        let value = Number.parseFloat((<HTMLInputElement>targetElement).value);
-        if (!value && value !== 0) {
-            value = modelData.maxValue;
-        }
-
-        const values = modelData.values.map((e) => e);
-        if (value > modelData.maxValue) {
-            value = modelData.maxValue;
-        } else if (value < modelData.minValue || value < values[0]) {
-            value = values[0];
-        }
-
-        values[1] = value;
-        (<HTMLInputElement>targetElement).value = value.toString();
-        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ values: values }));
+        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ values }));
     }
 }
 

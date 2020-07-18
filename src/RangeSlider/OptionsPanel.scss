@@ -2,16 +2,16 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    border: 0px;
     padding: 10px;
-    border: 2px solid rgb(80, 189, 165);
+    border: 2px solid #50bda5;
+    margin: 20px;
 }
 
 &__inputs-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 &__options-panel-container {
@@ -21,60 +21,39 @@
 }
 
 &__inputs-label,
-&__first-input-container,
-&__last-input-container {
+&__value-input-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
+
+    margin-bottom: 5px;
 }
 
+&__value-input,
+&__step-size-input,
+&__max-value-input,
+&__min-value-input,
+&__angle-size-input,
+&__handles-count-input {
+    width: 30%;
+    height: 25px;
+    border: 1px solid black;
+    font-size: 1.5rem;
+}
+
+&__value-input-text,
 &__step-size-text,
 &__orientation-text,
 &__max-value-text,
 &__min-value-text,
-&__handles-count-text,
 &__angle-size-text,
-&__input-text {
+&__input-text,
+&__handles-count-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;
     display: inline-flex;
     align-items: flex-end;
     font-size: 1.2rem;
-}
-
-&__first-input,
-&__last-input {
-    width: 60%;
-    height: 30px;
-    border: 1px solid black;
-    font-size: 1.5rem;
-}
-&__last-input {
-    margin-top: 10px;
-}
-
-&__step-size-input,
-&__max-value-input,
-&__min-value-input,
-&__angle-size-input {
-    width: 60%;
-    height: 30px;
-    margin-top: 10px;
-    border: 1px solid black;
-    font-size: 1.5rem;
-}
-
-&__handles-count-container {
-    display: flex;
-    flex-direction: row;
-    padding: 10px 0px;
-    font-size: 1.5rem;
-    & label:last-child {
-        margin-left: 30px;
-    }
-}
-&__handles-count-input {
-    width: max-content;
 }

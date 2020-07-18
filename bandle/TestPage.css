@@ -77,52 +77,36 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    border: 0px;
     padding: 10px;
-    border: 2px solid #50bda5; }
+    border: 2px solid #50bda5;
+    margin: 20px; }
   .range-slider__inputs-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 20px; }
+    margin-bottom: 30px; }
   .range-slider__options-panel-container {
     display: flex;
     flex-direction: column;
     width: 100%; }
-  .range-slider__inputs-label, .range-slider__first-input-container, .range-slider__last-input-container {
+  .range-slider__inputs-label, .range-slider__value-input-container {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%; }
-  .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__handles-count-text, .range-slider__angle-size-text, .range-slider__input-text {
+    width: 100%;
+    margin-bottom: 5px; }
+  .range-slider__value-input, .range-slider__step-size-input, .range-slider__max-value-input, .range-slider__min-value-input, .range-slider__angle-size-input, .range-slider__handles-count-input {
+    width: 30%;
+    height: 25px;
+    border: 1px solid black;
+    font-size: 1.5rem; }
+  .range-slider__value-input-text, .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__angle-size-text, .range-slider__input-text, .range-slider__handles-count-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;
     display: inline-flex;
     align-items: flex-end;
     font-size: 1.2rem; }
-  .range-slider__first-input, .range-slider__last-input {
-    width: 60%;
-    height: 30px;
-    border: 1px solid black;
-    font-size: 1.5rem; }
-  .range-slider__last-input {
-    margin-top: 10px; }
-  .range-slider__step-size-input, .range-slider__max-value-input, .range-slider__min-value-input, .range-slider__angle-size-input {
-    width: 60%;
-    height: 30px;
-    margin-top: 10px;
-    border: 1px solid black;
-    font-size: 1.5rem; }
-  .range-slider__handles-count-container {
-    display: flex;
-    flex-direction: row;
-    padding: 10px 0px;
-    font-size: 1.5rem; }
-    .range-slider__handles-count-container label:last-child {
-      margin-left: 30px; }
-  .range-slider__handles-count-input {
-    width: max-content; }
 
 html,
 body {

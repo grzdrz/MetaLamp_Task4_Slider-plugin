@@ -57,6 +57,7 @@ class Presenter {
     public handlerInputChange(args: EventArgs): void {
         this.model.updateOptions((<OptionsToUpdateEventArgs>args).data);
         this.viewManager.sliderView.update(false);
+        this.viewManager.inputsView.update(true);
     }
 
     public handlerModelStateUpdate(args: EventArgs): void {
