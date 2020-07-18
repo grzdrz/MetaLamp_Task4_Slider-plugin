@@ -1,6 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import OptionsToUpdateEventArgs from "../../../../Events/OptionsToUpdateEventArgs";
+import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
 
 class MinValue extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
@@ -62,7 +62,7 @@ class MinValue extends OptionPanelElement {
             minValue: inputValue,
         };
 
-        this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
+        this.view.onModelStateUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
     }
 }
 

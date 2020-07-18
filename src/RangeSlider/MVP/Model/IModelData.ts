@@ -4,7 +4,6 @@ interface IModelData {
     maxValue?: number,
     values?: number[],
     stepSize?: number,
-    hasTwoSlider?: boolean,
     canPush?: boolean,
 }
 

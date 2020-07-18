@@ -1,6 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import OptionsToUpdateEventArgs from "../../../../Events/OptionsToUpdateEventArgs";
+import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
 
 class HandlesCount extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
@@ -52,26 +52,14 @@ class HandlesCount extends OptionPanelElement {
         const handlesCountNumber = Number.parseInt(handlesCount, 10);
 
         const modelData = this.view.getModelData();
-        const values = []/* modelData.values.map((e) => e) */;
+        const values = [];
         for (let i = 0; i < handlesCountNumber; i += 1) {
             if (i < modelData.values.length) values.push(modelData.values[i]);
             else values.push(modelData.maxValue);
         }
-        /* let optionsToUpdate;
-        if (Number.parseInt(handlesCount, 10) === 1) {
-            optionsToUpdate = {
-                hasTwoSlider: false,
-                values: values,
-            };
-        } else {
-            optionsToUpdate = {
-                hasTwoSlider: true,
-                values: values,
-            };
-        } */
         const optionsToUpdate = { values };
 
-        this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
+        this.view.onModelStateUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
     }
 }
 

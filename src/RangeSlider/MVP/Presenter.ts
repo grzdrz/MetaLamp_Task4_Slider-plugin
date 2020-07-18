@@ -3,8 +3,7 @@ import Model from "./Model/Model";
 import ViewManager from "./Views/ViewManager";
 
 import EventArgs from "../Events/EventArgs";
-import OptionsEventArgs from "../Events/OptionsEventArgs";
-import OptionsToUpdateEventArgs from "../Events/OptionsToUpdateEventArgs";
+import ModelDataEventArgs from "../Events/ModelDataEventArgs";
 import ViewDataEventArgs from "../Events/ViewDataEventArgs";
 
 class Presenter {
@@ -41,7 +40,7 @@ class Presenter {
     }
 
     public handlerGetModelData(args: EventArgs): void {
-        this.model.getOptions(<OptionsEventArgs>args);
+        this.model.getOptions(<ModelDataEventArgs>args);
     }
 
     public handlerGetViewData(args: EventArgs): void {
@@ -49,19 +48,19 @@ class Presenter {
     }
 
     public handlerHandleMove(args: EventArgs): void {
-        this.model.updateOptions((<OptionsToUpdateEventArgs>args).data);
+        this.model.updateOptions((<ModelDataEventArgs>args).data);
         this.viewManager.sliderView.update(false);
         this.viewManager.inputsView.update(false);
     }
 
     public handlerInputChange(args: EventArgs): void {
-        this.model.updateOptions((<OptionsToUpdateEventArgs>args).data);
+        this.model.updateOptions((<ModelDataEventArgs>args).data);
         this.viewManager.sliderView.update(false);
         this.viewManager.inputsView.update(true);
     }
 
     public handlerModelStateUpdate(args: EventArgs): void {
-        this.model.updateOptions((<OptionsToUpdateEventArgs>args).data);
+        this.model.updateOptions((<ModelDataEventArgs>args).data);
         this.viewManager.sliderView.update(true);
         this.viewManager.inputsView.update(true);
         this.viewManager.optionsPanelView.update(false);

@@ -49,8 +49,6 @@ class OptionsPanelView extends View {
     }
 
     public update(neededFullRerender: boolean): void {
-        // this.listOfFilledStrip.build();// //////
-
         if (neededFullRerender) {
             this.panelElements.forEach((element) => element.build());
         } else {

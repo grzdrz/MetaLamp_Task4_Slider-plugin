@@ -8,7 +8,7 @@ import EmptyStrip from "./SliderParts/EmptyStrip";
 import Vector from "../../../Helpers/Vector";
 
 import Event from "../../../Events/Event";
-import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
+import ModelDataEventArgs from "../../../Events/ModelDataEventArgs";
 import Scale from "./SliderParts/Scale";
 import ViewManager from "../ViewManager";
 import MathFunctions from "../../../Helpers/MathFunctions";
@@ -67,7 +67,7 @@ class SliderView extends View {
         this.viewManager.viewData.filledStrips.forEach((value, index) => {
             if (value) this.parts.push(new FilledStrip(this, index));
         });
-        /* this.parts.push(new FilledStrip(this)); */
+
         if (this.viewManager.viewData.hasScale) this.parts.push(new Scale(this));
     }
 
@@ -76,16 +76,6 @@ class SliderView extends View {
         const modelData = this.getModelData();
         const { sliderLength, handleWidth, angleInRad } = this.viewManager.viewData;
 
-        /* let containerCapacity;
-        if (modelData.hasTwoSlider) {
-            if (handleCountNumber === 1) {
-                const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
-                cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
-            }
-            containerCapacity = sliderLength - handleWidth * 2;
-        } else {
-            containerCapacity = sliderLength - handleWidth;
-        } */
         const vectorizedHandleWidth = Vector.calculateVector(handleWidth * handleCountNumber, angleInRad);
         cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
         const containerCapacity = sliderLength - handleWidth * (modelData.values.length);
@@ -97,7 +87,7 @@ class SliderView extends View {
 
         const valuesArray = modelData.values.map((e) => e);
         valuesArray[handleCountNumber] = proportionalValue;
-        this.onHandleMove.invoke(new OptionsToUpdateEventArgs({ values: valuesArray }));
+        this.onHandleMove.invoke(new ModelDataEventArgs({ values: valuesArray }));
     }
 
     // пиксельное значение пропорциональное условному значению
@@ -105,12 +95,6 @@ class SliderView extends View {
         const modelData = this.getModelData();
         const { sliderLength, handleWidth } = this.viewManager.viewData;
 
-        /* let usedLength;
-        if (modelData.hasTwoSlider) {
-            usedLength = sliderLength - handleWidth * 2;
-        } else {
-            usedLength = sliderLength - handleWidth;
-        } */
         const usedLength = sliderLength - handleWidth * modelData.values.length;
 
         return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;

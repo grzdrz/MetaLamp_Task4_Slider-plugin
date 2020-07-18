@@ -11,8 +11,6 @@ class ModelData implements IModelData {
 
     public stepSize = 10;
 
-    public hasTwoSlider = false;
-
     public canPush = true;
 
     constructor(data: IModelData) {
@@ -28,9 +26,7 @@ class ModelData implements IModelData {
         this.minValue = (data.minValue !== undefined ? data.minValue : this.minValue);
         this.maxValue = (data.maxValue !== undefined ? data.maxValue : this.maxValue);
         this.stepSize = (data.stepSize !== undefined ? data.stepSize : this.stepSize);
-        this.hasTwoSlider = (data.hasTwoSlider !== undefined ? data.hasTwoSlider : this.hasTwoSlider);
         this.canPush = (data.canPush !== undefined ? data.canPush : this.canPush);
-
         this.values = (data.values !== undefined ? data.values : this.values);
     }
 }

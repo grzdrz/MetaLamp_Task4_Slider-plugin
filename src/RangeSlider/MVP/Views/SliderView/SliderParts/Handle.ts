@@ -76,10 +76,7 @@ class Handle extends SliderPart {
         let vectorizedHandlePositionInContainer = Vector.calculateVector(handlePositionInContainer, angleInRad);
         const vectorizedHandleSize = Vector.calculateVector(handleWidth * this.countNumber, angleInRad);
         vectorizedHandlePositionInContainer = vectorizedHandlePositionInContainer.sum(vectorizedHandleSize);
-        /* if (this.countNumber === 1) {
-            const vectorizedHandleSize = Vector.calculateVector(handleWidth, angleInRad);
-            vectorizedHandlePositionInContainer = vectorizedHandlePositionInContainer.sum(vectorizedHandleSize);
-        } */
+
         this.setPosition(vectorizedHandlePositionInContainer);
 
         this.renderBackground(vectorizedHandlePositionInContainer);

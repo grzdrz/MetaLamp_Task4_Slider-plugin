@@ -1,6 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import OptionsToUpdateEventArgs from "../../../../Events/OptionsToUpdateEventArgs";
+import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
 
 class StepSize extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
@@ -61,7 +61,7 @@ class StepSize extends OptionPanelElement {
             stepSize: inputValue,
         };
 
-        this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
+        this.view.onModelStateUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
     }
 }
 

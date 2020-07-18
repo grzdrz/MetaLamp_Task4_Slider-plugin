@@ -38,17 +38,13 @@ class FilledStrip extends SliderPart {
         this.DOMElement.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
 
         const values = modelData.values.map((e) => e);
-        // const strips = this.view.viewManager.viewData.filledStrips.map((e) => e);
         const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
-        /* const firstHandlePosition = this.view.calculateProportionalPixelValue(values[0]);
-        const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRad); */
 
-        /*  for (let i = 0; i < strips.length; i += 1) { */
         if (this.countNumber === 0) {
             const firstHandlePosition = this.view.calculateProportionalPixelValue(values[0]);
             const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRad);
             const shift = Vector.calculateVector(handleWidth * 0.5, angleInRad);
-            const width = vectorizedFirstHandlePosition.sum(shift/* vectorizedHandleWidth.multiplyByNumber(0.5) */).length;
+            const width = vectorizedFirstHandlePosition.sum(shift).length;
             this.setSize(new Vector(width, sliderStripThickness));
             this.setPosition(new Vector(0, handleHeight / 2 - (sliderStripThickness) / 2));
         } else {
@@ -61,26 +57,10 @@ class FilledStrip extends SliderPart {
             this.setSize(new Vector(width, sliderStripThickness));
 
             const shift = Vector.calculateVector((handleWidth * this.countNumber - handleWidth / 2), angleInRad);
-            const position = vectorizedFirstHandlePosition.sum(shift/* vectorizedHandleWidth.multiplyByNumber((this.countNumber) / 2) */);
+            const position = vectorizedFirstHandlePosition.sum(shift);
             position.y += (handleHeight / 2 - (sliderStripThickness) / 2);
             this.setPosition(position);
         }
-        /* } */
-        /* if (modelData.values.length) {
-            const lastHandlePosition = this.view.calculateProportionalPixelValue(values[1]);
-            const vectorizedLastHandlePosition = Vector.calculateVector(lastHandlePosition, angleInRad).sum(vectorizedHandleWidth);
-
-            const width = vectorizedLastHandlePosition.subtract(vectorizedFirstHandlePosition).length;
-            this.setSize(new Vector(width, sliderStripThickness));
-
-            const position = vectorizedFirstHandlePosition.sum(vectorizedHandleWidth.multiplyByNumber(0.5));
-            position.y += (handleHeight / 2 - (sliderStripThickness) / 2);
-            this.setPosition(position);
-        } else {
-            const width = vectorizedFirstHandlePosition.sum(vectorizedHandleWidth.multiplyByNumber(0.5)).length;
-            this.setSize(new Vector(width, sliderStripThickness));
-            this.setPosition(new Vector(0, handleHeight / 2 - (sliderStripThickness) / 2));
-        } */
     }
 }
 

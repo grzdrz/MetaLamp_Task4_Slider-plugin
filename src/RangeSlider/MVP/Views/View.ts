@@ -3,7 +3,7 @@ import ModelData from "../Model/ModelData";
 import Vector from "../../Helpers/Vector";
 
 import Event from "../../Events/Event";
-import OptionsEventArgs from "../../Events/OptionsEventArgs";
+import ModelDataEventArgs from "../../Events/ModelDataEventArgs";
 
 import ViewManager from "./ViewManager";
 
@@ -27,10 +27,10 @@ abstract class View {
     }
 
     getModelData(): ModelData {
-        const optionsEventArgs = new OptionsEventArgs();
+        const optionsEventArgs = new ModelDataEventArgs();
         this.onGetModelData.invoke(optionsEventArgs);
         if (!optionsEventArgs.data) throw new Error("broken get model data");
-        return optionsEventArgs.data;
+        return <ModelData>optionsEventArgs.data;
     }
 
     abstract initialize(): void;
@@ -50,16 +50,16 @@ abstract class View {
     public static renderSize(htmlElement: HTMLElement, size: Vector): void {
         const element = htmlElement;
 
-        const elementStyles = getComputedStyle(element);
+        /* const elementStyles = getComputedStyle(element);
         const borderWidthLeft = Number.parseInt(elementStyles.borderLeftWidth, 10);
         const borderWidthRight = Number.parseInt(elementStyles.borderRightWidth, 10);
         const borderWidthTop = Number.parseInt(elementStyles.borderTopWidth, 10);
-        const borderWidthBottom = Number.parseInt(elementStyles.borderBottomWidth, 10);
+        const borderWidthBottom = Number.parseInt(elementStyles.borderBottomWidth, 10); */
 
-        const width = `${size.width - (borderWidthLeft + borderWidthRight)}px`;
+        const width = `${size.width /* - (borderWidthLeft + borderWidthRight) */}px`;
         element.style.width = width;
 
-        const height = `${size.height - (borderWidthTop + borderWidthBottom)}px`;
+        const height = `${size.height /* - (borderWidthTop + borderWidthBottom) */}px`;
         element.style.height = height;
     }
 }

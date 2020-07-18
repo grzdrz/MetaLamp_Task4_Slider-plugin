@@ -1,6 +1,6 @@
 import View from "../View";
 import Event from "../../../Events/Event";
-import OptionsToUpdateEventArgs from "../../../Events/OptionsToUpdateEventArgs";
+import ModelDataEventArgs from "../../../Events/ModelDataEventArgs";
 import ViewManager from "../ViewManager";
 
 class InputsView extends View {
@@ -58,7 +58,7 @@ class InputsView extends View {
         this.update(false);
     }
 
-    handlerValueInputChange(event: globalThis.Event): void {
+    handlerValueInputChange(): void {
         const modelData = this.getModelData();
 
         const values = modelData.values.map((e) => e);
@@ -67,7 +67,7 @@ class InputsView extends View {
             values[i] = value;
         });
 
-        this.onInputsChange.invoke(new OptionsToUpdateEventArgs({ values }));
+        this.onInputsChange.invoke(new ModelDataEventArgs({ values }));
     }
 }
 

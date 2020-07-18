@@ -2,7 +2,7 @@ import Event from "../../Events/Event";
 
 import IModelData from "./IModelData";
 import ModelData from "./ModelData";
-import OptionsEventArgs from "../../Events/OptionsEventArgs";
+import ModelDataEventArgs from "../../Events/ModelDataEventArgs";
 import MathFunctions from "../../Helpers/MathFunctions";
 import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
 import ViewData from "../Views/ViewData";
@@ -25,7 +25,7 @@ class Model {
         return <ViewData>eventArgs.data;
     }
 
-    getOptions(args: OptionsEventArgs): void {
+    getOptions(args: ModelDataEventArgs): void {
         args.data = new ModelData(this.data);
     }
 
@@ -101,16 +101,6 @@ class Model {
             minValue, maxValue,
         } = this.data;
         const values = this.data.values.map((e) => e);
-
-        /* if (countNumber === 0) {
-            if (newTargetInputValue > values[1] && !canPush) return values[1];
-            if (newTargetInputValue < minValue) return minValue;
-            if (newTargetInputValue > maxValue) return maxValue;
-        } else if (countNumber === 1) {
-            if (newTargetInputValue < values[0] && !canPush) return values[0];
-            if (newTargetInputValue < minValue) return minValue;
-            if (newTargetInputValue > maxValue) return maxValue;
-        } */
 
         if (newTargetInputValue > values[countNumber + 1] && !canPush) return values[countNumber + 1];
         if (newTargetInputValue < values[countNumber - 1] && !canPush) return values[countNumber - 1];

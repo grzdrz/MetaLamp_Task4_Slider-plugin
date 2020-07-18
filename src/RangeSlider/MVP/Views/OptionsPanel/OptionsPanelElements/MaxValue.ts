@@ -1,6 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import OptionsToUpdateEventArgs from "../../../../Events/OptionsToUpdateEventArgs";
+import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
 
 class MaxValue extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
@@ -63,7 +63,7 @@ class MaxValue extends OptionPanelElement {
             maxValue: inputValue,
         };
 
-        this.view.onModelStateUpdate.invoke(new OptionsToUpdateEventArgs(optionsToUpdate));
+        this.view.onModelStateUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
     }
 }
 

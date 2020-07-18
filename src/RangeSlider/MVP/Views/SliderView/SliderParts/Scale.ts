@@ -1,8 +1,7 @@
 import SliderPart from "./SliderPart";
 import SliderView from "../SliderView";
 import Vector from "../../../../Helpers/Vector";
-import OptionsToUpdateEventArgs from "../../../../Events/OptionsToUpdateEventArgs";
-import IModelData from "../../../Model/IModelData";
+import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
 import View from "../../View";
 
 class Scale extends SliderPart {
@@ -80,11 +79,6 @@ class Scale extends SliderPart {
         const vectorizedSegmentLength = new Vector(segmentWidth, segmentHeight).length;
 
         let handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
-        /* if (modelData.hasTwoSlider) {
-            handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth;
-        } else {
-            handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth / 2;
-        } */
         handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth * (modelData.values.length / 2);
 
         const marginFromSlider = 30;// отступ шкалы от полосы слайдера
@@ -109,16 +103,6 @@ class Scale extends SliderPart {
 
         const values = modelData.values.map((e) => e);
         // определяет к какому ползунку ближе выбранный сегмент
-        /* if (modelData.hasTwoSlider) {
-            const dSegmentValueFirstValue = Math.abs(values[0] - value);
-            const dSegmentValueLastValue = Math.abs(values[1] - value);
-            if (dSegmentValueFirstValue < dSegmentValueLastValue) values[0] = value;
-            else if (dSegmentValueFirstValue > dSegmentValueLastValue) values[1] = value;
-            else {
-                if (value < values[0]) values[0] = value;
-                else values[1] = value;
-            }
-        } else values[0] = value; */
         const dValues = values.map((e) => Math.abs(e - value));
         let indexOfSmallestD = 0;
         dValues.reduce((prev, cur, curIndex) => {
@@ -130,7 +114,7 @@ class Scale extends SliderPart {
         }, dValues[0]);
         values[indexOfSmallestD] = value;
 
-        this.view.onHandleMove.invoke(new OptionsToUpdateEventArgs({ values }/* optionsToUpdate */));
+        this.view.onHandleMove.invoke(new ModelDataEventArgs({ values }));
     }
 }
 
