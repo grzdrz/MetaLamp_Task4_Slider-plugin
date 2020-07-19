@@ -12,10 +12,36 @@ class Model {
 
     public onGetViewData: Event;
 
+    public onValuesChange: Event;
+
     constructor(data: ModelData) {
         this.data = data;
 
         this.onGetViewData = new Event();
+        this.onValuesChange = new Event();
+    }
+
+    update(data: IModelData): void {
+        this.data.id = (data.id !== undefined ? data.id : this.data.id);
+        this.data.minValue = (data.minValue !== undefined ? data.minValue : this.data.minValue);
+        this.data.maxValue = (data.maxValue !== undefined ? data.maxValue : this.data.maxValue);
+        this.data.stepSize = (data.stepSize !== undefined ? data.stepSize : this.data.stepSize);
+        this.data.canPush = (data.canPush !== undefined ? data.canPush : this.data.canPush);
+        this.data.values = (data.values !== undefined ? data.values : this.data.values);
+
+        if (data.values !== undefined) {
+            const viewData = this.getViewData();
+            const filledStrips = viewData.filledStrips.map((e) => e);
+            const newFilledStrips = new Array<boolean>();
+            for (let i = 0; i < this.data.values.length + 1; i += 1) {
+                if (i < filledStrips.length) {
+                    newFilledStrips.push(filledStrips[i]);
+                } else {
+                    newFilledStrips.push(false);
+                }
+            }
+            this.onValuesChange.invoke(new ViewDataEventArgs({ filledStrips: newFilledStrips }));
+        }
     }
 
     getViewData(): ViewData {
@@ -39,7 +65,7 @@ class Model {
             deltaDirection = data.values[changedValueIndex] - this.data.values[changedValueIndex];
         }
 
-        this.data.update(data);
+        this./* data. */update(data);
 
         if (data.stepSize !== undefined) {
             this.data.maxValue = this.validateMaxValue(data.stepSize, this.data.maxValue);

@@ -47,6 +47,19 @@ class FilledStrip extends SliderPart {
             const width = vectorizedFirstHandlePosition.sum(shift).length;
             this.setSize(new Vector(width, sliderStripThickness));
             this.setPosition(new Vector(0, handleHeight / 2 - (sliderStripThickness) / 2));
+        } else if (this.countNumber === this.view.viewManager.viewData.filledStrips.length - 1) {
+            const firstHandlePosition = this.view.calculateProportionalPixelValue(values[values.length - 1]);
+            const maxValueLength = this.view.calculateProportionalPixelValue(modelData.maxValue);
+            const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRad);
+            const vectorizedMaxValueLength = Vector.calculateVector(maxValueLength, angleInRad);
+            const lastStrip = vectorizedMaxValueLength.subtract(vectorizedFirstHandlePosition);
+            const shift = Vector.calculateVector((handleWidth * this.countNumber - handleWidth / 2), angleInRad);
+            const width = lastStrip.sum(Vector.calculateVector(handleWidth / 2, angleInRad)).length;
+            const position = vectorizedFirstHandlePosition.sum(shift);
+            position.y += (handleHeight / 2 - (sliderStripThickness) / 2);
+
+            this.setSize(new Vector(width, sliderStripThickness));
+            this.setPosition(position);
         } else {
             const firstHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber - 1]);
             const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRad);

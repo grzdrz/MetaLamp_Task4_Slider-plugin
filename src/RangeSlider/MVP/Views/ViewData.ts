@@ -17,7 +17,7 @@ class ViewData implements IViewData {
 
     public angle = 0;
 
-    public filledStrips = [true];
+    public filledStrips = [true, false];
 
     public hasScale = true;
 

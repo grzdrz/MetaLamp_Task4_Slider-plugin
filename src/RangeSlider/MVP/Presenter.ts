@@ -21,6 +21,9 @@ class Presenter {
         this.handlerInputChange = this.handlerInputChange.bind(this);
         this.handlerViewStateUpdate = this.handlerViewStateUpdate.bind(this);
 
+        this.handlerValuesChange = this.handlerValuesChange.bind(this);
+        this.handlerGetViewData = this.handlerGetViewData.bind(this);
+
         this.initialize();
     }
 
@@ -37,6 +40,9 @@ class Presenter {
             view.onViewStateUpdate.subscribe(this.handlerViewStateUpdate);
             view.initialize();
         });
+
+        this.model.onValuesChange.subscribe(this.handlerValuesChange);
+        this.model.onGetViewData.subscribe(this.handlerGetViewData);
     }
 
     public handlerGetModelData(args: EventArgs): void {
@@ -56,7 +62,11 @@ class Presenter {
     public handlerInputChange(args: EventArgs): void {
         this.model.updateOptions((<ModelDataEventArgs>args).data);
         this.viewManager.sliderView.update(false);
-        this.viewManager.inputsView.update(true);
+        this.viewManager.inputsView.update(true/* ? */);
+    }
+
+    public handlerValuesChange(args: EventArgs): void {
+        this.viewManager.viewData.update((<ViewDataEventArgs>args).data);
     }
 
     public handlerModelStateUpdate(args: EventArgs): void {

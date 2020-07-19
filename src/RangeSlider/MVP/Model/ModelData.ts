@@ -21,7 +21,7 @@ class ModelData implements IModelData {
         return this.maxValue - this.minValue;
     }
 
-    update(data: IModelData): void {
+    private update(data: IModelData): void { // /////////////////////
         this.id = (data.id !== undefined ? data.id : this.id);
         this.minValue = (data.minValue !== undefined ? data.minValue : this.minValue);
         this.maxValue = (data.maxValue !== undefined ? data.maxValue : this.maxValue);
