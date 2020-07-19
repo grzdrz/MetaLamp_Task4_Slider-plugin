@@ -41,6 +41,11 @@
     border: 1px solid black;
     font-size: 1.5rem;
 }
+&__can-push-input {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
 
 &__value-input-text,
 &__step-size-text,
@@ -49,7 +54,8 @@
 &__min-value-text,
 &__angle-size-text,
 &__input-text,
-&__handles-count-text {
+&__handles-count-text,
+&__can-push-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;

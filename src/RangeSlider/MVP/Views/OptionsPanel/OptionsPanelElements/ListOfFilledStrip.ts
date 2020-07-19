@@ -17,8 +17,6 @@ class ListOfFilledStrip extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        // const modelData = this.view.getModelData();
-
         this.DOMElement.innerHTML = "";
         this.inputsDOMElements = [];
 
@@ -30,14 +28,14 @@ class ListOfFilledStrip extends OptionPanelElement {
         this.filledStripsContainer.className = "range-slider__filled-strips-inputs";
 
         const strips = this.view.viewManager.viewData.filledStrips.map((e) => e);
-        for (let i = 0; i < strips.length/* modelData.values.length + 1 */; i += 1) {
+        for (let i = 0; i < strips.length; i += 1) {
             const valueInput = document.createElement("input");
             valueInput.type = "checkbox";
             this.inputsDOMElements.push(valueInput);
 
             valueInput.dataset.countNumber = `${i}`;
             valueInput.className = "range-slider__filled-strips-input";
-            valueInput.checked = strips[i]/* (i >= strips.length ? false : strips[i]) */;
+            valueInput.checked = strips[i];
 
             this.filledStripsContainer.append(valueInput);
 
@@ -49,20 +47,18 @@ class ListOfFilledStrip extends OptionPanelElement {
     }
 
     update(): void {
-        // const modelData = this.view.getModelData();
-
         this.inputsDOMElements = [];
         this.filledStripsContainer.innerHTML = "";
 
         const strips = this.view.viewManager.viewData.filledStrips.map((e) => e);
-        for (let i = 0; i < strips.length/* modelData.values.length + 1 */; i += 1) {
+        for (let i = 0; i < strips.length; i += 1) {
             const valueInput = document.createElement("input");
             valueInput.type = "checkbox";
             this.inputsDOMElements.push(valueInput);
 
             valueInput.dataset.countNumber = `${i}`;
             valueInput.className = "range-slider__filled-strips-input";
-            valueInput.checked = strips[i]/* (i >= strips.length ? false : strips[i]) */;
+            valueInput.checked = strips[i];
 
             this.filledStripsContainer.append(valueInput);
 
