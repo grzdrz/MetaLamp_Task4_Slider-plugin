@@ -17,21 +17,28 @@ class EmptyStrip extends SliderPart {
     public render(): void {
         const {
             sliderLength,
-            handleWidth,
             handleHeight,
             sliderStripThickness,
-            angle,
         } = this.view.viewManager.viewData;
 
-        // точка вращения - отступ на половину размера ползунка от основания полосы и отступ до центра полосы в ее толщине
+        this.rotate();
+
+        const size = new Vector(sliderLength, sliderStripThickness);
+        const position = new Vector(0, handleHeight / 2 - (sliderStripThickness) / 2);
+        this.setSize(size);
+        this.setPosition(position);
+    }
+
+    private rotate(): void {
+        const {
+            handleWidth,
+            angle,
+            sliderStripThickness,
+        } = this.view.viewManager.viewData;
         const transformOriginX = handleWidth / 2;
-        const transformOriginY = (sliderStripThickness) / 2;
-
+        const transformOriginY = sliderStripThickness / 2;
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.DOMElement.style.transform = `rotate(${-angle}deg)`;
-
-        this.setSize(new Vector(sliderLength, sliderStripThickness));
-        this.setPosition(new Vector(0, handleHeight / 2 - (sliderStripThickness) / 2));
+        this.DOMElement.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
     }
 }
 

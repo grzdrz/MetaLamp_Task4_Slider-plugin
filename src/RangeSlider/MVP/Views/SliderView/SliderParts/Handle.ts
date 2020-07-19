@@ -61,25 +61,27 @@ class Handle extends SliderPart {
 
     public render(): void {
         const modelData = this.view.getModelData();
-        const { handleWidth, angle, angleInRad } = this.view.viewManager.viewData;
+        const values = modelData.values.map((e) => e);
+        const { handleWidth, angleInRad } = this.view.viewManager.viewData;
+
+        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * this.countNumber), angleInRad);
+        const handlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
+
+        const vectorizedHandlePosition = Vector.calculateVector(handlePosition, angleInRad).sum(handlesCountShift);
+
+        this.setPosition(vectorizedHandlePosition);
+        this.rotate();
+
+        this.renderBackground(vectorizedHandlePosition);
+    }
+
+    rotate(): void {
+        const { handleWidth, angle } = this.view.viewManager.viewData;
 
         const transformOriginX = handleWidth / 2;
         const transformOriginY = handleWidth / 2;
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.DOMElement.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
-
-        const values = modelData.values.map((e) => e);
-        const value = values[this.countNumber];
-
-        const handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
-
-        let vectorizedHandlePositionInContainer = Vector.calculateVector(handlePositionInContainer, angleInRad);
-        const vectorizedHandleSize = Vector.calculateVector(handleWidth * this.countNumber, angleInRad);
-        vectorizedHandlePositionInContainer = vectorizedHandlePositionInContainer.sum(vectorizedHandleSize);
-
-        this.setPosition(vectorizedHandlePositionInContainer);
-
-        this.renderBackground(vectorizedHandlePositionInContainer);
+        this.DOMElement.style.transform = `rotate(${-angle}deg)`;
     }
 
     renderBackground(position: Vector): void {
@@ -90,17 +92,13 @@ class Handle extends SliderPart {
             borderThickness,
         } = this.view.viewManager.viewData;
 
-        const backgroundPositionX = position.x - borderThickness;
-        const backgroundPositionY = position.y - borderThickness;
-        const backgroundPosition = new Vector(backgroundPositionX, backgroundPositionY);
+        const vectorizedHandleSize = new Vector(handleWidth, handleHeight);
 
-        const backgroundSizeX = borderThickness * 2 + handleWidth;
-        const backgroundSizeY = borderThickness * 2 + handleHeight;
-        const backgroundSize = new Vector(backgroundSizeX, backgroundSizeY);
+        const backgroundSize = new Vector(borderThickness, borderThickness).multiplyByNumber(2).sum(vectorizedHandleSize);
+        const backgroundPosition = new Vector(position.x, position.y).sumNumber(-borderThickness);
 
-        const transformOriginX = backgroundSizeX / 2;
-        const transformOriginY = backgroundSizeY / 2;
-        this.backgroundDOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
+        const transformOrigin = backgroundSize.multiplyByNumber(0.5);
+        this.backgroundDOMElement.style.transformOrigin = `${transformOrigin.x}px ${transformOrigin.y}px`;
         this.backgroundDOMElement.style.transform = `rotate(${-angle}deg)`;
 
         View.renderPosition(this.backgroundDOMElement, backgroundPosition);
