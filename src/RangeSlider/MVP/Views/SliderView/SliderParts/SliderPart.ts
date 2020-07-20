@@ -12,13 +12,16 @@ abstract class SliderPart {
         this.DOMElement = document.createElement("div");
     }
 
-    abstract initialize(): void;
+    public initialize(): void {
+        this.buildDOMElement();
+        this.update();
+    }
 
-    public buildDOMElement(): void{
+    public buildDOMElement(): void {
         this.DOMElement.innerHTML = "";
     }
 
-    abstract render(): void;
+    public abstract update(): void;
 
     protected setPosition(position: Vector): void {
         View.renderPosition(this.DOMElement, position);

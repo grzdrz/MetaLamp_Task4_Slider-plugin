@@ -2,11 +2,6 @@ import SliderPart from "./SliderPart";
 import Vector from "../../../../Helpers/Vector";
 
 class EmptyStrip extends SliderPart {
-    public initialize(): void {
-        this.buildDOMElement();
-        this.render();
-    }
-
     public buildDOMElement(): void {
         super.buildDOMElement();
 
@@ -14,7 +9,7 @@ class EmptyStrip extends SliderPart {
         this.view.containerElement.append(this.DOMElement);
     }
 
-    public render(): void {
+    public update(): void {
         const {
             sliderLength,
             handleHeight,

@@ -11,11 +11,6 @@ class Scale extends SliderPart {
         this.handlerClickOnSegment = this.handlerClickOnSegment.bind(this);
     }
 
-    public initialize(): void {
-        this.buildDOMElement();
-        this.render();
-    }
-
     public buildDOMElement(): void {
         super.buildDOMElement();
 
@@ -58,7 +53,7 @@ class Scale extends SliderPart {
         this.calculateSegmentPosition(segment, segmentValue);
     }
 
-    public render(): void {
+    public update(): void {
 
     }
 

@@ -34,7 +34,7 @@ class SliderView extends View {
         });
         window.addEventListener("resize", this.handlerViewportSizeChange);
 
-        this.renderContainer();
+        this.update(false);
     }
 
     public update(neededRerender: boolean): void {
@@ -44,31 +44,16 @@ class SliderView extends View {
             this.renderContainer();
             this.parts.forEach((part) => {
                 part.buildDOMElement();
-                part.render();
+                part.update();
             });
         } else { // или просто обновление их состояний
             this.renderContainer();
             this.parts.forEach((part) => {
-                part.render();
+                part.update();
             });
         }
 
         this.renderContainer();
-    }
-
-    public createParts(): void {
-        const modelData = this.getModelData();
-        this.parts = [];
-
-        this.parts.push(new EmptyStrip(this));
-        modelData.values.forEach((value, index) => {
-            this.parts.push(new Handle(this, index));
-        });
-        this.viewManager.viewData.filledStrips.forEach((value, index) => {
-            if (value) this.parts.push(new FilledStrip(this, index));
-        });
-
-        if (this.viewManager.viewData.hasScale) this.parts.push(new Scale(this));
     }
 
     // значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
@@ -100,7 +85,22 @@ class SliderView extends View {
         return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
     }
 
-    public renderContainer(): void {
+    private createParts(): void {
+        const modelData = this.getModelData();
+        this.parts = [];
+
+        this.parts.push(new EmptyStrip(this));
+        modelData.values.forEach((value, index) => {
+            this.parts.push(new Handle(this, index));
+        });
+        this.viewManager.viewData.filledStrips.forEach((value, index) => {
+            if (value) this.parts.push(new FilledStrip(this, index));
+        });
+
+        if (this.viewManager.viewData.hasScale) this.parts.push(new Scale(this));
+    }
+
+    private renderContainer(): void {
         const { sliderLength, angleInRad } = this.viewManager.viewData;
 
         this.calculateSliderLength();

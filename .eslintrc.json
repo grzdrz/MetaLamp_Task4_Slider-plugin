@@ -19,6 +19,11 @@
     "plugins": [
         "@typescript-eslint"
     ],
+    "ignorePatterns": [
+        "temp.js",
+        "tests/**/*.ts",
+        "karma.conf.js"
+    ],
     "rules": {
         "@typescript-eslint/indent": [
             "error",

@@ -22,10 +22,10 @@ class ViewData implements IViewData {
     public hasScale = true;
 
     constructor(data: IViewData) {
-        this.update(data);
+        this.initialize(data);
     }
 
-    update(data: IViewData): void {
+    private initialize(data: IViewData): void {
         this.sliderStripThickness = (data.sliderStripThickness !== undefined ? data.sliderStripThickness : this.sliderStripThickness);
         this.handleWidth = (data.handleWidth !== undefined ? data.handleWidth : this.handleWidth);
         this.handleHeight = (data.handleHeight !== undefined ? data.handleHeight : this.handleHeight);

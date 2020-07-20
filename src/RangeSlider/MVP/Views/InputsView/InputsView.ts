@@ -17,20 +17,21 @@ class InputsView extends View {
     }
 
     public initialize(): void {
-        this.render();
+        this.build();
+        this.update(false);
     }
 
     public update(_neededFullRerender: boolean): void {
         const modelData = this.getModelData();
 
         const values = modelData.values.map((e) => e);
-        if (_neededFullRerender) this.render();
+        if (_neededFullRerender) this.build();
         this.valueInputsDOMElements.forEach((e, i) => {
             e.value = values[i].toString();
         });
     }
 
-    public render(): void {
+    public build(): void {
         const modelData = this.getModelData();
 
         this.containerElement.innerHTML = "";
@@ -54,11 +55,9 @@ class InputsView extends View {
 
             valueInput.addEventListener("change", this.handlerValueInputChange);
         }
-
-        this.update(false);
     }
 
-    handlerValueInputChange(): void {
+    private handlerValueInputChange(): void {
         const modelData = this.getModelData();
 
         const values = modelData.values.map((e) => e);

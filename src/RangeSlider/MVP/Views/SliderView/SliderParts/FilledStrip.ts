@@ -10,11 +10,6 @@ class FilledStrip extends SliderPart {
         this.countNumber = countNumber;
     }
 
-    public initialize(): void {
-        this.buildDOMElement();
-        this.render();
-    }
-
     public buildDOMElement(): void {
         super.buildDOMElement();
 
@@ -22,7 +17,7 @@ class FilledStrip extends SliderPart {
         this.view.containerElement.append(this.DOMElement);
     }
 
-    public render(): void {
+    public update(): void {
         const modelData = this.view.getModelData();
         const values = modelData.values.map((e) => e);
         const {

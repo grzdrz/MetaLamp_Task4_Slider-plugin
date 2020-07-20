@@ -27,15 +27,15 @@ abstract class View {
     }
 
     getModelData(): ModelData {
-        const optionsEventArgs = new ModelDataEventArgs();
+        const optionsEventArgs = new ModelDataEventArgs({});
         this.onGetModelData.invoke(optionsEventArgs);
         if (!optionsEventArgs.data) throw new Error("broken get model data");
         return <ModelData>optionsEventArgs.data;
     }
 
-    abstract initialize(): void;
+    public abstract initialize(): void;
 
-    abstract update(neededFullRerender: boolean): void;
+    public abstract update(neededFullRerender: boolean): void;
 
     public static renderPosition(htmlElement: HTMLElement, position: Vector): void {
         const element = htmlElement;

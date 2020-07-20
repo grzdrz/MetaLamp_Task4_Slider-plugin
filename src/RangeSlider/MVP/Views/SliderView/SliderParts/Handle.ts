@@ -23,11 +23,6 @@ class Handle extends SliderPart {
         this.handlerMouseDown = this.handlerMouseDown.bind(this);
     }
 
-    public initialize(): void {
-        this.buildDOMElement();
-        this.render();
-    }
-
     public buildDOMElement(): void {
         super.buildDOMElement();
 
@@ -47,7 +42,7 @@ class Handle extends SliderPart {
         this.setDragAndDropHandlers();
     }
 
-    public setDragAndDropHandlers(): void {
+    private setDragAndDropHandlers(): void {
         this.DOMElement.ondragstart = () => false;
         this.DOMElement.addEventListener("mousedown", this.handlerMouseDown);
         this.DOMElement.addEventListener("touchstart", this.handlerMouseDown);
@@ -59,7 +54,7 @@ class Handle extends SliderPart {
         });
     }
 
-    public render(): void {
+    public update(): void {
         const modelData = this.view.getModelData();
         const values = modelData.values.map((e) => e);
         const { handleWidth, angleInRad } = this.view.viewManager.viewData;
@@ -75,7 +70,7 @@ class Handle extends SliderPart {
         this.renderBackground(vectorizedHandlePosition);
     }
 
-    rotate(): void {
+    private rotate(): void {
         const { handleWidth, angle } = this.view.viewManager.viewData;
 
         const transformOriginX = handleWidth / 2;
@@ -84,7 +79,7 @@ class Handle extends SliderPart {
         this.DOMElement.style.transform = `rotate(${-angle}deg)`;
     }
 
-    renderBackground(position: Vector): void {
+    private renderBackground(position: Vector): void {
         const {
             handleWidth,
             handleHeight,

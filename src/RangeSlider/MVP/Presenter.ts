@@ -27,7 +27,7 @@ class Presenter {
         this.initialize();
     }
 
-    initialize(): void {
+    private initialize(): void {
         this.viewManager.initialize();
 
         (this.viewManager.optionsPanelView).onModelStateUpdate.subscribe(this.handlerModelStateUpdate);
@@ -45,39 +45,39 @@ class Presenter {
         this.model.onGetViewData.subscribe(this.handlerGetViewData);
     }
 
-    public handlerGetModelData(args: EventArgs): void {
+    private handlerGetModelData(args: EventArgs): void {
         this.model.getOptions(<ModelDataEventArgs>args);
     }
 
-    public handlerGetViewData(args: EventArgs): void {
+    private handlerGetViewData(args: EventArgs): void {
         this.viewManager.getData(<ViewDataEventArgs>args);
     }
 
-    public handlerHandleMove(args: EventArgs): void {
-        this.model.updateOptions((<ModelDataEventArgs>args).data);
+    private handlerHandleMove(args: EventArgs): void {
+        this.model.update((<ModelDataEventArgs>args).data);
         this.viewManager.sliderView.update(false);
         this.viewManager.inputsView.update(false);
     }
 
-    public handlerInputChange(args: EventArgs): void {
-        this.model.updateOptions((<ModelDataEventArgs>args).data);
+    private handlerInputChange(args: EventArgs): void {
+        this.model.update((<ModelDataEventArgs>args).data);
         this.viewManager.sliderView.update(false);
         this.viewManager.inputsView.update(true);
     }
 
-    public handlerValuesChange(args: EventArgs): void {
-        this.viewManager.viewData.update((<ViewDataEventArgs>args).data);
+    private handlerValuesChange(args: EventArgs): void {
+        this.viewManager./* viewData.update */updateData((<ViewDataEventArgs>args).data);
     }
 
-    public handlerModelStateUpdate(args: EventArgs): void {
-        this.model.updateOptions((<ModelDataEventArgs>args).data);
+    private handlerModelStateUpdate(args: EventArgs): void {
+        this.model.update((<ModelDataEventArgs>args).data);
         this.viewManager.sliderView.update(true);
         this.viewManager.inputsView.update(true);
         this.viewManager.optionsPanelView.update(false);
     }
 
-    public handlerViewStateUpdate(args: EventArgs): void {
-        this.viewManager.viewData.update((<ViewDataEventArgs>args).data);
+    private handlerViewStateUpdate(args: EventArgs): void {
+        this.viewManager./* viewData.update */updateData((<ViewDataEventArgs>args).data);
         this.viewManager.sliderView.update(true);
         this.viewManager.inputsView.update(false);
         this.viewManager.optionsPanelView.update(false);

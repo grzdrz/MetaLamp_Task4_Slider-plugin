@@ -4,17 +4,18 @@ import SliderView from "./SliderView/SliderView";
 import InputsView from "./InputsView/InputsView";
 import OptionsPanelView from "./OptionsPanel/OptionsPanelView";
 import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
+import IViewData from "./IViewData";
 
 class ViewManager {
     public viewData: ViewData;
-
-    public containerElement: HTMLElement;
 
     public sliderView: SliderView;
 
     public inputsView: InputsView;
 
     public optionsPanelView: OptionsPanelView;
+
+    private containerElement: HTMLElement;
 
     constructor(viewData: ViewData, containerElement: HTMLElement) {
         this.viewData = viewData;
@@ -28,11 +29,27 @@ class ViewManager {
         this.optionsPanelView = new OptionsPanelView(optionsPanelContainer, this);
     }
 
+    public updateData(data: IViewData): void {
+        this.viewData.sliderStripThickness = (data.sliderStripThickness !== undefined ? data.sliderStripThickness : this.viewData.sliderStripThickness);
+        this.viewData.handleWidth = (data.handleWidth !== undefined ? data.handleWidth : this.viewData.handleWidth);
+        this.viewData.handleHeight = (data.handleHeight !== undefined ? data.handleHeight : this.viewData.handleHeight);
+        this.viewData.borderThickness = (data.borderThickness !== undefined ? data.borderThickness : this.viewData.borderThickness);
+        this.viewData.maxSegmentsCount = (data.maxSegmentsCount !== undefined ? data.maxSegmentsCount : this.viewData.maxSegmentsCount);
+        this.viewData.scaleFontSize = (data.scaleFontSize !== undefined ? data.scaleFontSize : this.viewData.scaleFontSize);
+        this.viewData.angle = (data.angle !== undefined ? data.angle : this.viewData.angle);
+        this.viewData.filledStrips = (data.filledStrips !== undefined ? data.filledStrips : this.viewData.filledStrips);
+        this.viewData.hasScale = (data.hasScale !== undefined ? data.hasScale : this.viewData.hasScale);
+    }
+
+    public getData(args: ViewDataEventArgs): void {
+        args.data = new ViewData(this.viewData);
+    }
+
     public initialize(): void {
         this.render();
     }
 
-    public render(): void {
+    private render(): void {
         // плагин
         const rangeSlider: HTMLElement = document.createElement("div");
         rangeSlider.className = "range-slider";
@@ -60,10 +77,6 @@ class ViewManager {
 
         this.containerElement.append(rangeSlider);
         this.containerElement.append(optionsContainer);
-    }
-
-    getData(args: ViewDataEventArgs): void {
-        args.data = new ViewData(this.viewData);
     }
 }
 

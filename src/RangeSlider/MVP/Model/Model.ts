@@ -21,7 +21,7 @@ class Model {
         this.onValuesChange = new Event();
     }
 
-    update(data: IModelData): void {
+    public updateData(data: IModelData): void {
         this.data.id = (data.id !== undefined ? data.id : this.data.id);
         this.data.minValue = (data.minValue !== undefined ? data.minValue : this.data.minValue);
         this.data.maxValue = (data.maxValue !== undefined ? data.maxValue : this.data.maxValue);
@@ -44,18 +44,18 @@ class Model {
         }
     }
 
-    getViewData(): ViewData {
-        const eventArgs = new ViewDataEventArgs();
+    public getViewData(): ViewData {
+        const eventArgs = new ViewDataEventArgs({});
         this.onGetViewData.invoke(eventArgs);
         if (!eventArgs.data) throw new Error("broken get model data");
         return <ViewData>eventArgs.data;
     }
 
-    getOptions(args: ModelDataEventArgs): void {
+    public getOptions(args: ModelDataEventArgs): void {
         args.data = new ModelData(this.data);
     }
 
-    updateOptions(data: IModelData): void {
+    public update(data: IModelData): void {
         let changedValueIndex = -1;
         let deltaDirection = 0; // направление смещения значения
         if (data.values) { // значение, для которого нет соответствующей пары является значением текущего ползунка
@@ -65,7 +65,7 @@ class Model {
             deltaDirection = data.values[changedValueIndex] - this.data.values[changedValueIndex];
         }
 
-        this./* data. */update(data);
+        this./* data. */updateData(data);
 
         if (data.stepSize !== undefined) {
             this.data.maxValue = this.validateMaxValue(data.stepSize, this.data.maxValue);
@@ -100,7 +100,7 @@ class Model {
         }
     }
 
-    validateMaxValue(stepSize: number, maxValue: number): number {
+    private validateMaxValue(stepSize: number, maxValue: number): number {
         const test2 = (maxValue - this.data.minValue) / stepSize;
         const test1 = MathFunctions.getFractionOfNumber(test2);
 
@@ -110,7 +110,7 @@ class Model {
         return stepSize * test3 + this.data.minValue;
     }
 
-    validateMinValue(minValue: number, stepSize: number): number {
+    private validateMinValue(minValue: number, stepSize: number): number {
         const test2 = (this.data.maxValue - minValue) / stepSize;
         const test1 = MathFunctions.getFractionOfNumber(test2);
 
@@ -120,7 +120,7 @@ class Model {
         return this.data.maxValue - stepSize * test3;
     }
 
-    validateValue(value: number, countNumber: number, canPush: boolean): number {
+    private validateValue(value: number, countNumber: number, canPush: boolean): number {
         const newTargetInputValue = this.calculateNearestPositionForHandle(value);
 
         const {

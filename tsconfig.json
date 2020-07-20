@@ -1,7 +1,7 @@
 {
     "exclude": [
-        "temp",
-        "node_modules",
+        "./temp",
+        "./node_modules",
         "webpack.config.js"
     ],
     "compilerOptions": {

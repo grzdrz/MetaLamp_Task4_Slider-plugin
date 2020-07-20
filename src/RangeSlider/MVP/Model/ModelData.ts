@@ -14,14 +14,14 @@ class ModelData implements IModelData {
     public canPush = true;
 
     constructor(data: IModelData) {
-        this.update(data);
+        this.initialize(data);
     }
 
-    get deltaMaxMin(): number {
+    public get deltaMaxMin(): number {
         return this.maxValue - this.minValue;
     }
 
-    private update(data: IModelData): void { // /////////////////////
+    private initialize(data: IModelData): void {
         this.id = (data.id !== undefined ? data.id : this.id);
         this.minValue = (data.minValue !== undefined ? data.minValue : this.minValue);
         this.maxValue = (data.maxValue !== undefined ? data.maxValue : this.maxValue);
