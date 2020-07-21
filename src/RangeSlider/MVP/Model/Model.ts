@@ -27,20 +27,6 @@ class Model {
         this.data.stepSize = (data.stepSize !== undefined ? data.stepSize : this.data.stepSize);
         this.data.canPush = (data.canPush !== undefined ? data.canPush : this.data.canPush);
         this.data.values = (data.values !== undefined ? data.values : this.data.values);
-
-        if (data.values !== undefined) {
-            const viewData = this.getViewData();
-            const filledStrips = viewData.filledStrips.map((e) => e);
-            const newFilledStrips = new Array<boolean>();
-            for (let i = 0; i < this.data.values.length + 1; i += 1) {
-                if (i < filledStrips.length) {
-                    newFilledStrips.push(filledStrips[i]);
-                } else {
-                    newFilledStrips.push(false);
-                }
-            }
-            this.onValuesChange.invoke(new ViewDataEventArgs({ filledStrips: newFilledStrips }));
-        }
     }
 
     public getViewData(): ViewData {
@@ -55,14 +41,7 @@ class Model {
     }
 
     public update(data: IModelData): void {
-        let changedValueIndex = -1;
-        let deltaDirection = 0; // направление смещения значения
-        if (data.values) { // значение, для которого нет соответствующей пары является значением текущего ползунка
-            data.values.forEach((e, i) => {
-                if (e !== this.data.values[i]) changedValueIndex = i;
-            });
-            deltaDirection = data.values[changedValueIndex] - this.data.values[changedValueIndex];
-        }
+        const { deltaDirection, changedValueIndex } = this.findChangedValue(data.values);
 
         this.updateData(data);
 
@@ -76,9 +55,48 @@ class Model {
             this.data.minValue = this.validateMinValue(data.minValue, this.data.stepSize);
         }
 
-        const wasSliderParametersChange = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined || data.values !== undefined;
-        const wasHandleMove = (changedValueIndex !== -1 && deltaDirection !== 0);
+        if (data.values !== undefined) {
+            this.valuesChanged();
+        }
 
+        const wasSliderParametersChanged = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined || data.values !== undefined;
+        const wasHandleMove = (changedValueIndex !== -1 && deltaDirection !== 0);
+        this.validateValues(wasSliderParametersChanged, wasHandleMove, deltaDirection, changedValueIndex);
+    }
+
+    // проверяет был ли сдвинут ползунок
+    private findChangedValue(values: number[] | undefined): { deltaDirection: number, changedValueIndex: number } {
+        let changedValueIndex = -1;
+        let deltaDirection = 0; // направление смещения значения
+
+        if (values) { // значение, для которого нет соответствующей пары является значением текущего ползунка
+            values.forEach((e, i) => {
+                if (e !== this.data.values[i]) changedValueIndex = i;
+            });
+            deltaDirection = values[changedValueIndex] - this.data.values[changedValueIndex];// /////////////
+        }
+
+        return {
+            deltaDirection,
+            changedValueIndex,
+        };
+    }
+
+    private valuesChanged(): void { // ////////
+        const viewData = this.getViewData();
+        const filledStrips = viewData.filledStrips.map((e) => e);
+        const newFilledStrips = new Array<boolean>();
+        for (let i = 0; i < this.data.values.length + 1; i += 1) {
+            if (i < filledStrips.length) {
+                newFilledStrips.push(filledStrips[i]);
+            } else {
+                newFilledStrips.push(false);
+            }
+        }
+        this.onValuesChange.invoke(new ViewDataEventArgs({ filledStrips: newFilledStrips }));
+    }
+
+    private validateValues(wasSliderParametersChanged: boolean, wasHandleMove: boolean, deltaDirection: number, changedValueIndex: number): void {
         if (this.data.values.length > 1 && wasHandleMove) {
             // протаскивание всех ползунков после/до текущего
             if (deltaDirection > 0) {
@@ -92,11 +110,27 @@ class Model {
                     this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
                 }
             }
-        } else if (wasSliderParametersChange) {
+        } else if (wasSliderParametersChanged) {
             for (let i = 0; i < this.data.values.length; i += 1) {
                 this.data.values[i] = this.validateValue(this.data.values[i], i, false);
             }
         }
+    }
+
+    private validateValue(value: number, countNumber: number, canPush: boolean): number {
+        const newTargetInputValue = this.calculateNearestPositionForHandle(value);
+
+        const {
+            minValue, maxValue,
+        } = this.data;
+        const values = this.data.values.map((e) => e);
+
+        if (newTargetInputValue > values[countNumber + 1] && !canPush) return values[countNumber + 1];
+        if (newTargetInputValue < values[countNumber - 1] && !canPush) return values[countNumber - 1];
+        if (newTargetInputValue < minValue) return minValue;
+        if (newTargetInputValue > maxValue) return maxValue;
+
+        return newTargetInputValue;
     }
 
     private validateMaxValue(stepSize: number, maxValue: number): number {
@@ -117,22 +151,6 @@ class Model {
 
         const test3 = Math.round(test2);
         return this.data.maxValue - stepSize * test3;
-    }
-
-    private validateValue(value: number, countNumber: number, canPush: boolean): number {
-        const newTargetInputValue = this.calculateNearestPositionForHandle(value);
-
-        const {
-            minValue, maxValue,
-        } = this.data;
-        const values = this.data.values.map((e) => e);
-
-        if (newTargetInputValue > values[countNumber + 1] && !canPush) return values[countNumber + 1];
-        if (newTargetInputValue < values[countNumber - 1] && !canPush) return values[countNumber - 1];
-        if (newTargetInputValue < minValue) return minValue;
-        if (newTargetInputValue > maxValue) return maxValue;
-
-        return newTargetInputValue;
     }
 
     // подменяем текущее значение инпута на число к которому ближе всего текущее значение курсора

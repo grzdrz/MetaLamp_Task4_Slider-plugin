@@ -1,5 +1,5 @@
 import EventArgs from "./EventArgs";
-import IViewData from "../MVP/Views/IViewData";
+import IViewData from "../MVP/Views/Data/IViewData";
 
 class ViewDataEventArgs extends EventArgs {
     public data: IViewData;
