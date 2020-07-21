@@ -59,11 +59,18 @@ class SliderView extends View {
     // значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
     public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber: number): void {
         const modelData = this.getModelData();
-        const { sliderLength, handleWidth, angleInRad } = this.viewManager.viewData;
+        const {
+            sliderLength,
+            handleWidth,
+            angleInRad,
+            isHandlesSeparated,
+        } = this.viewManager.viewData;
 
-        const vectorizedHandleWidth = Vector.calculateVector(handleWidth * handleCountNumber, angleInRad);
+        const test = (isHandlesSeparated ? handleCountNumber : 0);
+        const test2 = (isHandlesSeparated ? modelData.values.length : 1);
+        const vectorizedHandleWidth = Vector.calculateVector(handleWidth * test/* handleCountNumber */, angleInRad);
         cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
-        const containerCapacity = sliderLength - handleWidth * (modelData.values.length);
+        const containerCapacity = sliderLength - handleWidth * test2/* (modelData.values.length) */;
 
         const mainAxisVector = Vector.calculateVector(sliderLength, angleInRad);
         const cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
@@ -78,9 +85,10 @@ class SliderView extends View {
     // пиксельное значение пропорциональное условному значению
     public calculateProportionalPixelValue(value: number): number {
         const modelData = this.getModelData();
-        const { sliderLength, handleWidth } = this.viewManager.viewData;
+        const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.viewData;
 
-        const usedLength = sliderLength - handleWidth * modelData.values.length;
+        const test2 = (isHandlesSeparated ? modelData.values.length : 1);
+        const usedLength = sliderLength - handleWidth * test2/* modelData.values.length */;
 
         return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
     }

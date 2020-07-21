@@ -57,9 +57,10 @@ class Handle extends SliderPart {
     public update(): void {
         const modelData = this.view.getModelData();
         const values = modelData.values.map((e) => e);
-        const { handleWidth, angleInRad } = this.view.viewManager.viewData;
+        const { handleWidth, angleInRad, isHandlesSeparated } = this.view.viewManager.viewData;
 
-        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * this.countNumber), angleInRad);
+        const test = (isHandlesSeparated ? this.countNumber : 0);
+        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * test/* this.countNumber */), angleInRad);
         const handlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
 
         const vectorizedHandlePosition = Vector.calculateVector(handlePosition, angleInRad).sum(handlesCountShift);
@@ -104,8 +105,6 @@ class Handle extends SliderPart {
     private handlerMouseDown(event: UIEvent) {
         event.preventDefault();
 
-        const { handleHeight } = this.view.viewManager.viewData;
-
         let cursorMouseDownPositionX;
         let cursorMouseDownPositionY;
         if (event instanceof TouchEvent) {
@@ -120,11 +119,7 @@ class Handle extends SliderPart {
         cursorMouseDownPositionY = (document.documentElement.clientHeight + window.pageYOffset) - cursorMouseDownPositionY;
         // cursorMouseDownPositionX =;
         const cursorMouseDownPosition = new Vector(cursorMouseDownPositionX, cursorMouseDownPositionY);// место нажатия левой кнопки мыши
-
-        const targetSliderBoundingCoords = this.DOMElement.getBoundingClientRect();
-        const mousePositionInsideTargetSliderX = cursorMouseDownPosition.x - targetSliderBoundingCoords.x;
-        const mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + window.pageYOffset - targetSliderBoundingCoords.y - /* modelData. */handleHeight);
-        const mousePositionInsideTargetSlider = new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
+        const mousePositionInsideTargetSlider = this.calculateCursorPositionInsideTargetHandle(cursorMouseDownPosition);
 
         const optionsForMouseEvents = {
             handlerMouseMove: (_event: UIEvent): void => { },
@@ -182,6 +177,15 @@ class Handle extends SliderPart {
         );
 
         return mouseGlobalPosition.subtract(containerCoord).subtract(mousePositionInsideTargetSlider);
+    }
+
+    private calculateCursorPositionInsideTargetHandle(cursorMouseDownPosition: Vector) {
+        const { handleHeight } = this.view.viewManager.viewData;
+
+        const targetSliderBoundingCoords = this.DOMElement.getBoundingClientRect();
+        const mousePositionInsideTargetSliderX = cursorMouseDownPosition.x - targetSliderBoundingCoords.x;
+        const mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + window.pageYOffset - targetSliderBoundingCoords.y - handleHeight);
+        return new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
     }
 }
 

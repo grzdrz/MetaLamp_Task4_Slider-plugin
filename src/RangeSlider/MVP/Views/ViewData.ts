@@ -21,6 +21,8 @@ class ViewData implements IViewData {
 
     public hasScale = true;
 
+    public isHandlesSeparated = false;
+
     constructor(data: IViewData) {
         this.initialize(data);
     }
@@ -35,6 +37,7 @@ class ViewData implements IViewData {
         this.angle = (data.angle !== undefined ? data.angle : this.angle);
         this.filledStrips = (data.filledStrips !== undefined ? data.filledStrips : this.filledStrips);
         this.hasScale = (data.hasScale !== undefined ? data.hasScale : this.hasScale);
+        this.isHandlesSeparated = (data.isHandlesSeparated !== undefined ? data.isHandlesSeparated : this.isHandlesSeparated);
     }
 
     public get angleInRad(): number {

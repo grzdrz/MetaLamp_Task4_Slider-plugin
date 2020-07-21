@@ -9,6 +9,7 @@ interface IViewData {
     angle?: number,
     filledStrips?: boolean[],
     hasScale?: boolean,
+    isHandlesSeparated?: boolean,
 }
 
 export default IViewData;

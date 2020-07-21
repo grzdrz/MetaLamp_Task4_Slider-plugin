@@ -41,7 +41,8 @@
     border: 1px solid black;
     font-size: 1.5rem;
 }
-&__can-push-input {
+&__can-push-input,
+&__handles-separated-input {
     width: 20px;
     height: 20px;
     margin-right: 5px;
@@ -55,7 +56,8 @@
 &__angle-size-text,
 &__input-text,
 &__handles-count-text,
-&__can-push-text {
+&__can-push-text,
+&__handles-separated-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;

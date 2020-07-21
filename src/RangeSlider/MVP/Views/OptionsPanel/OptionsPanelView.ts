@@ -11,6 +11,7 @@ import StepSize from "./OptionsPanelElements/StepSize";
 import ViewManager from "../ViewManager";
 import ListOfFilledStrip from "./OptionsPanelElements/ListOfFilledStrip";
 import CanPush from "./OptionsPanelElements/CanPush";
+import HandlesSeparated from "./OptionsPanelElements/HandlesSeparated";
 
 class OptionsPanelView extends View {
     public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
@@ -32,6 +33,7 @@ class OptionsPanelView extends View {
         this.panelElements.push(new MaxSegmentCount(this));
         this.panelElements.push(new Angle(this));
         this.panelElements.push(new CanPush(this));
+        this.panelElements.push(new HandlesSeparated(this));
 
         this.update(true);
     }

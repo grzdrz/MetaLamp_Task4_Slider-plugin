@@ -39,6 +39,7 @@ class ViewManager {
         this.viewData.angle = (data.angle !== undefined ? data.angle : this.viewData.angle);
         this.viewData.filledStrips = (data.filledStrips !== undefined ? data.filledStrips : this.viewData.filledStrips);
         this.viewData.hasScale = (data.hasScale !== undefined ? data.hasScale : this.viewData.hasScale);
+        this.viewData.isHandlesSeparated = (data.isHandlesSeparated !== undefined ? data.isHandlesSeparated : this.viewData.isHandlesSeparated);
     }
 
     public getData(args: ViewDataEventArgs): void {
