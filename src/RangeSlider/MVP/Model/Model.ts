@@ -14,6 +14,8 @@ class Model {
 
     public onValuesChange: Event;
 
+    public onStatesUpdate = new Event();
+
     constructor(data: ModelData) {
         this.data = data;
 

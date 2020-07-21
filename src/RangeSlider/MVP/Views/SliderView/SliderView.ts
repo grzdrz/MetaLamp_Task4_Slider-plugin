@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import View from "../View";
 
 import SliderPart from "./SliderParts/SliderPart";
@@ -32,9 +35,13 @@ class SliderView extends View {
         this.parts.forEach((part) => {
             part.initialize();
         });
-        window.addEventListener("resize", this.handlerViewportSizeChange);
 
-        this.update(false);
+        const ro = new ResizeObserver(this.handlerViewportSizeChange);
+        const htmlElement = document.querySelector("html");
+        if (!htmlElement) throw new Error();
+        ro.observe(htmlElement);
+
+        this.update(true);
     }
 
     public update(neededRerender: boolean): void {
@@ -133,8 +140,8 @@ class SliderView extends View {
         this.viewManager.viewData.sliderLength = curLength;
     }
 
-    private handlerViewportSizeChange(_event: UIEvent) {
-        this.update(/* false */true);
+    private handlerViewportSizeChange(/* entries: ReadonlyArray<ResizeObserverEntry>, observer: ResizeObserver */): void {
+        this.update(true);
     }
 }
 

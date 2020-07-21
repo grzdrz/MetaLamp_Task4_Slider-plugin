@@ -34,7 +34,7 @@ class FilledStrip extends SliderPart {
         let position;
         const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
         const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
-        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient/* this.countNumber */ - handleWidth / 2), angleInRad);
+        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient - handleWidth / 2), angleInRad);
         const yShift = handleHeight / 2 - sliderStripThickness / 2;
         const firstHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber - 1]);
         const lastHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);

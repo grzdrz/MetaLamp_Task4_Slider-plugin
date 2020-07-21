@@ -6,6 +6,8 @@ import OptionsPanelView from "./OptionsPanel/OptionsPanelView";
 import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
 import IViewData from "./IViewData";
 
+import Event from "../../Events/Event";
+
 class ViewManager {
     public viewData: ViewData;
 
@@ -16,6 +18,8 @@ class ViewManager {
     public optionsPanelView: OptionsPanelView;
 
     private containerElement: HTMLElement;
+
+    public onStatesUpdate = new Event();
 
     constructor(viewData: ViewData, containerElement: HTMLElement) {
         this.viewData = viewData;
