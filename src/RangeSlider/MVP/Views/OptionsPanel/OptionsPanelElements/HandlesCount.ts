@@ -59,7 +59,7 @@ class HandlesCount extends OptionPanelElement {
         }
         const optionsToUpdate = { values };
 
-        this.view.onModelStateUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
+        this.view.viewManager.onStatesUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
     }
 }
 

@@ -140,7 +140,7 @@ class SliderView extends View {
         this.viewManager.viewData.sliderLength = curLength;
     }
 
-    private handlerViewportSizeChange(/* entries: ReadonlyArray<ResizeObserverEntry>, observer: ResizeObserver */): void {
+    private handlerViewportSizeChange(): void {
         this.update(true);
     }
 }

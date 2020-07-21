@@ -22,3 +22,4 @@ const viewData = {
     isHandlesSeparated: false,
 };
 $(".test-page__tested-range-slider-container1").rangeSlider(modelData, viewData);
+$(".test-page__tested-range-slider-container2").rangeSlider(modelData, viewData);

@@ -6,14 +6,12 @@ import ViewManager from "../ViewManager";
 class InputsView extends View {
     public valueInputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();
 
-    public onInputsChange: Event;
+    public onInputsChange = new Event();
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         super(containerElement, viewManager);
 
         this.handlerValueInputChange = this.handlerValueInputChange.bind(this);
-
-        this.onInputsChange = new Event();
     }
 
     public initialize(): void {

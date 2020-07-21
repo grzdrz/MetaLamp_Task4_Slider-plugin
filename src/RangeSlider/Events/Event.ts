@@ -6,7 +6,6 @@ interface EventHandler {
 
 class Event {
     private handlers: EventHandler[] = new Array<EventHandler>();
-    /* public publisher: Object; */
 
     invoke(args: EventArgs): void {
         this.handlers.forEach((eventHandler) => eventHandler(args));

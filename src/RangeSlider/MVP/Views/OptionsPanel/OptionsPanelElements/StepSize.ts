@@ -61,7 +61,7 @@ class StepSize extends OptionPanelElement {
             stepSize: inputValue,
         };
 
-        this.view.onModelStateUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
+        this.view.viewManager.onStatesUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
     }
 }
 

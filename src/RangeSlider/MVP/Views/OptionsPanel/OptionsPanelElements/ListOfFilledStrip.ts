@@ -70,14 +70,14 @@ class ListOfFilledStrip extends OptionPanelElement {
         });
     }
 
-    handlerValueInputChange(event: globalThis.Event): void {
+    handlerValueInputChange(): void {
         const strips = this.view.viewManager.viewData.filledStrips.map((e) => e);
         this.inputsDOMElements.forEach((e, i) => {
             const value = e.checked;
             strips[i] = value;
         });
 
-        this.view.onViewStateUpdate.invoke(new ViewDataEventArgs({ filledStrips: strips }));
+        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({ filledStrips: strips }));
     }
 }
 

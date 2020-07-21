@@ -1,12 +1,12 @@
 import Model from "./MVP/Model/Model";
 import Presenter from "./MVP/Presenter";
 
-import IModelData from "./MVP/Model/IModelData";
-import ModelData from "./MVP/Model/ModelData";
+import IModelData from "./MVP/Model/Data/IModelData";
+import ModelData from "./MVP/Model/Data/ModelData";
 
-import IViewData from "./MVP/Views/IViewData";
+import IViewData from "./MVP/Views/Data/IViewData";
 
-import ViewData from "./MVP/Views/ViewData";
+import ViewData from "./MVP/Views/Data/ViewData";
 import ViewManager from "./MVP/Views/ViewManager";
 
 import "./RangeSlider.scss";

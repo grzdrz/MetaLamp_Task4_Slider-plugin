@@ -1,26 +1,23 @@
 import Event from "../../Events/Event";
 
-import IModelData from "./IModelData";
-import ModelData from "./ModelData";
+import IModelData from "./Data/IModelData";
+import ModelData from "./Data/ModelData";
 import ModelDataEventArgs from "../../Events/ModelDataEventArgs";
 import MathFunctions from "../../Helpers/MathFunctions";
 import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
-import ViewData from "../Views/ViewData";
+import ViewData from "../Views/Data/ViewData";
 
 class Model {
     private data: ModelData;
 
-    public onGetViewData: Event;
+    public onGetViewData = new Event();
 
-    public onValuesChange: Event;
+    public onValuesChange = new Event();
 
     public onStatesUpdate = new Event();
 
     constructor(data: ModelData) {
         this.data = data;
-
-        this.onGetViewData = new Event();
-        this.onValuesChange = new Event();
     }
 
     public updateData(data: IModelData): void {
@@ -67,7 +64,7 @@ class Model {
             deltaDirection = data.values[changedValueIndex] - this.data.values[changedValueIndex];
         }
 
-        this./* data. */updateData(data);
+        this.updateData(data);
 
         if (data.stepSize !== undefined) {
             this.data.maxValue = this.validateMaxValue(data.stepSize, this.data.maxValue);

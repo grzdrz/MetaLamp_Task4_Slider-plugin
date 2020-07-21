@@ -62,7 +62,7 @@ class MinValue extends OptionPanelElement {
             minValue: inputValue,
         };
 
-        this.view.onModelStateUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
+        this.view.viewManager.onStatesUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
     }
 }
 

@@ -1,10 +1,10 @@
 import EventArgs from "./EventArgs";
-import IModelData from "../MVP/Model/IModelData";
+import IModelData from "../MVP/Model/Data/IModelData";
 
 class ModelDataEventArgs extends EventArgs {
     public data: IModelData;
 
-    constructor(data: IModelData/*  | void */) {
+    constructor(data: IModelData) {
         super();
         this.data = (data !== undefined ? data : {});
     }

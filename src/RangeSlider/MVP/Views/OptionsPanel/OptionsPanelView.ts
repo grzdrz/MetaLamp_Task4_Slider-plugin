@@ -1,5 +1,4 @@
 import View from "../View";
-import Event from "../../../Events/Event";
 
 import OptionPanelElement from "./OptionsPanelElements/OptionPanelElement";
 import Angle from "./OptionsPanelElements/Angle";
@@ -15,8 +14,6 @@ import HandlesSeparated from "./OptionsPanelElements/HandlesSeparated";
 
 class OptionsPanelView extends View {
     public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
-
-    public onModelStateUpdate: Event = new Event();
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         super(containerElement, viewManager);

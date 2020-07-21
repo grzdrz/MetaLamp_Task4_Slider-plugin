@@ -1,10 +1,10 @@
-import ViewData from "./ViewData";
+import ViewData from "./Data/ViewData";
 
 import SliderView from "./SliderView/SliderView";
 import InputsView from "./InputsView/InputsView";
 import OptionsPanelView from "./OptionsPanel/OptionsPanelView";
 import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
-import IViewData from "./IViewData";
+import IViewData from "./Data/IViewData";
 
 import Event from "../../Events/Event";
 

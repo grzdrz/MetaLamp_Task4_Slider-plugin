@@ -1,5 +1,5 @@
-import IModelData from "../Model/IModelData";
-import ModelData from "../Model/ModelData";
+import IModelData from "../Model/Data/IModelData";
+import ModelData from "../Model/Data/ModelData";
 import Vector from "../../Helpers/Vector";
 
 import Event from "../../Events/Event";
@@ -12,21 +12,16 @@ abstract class View {
 
     public viewManager: ViewManager;
 
-    public onGetModelData: Event;
-
-    public onViewStateUpdate: Event;
+    public onGetModelData = new Event();
 
     public modelData: IModelData = {};
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         this.containerElement = containerElement;
         this.viewManager = viewManager;
-
-        this.onGetModelData = new Event();
-        this.onViewStateUpdate = new Event();
     }
 
-    getModelData(): ModelData {
+    public getModelData(): ModelData {
         const optionsEventArgs = new ModelDataEventArgs({});
         this.onGetModelData.invoke(optionsEventArgs);
         if (!optionsEventArgs.data) throw new Error("broken get model data");

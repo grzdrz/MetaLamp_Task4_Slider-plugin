@@ -54,7 +54,7 @@ class MaxSegmentCount extends OptionPanelElement {
             maxSegmentsCount: inputValue,
         };
 
-        this.view.onViewStateUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
+        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
     }
 }
 
