@@ -33,8 +33,8 @@ class FilledStrip extends SliderPart {
         let size;
         let position;
         const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
-        const test = (isHandlesSeparated ? this.countNumber : 1);
-        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * test/* this.countNumber */ - handleWidth / 2), angleInRad);
+        const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
+        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient/* this.countNumber */ - handleWidth / 2), angleInRad);
         const yShift = handleHeight / 2 - sliderStripThickness / 2;
         const firstHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber - 1]);
         const lastHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
@@ -51,8 +51,9 @@ class FilledStrip extends SliderPart {
             size = new Vector(width, sliderStripThickness);
             position = vectorizedFirstHandlePosition.sum(handlesCountShift).sum(new Vector(0, yShift));
         } else { // промежуточные интервалы
-            const width = vectorizedLastHandlePosition.subtract(vectorizedFirstHandlePosition).sum(vectorizedHandleWidth).length;
-            size = new Vector(width, sliderStripThickness);
+            let width = vectorizedLastHandlePosition.subtract(vectorizedFirstHandlePosition);
+            if (isHandlesSeparated) width = width.sum(vectorizedHandleWidth);
+            size = new Vector(width.length, sliderStripThickness);
             position = vectorizedFirstHandlePosition.sum(handlesCountShift).sum(new Vector(0, yShift));
         }
         this.setSize(size);

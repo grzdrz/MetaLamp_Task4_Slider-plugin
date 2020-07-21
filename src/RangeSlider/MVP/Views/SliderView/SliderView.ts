@@ -66,11 +66,11 @@ class SliderView extends View {
             isHandlesSeparated,
         } = this.viewManager.viewData;
 
-        const test = (isHandlesSeparated ? handleCountNumber : 0);
-        const test2 = (isHandlesSeparated ? modelData.values.length : 1);
-        const vectorizedHandleWidth = Vector.calculateVector(handleWidth * test/* handleCountNumber */, angleInRad);
+        const shiftCoefficient = (isHandlesSeparated ? handleCountNumber : 0);
+        const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
+        const vectorizedHandleWidth = Vector.calculateVector(handleWidth * shiftCoefficient, angleInRad);
         cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
-        const containerCapacity = sliderLength - handleWidth * test2/* (modelData.values.length) */;
+        const containerCapacity = sliderLength - handleWidth * maxShiftCoefficient;
 
         const mainAxisVector = Vector.calculateVector(sliderLength, angleInRad);
         const cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
@@ -87,8 +87,8 @@ class SliderView extends View {
         const modelData = this.getModelData();
         const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.viewData;
 
-        const test2 = (isHandlesSeparated ? modelData.values.length : 1);
-        const usedLength = sliderLength - handleWidth * test2/* modelData.values.length */;
+        const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
+        const usedLength = sliderLength - handleWidth * maxShiftCoefficient;
 
         return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
     }
@@ -120,10 +120,10 @@ class SliderView extends View {
     private calculateSliderLength() {
         const { angleInRad, borderThickness } = this.viewManager.viewData;
 
-        const test1 = this.containerElement.closest(".range-slider");
+        const rangleSlider = this.containerElement.closest(".range-slider");
         let boundingRect;
-        if (test1) {
-            boundingRect = test1.getBoundingClientRect();
+        if (rangleSlider) {
+            boundingRect = rangleSlider.getBoundingClientRect();
         } else throw new Error("sdfsdf");
 
         // координаты точки поверхности эллипса

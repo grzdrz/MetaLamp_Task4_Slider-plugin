@@ -67,14 +67,20 @@ class Scale extends SliderPart {
 
     private calculateSegmentPosition(segment: HTMLElement, value: number) {
         const modelData = this.view.getModelData();
-        const { angleInRad, scaleFontSize, handleWidth } = this.view.viewManager.viewData;
+        const {
+            angleInRad,
+            scaleFontSize,
+            handleWidth,
+            isHandlesSeparated,
+        } = this.view.viewManager.viewData;
 
         const segmentWidth = segment.getBoundingClientRect().width * Math.cos(angleInRad);
         const segmentHeight = scaleFontSize * Math.sin(angleInRad);
         const vectorizedSegmentLength = new Vector(segmentWidth, segmentHeight).length;
 
         let handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
-        handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth * (modelData.values.length / 2);
+        const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
+        handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth * (maxShiftCoefficient / 2);
 
         const marginFromSlider = 30;// отступ шкалы от полосы слайдера
         const vectorizedMargin = Vector.calculateVector(marginFromSlider, angleInRad);

@@ -59,8 +59,8 @@ class Handle extends SliderPart {
         const values = modelData.values.map((e) => e);
         const { handleWidth, angleInRad, isHandlesSeparated } = this.view.viewManager.viewData;
 
-        const test = (isHandlesSeparated ? this.countNumber : 0);
-        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * test/* this.countNumber */), angleInRad);
+        const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
+        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient), angleInRad);
         const handlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
 
         const vectorizedHandlePosition = Vector.calculateVector(handlePosition, angleInRad).sum(handlesCountShift);
