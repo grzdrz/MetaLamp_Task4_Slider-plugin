@@ -12,7 +12,7 @@ class CanPush extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { canPush } = this.view.getModelData();
+        const { canPush } = this.view.viewManager.getModelData();
 
         const label = document.createElement("label");
 

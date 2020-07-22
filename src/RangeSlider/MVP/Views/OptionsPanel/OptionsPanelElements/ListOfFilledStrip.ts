@@ -27,15 +27,15 @@ class ListOfFilledStrip extends OptionPanelElement {
         filledStripsTitle.className = "range-slider__filled-strips-title";
         this.filledStripsContainer.className = "range-slider__filled-strips-inputs";
 
-        const strips = this.view.viewManager.viewData.filledStrips.map((e) => e);
-        for (let i = 0; i < strips.length; i += 1) {
+        const { filledStrips } = this.view.viewManager.viewData;
+        for (let i = 0; i < filledStrips.length; i += 1) {
             const valueInput = document.createElement("input");
             valueInput.type = "checkbox";
             this.inputsDOMElements.push(valueInput);
 
             valueInput.dataset.countNumber = `${i}`;
             valueInput.className = "range-slider__filled-strips-input";
-            valueInput.checked = strips[i];
+            valueInput.checked = filledStrips[i];
 
             this.filledStripsContainer.append(valueInput);
 
@@ -50,15 +50,15 @@ class ListOfFilledStrip extends OptionPanelElement {
         this.inputsDOMElements = [];
         this.filledStripsContainer.innerHTML = "";
 
-        const strips = this.view.viewManager.viewData.filledStrips.map((e) => e);
-        for (let i = 0; i < strips.length; i += 1) {
+        const { filledStrips } = this.view.viewManager.viewData;
+        for (let i = 0; i < filledStrips.length; i += 1) {
             const valueInput = document.createElement("input");
             valueInput.type = "checkbox";
             this.inputsDOMElements.push(valueInput);
 
             valueInput.dataset.countNumber = `${i}`;
             valueInput.className = "range-slider__filled-strips-input";
-            valueInput.checked = strips[i];
+            valueInput.checked = filledStrips[i];
 
             this.filledStripsContainer.append(valueInput);
 
@@ -66,18 +66,18 @@ class ListOfFilledStrip extends OptionPanelElement {
         }
 
         this.inputsDOMElements.forEach((e, i) => {
-            e.checked = strips[i];
+            e.checked = filledStrips[i];
         });
     }
 
     handlerValueInputChange(): void {
-        const strips = this.view.viewManager.viewData.filledStrips.map((e) => e);
+        const { filledStrips } = this.view.viewManager.viewData;
         this.inputsDOMElements.forEach((e, i) => {
             const value = e.checked;
-            strips[i] = value;
+            filledStrips[i] = value;
         });
 
-        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({ filledStrips: strips }));
+        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({ filledStrips }));
     }
 }
 

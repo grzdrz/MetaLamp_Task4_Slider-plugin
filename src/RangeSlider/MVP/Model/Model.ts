@@ -12,8 +12,6 @@ class Model {
 
     public onGetViewData = new Event();
 
-    public onValuesChange = new Event();
-
     public onStatesUpdate = new Event();
 
     constructor(data: ModelData) {
@@ -42,25 +40,24 @@ class Model {
             }
         }
         if (data.values !== undefined && data.values.length > 0) {
-            /* const { deltaDirection, changedValueIndex } = this.findChangedValue(data.values); */
             // проверяем был ли сдвинут какой либо ползунок
             let changedValueIndex = -1;
+            let deltaDirection = 0;
             data.values.forEach((e, i) => {
                 if (e !== this.data.values[i]) changedValueIndex = i;
             });
-            const deltaDirection = data.values[changedValueIndex] - this.data.values[changedValueIndex];// /////////////
+            if (changedValueIndex !== -1) deltaDirection = data.values[changedValueIndex] - this.data.values[changedValueIndex];
             const wasHandleMove = (changedValueIndex !== -1 && deltaDirection !== 0);
 
             this.data.values = data.values;
 
             if (this.data.values.length > 1 && wasHandleMove) {
-                // протаскивание всех ползунков после/до текущего
-                if (deltaDirection > 0) {
+                if (deltaDirection > 0) { // протаскивание всех ползунков после текущего
                     this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
                     for (let i = changedValueIndex + 1; i < this.data.values.length; i += 1) {
                         this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
                     }
-                } else if (deltaDirection < 0) {
+                } else if (deltaDirection < 0) { // протаскивание всех ползунков до текущего
                     this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
                     for (let i = changedValueIndex - 1; i >= 0; i -= 1) {
                         this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
@@ -83,9 +80,9 @@ class Model {
         args.data = new ModelData(this.data);
     }
 
-    private valuesChanged(): void { // ////////
+    private valuesChanged(): void {
         const viewData = this.getViewData();
-        const filledStrips = viewData.filledStrips.map((e) => e);
+        const { filledStrips } = viewData;
         const newFilledStrips = new Array<boolean>();
         for (let i = 0; i < this.data.values.length + 1; i += 1) {
             if (i < filledStrips.length) {
@@ -94,16 +91,14 @@ class Model {
                 newFilledStrips.push(false);
             }
         }
-        this.onValuesChange.invoke(new ViewDataEventArgs({ filledStrips: newFilledStrips }));
+        this.onStatesUpdate.invoke(new ViewDataEventArgs({ filledStrips: newFilledStrips }));
     }
 
     private validateValue(value: number, countNumber: number, canPush: boolean): number {
         const newTargetInputValue = this.calculateNearestPositionForHandle(value);
 
-        const {
-            minValue, maxValue,
-        } = this.data;
-        const values = this.data.values.map((e) => e);
+        const { minValue, maxValue } = this.data;
+        const { values } = this.data;
 
         if (newTargetInputValue > values[countNumber + 1] && !canPush) return values[countNumber + 1];
         if (newTargetInputValue < values[countNumber - 1] && !canPush) return values[countNumber - 1];
@@ -114,42 +109,42 @@ class Model {
     }
 
     private validateMaxValue(stepSize: number, maxValue: number): number {
-        const test2 = (maxValue - this.data.minValue) / stepSize;
-        const test1 = MathFunctions.getFractionOfNumber(test2);
+        const valueOfOneStep = (maxValue - this.data.minValue) / stepSize;
+        const fraction = MathFunctions.getFractionOfNumber(valueOfOneStep);
 
-        if (test1 === 0) return maxValue;
+        if (fraction === 0) return maxValue;
 
-        const test3 = Math.round(test2);
-        return stepSize * test3 + this.data.minValue;
+        const roundedValueOfOneStep = Math.round(valueOfOneStep);
+        return stepSize * roundedValueOfOneStep + this.data.minValue;
     }
 
     private validateMinValue(minValue: number, stepSize: number): number {
-        const test2 = (this.data.maxValue - minValue) / stepSize;
-        const test1 = MathFunctions.getFractionOfNumber(test2);
+        const valueOfOneStep = (this.data.maxValue - minValue) / stepSize;
+        const fraction = MathFunctions.getFractionOfNumber(valueOfOneStep);
 
-        if (test1 === 0) return minValue;
+        if (fraction === 0) return minValue;
 
-        const test3 = Math.round(test2);
-        return this.data.maxValue - stepSize * test3;
+        const roundedValueOfOneStep = Math.round(valueOfOneStep);
+        return this.data.maxValue - stepSize * roundedValueOfOneStep;
     }
 
     // подменяем текущее значение инпута на число к которому ближе всего текущее значение курсора
     // т.е. например шаг 10, значение 78 -> на выходе получаем 80,
     // или например  шаг 10, значение 73 -> на выходе получаем 70
     private calculateNearestPositionForHandle(value: number): number {
-        let temp1;
-        let temp3;
+        let absoluteValue;
+        let resultValue;
         const { minValue, stepSize } = this.data;
         if (minValue < 0) {
-            temp1 = (value + Math.abs(minValue)) / stepSize;
-            const temp2 = Math.round(temp1);
-            temp3 = temp2 * stepSize - Math.abs(minValue);
+            absoluteValue = (value + Math.abs(minValue)) / stepSize;
+            const roundedAbsoluteValue = Math.round(absoluteValue);
+            resultValue = roundedAbsoluteValue * stepSize - Math.abs(minValue);
         } else {
-            temp1 = (value - Math.abs(minValue)) / stepSize;
-            const temp2 = Math.round(temp1);
-            temp3 = temp2 * stepSize + Math.abs(minValue);
+            absoluteValue = (value - Math.abs(minValue)) / stepSize;
+            const roundedAbsoluteValue = Math.round(absoluteValue);
+            resultValue = roundedAbsoluteValue * stepSize + Math.abs(minValue);
         }
-        return MathFunctions.cutOffJunkValuesFromFraction(temp3, stepSize);
+        return MathFunctions.cutOffJunkValuesFromFraction(resultValue, stepSize);
     }
 }
 

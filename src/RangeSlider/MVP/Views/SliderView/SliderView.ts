@@ -65,7 +65,7 @@ class SliderView extends View {
 
     // значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
     public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber: number): void {
-        const modelData = this.getModelData();
+        const modelData = this.viewManager.getModelData();
         const {
             sliderLength,
             handleWidth,
@@ -84,14 +84,14 @@ class SliderView extends View {
 
         const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
 
-        const valuesArray = modelData.values.map((e) => e);
-        valuesArray[handleCountNumber] = proportionalValue;
-        this.onHandleMove.invoke(new ModelDataEventArgs({ values: valuesArray }));
+        const { values } = modelData;
+        values[handleCountNumber] = proportionalValue;
+        this.onHandleMove.invoke(new ModelDataEventArgs({ values }));
     }
 
     // пиксельное значение пропорциональное условному значению
     public calculateProportionalPixelValue(value: number): number {
-        const modelData = this.getModelData();
+        const modelData = this.viewManager.getModelData();
         const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.viewData;
 
         const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
@@ -101,7 +101,7 @@ class SliderView extends View {
     }
 
     private createParts(): void {
-        const modelData = this.getModelData();
+        const modelData = this.viewManager.getModelData();
         this.parts = [];
 
         this.parts.push(new EmptyStrip(this));

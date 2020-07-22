@@ -35,7 +35,7 @@ class ViewData implements IViewData {
         this.maxSegmentsCount = (data.maxSegmentsCount !== undefined ? data.maxSegmentsCount : this.maxSegmentsCount);
         this.scaleFontSize = (data.scaleFontSize !== undefined ? data.scaleFontSize : this.scaleFontSize);
         this.angle = (data.angle !== undefined ? data.angle : this.angle);
-        this.filledStrips = (data.filledStrips !== undefined ? data.filledStrips : this.filledStrips);
+        this.filledStrips = (data.filledStrips !== undefined ? data.filledStrips.map((e) => e) : this.filledStrips);
         this.hasScale = (data.hasScale !== undefined ? data.hasScale : this.hasScale);
         this.isHandlesSeparated = (data.isHandlesSeparated !== undefined ? data.isHandlesSeparated : this.isHandlesSeparated);
     }

@@ -12,7 +12,7 @@ class MinValue extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
 
         const minValueLabel = document.createElement("label");
         const minValueInput = document.createElement("input");
@@ -40,7 +40,7 @@ class MinValue extends OptionPanelElement {
     }
 
     public update(): void {
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
 
         const input = <HTMLInputElement> this.DOMElement.querySelector(".range-slider__min-value-input");
         input.step = modelData.stepSize.toString();

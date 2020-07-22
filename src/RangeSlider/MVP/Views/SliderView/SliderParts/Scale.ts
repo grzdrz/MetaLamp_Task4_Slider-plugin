@@ -21,7 +21,7 @@ class Scale extends SliderPart {
     }
 
     private buildSegments() {
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
         const { maxSegmentsCount, scaleFontSize } = this.view.viewManager.viewData;
 
         const segmentDensityLimit = this.calculateSegmentDensityLimit();
@@ -58,7 +58,7 @@ class Scale extends SliderPart {
     }
 
     private calculateSegmentDensityLimit() {
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
 
         const dMaxMinValue = modelData.maxValue - modelData.minValue;
         const temp = dMaxMinValue / modelData.stepSize;
@@ -66,7 +66,7 @@ class Scale extends SliderPart {
     }
 
     private calculateSegmentPosition(segment: HTMLElement, value: number) {
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
         const {
             angleInRad,
             scaleFontSize,
@@ -94,7 +94,7 @@ class Scale extends SliderPart {
     private handlerClickOnSegment(event: MouseEvent) {
         event.preventDefault();
 
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
 
         if (!event.currentTarget) throw new Error("some shit");
         const currentSegment = <HTMLElement>(event.currentTarget);
@@ -102,7 +102,7 @@ class Scale extends SliderPart {
         const segmentValueString = currentSegment.dataset.segmentValue;
         const value = Number.parseFloat(segmentValueString);
 
-        const values = modelData.values.map((e) => e);
+        const { values } = modelData;
         // определяет к какому ползунку ближе выбранный сегмент
         const dValues = values.map((e) => Math.abs(e - value));
         let indexOfSmallestD = 0;

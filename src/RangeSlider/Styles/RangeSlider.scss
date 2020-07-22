@@ -5,8 +5,8 @@
     box-sizing: border-box;
 }
 
-@import "../assets/fonts/fonts.scss";
-@include setFonts("../");
+@import "../../assets/fonts/fonts.scss";
+@include setFonts("../../");
 
 .range-slider {
     border: 1px solid black;

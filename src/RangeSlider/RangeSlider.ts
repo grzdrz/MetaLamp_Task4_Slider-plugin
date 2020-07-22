@@ -1,5 +1,5 @@
 import Model from "./MVP/Model/Model";
-import Presenter from "./MVP/Presenter";
+import Presenter from "./MVP/Controller/Presenter";
 
 import IModelData from "./MVP/Model/Data/IModelData";
 import ModelData from "./MVP/Model/Data/ModelData";
@@ -9,7 +9,7 @@ import IViewData from "./MVP/Views/Data/IViewData";
 import ViewData from "./MVP/Views/Data/ViewData";
 import ViewManager from "./MVP/Views/ViewManager";
 
-import "./RangeSlider.scss";
+import "./Styles/RangeSlider.scss";
 
 class RangeSlider {
     public static sliderInstanceCount = 0;

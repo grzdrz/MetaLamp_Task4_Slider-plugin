@@ -18,8 +18,8 @@ class FilledStrip extends SliderPart {
     }
 
     public update(): void {
-        const modelData = this.view.getModelData();
-        const values = modelData.values.map((e) => e);
+        const modelData = this.view.viewManager.getModelData();
+        const { values } = modelData;
         const {
             handleWidth,
             handleHeight,

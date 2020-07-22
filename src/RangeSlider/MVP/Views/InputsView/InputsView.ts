@@ -20,9 +20,9 @@ class InputsView extends View {
     }
 
     public update(_neededFullRerender: boolean): void {
-        const modelData = this.getModelData();
+        const modelData = this.viewManager.getModelData();
 
-        const values = modelData.values.map((e) => e);
+        const { values } = modelData;
         if (_neededFullRerender) this.build();
         this.valueInputsDOMElements.forEach((e, i) => {
             e.value = values[i].toString();
@@ -30,7 +30,7 @@ class InputsView extends View {
     }
 
     public build(): void {
-        const modelData = this.getModelData();
+        const modelData = this.viewManager.getModelData();
 
         this.containerElement.innerHTML = "";
         this.valueInputsDOMElements = [];
@@ -56,9 +56,9 @@ class InputsView extends View {
     }
 
     private handlerValueInputChange(): void {
-        const modelData = this.getModelData();
+        const modelData = this.viewManager.getModelData();
 
-        const values = modelData.values.map((e) => e);
+        const { values } = modelData;
         this.valueInputsDOMElements.forEach((e, i) => {
             const value = Number.parseFloat(e.value);
             values[i] = value;

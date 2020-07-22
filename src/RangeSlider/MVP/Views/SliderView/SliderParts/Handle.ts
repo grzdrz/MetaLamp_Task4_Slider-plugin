@@ -55,8 +55,8 @@ class Handle extends SliderPart {
     }
 
     public update(): void {
-        const modelData = this.view.getModelData();
-        const values = modelData.values.map((e) => e);
+        const modelData = this.view.viewManager.getModelData();
+        const { values } = modelData;
         const { handleWidth, angleInRad, isHandlesSeparated } = this.view.viewManager.viewData;
 
         const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);

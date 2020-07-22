@@ -12,7 +12,7 @@ class HandlesCount extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
 
         const handlesCountLabel = document.createElement("label");
         const handlesCountInput = document.createElement("input");
@@ -51,7 +51,7 @@ class HandlesCount extends OptionPanelElement {
         if (!handlesCount) throw new Error("some shit with handls count change event");
         const handlesCountNumber = Number.parseInt(handlesCount, 10);
 
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
         const values = [];
         for (let i = 0; i < handlesCountNumber; i += 1) {
             if (i < modelData.values.length) values.push(modelData.values[i]);

@@ -12,7 +12,7 @@ class MaxValue extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
 
         // максимальное значение
         const maxValueLabel = document.createElement("label");
@@ -41,7 +41,7 @@ class MaxValue extends OptionPanelElement {
     }
 
     public update(): void {
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
 
         const input = <HTMLInputElement> this.DOMElement.querySelector(".range-slider__max-value-input");
         input.step = modelData.stepSize.toString();

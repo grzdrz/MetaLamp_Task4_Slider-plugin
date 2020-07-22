@@ -7,8 +7,12 @@ import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
 import IViewData from "./Data/IViewData";
 
 import Event from "../../Events/Event";
+import ModelData from "../Model/Data/ModelData";
+import ModelDataEventArgs from "../../Events/ModelDataEventArgs";
 
 class ViewManager {
+    private containerElement: HTMLElement;
+
     public viewData: ViewData;
 
     public sliderView: SliderView;
@@ -17,9 +21,9 @@ class ViewManager {
 
     public optionsPanelView: OptionsPanelView;
 
-    private containerElement: HTMLElement;
-
     public onStatesUpdate = new Event();
+
+    public onGetModelData = new Event();
 
     constructor(viewData: ViewData, containerElement: HTMLElement) {
         this.viewData = viewData;
@@ -54,9 +58,16 @@ class ViewManager {
         this.viewData.isHandlesSeparated = (data.isHandlesSeparated !== undefined ? data.isHandlesSeparated : this.viewData.isHandlesSeparated);
     }
 
+    public getModelData(): ModelData {
+        const optionsEventArgs = new ModelDataEventArgs({});
+        this.onGetModelData.invoke(optionsEventArgs);
+        if (!optionsEventArgs.data) throw new Error("broken get model data");
+        return <ModelData>optionsEventArgs.data;
+    }
+
     private validateFilledStrips(filledStrips: boolean[]): boolean[] {
-        const modelData = this.sliderView.getModelData();
-        const values = modelData.values.map((e) => e);
+        const modelData = this.getModelData();
+        const { values } = modelData;
         const newFilledStrips = new Array<boolean>();
         for (let i = 0; i < values.length + 1; i += 1) {
             if (i < filledStrips.length) {

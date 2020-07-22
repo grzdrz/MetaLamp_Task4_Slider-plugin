@@ -12,7 +12,7 @@ class StepSize extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
 
         const stepSizeLabel = document.createElement("label");
         const stepSizeInput = document.createElement("input");
@@ -38,7 +38,7 @@ class StepSize extends OptionPanelElement {
     }
 
     public update(): void {
-        const modelData = this.view.getModelData();
+        const modelData = this.view.viewManager.getModelData();
 
         const input = <HTMLInputElement> this.DOMElement.querySelector(".range-slider__step-size-input");
         input.value = modelData.stepSize.toString();
