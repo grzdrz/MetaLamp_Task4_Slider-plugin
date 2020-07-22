@@ -10,7 +10,6 @@ import EmptyStrip from "./SliderParts/EmptyStrip";
 
 import Vector from "../../../Helpers/Vector";
 
-import Event from "../../../Events/Event";
 import ModelDataEventArgs from "../../../Events/ModelDataEventArgs";
 import Scale from "./SliderParts/Scale";
 import ViewManager from "../ViewManager";
@@ -18,10 +17,6 @@ import MathFunctions from "../../../Helpers/MathFunctions";
 
 class SliderView extends View {
     public parts: SliderPart[] = [];
-
-    public onHandleMove: Event = new Event();
-
-    public onModelStateUpdate: Event = new Event();
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         super(containerElement, viewManager);
@@ -86,7 +81,7 @@ class SliderView extends View {
 
         const { values } = modelData;
         values[handleCountNumber] = proportionalValue;
-        this.onHandleMove.invoke(new ModelDataEventArgs({ values }));
+        this.viewManager.onHandleMove.invoke(new ModelDataEventArgs({ values }));
     }
 
     // пиксельное значение пропорциональное условному значению

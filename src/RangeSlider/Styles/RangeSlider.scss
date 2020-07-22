@@ -11,28 +11,18 @@
 .range-slider {
     border: 1px solid black;
 
-    display: flex;
-    //flex-direction: column/* row */;
-    background: white;
+    height: 300px;
+    width: 100%;
 
-    $filledBodyWidth: 100px;
-    $filledBodyMarginLeft: 30px;
-    $sliderSize: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
 
     height: 300px;
     width: 100%;
 
-    //слайдер и шкала измерений
-    &__main-content-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        align-self: center;
-
-        height: 100%;
-        width: 100%;
-    }
     &__slider-container {
         display: flex;
         position: relative;
@@ -41,7 +31,7 @@
         width: 100%;
     }
 
-    &__slider-body-empty {
+    &__empty-strip {
         background: #ffffff;
         border: 1px solid rgba(31, 32, 65, 0.25);
         border-radius: 3px;
@@ -50,7 +40,8 @@
         //border: 5px solid black;
         z-index: 1;
     }
-    &__slider-body-filled {
+
+    &__filled-strip {
         width: 8px;
         height: 8px;
         background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
@@ -59,13 +50,17 @@
         //border: 5px solid black;
         z-index: 2;
     }
-    &__first-slider,
-    &__last-slider {
+
+    &__handle {
+        cursor: pointer;
+
         display: flex;
         align-items: center;
         justify-content: center;
         position: absolute;
+
         //border-radius: 50%;
+        background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
 
         opacity: 0.5;
 
@@ -75,21 +70,14 @@
         //border: 5px solid black;
         z-index: 4;
     }
-    &__first-slider {
-        background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
-    }
-    &__last-slider {
-        background: linear-gradient(-90deg, #6fcf97 0%, #66d2ea 100%);
-    }
 
-    &__first-slider-outside,
-    &__last-slider-outside {
-        width: $sliderSize;
-        height: $sliderSize;
+    &__handle-background {
+        cursor: pointer;
+
         position: absolute;
 
-        background: rgb(216, 111, 111);
         //border-radius: 50%;
+        background: rgb(216, 111, 111);
 
         opacity: 0.5;
 
@@ -104,6 +92,7 @@
         display: flex;
         position: relative;
     }
+
     &__scale-segment {
         cursor: pointer;
         color: black;

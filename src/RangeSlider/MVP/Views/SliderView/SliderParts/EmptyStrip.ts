@@ -5,7 +5,7 @@ class EmptyStrip extends SliderPart {
     public buildDOMElement(): void {
         super.buildDOMElement();
 
-        this.DOMElement.className = "range-slider__slider-body-empty";
+        this.DOMElement.className = "range-slider__empty-strip";
         this.view.containerElement.append(this.DOMElement);
     }
 

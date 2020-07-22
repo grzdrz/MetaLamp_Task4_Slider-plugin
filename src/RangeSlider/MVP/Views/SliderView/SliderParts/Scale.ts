@@ -120,7 +120,7 @@ class Scale extends SliderPart {
             values[smallestValues[indexOfSuitableValue].index] = value;
         }
 
-        this.view.onHandleMove.invoke(new ModelDataEventArgs({ values }));
+        this.view.viewManager.onHandleMove.invoke(new ModelDataEventArgs({ values }));
     }
 }
 

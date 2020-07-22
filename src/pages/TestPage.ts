@@ -20,6 +20,22 @@ const viewData = {
     angle: 0,
     filledStrips: [true, false, true],
     isHandlesSeparated: false,
+    hasScale: true,
+    hasOptions: true,
 };
 $(".test-page__tested-range-slider-container1").rangeSlider(modelData, viewData);
-$(".test-page__tested-range-slider-container2").rangeSlider(modelData, viewData);
+
+const viewData2 = {
+    sliderStripThickness: 10,
+    handleWidth: 20,
+    handleHeight: 20,
+    borderThickness: 10,
+    maxSegmentsCount: 6,
+    scaleFontSize: 15,
+    angle: 0,
+    filledStrips: [true, false, true],
+    isHandlesSeparated: false,
+    hasScale: true,
+    hasOptions: false,
+};
+$(".test-page__tested-range-slider-container2").rangeSlider(modelData, viewData2);

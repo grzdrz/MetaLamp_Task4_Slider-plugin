@@ -1,12 +1,9 @@
 import View from "../View";
-import Event from "../../../Events/Event";
 import ModelDataEventArgs from "../../../Events/ModelDataEventArgs";
 import ViewManager from "../ViewManager";
 
 class InputsView extends View {
     public valueInputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();
-
-    public onInputsChange = new Event();
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         super(containerElement, viewManager);
@@ -64,7 +61,7 @@ class InputsView extends View {
             values[i] = value;
         });
 
-        this.onInputsChange.invoke(new ModelDataEventArgs({ values }));
+        this.viewManager.onInputsChange.invoke(new ModelDataEventArgs({ values }));
     }
 }
 

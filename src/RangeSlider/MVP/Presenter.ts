@@ -1,10 +1,10 @@
-import Model from "../Model/Model";
+import Model from "./Model/Model";
 
-import ViewManager from "../Views/ViewManager";
+import ViewManager from "./Views/ViewManager";
 
-import EventArgs from "../../Events/EventArgs";
-import ModelDataEventArgs from "../../Events/ModelDataEventArgs";
-import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
+import EventArgs from "../Events/EventArgs";
+import ModelDataEventArgs from "../Events/ModelDataEventArgs";
+import ViewDataEventArgs from "../Events/ViewDataEventArgs";
 
 class Presenter {
     private model: Model;
@@ -30,14 +30,11 @@ class Presenter {
         this.viewManager.onStatesUpdate.subscribe(this.handlerStatesUpdate);
         this.viewManager.onStatesUpdate.subscribe(this.handlerViewsUpdate);
 
-        this.viewManager.sliderView.onModelStateUpdate.subscribe(this.handlerStatesUpdate);
-        this.viewManager.sliderView.onModelStateUpdate.subscribe(this.handlerViewsUpdate);
+        this.viewManager.onHandleMove.subscribe(this.handlerStatesUpdate);
+        this.viewManager.onHandleMove.subscribe(this.handlerHandleMove);
 
-        this.viewManager.sliderView.onHandleMove.subscribe(this.handlerStatesUpdate);
-        this.viewManager.sliderView.onHandleMove.subscribe(this.handlerHandleMove);
-
-        this.viewManager.inputsView.onInputsChange.subscribe(this.handlerStatesUpdate);
-        this.viewManager.inputsView.onInputsChange.subscribe(this.handlerHandleMove);
+        this.viewManager.onInputsChange.subscribe(this.handlerStatesUpdate);
+        this.viewManager.onInputsChange.subscribe(this.handlerHandleMove);
 
         this.viewManager.onStatesUpdate.subscribe(this.handlerStatesUpdate);
         this.model.onStatesUpdate.subscribe(this.handlerStatesUpdate);
@@ -45,9 +42,7 @@ class Presenter {
         this.model.onGetViewData.subscribe(this.handlerGetViewData);
         this.viewManager.onGetModelData.subscribe(this.handlerGetModelData);
 
-        [this.viewManager.sliderView, this.viewManager.inputsView, this.viewManager.optionsPanelView].forEach((view) => {
-            view.initialize();
-        });
+        this.viewManager.views.forEach((e) => e.initialize());
     }
 
     private handlerStatesUpdate(args: EventArgs): void {
@@ -64,14 +59,14 @@ class Presenter {
     }
 
     private handlerViewsUpdate(): void {
-        this.viewManager.sliderView.update(true);
-        this.viewManager.inputsView.update(true);
-        this.viewManager.optionsPanelView.update(false);
+        this.viewManager.views[0].update(true);
+        this.viewManager.views[1].update(true);
+        this.viewManager.views[2].update(false);
     }
 
     private handlerHandleMove(): void {
-        this.viewManager.sliderView.update(false);
-        this.viewManager.inputsView.update(false);
+        this.viewManager.views[0].update(false);
+        this.viewManager.views[1].update(false);
     }
 }
 

@@ -28,14 +28,14 @@ class Handle extends SliderPart {
 
         const { handleWidth, handleHeight } = this.view.viewManager.viewData;
 
-        this.DOMElement.className = `range-slider__${(this.countNumber === 1 ? "first" : "last")}-slider`;
+        this.DOMElement.className = `range-slider__handle range-slider__handle_${this.countNumber}`;
         this.DOMElement.dataset.sliderCountNumber = this.countNumber.toString();
         this.DOMElement.style.width = `${handleWidth}px`;
         this.DOMElement.style.height = `${handleHeight}px`;
         this.view.containerElement.append(this.DOMElement);
 
         this.backgroundDOMElement.innerHTML = "";
-        this.backgroundDOMElement.className = `range-slider__${(this.countNumber === 1 ? "first" : "last")}-slider-outside`;
+        this.backgroundDOMElement.className = `range-slider__handle-background range-slider__handle-background_${this.countNumber}`;
         this.backgroundDOMElement.dataset.sliderCountNumber = this.countNumber.toString();
         this.view.containerElement.append(this.backgroundDOMElement);
 

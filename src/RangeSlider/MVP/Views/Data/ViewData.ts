@@ -19,25 +19,28 @@ class ViewData implements IViewData {
 
     public filledStrips = [true, false];
 
+    public isHandlesSeparated = false;
+
     public hasScale = true;
 
-    public isHandlesSeparated = false;
+    public hasOptions = true;
 
     constructor(data: IViewData) {
         this.initialize(data);
     }
 
     private initialize(data: IViewData): void {
-        this.sliderStripThickness = (data.sliderStripThickness !== undefined ? data.sliderStripThickness : this.sliderStripThickness);
-        this.handleWidth = (data.handleWidth !== undefined ? data.handleWidth : this.handleWidth);
-        this.handleHeight = (data.handleHeight !== undefined ? data.handleHeight : this.handleHeight);
-        this.borderThickness = (data.borderThickness !== undefined ? data.borderThickness : this.borderThickness);
-        this.maxSegmentsCount = (data.maxSegmentsCount !== undefined ? data.maxSegmentsCount : this.maxSegmentsCount);
-        this.scaleFontSize = (data.scaleFontSize !== undefined ? data.scaleFontSize : this.scaleFontSize);
-        this.angle = (data.angle !== undefined ? data.angle : this.angle);
-        this.filledStrips = (data.filledStrips !== undefined ? data.filledStrips.map((e) => e) : this.filledStrips);
-        this.hasScale = (data.hasScale !== undefined ? data.hasScale : this.hasScale);
-        this.isHandlesSeparated = (data.isHandlesSeparated !== undefined ? data.isHandlesSeparated : this.isHandlesSeparated);
+        if (data.sliderStripThickness !== undefined) this.sliderStripThickness = data.sliderStripThickness;
+        if (data.handleWidth !== undefined) this.handleWidth = data.handleWidth;
+        if (data.handleHeight !== undefined) this.handleHeight = data.handleHeight;
+        if (data.borderThickness !== undefined) this.borderThickness = data.borderThickness;
+        if (data.maxSegmentsCount !== undefined) this.maxSegmentsCount = data.maxSegmentsCount;
+        if (data.scaleFontSize !== undefined) this.scaleFontSize = data.scaleFontSize;
+        if (data.angle !== undefined) this.angle = data.angle;
+        if (data.filledStrips !== undefined) this.filledStrips = data.filledStrips.map((e) => e);
+        if (data.isHandlesSeparated !== undefined) this.isHandlesSeparated = data.isHandlesSeparated;
+        if (data.hasScale !== undefined) this.hasScale = data.hasScale;
+        if (data.hasOptions !== undefined) this.hasOptions = data.hasOptions;
     }
 
     public get angleInRad(): number {

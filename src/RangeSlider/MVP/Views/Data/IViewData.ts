@@ -8,8 +8,9 @@ interface IViewData {
     scaleFontSize?: number,
     angle?: number,
     filledStrips?: boolean[],
-    hasScale?: boolean,
     isHandlesSeparated?: boolean,
+    hasScale?: boolean,
+    hasOptions?: boolean,
 }
 
 export default IViewData;

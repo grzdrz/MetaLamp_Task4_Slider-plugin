@@ -9,32 +9,60 @@ import IViewData from "./Data/IViewData";
 import Event from "../../Events/Event";
 import ModelData from "../Model/Data/ModelData";
 import ModelDataEventArgs from "../../Events/ModelDataEventArgs";
+import View from "./View";
 
 class ViewManager {
     private containerElement: HTMLElement;
 
     public viewData: ViewData;
 
-    public sliderView: SliderView;
-
-    public inputsView: InputsView;
-
-    public optionsPanelView: OptionsPanelView;
+    public views: View[] = new Array<View>();
 
     public onStatesUpdate = new Event();
 
     public onGetModelData = new Event();
 
+    public onHandleMove = new Event();
+
+    public onInputsChange = new Event();
+
     constructor(viewData: ViewData, containerElement: HTMLElement) {
         this.viewData = viewData;
         this.containerElement = containerElement;
+    }
+
+    public initialize(): void {
+        const pluginContainer: HTMLElement = document.createElement("div");
+        pluginContainer.className = "range-slider";
 
         const sliderContainer: HTMLElement = document.createElement("div");
+        sliderContainer.className = "range-slider__slider-container";
+        this.views.push(new SliderView(sliderContainer, this));
+
         const inputsContainer: HTMLElement = document.createElement("div");
-        const optionsPanelContainer: HTMLElement = document.createElement("div");
-        this.sliderView = new SliderView(sliderContainer, this);
-        this.inputsView = new InputsView(inputsContainer, this);
-        this.optionsPanelView = new OptionsPanelView(optionsPanelContainer, this);
+        inputsContainer.className = "range-slider__inputs-container";
+        this.views.push(new InputsView(inputsContainer, this));
+
+        pluginContainer.append(sliderContainer);
+
+        if (this.viewData.hasOptions) {
+            const optionsContainer = document.createElement("div");
+            optionsContainer.className = "range-slider__inputs-and-options-panel-container";
+
+            const optionsPanelContainer: HTMLElement = document.createElement("div");
+            optionsPanelContainer.className = "range-slider__options-panel-container";
+
+            optionsContainer.append(inputsContainer);
+            optionsContainer.append(optionsPanelContainer);
+
+            this.containerElement.append(pluginContainer);
+            this.containerElement.append(optionsContainer);
+
+            this.views.push(new OptionsPanelView(optionsPanelContainer, this));
+        } else {
+            this.containerElement.append(pluginContainer);
+            this.containerElement.append(inputsContainer);
+        }
     }
 
     public update(data: IViewData): void {
@@ -73,40 +101,6 @@ class ViewManager {
 
     public getData(args: ViewDataEventArgs): void {
         args.data = new ViewData(this.viewData);
-    }
-
-    public initialize(): void {
-        this.render();
-    }
-
-    private render(): void {
-        // плагин
-        const rangeSlider: HTMLElement = document.createElement("div");
-        rangeSlider.className = "range-slider";
-
-        // слайдер
-        this.sliderView.containerElement.className = "range-slider__slider-container";
-
-        // контейнер слайдер + шкала
-        const mainContentContainer: HTMLElement = document.createElement("div");
-        mainContentContainer.className = "range-slider__main-content-container";
-        mainContentContainer.append(this.sliderView.containerElement);
-        rangeSlider.append(mainContentContainer);
-
-        // опции + инпуты
-        const optionsContainer = document.createElement("div");
-        optionsContainer.className = "range-slider__inputs-and-options-panel-container";
-
-        // инпуты
-        this.inputsView.containerElement.className = "range-slider__inputs-container";
-
-        // опции
-        this.optionsPanelView.containerElement.className = "range-slider__options-panel-container";
-        optionsContainer.append(this.inputsView.containerElement);
-        optionsContainer.append(this.optionsPanelView.containerElement);
-
-        this.containerElement.append(rangeSlider);
-        this.containerElement.append(optionsContainer);
     }
 }
 

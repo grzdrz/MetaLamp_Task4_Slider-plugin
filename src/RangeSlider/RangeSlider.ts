@@ -1,5 +1,5 @@
 import Model from "./MVP/Model/Model";
-import Presenter from "./MVP/Controller/Presenter";
+import Presenter from "./MVP/Presenter";
 
 import IModelData from "./MVP/Model/Data/IModelData";
 import ModelData from "./MVP/Model/Data/ModelData";
