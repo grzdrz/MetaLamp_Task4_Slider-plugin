@@ -38,24 +38,16 @@ class ViewManager {
     }
 
     public update(data: IViewData): void {
-        this.updateData(data);
-
-        if (data.filledStrips !== undefined) {
-            this.viewData.filledStrips = this.validateFilledStrips(data.filledStrips);
-        }
-    }
-
-    public updateData(data: IViewData): void {
-        this.viewData.sliderStripThickness = (data.sliderStripThickness !== undefined ? data.sliderStripThickness : this.viewData.sliderStripThickness);
-        this.viewData.handleWidth = (data.handleWidth !== undefined ? data.handleWidth : this.viewData.handleWidth);
-        this.viewData.handleHeight = (data.handleHeight !== undefined ? data.handleHeight : this.viewData.handleHeight);
-        this.viewData.borderThickness = (data.borderThickness !== undefined ? data.borderThickness : this.viewData.borderThickness);
-        this.viewData.maxSegmentsCount = (data.maxSegmentsCount !== undefined ? data.maxSegmentsCount : this.viewData.maxSegmentsCount);
-        this.viewData.scaleFontSize = (data.scaleFontSize !== undefined ? data.scaleFontSize : this.viewData.scaleFontSize);
-        this.viewData.angle = (data.angle !== undefined ? data.angle : this.viewData.angle);
-        this.viewData.filledStrips = (data.filledStrips !== undefined ? data.filledStrips : this.viewData.filledStrips);
-        this.viewData.hasScale = (data.hasScale !== undefined ? data.hasScale : this.viewData.hasScale);
-        this.viewData.isHandlesSeparated = (data.isHandlesSeparated !== undefined ? data.isHandlesSeparated : this.viewData.isHandlesSeparated);
+        if (data.sliderStripThickness !== undefined) this.viewData.sliderStripThickness = data.sliderStripThickness;
+        if (data.handleWidth !== undefined) this.viewData.handleWidth = data.handleWidth;
+        if (data.handleHeight !== undefined) this.viewData.handleHeight = data.handleHeight;
+        if (data.borderThickness !== undefined) this.viewData.borderThickness = data.borderThickness;
+        if (data.maxSegmentsCount !== undefined) this.viewData.maxSegmentsCount = data.maxSegmentsCount;
+        if (data.scaleFontSize !== undefined) this.viewData.scaleFontSize = data.scaleFontSize;
+        if (data.angle !== undefined) this.viewData.angle = data.angle;
+        if (data.filledStrips !== undefined) this.viewData.filledStrips = this.validateFilledStrips(data.filledStrips);
+        if (data.hasScale !== undefined) this.viewData.hasScale = data.hasScale;
+        if (data.isHandlesSeparated !== undefined) this.viewData.isHandlesSeparated = data.isHandlesSeparated;
     }
 
     public getModelData(): ModelData {

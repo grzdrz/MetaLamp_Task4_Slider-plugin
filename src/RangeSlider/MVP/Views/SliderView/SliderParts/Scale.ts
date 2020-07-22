@@ -104,16 +104,21 @@ class Scale extends SliderPart {
 
         const { values } = modelData;
         // определяет к какому ползунку ближе выбранный сегмент
-        const dValues = values.map((e) => Math.abs(e - value));
-        let indexOfSmallestD = 0;
-        dValues.reduce((prev, cur, curIndex) => {
-            if (cur < prev) {
-                indexOfSmallestD = curIndex;
-                return cur;
-            }
-            return prev;
-        }, dValues[0]);
-        values[indexOfSmallestD] = value;
+        // список приращений всех значений к выбранному и их индексы
+        const deltaValues = values.map((e, index) => ({ index, dValue: Math.abs(e - value) }));
+        // отсеиваем самые маленькие приращения, т.е. элементы которых были ближе всех к выбранному сегменту
+        const sortedDeltaValues = deltaValues.sort((a, b) => a.dValue - b.dValue);
+        const smallestDeltaValues = sortedDeltaValues.filter((e) => e.dValue === sortedDeltaValues[0].dValue);
+        const smallestValues = smallestDeltaValues.map((e) => ({ index: e.index, value: values[e.index] }));
+        const suitableValue = smallestValues[0].value;
+        // выбираем какое значение из отсеяных нужно сдвинуть(нужно для случаев когда есть несколько ближайших одинаковых значений)
+        if (value > suitableValue) {
+            const indexOfSuitableValue = smallestValues.length - 1;
+            values[smallestValues[indexOfSuitableValue].index] = value;
+        } else if (value < suitableValue) {
+            const indexOfSuitableValue = 0;
+            values[smallestValues[indexOfSuitableValue].index] = value;
+        }
 
         this.view.onHandleMove.invoke(new ModelDataEventArgs({ values }));
     }
