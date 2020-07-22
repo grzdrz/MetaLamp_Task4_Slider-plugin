@@ -21,6 +21,7 @@ const viewData = {
     filledStrips: [true, false, true],
     isHandlesSeparated: false,
     hasScale: true,
+    scaleMargin: 30,
     hasOptions: true,
 };
 $(".test-page__tested-range-slider-container1").rangeSlider(modelData, viewData);
@@ -36,6 +37,7 @@ const viewData2 = {
     filledStrips: [true, false, true],
     isHandlesSeparated: false,
     hasScale: true,
+    scaleMargin: 30,
     hasOptions: false,
 };
 $(".test-page__tested-range-slider-container2").rangeSlider(modelData, viewData2);

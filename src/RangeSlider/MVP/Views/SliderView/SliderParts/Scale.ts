@@ -72,6 +72,7 @@ class Scale extends SliderPart {
             scaleFontSize,
             handleWidth,
             isHandlesSeparated,
+            scaleMargin,
         } = this.view.viewManager.viewData;
 
         const segmentWidth = segment.getBoundingClientRect().width * Math.cos(angleInRad);
@@ -82,8 +83,7 @@ class Scale extends SliderPart {
         const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
         handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth * (maxShiftCoefficient / 2);
 
-        const marginFromSlider = 30;// отступ шкалы от полосы слайдера
-        const vectorizedMargin = Vector.calculateVector(marginFromSlider, angleInRad);
+        const vectorizedMargin = Vector.calculateVector(scaleMargin, angleInRad);
         const rotatedMargin = vectorizedMargin.rotateVector(-Math.PI / 2);
         const vectorizedHandlePosition = Vector.calculateVector(handlePositionInContainer, angleInRad);
         const position = vectorizedHandlePosition.sum(rotatedMargin);

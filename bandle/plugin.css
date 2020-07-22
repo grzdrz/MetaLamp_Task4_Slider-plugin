@@ -95,16 +95,16 @@
     align-items: center;
     width: 100%;
     margin-bottom: 5px; }
-  .range-slider__value-input, .range-slider__step-size-input, .range-slider__max-value-input, .range-slider__min-value-input, .range-slider__angle-size-input, .range-slider__handles-count-input {
+  .range-slider__value-input, .range-slider__step-size-input, .range-slider__max-value-input, .range-slider__min-value-input, .range-slider__angle-size-input, .range-slider__handles-count-input, .range-slider__scale-margin-input {
     width: 30%;
     height: 25px;
     border: 1px solid black;
     font-size: 1.5rem; }
-  .range-slider__can-push-input, .range-slider__handles-separated-input {
+  .range-slider__can-push-input, .range-slider__handles-separated-input, .range-slider__has-scale-input {
     width: 20px;
     height: 20px;
     margin-right: 5px; }
-  .range-slider__value-input-text, .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__angle-size-text, .range-slider__input-text, .range-slider__handles-count-text, .range-slider__can-push-text, .range-slider__handles-separated-text {
+  .range-slider__value-input-text, .range-slider__step-size-text, .range-slider__orientation-text, .range-slider__max-value-text, .range-slider__min-value-text, .range-slider__angle-size-text, .range-slider__input-text, .range-slider__handles-count-text, .range-slider__can-push-text, .range-slider__handles-separated-text, .range-slider__has-scale-text, .range-slider__scale-margin-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;

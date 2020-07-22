@@ -10,6 +10,7 @@ interface IViewData {
     filledStrips?: boolean[],
     isHandlesSeparated?: boolean,
     hasScale?: boolean,
+    scaleMargin?: number,
     hasOptions?: boolean,
 }
 

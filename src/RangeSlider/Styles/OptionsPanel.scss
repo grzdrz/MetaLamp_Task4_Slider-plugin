@@ -35,14 +35,16 @@
 &__max-value-input,
 &__min-value-input,
 &__angle-size-input,
-&__handles-count-input {
+&__handles-count-input,
+&__scale-margin-input {
     width: 30%;
     height: 25px;
     border: 1px solid black;
     font-size: 1.5rem;
 }
 &__can-push-input,
-&__handles-separated-input {
+&__handles-separated-input,
+&__has-scale-input {
     width: 20px;
     height: 20px;
     margin-right: 5px;
@@ -57,7 +59,9 @@
 &__input-text,
 &__handles-count-text,
 &__can-push-text,
-&__handles-separated-text {
+&__handles-separated-text,
+&__has-scale-text,
+&__scale-margin-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;

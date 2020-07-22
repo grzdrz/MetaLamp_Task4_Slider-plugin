@@ -76,6 +76,8 @@ class ViewManager {
         if (data.filledStrips !== undefined) this.viewData.filledStrips = this.validateFilledStrips(data.filledStrips);
         if (data.hasScale !== undefined) this.viewData.hasScale = data.hasScale;
         if (data.isHandlesSeparated !== undefined) this.viewData.isHandlesSeparated = data.isHandlesSeparated;
+        if (data.scaleMargin !== undefined) this.viewData.scaleMargin = data.scaleMargin;
+        if (data.hasOptions !== undefined) this.viewData.hasOptions = data.hasOptions;
     }
 
     public getModelData(): ModelData {
