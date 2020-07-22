@@ -33,6 +33,14 @@ class ViewManager {
         this.optionsPanelView = new OptionsPanelView(optionsPanelContainer, this);
     }
 
+    public update(data: IViewData): void {
+        this.updateData(data);
+
+        if (data.filledStrips !== undefined) {
+            this.viewData.filledStrips = this.validateFilledStrips(data.filledStrips);
+        }
+    }
+
     public updateData(data: IViewData): void {
         this.viewData.sliderStripThickness = (data.sliderStripThickness !== undefined ? data.sliderStripThickness : this.viewData.sliderStripThickness);
         this.viewData.handleWidth = (data.handleWidth !== undefined ? data.handleWidth : this.viewData.handleWidth);
@@ -44,6 +52,20 @@ class ViewManager {
         this.viewData.filledStrips = (data.filledStrips !== undefined ? data.filledStrips : this.viewData.filledStrips);
         this.viewData.hasScale = (data.hasScale !== undefined ? data.hasScale : this.viewData.hasScale);
         this.viewData.isHandlesSeparated = (data.isHandlesSeparated !== undefined ? data.isHandlesSeparated : this.viewData.isHandlesSeparated);
+    }
+
+    private validateFilledStrips(filledStrips: boolean[]): boolean[] {
+        const modelData = this.sliderView.getModelData();
+        const values = modelData.values.map((e) => e);
+        const newFilledStrips = new Array<boolean>();
+        for (let i = 0; i < values.length + 1; i += 1) {
+            if (i < filledStrips.length) {
+                newFilledStrips.push(filledStrips[i]);
+            } else {
+                newFilledStrips.push(false);
+            }
+        }
+        return newFilledStrips;
     }
 
     public getData(args: ViewDataEventArgs): void {

@@ -20,13 +20,56 @@ class Model {
         this.data = data;
     }
 
-    public updateData(data: IModelData): void {
-        this.data.id = (data.id !== undefined ? data.id : this.data.id);
-        this.data.minValue = (data.minValue !== undefined ? data.minValue : this.data.minValue);
-        this.data.maxValue = (data.maxValue !== undefined ? data.maxValue : this.data.maxValue);
-        this.data.stepSize = (data.stepSize !== undefined ? data.stepSize : this.data.stepSize);
-        this.data.canPush = (data.canPush !== undefined ? data.canPush : this.data.canPush);
-        this.data.values = (data.values !== undefined ? data.values : this.data.values);
+    public update(data: IModelData): void {
+        if (data.id !== undefined) this.data.id = data.id;
+        if (data.canPush !== undefined) this.data.canPush = data.canPush;
+        if (data.minValue !== undefined) {
+            this.data.minValue = this.validateMinValue(data.minValue, this.data.stepSize);
+        }
+        if (data.maxValue !== undefined) {
+            this.data.maxValue = this.validateMaxValue(this.data.stepSize, data.maxValue);
+        }
+        if (data.stepSize !== undefined) {
+            this.data.stepSize = data.stepSize;
+            this.data.maxValue = this.validateMaxValue(data.stepSize, this.data.maxValue);
+        }
+        const wasSliderParametersChanged = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined;
+        if (wasSliderParametersChanged) {
+            if (wasSliderParametersChanged) {
+                for (let i = 0; i < this.data.values.length; i += 1) {
+                    this.data.values[i] = this.validateValue(this.data.values[i], i, false);
+                }
+            }
+        }
+        if (data.values !== undefined && data.values.length > 0) {
+            /* const { deltaDirection, changedValueIndex } = this.findChangedValue(data.values); */
+            // проверяем был ли сдвинут какой либо ползунок
+            let changedValueIndex = -1;
+            data.values.forEach((e, i) => {
+                if (e !== this.data.values[i]) changedValueIndex = i;
+            });
+            const deltaDirection = data.values[changedValueIndex] - this.data.values[changedValueIndex];// /////////////
+            const wasHandleMove = (changedValueIndex !== -1 && deltaDirection !== 0);
+
+            this.data.values = data.values;
+
+            if (this.data.values.length > 1 && wasHandleMove) {
+                // протаскивание всех ползунков после/до текущего
+                if (deltaDirection > 0) {
+                    this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
+                    for (let i = changedValueIndex + 1; i < this.data.values.length; i += 1) {
+                        this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
+                    }
+                } else if (deltaDirection < 0) {
+                    this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
+                    for (let i = changedValueIndex - 1; i >= 0; i -= 1) {
+                        this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
+                    }
+                }
+            }
+
+            this.valuesChanged();
+        }
     }
 
     public getViewData(): ViewData {
@@ -38,48 +81,6 @@ class Model {
 
     public getOptions(args: ModelDataEventArgs): void {
         args.data = new ModelData(this.data);
-    }
-
-    public update(data: IModelData): void {
-        const { deltaDirection, changedValueIndex } = this.findChangedValue(data.values);
-
-        this.updateData(data);
-
-        if (data.stepSize !== undefined) {
-            this.data.maxValue = this.validateMaxValue(data.stepSize, this.data.maxValue);
-        }
-        if (data.maxValue !== undefined) {
-            this.data.maxValue = this.validateMaxValue(this.data.stepSize, data.maxValue);
-        }
-        if (data.minValue !== undefined) {
-            this.data.minValue = this.validateMinValue(data.minValue, this.data.stepSize);
-        }
-
-        if (data.values !== undefined) {
-            this.valuesChanged();
-        }
-
-        const wasSliderParametersChanged = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined || data.values !== undefined;
-        const wasHandleMove = (changedValueIndex !== -1 && deltaDirection !== 0);
-        this.validateValues(wasSliderParametersChanged, wasHandleMove, deltaDirection, changedValueIndex);
-    }
-
-    // проверяет был ли сдвинут ползунок
-    private findChangedValue(values: number[] | undefined): { deltaDirection: number, changedValueIndex: number } {
-        let changedValueIndex = -1;
-        let deltaDirection = 0; // направление смещения значения
-
-        if (values) { // значение, для которого нет соответствующей пары является значением текущего ползунка
-            values.forEach((e, i) => {
-                if (e !== this.data.values[i]) changedValueIndex = i;
-            });
-            deltaDirection = values[changedValueIndex] - this.data.values[changedValueIndex];// /////////////
-        }
-
-        return {
-            deltaDirection,
-            changedValueIndex,
-        };
     }
 
     private valuesChanged(): void { // ////////
@@ -94,27 +95,6 @@ class Model {
             }
         }
         this.onValuesChange.invoke(new ViewDataEventArgs({ filledStrips: newFilledStrips }));
-    }
-
-    private validateValues(wasSliderParametersChanged: boolean, wasHandleMove: boolean, deltaDirection: number, changedValueIndex: number): void {
-        if (this.data.values.length > 1 && wasHandleMove) {
-            // протаскивание всех ползунков после/до текущего
-            if (deltaDirection > 0) {
-                this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
-                for (let i = changedValueIndex + 1; i < this.data.values.length; i += 1) {
-                    this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
-                }
-            } else if (deltaDirection < 0) {
-                this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
-                for (let i = changedValueIndex - 1; i >= 0; i -= 1) {
-                    this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
-                }
-            }
-        } else if (wasSliderParametersChanged) {
-            for (let i = 0; i < this.data.values.length; i += 1) {
-                this.data.values[i] = this.validateValue(this.data.values[i], i, false);
-            }
-        }
     }
 
     private validateValue(value: number, countNumber: number, canPush: boolean): number {

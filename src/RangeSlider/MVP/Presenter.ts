@@ -54,7 +54,7 @@ class Presenter {
 
     private handlerStatesUpdate(args: EventArgs): void {
         this.model.update((<ModelDataEventArgs>args).data);
-        this.viewManager.updateData((<ViewDataEventArgs>args).data);
+        this.viewManager.update((<ViewDataEventArgs>args).data);
     }
 
     private handlerGetModelData(args: EventArgs): void {

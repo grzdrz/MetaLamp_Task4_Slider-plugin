@@ -25,8 +25,8 @@ class OptionsPanelView extends View {
         this.panelElements.push(new ListOfFilledStrip(this));
         this.panelElements.push(new HandlesCount(this));
         this.panelElements.push(new StepSize(this));
-        this.panelElements.push(new MinValue(this));
         this.panelElements.push(new MaxValue(this));
+        this.panelElements.push(new MinValue(this));
         this.panelElements.push(new MaxSegmentCount(this));
         this.panelElements.push(new Angle(this));
         this.panelElements.push(new CanPush(this));
