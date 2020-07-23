@@ -7,7 +7,6 @@ const modelData = {
     maxValue: 9,
     values: [-3, 3],
     stepSize: 0.000001,
-    hasTwoSlider: true,
     canPush: true,
 };
 const viewData = {

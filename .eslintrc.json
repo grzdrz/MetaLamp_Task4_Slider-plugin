@@ -17,7 +17,8 @@
         "tsconfigRootDir": "."
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "fsd"
     ],
     "ignorePatterns": [
         "temp.js",
@@ -41,6 +42,13 @@
         "@typescript-eslint/ban-ts-ignore": 0,
         "import/no-cycle": 0,
         "no-param-reassign": 0,
-        "class-methods-use-this": 0
+        "class-methods-use-this": 0,
+        
+        "fsd/hof-name-prefix": "error",
+        "fsd/no-heavy-constructor": "error",
+        "fsd/jq-cache-dom-elements": "error",
+        "fsd/jq-use-js-prefix-in-selector": "error",
+        "fsd/no-function-declaration-in-event-listener": "error",
+        "fsd/split-conditionals": "error"
     }
 }

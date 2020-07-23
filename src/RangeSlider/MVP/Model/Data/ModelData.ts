@@ -22,12 +22,12 @@ class ModelData implements IModelData {
     }
 
     private initialize(data: IModelData): void {
-        this.id = (data.id !== undefined ? data.id : this.id);
-        this.minValue = (data.minValue !== undefined ? data.minValue : this.minValue);
-        this.maxValue = (data.maxValue !== undefined ? data.maxValue : this.maxValue);
-        this.stepSize = (data.stepSize !== undefined ? data.stepSize : this.stepSize);
-        this.canPush = (data.canPush !== undefined ? data.canPush : this.canPush);
-        this.values = (data.values !== undefined ? data.values.map((e) => e) : this.values);
+        if (data.id !== undefined) this.id = data.id;
+        if (data.minValue !== undefined) this.minValue = data.minValue;
+        if (data.maxValue !== undefined) this.maxValue = data.maxValue;
+        if (data.stepSize !== undefined) this.stepSize = data.stepSize;
+        if (data.canPush !== undefined) this.canPush = data.canPush;
+        if (data.values !== undefined) this.values = data.values.map((e) => e);
     }
 }
 

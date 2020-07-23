@@ -1,0 +1,16 @@
+import RangeSlider from "../src/RangeSlider/RangeSlider";
+import Presenter from "../src/RangeSlider/MVP/Presenter";
+
+describe("RangeSlider", function () {
+    it("Создание экземмпляра RangeSlider", function () {
+        const rangeSlider = new RangeSlider();
+        assert.instanceOf(rangeSlider, RangeSlider);
+    });
+
+    it("createRangeSlider", function () {
+        const container = document.createElement("div");
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
+
+        assert.instanceOf(presenter, Presenter);
+    });
+});

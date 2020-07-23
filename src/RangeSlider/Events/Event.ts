@@ -5,7 +5,11 @@ interface EventHandler {
 }
 
 class Event {
-    private handlers: EventHandler[] = new Array<EventHandler>();
+    private handlers: EventHandler[];
+
+    constructor() {
+        this.handlers = new Array<EventHandler>();
+    }
 
     invoke(args: EventArgs): void {
         this.handlers.forEach((eventHandler) => eventHandler(args));

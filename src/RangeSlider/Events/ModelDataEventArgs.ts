@@ -6,7 +6,7 @@ class ModelDataEventArgs extends EventArgs {
 
     constructor(data: IModelData) {
         super();
-        this.data = (data !== undefined ? data : {});
+        this.data = data;/* (data !== undefined ? data : {}); */
     }
 }
 
