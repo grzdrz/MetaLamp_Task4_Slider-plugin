@@ -121,8 +121,7 @@
     justify-content: space-between;
     width: 100%;
     padding: 10px;
-    border: 2px solid #50bda5;
-    margin: 20px; }
+    border: 2px solid #50bda5; }
   .range-slider__value-inputs-container {
     display: flex;
     flex-direction: column;
@@ -158,7 +157,7 @@
   justify-content: center;
   align-items: center;
   padding: 40px 0px; }
-  .test-page__tested-range-slider-container1, .test-page__tested-range-slider-container2, .test-page__tested-range-slider-container3, .test-page__tested-range-slider-container4 {
+  .test-page__tested-range-slider-container_1, .test-page__tested-range-slider-container_2, .test-page__tested-range-slider-container_3, .test-page__tested-range-slider-container_4 {
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -18,6 +18,10 @@ class Model {
         this.data = data;
     }
 
+    public initialize(): void {
+        this.update(this.data);
+    }
+
     public update(data: IModelData): void {
         if (data.id !== undefined) this.data.id = data.id;
         if (data.canPush !== undefined) this.data.canPush = data.canPush;
@@ -63,6 +67,8 @@ class Model {
                         this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
                     }
                 }
+            } else if (this.data.values.length === 1) {
+                this.data.values[0] = this.validateValue(this.data.values[0], 0, false);
             }
 
             this.valuesChanged();

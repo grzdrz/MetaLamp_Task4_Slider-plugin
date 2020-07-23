@@ -3,10 +3,10 @@ import $ from "jquery";
 import "./TestPage.scss";
 
 const modelData = {
-    minValue: -9,
-    maxValue: 9,
-    values: [-3, 3],
-    stepSize: 0.000001,
+    minValue: -19,
+    maxValue: -9,
+    values: [-7, -3, 3],
+    stepSize: 1,
     canPush: true,
 };
 const viewData = {
@@ -17,13 +17,13 @@ const viewData = {
     maxSegmentsCount: 6,
     scaleFontSize: 15,
     angle: 0,
-    filledStrips: [true, false, true],
+    filledStrips: [true, false],
     isHandlesSeparated: false,
     hasScale: true,
     scaleMargin: 30,
     hasOptions: true,
 };
-$(".test-page__tested-range-slider-container1").rangeSlider(modelData, viewData);
+$(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData);
 
 const viewData2 = {
     sliderStripThickness: 10,
@@ -39,4 +39,4 @@ const viewData2 = {
     scaleMargin: 30,
     hasOptions: false,
 };
-$(".test-page__tested-range-slider-container2").rangeSlider(modelData, viewData2);
+$(".js-test-page__tested-range-slider-container_2").rangeSlider(modelData, viewData2);

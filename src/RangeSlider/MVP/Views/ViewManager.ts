@@ -63,6 +63,10 @@ class ViewManager {
             this.containerElement.append(pluginContainer);
             this.containerElement.append(inputsContainer);
         }
+
+        this.views.forEach((e) => e.initialize());
+
+        this.update(this.viewData);
     }
 
     public update(data: IViewData): void {

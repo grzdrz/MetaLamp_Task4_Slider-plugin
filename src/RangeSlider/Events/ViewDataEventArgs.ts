@@ -6,7 +6,7 @@ class ViewDataEventArgs extends EventArgs {
 
     constructor(data: IViewData) {
         super();
-        this.data = data;/* (data !== undefined ? data : {}); */
+        this.data = data;
     }
 }
 

@@ -20,7 +20,6 @@ class HandlesCount extends OptionPanelElement {
         input.type = "number";
         input.step = "1";
         input.value = modelData.values.length.toString();
-        // handlesCountInput.max = ;
         input.min = "1";
         input.className = "options__input js-options__input";
 

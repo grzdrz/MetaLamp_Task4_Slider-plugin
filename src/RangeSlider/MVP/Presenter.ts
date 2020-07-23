@@ -25,8 +25,6 @@ class Presenter {
     }
 
     private initialize(): void {
-        this.viewManager.initialize();
-
         this.viewManager.onStatesUpdate.subscribe(this.handlerStatesUpdate);
         this.viewManager.onStatesUpdate.subscribe(this.handlerViewsUpdate);
 
@@ -42,7 +40,8 @@ class Presenter {
         this.model.onGetViewData.subscribe(this.handlerGetViewData);
         this.viewManager.onGetModelData.subscribe(this.handlerGetModelData);
 
-        this.viewManager.views.forEach((e) => e.initialize());
+        this.model.initialize();
+        this.viewManager.initialize();
     }
 
     private handlerStatesUpdate(args: EventArgs): void {
