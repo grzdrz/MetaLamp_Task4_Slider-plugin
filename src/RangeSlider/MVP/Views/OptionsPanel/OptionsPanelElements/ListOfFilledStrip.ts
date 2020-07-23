@@ -11,7 +11,7 @@ class ListOfFilledStrip extends OptionPanelElement {
         super(view);
 
         this.filledStripsContainer = document.createElement("div");
-        this.handlerValueInputChange = this.handlerValueInputChange.bind(this);
+        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -20,12 +20,12 @@ class ListOfFilledStrip extends OptionPanelElement {
         this.DOMElement.innerHTML = "";
         this.inputsDOMElements = [];
 
-        this.DOMElement.className = "range-slider__filled-strips-inputs-container";
+        this.DOMElement.className = "options__cheackboxes-container";
 
         const filledStripsTitle = document.createElement("p");
         filledStripsTitle.textContent = "Filled strips";
-        filledStripsTitle.className = "range-slider__filled-strips-title";
-        this.filledStripsContainer.className = "range-slider__filled-strips-inputs";
+        filledStripsTitle.className = "options__title";
+        this.filledStripsContainer.className = "options__inputs";
 
         const { filledStrips } = this.view.viewManager.viewData;
         for (let i = 0; i < filledStrips.length; i += 1) {
@@ -34,12 +34,12 @@ class ListOfFilledStrip extends OptionPanelElement {
             this.inputsDOMElements.push(valueInput);
 
             valueInput.dataset.countNumber = `${i}`;
-            valueInput.className = "range-slider__filled-strips-input";
+            valueInput.className = "options__checkbox-input js-options__input";
             valueInput.checked = filledStrips[i];
 
             this.filledStripsContainer.append(valueInput);
 
-            valueInput.addEventListener("change", this.handlerValueInputChange);
+            valueInput.addEventListener("change", this.handlerInputChange);
         }
         this.DOMElement.append(filledStripsTitle);
         this.DOMElement.append(this.filledStripsContainer);
@@ -57,12 +57,12 @@ class ListOfFilledStrip extends OptionPanelElement {
             this.inputsDOMElements.push(valueInput);
 
             valueInput.dataset.countNumber = `${i}`;
-            valueInput.className = "range-slider__filled-strips-input";
+            valueInput.className = "options__checkbox-input js-options__input";
             valueInput.checked = filledStrips[i];
 
             this.filledStripsContainer.append(valueInput);
 
-            valueInput.addEventListener("change", this.handlerValueInputChange);
+            valueInput.addEventListener("change", this.handlerInputChange);
         }
 
         this.inputsDOMElements.forEach((e, i) => {
@@ -70,7 +70,7 @@ class ListOfFilledStrip extends OptionPanelElement {
         });
     }
 
-    handlerValueInputChange(): void {
+    handlerInputChange(): void {
         const { filledStrips } = this.view.viewManager.viewData;
         this.inputsDOMElements.forEach((e, i) => {
             const value = e.checked;

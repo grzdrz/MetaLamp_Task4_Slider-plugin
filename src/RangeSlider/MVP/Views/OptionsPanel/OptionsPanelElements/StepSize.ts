@@ -6,7 +6,7 @@ class StepSize extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
-        this.handlerStepSizeChange = this.handlerStepSizeChange.bind(this);
+        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -14,43 +14,36 @@ class StepSize extends OptionPanelElement {
 
         const modelData = this.view.viewManager.getModelData();
 
-        const stepSizeLabel = document.createElement("label");
-        const stepSizeInput = document.createElement("input");
-        const stepSizeText = document.createElement("p");
+        const input = document.createElement("input");
+        const text = document.createElement("p");
 
-        stepSizeLabel.className = "range-slider__inputs-label";
+        input.type = "number";
+        input.step = "1";
+        input.value = modelData.stepSize.toString();
+        input.className = "options__input js-options__input";
 
-        stepSizeInput.type = "number";
-        stepSizeInput.step = "1";
-        stepSizeInput.value = modelData.stepSize.toString();
-        stepSizeInput.className = "range-slider__step-size-input";
+        text.className = "options__text";
+        text.textContent = "step size";
 
-        stepSizeText.className = "range-slider__step-size-text";
-        stepSizeText.textContent = "step size";
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
 
-        stepSizeLabel.append(stepSizeInput);
-        stepSizeLabel.append(stepSizeText);
+        this.DOMElement.addEventListener("change", this.handlerInputChange);
 
-        stepSizeLabel.addEventListener("change", this.handlerStepSizeChange);
-
-        this.DOMElement.append(stepSizeLabel);
         this.view.containerElement.append(this.DOMElement);
     }
 
     public update(): void {
         const modelData = this.view.viewManager.getModelData();
 
-        const input = <HTMLInputElement> this.DOMElement.querySelector(".range-slider__step-size-input");
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         input.value = modelData.stepSize.toString();
     }
 
-    private handlerStepSizeChange(event: globalThis.Event) {
+    private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
-        const currentLabel = event.currentTarget;
-        if (!currentLabel) throw new Error("some shit with step size change event");
-        const input = (<HTMLInputElement>currentLabel).querySelector("input");
-        if (!input) throw new Error("input not exist");
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         let inputValue = Number.parseFloat(input.value);
         if (inputValue <= 0) { // ///
             inputValue = 0.000001;

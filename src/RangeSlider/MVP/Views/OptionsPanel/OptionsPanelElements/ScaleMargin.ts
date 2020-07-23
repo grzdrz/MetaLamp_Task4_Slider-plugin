@@ -6,7 +6,7 @@ class ScaleMargin extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
-        this.handlerScaleMarginChange = this.handlerScaleMarginChange.bind(this);
+        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -14,25 +14,21 @@ class ScaleMargin extends OptionPanelElement {
 
         const { scaleMargin } = this.view.viewManager.viewData;
 
-        const label = document.createElement("label");
-        label.className = "range-slider__inputs-label";
-
         const input = document.createElement("input");
         input.type = "number";
         input.step = "1";
         input.value = scaleMargin.toString();
-        input.className = "range-slider__scale-margin-input";
+        input.className = "options__input js-options__input";
 
         const text = document.createElement("p");
-        text.className = "range-slider__scale-margin-text";
+        text.className = "options__text";
         text.textContent = "scale margin";
 
-        label.append(input);
-        label.append(text);
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
 
-        label.addEventListener("change", this.handlerScaleMarginChange);
+        this.DOMElement.addEventListener("change", this.handlerInputChange);
 
-        this.DOMElement.append(label);
         this.view.containerElement.append(this.DOMElement);
     }
 
@@ -40,13 +36,10 @@ class ScaleMargin extends OptionPanelElement {
 
     }
 
-    private handlerScaleMarginChange(event: globalThis.Event) {
+    private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
-        const currentLabel = event.currentTarget;
-        if (!currentLabel) throw new Error("some shit with angle size change event");
-        const input = (<HTMLElement>currentLabel).querySelector("input");
-        if (!input) throw new Error("input not exist");
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         const inputValue = Number.parseInt(input.value, 10);
 
         input.value = inputValue.toString();

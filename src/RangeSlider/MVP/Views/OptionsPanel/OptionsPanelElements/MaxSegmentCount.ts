@@ -6,7 +6,7 @@ class MaxSegmentCount extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
-        this.handlerMaxSegmentsCountChange = this.handlerMaxSegmentsCountChange.bind(this);
+        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -14,26 +14,22 @@ class MaxSegmentCount extends OptionPanelElement {
 
         const { maxSegmentsCount } = this.view.viewManager.viewData;
 
-        const maxSegmentsCountLabel = document.createElement("label");
-        const maxSegmentsCountInput = document.createElement("input");
-        const maxSegmentsCountText = document.createElement("p");
+        const input = document.createElement("input");
+        const text = document.createElement("p");
 
-        maxSegmentsCountLabel.className = "range-slider__inputs-label";
+        input.type = "number";
+        input.step = "1";
+        input.value = maxSegmentsCount.toString();
+        input.className = "options__input js-options__input";
 
-        maxSegmentsCountInput.type = "number";
-        maxSegmentsCountInput.step = "1";
-        maxSegmentsCountInput.value = maxSegmentsCount.toString();
-        maxSegmentsCountInput.className = "range-slider__max-value-input";
+        text.className = "options__text";
+        text.textContent = "maximum segments count";
 
-        maxSegmentsCountText.className = "range-slider__max-value-text";
-        maxSegmentsCountText.textContent = "maximum segments count";
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
 
-        maxSegmentsCountLabel.append(maxSegmentsCountInput);
-        maxSegmentsCountLabel.append(maxSegmentsCountText);
+        this.DOMElement.addEventListener("change", this.handlerInputChange);
 
-        maxSegmentsCountLabel.addEventListener("change", this.handlerMaxSegmentsCountChange);
-
-        this.DOMElement.append(maxSegmentsCountLabel);
         this.view.containerElement.append(this.DOMElement);
     }
 
@@ -41,13 +37,10 @@ class MaxSegmentCount extends OptionPanelElement {
 
     }
 
-    private handlerMaxSegmentsCountChange(event: globalThis.Event) {
+    private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
-        const currentLabel = event.currentTarget;
-        if (!currentLabel) throw new Error("some shit with max segments count change event");
-        const input = (<HTMLElement>currentLabel).querySelector("input");
-        if (!input) throw new Error("input not exist");
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         const inputValue = Number.parseInt(input.value, 10);
 
         const dataToUpdate = {

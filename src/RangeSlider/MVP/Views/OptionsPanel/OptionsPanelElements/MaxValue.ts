@@ -6,7 +6,7 @@ class MaxValue extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
-        this.handlerMaxValueChange = this.handlerMaxValueChange.bind(this);
+        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -15,48 +15,41 @@ class MaxValue extends OptionPanelElement {
         const modelData = this.view.viewManager.getModelData();
 
         // максимальное значение
-        const maxValueLabel = document.createElement("label");
-        const maxValueInput = document.createElement("input");
-        const maxValueText = document.createElement("p");
+        const input = document.createElement("input");
+        const text = document.createElement("p");
 
-        maxValueLabel.className = "range-slider__inputs-label";
+        input.type = "number";
+        input.step = modelData.stepSize.toString();
+        input.value = modelData.maxValue.toString();
+        input.max = (modelData.maxValue + modelData.stepSize).toString();
+        input.min = (modelData.minValue - modelData.stepSize).toString();
+        input.className = "options__input js-options__input";
 
-        maxValueInput.type = "number";
-        maxValueInput.step = modelData.stepSize.toString();
-        maxValueInput.value = modelData.maxValue.toString();
-        maxValueInput.max = (modelData.maxValue + modelData.stepSize).toString();
-        maxValueInput.min = (modelData.minValue - modelData.stepSize).toString();
-        maxValueInput.className = "range-slider__max-value-input";
+        text.className = "options__text";
+        text.textContent = "max value";
 
-        maxValueText.className = "range-slider__max-value-text";
-        maxValueText.textContent = "max value";
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
 
-        maxValueLabel.append(maxValueInput);
-        maxValueLabel.append(maxValueText);
+        this.DOMElement.addEventListener("change", this.handlerInputChange);
 
-        maxValueLabel.addEventListener("change", this.handlerMaxValueChange);
-
-        this.DOMElement.append(maxValueLabel);
         this.view.containerElement.append(this.DOMElement);
     }
 
     public update(): void {
         const modelData = this.view.viewManager.getModelData();
 
-        const input = <HTMLInputElement> this.DOMElement.querySelector(".range-slider__max-value-input");
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         input.step = modelData.stepSize.toString();
         input.value = modelData.maxValue.toString();
         input.max = (modelData.maxValue + modelData.stepSize).toString();
         input.min = (modelData.minValue - modelData.stepSize).toString();
     }
 
-    private handlerMaxValueChange(event: globalThis.Event) {
+    private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
-        const currentLabel = event.currentTarget;
-        if (!currentLabel) throw new Error("some shit with max value change event");
-        const input = (<HTMLInputElement>currentLabel).querySelector("input");
-        if (!input) throw new Error("input not exist");
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         const inputValue = Number.parseFloat(input.value);
 
         const optionsToUpdate = {

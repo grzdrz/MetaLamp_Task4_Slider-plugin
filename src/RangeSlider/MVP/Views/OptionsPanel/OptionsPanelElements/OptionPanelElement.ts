@@ -4,7 +4,8 @@ abstract class OptionPanelElement {
     public DOMElement: HTMLElement;
 
     constructor(public view: OptionsPanelView) {
-        this.DOMElement = document.createElement("div");
+        this.DOMElement = document.createElement("label");
+        this.DOMElement.className = "options__label";
     }
 
     public build(): void {

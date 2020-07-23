@@ -1,0 +1,30 @@
+&__value-inputs-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px;
+}
+
+&__value-input-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin-bottom: 5px;
+}
+
+&__value-input {
+    width: 30%;
+    height: 25px;
+    border: 1px solid black;
+    font-size: 1.5rem;
+}
+
+&__value-input-text {
+    margin: 0px;
+    margin-left: 10px;
+    text-align: center;
+    display: inline-flex;
+    align-items: flex-end;
+    font-size: 1.2rem;
+}

@@ -6,7 +6,7 @@ class MinValue extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
-        this.handlerMinValueChange = this.handlerMinValueChange.bind(this);
+        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -14,48 +14,41 @@ class MinValue extends OptionPanelElement {
 
         const modelData = this.view.viewManager.getModelData();
 
-        const minValueLabel = document.createElement("label");
-        const minValueInput = document.createElement("input");
-        const minValueText = document.createElement("p");
+        const input = document.createElement("input");
+        const text = document.createElement("p");
 
-        minValueLabel.className = "range-slider__inputs-label";
+        input.type = "number";
+        input.step = modelData.stepSize.toString();
+        input.value = modelData.minValue.toString();
+        input.max = (modelData.maxValue + modelData.stepSize).toString();
+        input.min = (modelData.minValue - modelData.stepSize).toString();
+        input.className = "options__input js-options__input";
 
-        minValueInput.type = "number";
-        minValueInput.step = modelData.stepSize.toString();
-        minValueInput.value = modelData.minValue.toString();
-        minValueInput.max = (modelData.maxValue + modelData.stepSize).toString();
-        minValueInput.min = (modelData.minValue - modelData.stepSize).toString();
-        minValueInput.className = "range-slider__min-value-input";
+        text.className = "options__text";
+        text.textContent = "min value";
 
-        minValueText.className = "range-slider__min-value-text";
-        minValueText.textContent = "min value";
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
 
-        minValueLabel.append(minValueInput);
-        minValueLabel.append(minValueText);
+        this.DOMElement.addEventListener("change", this.handlerInputChange);
 
-        minValueLabel.addEventListener("change", this.handlerMinValueChange);
-
-        this.DOMElement.append(minValueLabel);
         this.view.containerElement.append(this.DOMElement);
     }
 
     public update(): void {
         const modelData = this.view.viewManager.getModelData();
 
-        const input = <HTMLInputElement> this.DOMElement.querySelector(".range-slider__min-value-input");
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         input.step = modelData.stepSize.toString();
         input.value = modelData.minValue.toString();
         input.max = (modelData.maxValue + modelData.stepSize).toString();
         input.min = (modelData.minValue - modelData.stepSize).toString();
     }
 
-    private handlerMinValueChange(event: globalThis.Event) {
+    private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
-        const currentLabel = event.currentTarget;
-        if (!currentLabel) throw new Error("some shit with min value change event");
-        const input = (<HTMLInputElement>currentLabel).querySelector("input");
-        if (!input) throw new Error("input not exist");
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         const inputValue = Number.parseFloat(input.value);
 
         const optionsToUpdate = {

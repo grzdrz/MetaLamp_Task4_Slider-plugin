@@ -37,7 +37,7 @@ class InputsView extends View {
             this.valueInputsDOMElements.push(valueInput);
             const valueInputText = document.createElement("p");
 
-            valueInputContainer.className = "range-slider__value-input-container";
+            valueInputContainer.className = `range-slider__value-input-container range-slider__value-input-container_${i}`;
             valueInput.dataset.countNumber = `${i}`;
             valueInput.className = "range-slider__value-input";
             valueInput.value = `${modelData.minValue}`;

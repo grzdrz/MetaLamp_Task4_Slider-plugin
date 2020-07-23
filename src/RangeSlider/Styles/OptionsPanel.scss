@@ -1,94 +1,58 @@
-&__inputs-and-options-panel-container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #50bda5;
-    margin: 20px;
-}
-
-&__inputs-container {
+.options {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 30px;
-}
 
-&__options-panel-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
+    &__label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
 
-&__inputs-label,
-&__value-input-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
+        margin-bottom: 5px;
+    }
 
-    margin-bottom: 5px;
-}
+    &__cheackboxes-container {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
 
-&__value-input,
-&__step-size-input,
-&__max-value-input,
-&__min-value-input,
-&__angle-size-input,
-&__handles-count-input,
-&__scale-margin-input {
-    width: 30%;
-    height: 25px;
-    border: 1px solid black;
-    font-size: 1.5rem;
-}
-&__can-push-input,
-&__handles-separated-input,
-&__has-scale-input {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-}
+        margin-bottom: 5px;
+    }
 
-&__value-input-text,
-&__step-size-text,
-&__orientation-text,
-&__max-value-text,
-&__min-value-text,
-&__angle-size-text,
-&__input-text,
-&__handles-count-text,
-&__can-push-text,
-&__handles-separated-text,
-&__has-scale-text,
-&__scale-margin-text {
-    margin: 0px;
-    margin-left: 10px;
-    text-align: center;
-    display: inline-flex;
-    align-items: flex-end;
-    font-size: 1.2rem;
-}
+    &__input {
+        width: 30%;
+        height: 25px;
+        border: 1px solid black;
+        font-size: 1.5rem;
+    }
 
-&__filled-strips-inputs-container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    width: 100%;
-}
-&__filled-strips-title {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-}
-&__filled-strips-inputs {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    margin-bottom: 5px;
-}
-&__filled-strips-input {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
+    &__checkbox-input {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+
+    &__text {
+        margin: 0px;
+        margin-left: 10px;
+        text-align: center;
+        display: inline-flex;
+        align-items: flex-end;
+        font-size: 1.2rem;
+    }
+
+    &__title {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+
+    &__inputs {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-bottom: 5px;
+    }
 }

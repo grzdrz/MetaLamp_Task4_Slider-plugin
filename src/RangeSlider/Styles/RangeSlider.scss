@@ -8,6 +8,8 @@
 @import "../../assets/fonts/fonts.scss";
 @include setFonts("../../");
 
+@import "./OptionsPanel.scss";
+
 .range-slider {
     border: 1px solid black;
 
@@ -102,5 +104,15 @@
         bottom: 0px;
     }
 
-    @import "./OptionsPanel.scss";
+    &__inputs-and-options-panel-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #50bda5;
+        margin: 20px;
+    }
+
+    @import "./ValueInputs.scss";
 }

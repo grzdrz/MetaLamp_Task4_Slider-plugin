@@ -6,7 +6,7 @@ class Angle extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
-        this.handlerAngleSizeChange = this.handlerAngleSizeChange.bind(this);
+        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -14,44 +14,35 @@ class Angle extends OptionPanelElement {
 
         const { angle } = this.view.viewManager.viewData;
 
-        const angleSizeLabel = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "number";
+        input.step = "1";
+        input.value = angle.toString();
+        input.className = "options__input js-options__input";
 
-        angleSizeLabel.className = "range-slider__inputs-label";
+        const text = document.createElement("p");
+        text.className = "options__text";
+        text.textContent = "angle size";
 
-        const angleSizeCountInput = document.createElement("input");
-        angleSizeCountInput.type = "number";
-        angleSizeCountInput.step = "1";
-        angleSizeCountInput.value = angle.toString();
-        angleSizeCountInput.className = "range-slider__angle-size-input";
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
 
-        const angleSizeCountText = document.createElement("p");
-        angleSizeCountText.className = "range-slider__angle-size-text";
-        angleSizeCountText.textContent = "angle size";
+        this.DOMElement.addEventListener("change", this.handlerInputChange);
 
-        angleSizeLabel.append(angleSizeCountInput);
-        angleSizeLabel.append(angleSizeCountText);
-
-        angleSizeLabel.addEventListener("change", this.handlerAngleSizeChange);
-
-        this.DOMElement.append(angleSizeLabel);
         this.view.containerElement.append(this.DOMElement);
     }
 
     public update(): void {
-
+        const { angle } = this.view.viewManager.viewData;
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        input.value = `${angle}`;
     }
 
-    private handlerAngleSizeChange(event: globalThis.Event) {
+    private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
-        const currentLabel = event.currentTarget;
-        if (!currentLabel) throw new Error("some shit with angle size change event");
-        const input = (<HTMLElement>currentLabel).querySelector("input");
-        if (!input) throw new Error("input not exist");
-        let inputValue = Number.parseInt(input.value, 10);
-
-        if (inputValue > 90) inputValue = 90;
-        else if (inputValue < 0 || inputValue === undefined) inputValue = 0;
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        const inputValue = Number.parseInt(input.value, 10);
 
         input.value = inputValue.toString();
 

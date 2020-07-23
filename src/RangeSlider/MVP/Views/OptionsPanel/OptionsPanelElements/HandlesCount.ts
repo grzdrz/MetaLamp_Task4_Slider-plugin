@@ -6,7 +6,7 @@ class HandlesCount extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
-        this.handlerHandlsCountChange = this.handlerHandlsCountChange.bind(this);
+        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -14,46 +14,42 @@ class HandlesCount extends OptionPanelElement {
 
         const modelData = this.view.viewManager.getModelData();
 
-        const handlesCountLabel = document.createElement("label");
-        const handlesCountInput = document.createElement("input");
-        const maxValueText = document.createElement("p");
+        const input = document.createElement("input");
+        const text = document.createElement("p");
 
-        handlesCountLabel.className = "range-slider__inputs-label";
-
-        handlesCountInput.type = "number";
-        handlesCountInput.step = "1";
-        handlesCountInput.value = modelData.values.length.toString();
+        input.type = "number";
+        input.step = "1";
+        input.value = modelData.values.length.toString();
         // handlesCountInput.max = ;
-        handlesCountInput.min = "1";
-        handlesCountInput.className = "range-slider__handles-count-input";
+        input.min = "1";
+        input.className = "options__input js-options__input";
 
-        maxValueText.className = "range-slider__handles-count-text";
-        maxValueText.textContent = "handles count";
+        text.className = "options__text";
+        text.textContent = "handles count";
 
-        handlesCountLabel.addEventListener("change", this.handlerHandlsCountChange);
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
 
-        handlesCountLabel.append(handlesCountInput);
-        handlesCountLabel.append(maxValueText);
+        this.DOMElement.addEventListener("change", this.handlerInputChange);
 
-        this.DOMElement.append(handlesCountLabel);
         this.view.containerElement.append(this.DOMElement);
     }
 
-    public update(): void { }
+    public update(): void {
+        const { values } = this.view.viewManager.getModelData();
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        input.value = `${values.length}`;
+    }
 
-    private handlerHandlsCountChange(event: globalThis.Event) {
+    private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
-        if (!event.currentTarget) throw new Error("some shit with handls count change event");
-        const currentInput = (<HTMLElement>event.currentTarget).querySelector(".range-slider__handles-count-input");
-        if (!currentInput) throw new Error("some shit with handls count change event");
-        const handlesCount = (<HTMLInputElement>currentInput).value;
-        if (!handlesCount) throw new Error("some shit with handls count change event");
-        const handlesCountNumber = Number.parseInt(handlesCount, 10);
+        const currentInput = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        const handlesCount = Number.parseInt(currentInput.value, 10);
 
         const modelData = this.view.viewManager.getModelData();
         const values = [];
-        for (let i = 0; i < handlesCountNumber; i += 1) {
+        for (let i = 0; i < handlesCount; i += 1) {
             if (i < modelData.values.length) values.push(modelData.values[i]);
             else values.push(modelData.maxValue);
         }

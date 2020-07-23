@@ -6,7 +6,7 @@ class HasScale extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
-        this.handlerHasScaleChange = this.handlerHasScaleChange.bind(this);
+        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -14,25 +14,20 @@ class HasScale extends OptionPanelElement {
 
         const { canPush } = this.view.viewManager.getModelData();
 
-        const label = document.createElement("label");
-
-        label.className = "range-slider__inputs-label";
-
         const input = document.createElement("input");
         input.type = "checkbox";
         input.checked = canPush;
-        input.className = "range-slider__has-scale-input";
+        input.className = "options__checkbox-input js-options__input";
 
         const text = document.createElement("p");
-        text.className = "range-slider__has-scale-text";
+        text.className = "options__text";
         text.textContent = "has scale ?";
 
-        label.append(input);
-        label.append(text);
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
 
-        label.addEventListener("change", this.handlerHasScaleChange);
+        this.DOMElement.addEventListener("change", this.handlerInputChange);
 
-        this.DOMElement.append(label);
         this.view.containerElement.append(this.DOMElement);
     }
 
@@ -40,14 +35,10 @@ class HasScale extends OptionPanelElement {
 
     }
 
-    private handlerHasScaleChange(event: globalThis.Event) {
+    private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
-        const currentLabel = event.currentTarget;
-        if (!currentLabel) throw new Error("some shit with angle size change event");
-        const input = (<HTMLElement>currentLabel).querySelector("input");
-        if (!input) throw new Error("input not exist");
-
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         const dataToUpdate = {
             hasScale: input.checked,
         };

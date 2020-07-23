@@ -40,7 +40,7 @@ class ViewManager {
         this.views.push(new SliderView(sliderContainer, this));
 
         const inputsContainer: HTMLElement = document.createElement("div");
-        inputsContainer.className = "range-slider__inputs-container";
+        inputsContainer.className = "range-slider__value-inputs-container";
         this.views.push(new InputsView(inputsContainer, this));
 
         pluginContainer.append(sliderContainer);
@@ -50,7 +50,7 @@ class ViewManager {
             optionsContainer.className = "range-slider__inputs-and-options-panel-container";
 
             const optionsPanelContainer: HTMLElement = document.createElement("div");
-            optionsPanelContainer.className = "range-slider__options-panel-container";
+            optionsPanelContainer.className = "options";
 
             optionsContainer.append(inputsContainer);
             optionsContainer.append(optionsPanelContainer);
@@ -72,7 +72,7 @@ class ViewManager {
         if (data.borderThickness !== undefined) this.viewData.borderThickness = data.borderThickness;
         if (data.maxSegmentsCount !== undefined) this.viewData.maxSegmentsCount = data.maxSegmentsCount;
         if (data.scaleFontSize !== undefined) this.viewData.scaleFontSize = data.scaleFontSize;
-        if (data.angle !== undefined) this.viewData.angle = data.angle;
+        if (data.angle !== undefined) this.viewData.angle = this.validateAngle(data.angle);
         if (data.filledStrips !== undefined) this.viewData.filledStrips = this.validateFilledStrips(data.filledStrips);
         if (data.hasScale !== undefined) this.viewData.hasScale = data.hasScale;
         if (data.isHandlesSeparated !== undefined) this.viewData.isHandlesSeparated = data.isHandlesSeparated;
@@ -99,6 +99,12 @@ class ViewManager {
             }
         }
         return newFilledStrips;
+    }
+
+    private validateAngle(angle: number) {
+        if (angle > 90) return 90;
+        if (angle < 0 || angle === undefined) return 0;
+        return angle;
     }
 
     public getData(args: ViewDataEventArgs): void {
