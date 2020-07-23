@@ -32,7 +32,9 @@ class HandlesSeparated extends OptionPanelElement {
     }
 
     public update(): void {
-
+        const { isHandlesSeparated } = this.view.viewManager.viewData;
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        input.checked = isHandlesSeparated;
     }
 
     private handlerInputChange(event: globalThis.Event) {

@@ -34,7 +34,9 @@ class MaxSegmentCount extends OptionPanelElement {
     }
 
     public update(): void {
-
+        const { maxSegmentsCount } = this.view.viewManager.viewData;
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        input.value = `${maxSegmentsCount}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {

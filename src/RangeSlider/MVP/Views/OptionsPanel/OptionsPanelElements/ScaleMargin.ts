@@ -33,7 +33,9 @@ class ScaleMargin extends OptionPanelElement {
     }
 
     public update(): void {
-
+        const { scaleMargin } = this.view.viewManager.viewData;
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        input.value = `${scaleMargin}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {

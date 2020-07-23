@@ -109,7 +109,10 @@ class Model {
     }
 
     private validateMaxValue(stepSize: number, maxValue: number): number {
-        const valueOfOneStep = (maxValue - this.data.minValue) / stepSize;
+        const dMaxMin = maxValue - this.data.minValue;
+        if (dMaxMin <= 0) return this.data.minValue + stepSize;
+
+        const valueOfOneStep = dMaxMin / stepSize;
         const fraction = MathFunctions.getFractionOfNumber(valueOfOneStep);
 
         if (fraction === 0) return maxValue;
@@ -119,6 +122,9 @@ class Model {
     }
 
     private validateMinValue(minValue: number, stepSize: number): number {
+        const dMaxMin = this.data.maxValue - minValue;
+        if (dMaxMin <= 0) return this.data.maxValue - stepSize;
+
         const valueOfOneStep = (this.data.maxValue - minValue) / stepSize;
         const fraction = MathFunctions.getFractionOfNumber(valueOfOneStep);
 

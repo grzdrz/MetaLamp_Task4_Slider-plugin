@@ -32,7 +32,9 @@ class CanPush extends OptionPanelElement {
     }
 
     public update(): void {
-
+        const { canPush } = this.view.viewManager.getModelData();
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        input.checked = canPush;
     }
 
     private handlerInputChange(event: globalThis.Event) {

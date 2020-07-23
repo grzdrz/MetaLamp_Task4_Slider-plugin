@@ -32,7 +32,9 @@ class HasScale extends OptionPanelElement {
     }
 
     public update(): void {
-
+        const { hasScale } = this.view.viewManager.viewData;
+        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        input.checked = hasScale;
     }
 
     private handlerInputChange(event: globalThis.Event) {

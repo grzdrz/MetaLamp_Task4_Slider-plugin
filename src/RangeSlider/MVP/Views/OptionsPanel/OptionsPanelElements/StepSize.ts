@@ -34,10 +34,9 @@ class StepSize extends OptionPanelElement {
     }
 
     public update(): void {
-        const modelData = this.view.viewManager.getModelData();
-
+        const { stepSize } = this.view.viewManager.getModelData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = modelData.stepSize.toString();
+        input.value = `${stepSize}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {

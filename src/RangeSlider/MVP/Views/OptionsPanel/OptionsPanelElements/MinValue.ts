@@ -36,13 +36,12 @@ class MinValue extends OptionPanelElement {
     }
 
     public update(): void {
-        const modelData = this.view.viewManager.getModelData();
-
+        const { minValue, maxValue, stepSize } = this.view.viewManager.getModelData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.step = modelData.stepSize.toString();
-        input.value = modelData.minValue.toString();
-        input.max = (modelData.maxValue + modelData.stepSize).toString();
-        input.min = (modelData.minValue - modelData.stepSize).toString();
+        input.value = `${minValue}`;
+        input.step = `${stepSize}`;
+        input.max = `${maxValue + stepSize}`;
+        input.min = `${minValue - stepSize}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
