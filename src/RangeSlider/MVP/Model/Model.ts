@@ -19,7 +19,6 @@ class Model {
     }
 
     public initialize(): void {
-        this.data.values = this.data.values.sort((a, b) => a - b);
         this.update(this.data);
     }
 
@@ -36,7 +35,6 @@ class Model {
             this.data.stepSize = data.stepSize;
             this.data.maxValue = this.validateMaxValue(data.stepSize, this.data.maxValue);
         }
-
         this.validateValues(data);
     }
 

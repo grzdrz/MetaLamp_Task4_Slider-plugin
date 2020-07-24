@@ -12,7 +12,7 @@ import ModelDataEventArgs from "../../Events/ModelDataEventArgs";
 import View from "./View";
 
 class ViewManager {
-    private containerElement: HTMLElement;
+    public containerElement: HTMLElement;
 
     public viewData: ViewData;
 
@@ -87,7 +87,6 @@ class ViewManager {
     public getModelData(): ModelData {
         const optionsEventArgs = new ModelDataEventArgs({});
         this.onGetModelData.invoke(optionsEventArgs);
-        if (!optionsEventArgs.data) throw new Error("broken get model data");
         return <ModelData>optionsEventArgs.data;
     }
 

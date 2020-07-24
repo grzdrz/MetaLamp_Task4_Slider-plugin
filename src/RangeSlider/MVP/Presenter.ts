@@ -7,9 +7,9 @@ import ModelDataEventArgs from "../Events/ModelDataEventArgs";
 import ViewDataEventArgs from "../Events/ViewDataEventArgs";
 
 class Presenter {
-    private model: Model;
+    public model: Model;
 
-    private viewManager: ViewManager;
+    public viewManager: ViewManager;
 
     constructor(model: Model, viewManager: ViewManager) {
         this.model = model;

@@ -27,7 +27,7 @@ class ModelData implements IModelData {
         if (data.maxValue !== undefined) this.maxValue = data.maxValue;
         if (data.stepSize !== undefined) this.stepSize = data.stepSize;
         if (data.canPush !== undefined) this.canPush = data.canPush;
-        if (data.values !== undefined) this.values = data.values.map((e) => e);
+        if (data.values !== undefined) this.values = data.values.map((e) => e).sort((a, b) => a - b);
     }
 }
 
