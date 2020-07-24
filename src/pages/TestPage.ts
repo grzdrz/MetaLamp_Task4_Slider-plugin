@@ -25,18 +25,4 @@ const viewData = {
 };
 $(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData);
 
-const viewData2 = {
-    sliderStripThickness: 10,
-    handleWidth: 20,
-    handleHeight: 20,
-    borderThickness: 10,
-    maxSegmentsCount: 6,
-    scaleFontSize: 15,
-    angle: 0,
-    filledStrips: [true, false, true],
-    isHandlesSeparated: false,
-    hasScale: true,
-    scaleMargin: 30,
-    hasOptions: false,
-};
-$(".js-test-page__tested-range-slider-container_2").rangeSlider(modelData, viewData2);
+$(".js-test-page__tested-range-slider-container_2").rangeSlider({}, {});

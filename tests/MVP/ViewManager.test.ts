@@ -61,4 +61,18 @@ describe("ViewManager", function () {
 
         assert.equal(updatedData.data.angle, 0);
     });
+
+    it("валидация численности интервальных полос при большей численности значений", function () {
+        const container = document.createElement("div");
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
+
+        presenter.viewManager.update({
+            filledStrips: [true],
+        });
+
+        const updatedData = new ViewDataEventArgs({});
+        presenter.viewManager.getData(updatedData);
+
+        assert.deepEqual(updatedData.data.filledStrips, [true, false, false]);
+    });
 });

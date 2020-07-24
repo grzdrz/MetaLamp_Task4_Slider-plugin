@@ -46,9 +46,11 @@ class Handle extends SliderPart {
         this.DOMElement.ondragstart = () => false;
         this.DOMElement.addEventListener("mousedown", this.handlerMouseDown);
         this.DOMElement.addEventListener("touchstart", this.handlerMouseDown);
+        // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
         this.backgroundDOMElement.addEventListener("mousedown", (event: UIEvent) => {
             this.handlerMouseDown(event);
         });
+        // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
         this.backgroundDOMElement.addEventListener("touchstart", (event: UIEvent) => {
             this.handlerMouseDown(event);
         });

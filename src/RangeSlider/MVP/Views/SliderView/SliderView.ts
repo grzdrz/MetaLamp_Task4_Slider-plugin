@@ -32,8 +32,7 @@ class SliderView extends View {
         });
 
         const ro = new ResizeObserver(this.handlerViewportSizeChange);
-        const htmlElement = document.querySelector("html");
-        if (!htmlElement) throw new Error();
+        const htmlElement = <HTMLElement>(document.querySelector("html"));
         ro.observe(htmlElement);
 
         this.update(true);
@@ -122,11 +121,8 @@ class SliderView extends View {
     private calculateSliderLength() {
         const { angleInRad, borderThickness } = this.viewManager.viewData;
 
-        const rangleSlider = this.containerElement.closest(".range-slider");
-        let boundingRect;
-        if (rangleSlider) {
-            boundingRect = rangleSlider.getBoundingClientRect();
-        } else throw new Error("sdfsdf");
+        const rangleSlider = <HTMLElement>(this.containerElement.closest(".range-slider"));
+        const boundingRect = rangleSlider.getBoundingClientRect();
 
         // координаты точки поверхности эллипса
         const width = boundingRect.width - borderThickness * 2;
