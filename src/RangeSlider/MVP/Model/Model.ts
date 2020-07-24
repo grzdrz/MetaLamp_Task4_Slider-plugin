@@ -41,7 +41,6 @@ class Model {
     public getViewData(): ViewData {
         const eventArgs = new ViewDataEventArgs({});
         this.onGetViewData.invoke(eventArgs);
-        if (!eventArgs.data) throw new Error("broken get view data");
         return <ViewData>eventArgs.data;
     }
 
@@ -73,7 +72,7 @@ class Model {
                     for (let i = changedValueIndex + 1; i < this.data.values.length; i += 1) {
                         this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
                     }
-                } else if (deltaDirection < 0) { // протаскивание всех ползунков до текущего
+                } else { // протаскивание всех ползунков до текущего
                     this.data.values[changedValueIndex] = this.validateValue(this.data.values[changedValueIndex], changedValueIndex, this.data.canPush);
                     for (let i = changedValueIndex - 1; i >= 0; i -= 1) {
                         this.data.values[i] = this.validateValue(this.data.values[i], i, !this.data.canPush);
