@@ -16,16 +16,6 @@ class InputsView extends View {
         this.update(false);
     }
 
-    public update(_neededFullRerender: boolean): void {
-        const modelData = this.viewManager.getModelData();
-
-        const { values } = modelData;
-        if (_neededFullRerender) this.build();
-        this.valueInputsDOMElements.forEach((e, i) => {
-            e.value = values[i].toString();
-        });
-    }
-
     public build(): void {
         const modelData = this.viewManager.getModelData();
 
@@ -39,7 +29,7 @@ class InputsView extends View {
 
             valueInputContainer.className = `range-slider__value-input-container range-slider__value-input-container_${i}`;
             valueInput.dataset.countNumber = `${i}`;
-            valueInput.className = "range-slider__value-input";
+            valueInput.className = `range-slider__value-input range-slider__value-input_${i}`;
             valueInput.value = `${modelData.minValue}`;
             valueInputText.className = "range-slider__value-input-text";
             valueInputText.textContent = `value ${i + 1}`;
@@ -50,6 +40,16 @@ class InputsView extends View {
 
             valueInput.addEventListener("change", this.handlerValueInputChange);
         }
+    }
+
+    public update(_neededFullRerender: boolean): void {
+        const modelData = this.viewManager.getModelData();
+
+        const { values } = modelData;
+        if (_neededFullRerender) this.build();
+        this.valueInputsDOMElements.forEach((e, i) => {
+            e.value = values[i].toString();
+        });
     }
 
     private handlerValueInputChange(): void {

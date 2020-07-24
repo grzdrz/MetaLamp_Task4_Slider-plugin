@@ -54,6 +54,7 @@ class Model {
         if (wasSliderParametersChanged) {
             if (data.values !== undefined) this.data.values = data.values;
             this.data.values = this.data.values.map((value) => this.validateGoingOutOfBounds(value));
+            this.valuesChanged();
         } else if (data.values !== undefined && data.values.length > 0) {
             // проверяем был ли сдвинут какой либо ползунок
             let changedValueIndex = -1;
@@ -81,7 +82,6 @@ class Model {
             } else if (this.data.values.length === 1) {
                 this.data.values[0] = this.validateValue(this.data.values[0], 0, false);
             }
-
             this.valuesChanged();
         }
     }
