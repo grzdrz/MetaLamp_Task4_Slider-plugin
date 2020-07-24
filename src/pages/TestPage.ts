@@ -3,10 +3,10 @@ import $ from "jquery";
 import "./TestPage.scss";
 
 const modelData = {
-    minValue: -19,
-    maxValue: -9,
-    values: [-7, -3, 3],
-    stepSize: 1,
+    minValue: 19,
+    maxValue: 29,
+    values: [-3, 3, -7, -11, 11],
+    stepSize: 100,
     canPush: true,
 };
 const viewData = {

@@ -19,6 +19,7 @@ class Model {
     }
 
     public initialize(): void {
+        this.data.values = this.data.values.sort((a, b) => a - b);
         this.update(this.data);
     }
 
@@ -35,15 +36,27 @@ class Model {
             this.data.stepSize = data.stepSize;
             this.data.maxValue = this.validateMaxValue(data.stepSize, this.data.maxValue);
         }
+
+        this.validateValues(data);
+    }
+
+    public getViewData(): ViewData {
+        const eventArgs = new ViewDataEventArgs({});
+        this.onGetViewData.invoke(eventArgs);
+        if (!eventArgs.data) throw new Error("broken get view data");
+        return <ViewData>eventArgs.data;
+    }
+
+    public getOptions(args: ModelDataEventArgs): void {
+        args.data = new ModelData(this.data);
+    }
+
+    private validateValues(data: IModelData) {
         const wasSliderParametersChanged = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined;
         if (wasSliderParametersChanged) {
-            if (wasSliderParametersChanged) {
-                for (let i = 0; i < this.data.values.length; i += 1) {
-                    this.data.values[i] = this.validateValue(this.data.values[i], i, false);
-                }
-            }
-        }
-        if (data.values !== undefined && data.values.length > 0) {
+            if (data.values !== undefined) this.data.values = data.values;
+            this.data.values = this.data.values.map((value) => this.validateGoingOutOfBounds(value));
+        } else if (data.values !== undefined && data.values.length > 0) {
             // проверяем был ли сдвинут какой либо ползунок
             let changedValueIndex = -1;
             let deltaDirection = 0;
@@ -75,17 +88,6 @@ class Model {
         }
     }
 
-    public getViewData(): ViewData {
-        const eventArgs = new ViewDataEventArgs({});
-        this.onGetViewData.invoke(eventArgs);
-        if (!eventArgs.data) throw new Error("broken get model data");
-        return <ViewData>eventArgs.data;
-    }
-
-    public getOptions(args: ModelDataEventArgs): void {
-        args.data = new ModelData(this.data);
-    }
-
     private valuesChanged(): void {
         const viewData = this.getViewData();
         const { filledStrips } = viewData;
@@ -103,15 +105,18 @@ class Model {
     private validateValue(value: number, countNumber: number, canPush: boolean): number {
         const newTargetInputValue = this.calculateNearestPositionForHandle(value);
 
-        const { minValue, maxValue } = this.data;
         const { values } = this.data;
 
         if (newTargetInputValue > values[countNumber + 1] && !canPush) return values[countNumber + 1];
         if (newTargetInputValue < values[countNumber - 1] && !canPush) return values[countNumber - 1];
-        if (newTargetInputValue < minValue) return minValue;
-        if (newTargetInputValue > maxValue) return maxValue;
+        return this.validateGoingOutOfBounds(newTargetInputValue);
+    }
 
-        return newTargetInputValue;
+    private validateGoingOutOfBounds(value: number): number {
+        const { minValue, maxValue } = this.data;
+        if (value < minValue) return minValue;
+        if (value > maxValue) return maxValue;
+        return value;
     }
 
     private validateMaxValue(stepSize: number, maxValue: number): number {
