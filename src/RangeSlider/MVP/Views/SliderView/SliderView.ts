@@ -14,6 +14,7 @@ import ModelDataEventArgs from "../../../Events/ModelDataEventArgs";
 import Scale from "./SliderParts/Scale";
 import ViewManager from "../ViewManager";
 import MathFunctions from "../../../Helpers/MathFunctions";
+import Tooltip from "./SliderParts/Tooltip";
 
 class SliderView extends View {
     public parts: SliderPart[] = [];
@@ -102,11 +103,17 @@ class SliderView extends View {
         modelData.values.forEach((value, index) => {
             this.parts.push(new Handle(this, index));
         });
+        if (this.viewManager.viewData.hasTooltip) {
+            modelData.values.forEach((value, index) => {
+                this.parts.push(new Tooltip(this, index));
+            });
+        }
         this.viewManager.viewData.filledStrips.forEach((value, index) => {
             if (value) this.parts.push(new FilledStrip(this, index));
         });
-
-        if (this.viewManager.viewData.hasScale) this.parts.push(new Scale(this));
+        if (this.viewManager.viewData.hasScale) {
+            this.parts.push(new Scale(this));
+        }
     }
 
     private renderContainer(): void {

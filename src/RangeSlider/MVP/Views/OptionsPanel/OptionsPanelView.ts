@@ -13,6 +13,7 @@ import CanPush from "./OptionsPanelElements/CanPush";
 import HandlesSeparated from "./OptionsPanelElements/HandlesSeparated";
 import HasScale from "./OptionsPanelElements/HasScale";
 import ScaleMargin from "./OptionsPanelElements/ScaleMargin";
+import HasTooltip from "./OptionsPanelElements/HasTooltip";
 
 class OptionsPanelView extends View {
     public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
@@ -34,6 +35,7 @@ class OptionsPanelView extends View {
         this.panelElements.push(new CanPush(this));
         this.panelElements.push(new HandlesSeparated(this));
         this.panelElements.push(new HasScale(this));
+        this.panelElements.push(new HasTooltip(this));
         this.panelElements.push(new ScaleMargin(this));
 
         this.update(true);

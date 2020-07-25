@@ -73,12 +73,15 @@ class ViewManager {
         if (data.sliderStripThickness !== undefined) this.viewData.sliderStripThickness = data.sliderStripThickness;
         if (data.handleWidth !== undefined) this.viewData.handleWidth = data.handleWidth;
         if (data.handleHeight !== undefined) this.viewData.handleHeight = data.handleHeight;
+        if (data.tooltipWidth !== undefined) this.viewData.tooltipWidth = data.tooltipWidth;
+        if (data.tooltipHeight !== undefined) this.viewData.tooltipHeight = data.tooltipHeight;
         if (data.borderThickness !== undefined) this.viewData.borderThickness = data.borderThickness;
         if (data.maxSegmentsCount !== undefined) this.viewData.maxSegmentsCount = data.maxSegmentsCount;
         if (data.scaleFontSize !== undefined) this.viewData.scaleFontSize = data.scaleFontSize;
         if (data.angle !== undefined) this.viewData.angle = this.validateAngle(data.angle);
         if (data.filledStrips !== undefined) this.viewData.filledStrips = this.validateFilledStrips(data.filledStrips);
         if (data.hasScale !== undefined) this.viewData.hasScale = data.hasScale;
+        if (data.hasTooltip !== undefined) this.viewData.hasTooltip = data.hasTooltip;
         if (data.isHandlesSeparated !== undefined) this.viewData.isHandlesSeparated = data.isHandlesSeparated;
         if (data.scaleMargin !== undefined) this.viewData.scaleMargin = data.scaleMargin;
         if (data.hasOptions !== undefined) this.viewData.hasOptions = data.hasOptions;

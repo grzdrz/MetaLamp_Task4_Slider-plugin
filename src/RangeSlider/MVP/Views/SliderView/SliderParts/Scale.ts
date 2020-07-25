@@ -96,10 +96,8 @@ class Scale extends SliderPart {
 
         const modelData = this.view.viewManager.getModelData();
 
-        if (!event.currentTarget) throw new Error("some shit");
         const currentSegment = <HTMLElement>(event.currentTarget);
-        if (!currentSegment.dataset.segmentValue) throw new Error("some shit2");
-        const segmentValueString = currentSegment.dataset.segmentValue;
+        const segmentValueString = <string>(currentSegment.dataset.segmentValue);
         const value = Number.parseFloat(segmentValueString);
 
         const { values } = modelData;

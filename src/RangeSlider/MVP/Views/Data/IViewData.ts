@@ -3,6 +3,9 @@ interface IViewData {
     sliderStripThickness?: number,
     handleWidth?: number,
     handleHeight?: number,
+    tooltipWidth?: number,
+    tooltipHeight?: number,
+    tooltipMargin?: number,
     borderThickness?: number,
     maxSegmentsCount?: number,
     scaleFontSize?: number,
@@ -10,6 +13,7 @@ interface IViewData {
     filledStrips?: boolean[],
     isHandlesSeparated?: boolean,
     hasScale?: boolean,
+    hasTooltip?: boolean,
     scaleMargin?: number,
     hasOptions?: boolean,
 }

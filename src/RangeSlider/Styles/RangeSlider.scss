@@ -90,6 +90,15 @@
         z-index: 3;
     }
 
+    &__tooltip {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        background: rgb(170, 220, 240);
+        color: black;
+    }
+
     &__scale-container {
         display: flex;
         position: relative;

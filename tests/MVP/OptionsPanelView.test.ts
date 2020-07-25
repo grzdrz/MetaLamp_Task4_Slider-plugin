@@ -38,7 +38,7 @@ describe("OptionsPanelView", function () {
         assert.equal(callsCount, 1);
     });
 
-    it("обработчик размер шага вызвается корректно при попытке выставить 0", function () {
+    it("обработчик изменяющий размер шага вызвается корректно при попытке выставить 0", function () {
         const container = document.createElement("div");
         const presenter = RangeSlider.createRangeSlider(container, {}, {});
 

@@ -48,4 +48,89 @@ describe("SliderView", function () {
 
         assert.deepEqual(data.values, [-100, 0]);
     });
+
+    it("обновление", function () {
+        const container = document.createElement("div");
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
+
+        presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+            isHandlesSeparated: true,
+        }));
+        presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+            filledStrips: [true, true, true],
+        }));
+
+        const data1 = new ViewDataEventArgs({});
+        presenter.viewManager.getData(data1);
+
+        assert.deepEqual(data1.data.filledStrips, [true, true, true]);
+
+
+        presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+            isHandlesSeparated: false,
+        }));
+        presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+            filledStrips: [true, true, true],
+        }));
+
+        const data2 = new ViewDataEventArgs({});
+        presenter.viewManager.getData(data2);
+
+        assert.deepEqual(data2.data.filledStrips, [true, true, true]);
+    });
+
+    it("срабатывают клики по сегментам c несколькими одинаковыми значениями", function () {
+        const container = document.createElement("div");
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
+
+        const view = <SliderView>(presenter.viewManager.views[0]);
+        const segments = Array.from(view.containerElement.querySelectorAll(".range-slider__scale-segment"));
+
+        const spy = jasmine.createSpy();
+        for (let i = 0; i < segments.length; i += 1) {
+            segments[i].addEventListener("click", spy);
+            const eventClick = new window.Event("click", { bubbles: true });
+            segments[i].dispatchEvent(eventClick);
+        }
+
+        const callsCount = spy.calls.count();
+
+        assert.equal(callsCount, 11);
+    });
+
+    it("срабатывают клики по левому сегменту c несколькими одинаковыми значениями", function () {
+        const container = document.createElement("div");
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
+
+        const view = <SliderView>(presenter.viewManager.views[0]);
+        const segments = Array.from(view.containerElement.querySelectorAll(".range-slider__scale-segment"));
+
+        const spy = jasmine.createSpy();
+        segments[0].addEventListener("click", spy);
+        const eventClick = new window.Event("click", { bubbles: true });
+        segments[0].dispatchEvent(eventClick);
+
+
+        const callsCount = spy.calls.count();
+
+        assert.equal(callsCount, 1);
+    });
+
+    it("срабатывают клики по правому сегменту c несколькими одинаковыми значениями", function () {
+        const container = document.createElement("div");
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
+
+        const view = <SliderView>(presenter.viewManager.views[0]);
+        const segments = Array.from(view.containerElement.querySelectorAll(".range-slider__scale-segment"));
+
+        const spy = jasmine.createSpy();
+        segments[segments.length - 1].addEventListener("click", spy);
+        const eventClick = new window.Event("click", { bubbles: true });
+        segments[segments.length - 1].dispatchEvent(eventClick);
+
+
+        const callsCount = spy.calls.count();
+
+        assert.equal(callsCount, 1);
+    });
 });

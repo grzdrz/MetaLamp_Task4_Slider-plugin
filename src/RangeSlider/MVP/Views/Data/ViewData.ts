@@ -9,6 +9,12 @@ class ViewData implements IViewData {
 
     public handleHeight = 15;
 
+    public tooltipWidth = 25;
+
+    public tooltipHeight = 20;
+
+    public tooltipMargin = 10;
+
     public borderThickness = 5;
 
     public maxSegmentsCount = 10;
@@ -22,6 +28,8 @@ class ViewData implements IViewData {
     public isHandlesSeparated = false;
 
     public hasScale = true;
+
+    public hasTooltip = true;
 
     public scaleMargin = 30;
 

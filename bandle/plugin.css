@@ -105,6 +105,13 @@
     left: auto;
     bottom: 0px;
     z-index: 3; }
+  .range-slider__tooltip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background: #aadcf0;
+    color: black; }
   .range-slider__scale-container {
     display: flex;
     position: relative; }
