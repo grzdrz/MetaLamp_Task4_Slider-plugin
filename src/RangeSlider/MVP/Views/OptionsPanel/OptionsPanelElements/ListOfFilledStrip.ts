@@ -20,7 +20,7 @@ class ListOfFilledStrip extends OptionPanelElement {
         this.DOMElement.innerHTML = "";
         this.inputsDOMElements = [];
 
-        this.DOMElement.className = "options__cheackboxes-container";
+        this.DOMElement.className = `${this.DOMElement.className} options__cheackboxes-container`;
 
         const filledStripsTitle = document.createElement("p");
         filledStripsTitle.textContent = "Filled strips";
@@ -34,7 +34,7 @@ class ListOfFilledStrip extends OptionPanelElement {
             this.inputsDOMElements.push(valueInput);
 
             valueInput.dataset.countNumber = `${i}`;
-            valueInput.className = "options__checkbox-input js-options__input";
+            valueInput.className = "options__checkbox-input js-options__input js-options__filled-strips-checkbox-input";
             valueInput.checked = filledStrips[i];
 
             this.filledStripsContainer.append(valueInput);

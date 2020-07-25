@@ -21,7 +21,7 @@ class HandlesCount extends OptionPanelElement {
         input.step = "1";
         input.value = modelData.values.length.toString();
         input.min = "1";
-        input.className = "options__input js-options__input";
+        input.className = "options__input js-options__input js-options__handles-count-input";
 
         text.className = "options__text";
         text.textContent = "handles count";
@@ -48,6 +48,7 @@ class HandlesCount extends OptionPanelElement {
 
         const modelData = this.view.viewManager.getModelData();
         const values = [];
+
         for (let i = 0; i < handlesCount; i += 1) {
             if (i < modelData.values.length) values.push(modelData.values[i]);
             else values.push(modelData.maxValue);

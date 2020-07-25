@@ -20,7 +20,7 @@ class StepSize extends OptionPanelElement {
         input.type = "number";
         input.step = "1";
         input.value = modelData.stepSize.toString();
-        input.className = "options__input js-options__input";
+        input.className = "options__input js-options__input js-options__step-size-input";
 
         text.className = "options__text";
         text.textContent = "step size";
