@@ -3,11 +3,11 @@ import IModelData from "./IModelData";
 class ModelData implements IModelData {
     public id = 0;
 
+    public values = [0, 0];
+
     public minValue = -100;
 
     public maxValue = 100;
-
-    public values = [0, 0];
 
     public stepSize = 10;
 

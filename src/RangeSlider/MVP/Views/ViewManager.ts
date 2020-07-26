@@ -76,7 +76,7 @@ class ViewManager {
         if (data.tooltipWidth !== undefined) this.viewData.tooltipWidth = data.tooltipWidth;
         if (data.tooltipHeight !== undefined) this.viewData.tooltipHeight = data.tooltipHeight;
         if (data.borderThickness !== undefined) this.viewData.borderThickness = data.borderThickness;
-        if (data.maxSegmentsCount !== undefined) this.viewData.maxSegmentsCount = data.maxSegmentsCount;
+        if (data.maxSegmentsCount !== undefined) this.viewData.maxSegmentsCount = this.validateMaxSegmentsCount(data.maxSegmentsCount);
         if (data.scaleFontSize !== undefined) this.viewData.scaleFontSize = data.scaleFontSize;
         if (data.angle !== undefined) this.viewData.angle = this.validateAngle(data.angle);
         if (data.filledStrips !== undefined) this.viewData.filledStrips = this.validateFilledStrips(data.filledStrips);
@@ -111,6 +111,11 @@ class ViewManager {
         if (angle > 90) return 90;
         if (angle < 0 || angle === undefined) return 0;
         return angle;
+    }
+
+    private validateMaxSegmentsCount(maxSegmentsCount: number) {
+        if (maxSegmentsCount < 1) return 1;
+        return maxSegmentsCount;
     }
 
     public getData(args: ViewDataEventArgs): void {

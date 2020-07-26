@@ -5,13 +5,13 @@ class ViewData implements IViewData {
 
     public sliderStripThickness = 10;
 
-    public handleWidth = 15;
+    public handleWidth = 15;// //////
 
-    public handleHeight = 15;
+    public handleHeight = 15;// //////
 
-    public tooltipWidth = 25;
+    public tooltipWidth = 25;// //////
 
-    public tooltipHeight = 20;
+    public tooltipHeight = 20;// ////////
 
     public tooltipMargin = 10;
 
@@ -19,7 +19,7 @@ class ViewData implements IViewData {
 
     public maxSegmentsCount = 10;
 
-    public scaleFontSize = 20;
+    public scaleFontSize = 20;// //////
 
     public angle = 0;
 
@@ -33,7 +33,7 @@ class ViewData implements IViewData {
 
     public scaleMargin = 30;
 
-    public hasOptions = true;
+    public hasOptions = true;// //////
 
     constructor(data: IViewData) {
         this.initialize(data);
