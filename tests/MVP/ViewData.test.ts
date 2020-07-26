@@ -15,7 +15,7 @@ describe("RangeSlider", function () {
         assert.equal(defaultData.handleHeight, 15);
         assert.equal(defaultData.borderThickness, 5);
         assert.equal(defaultData.maxSegmentsCount, 10);
-        assert.equal(defaultData.scaleFontSize, 20);
+        assert.equal(defaultData.tooltipMargin, 10);
         assert.equal(defaultData.angle, 0);
         assert.deepStrictEqual(defaultData.filledStrips, [true, false]);
         assert.equal(defaultData.isHandlesSeparated, false);
@@ -31,7 +31,7 @@ describe("RangeSlider", function () {
             handleHeight: 20,
             borderThickness: 10,
             maxSegmentsCount: 6,
-            scaleFontSize: 15,
+            tooltipMargin: 15,
             angle: 45,
             filledStrips: [true, false, true],
             isHandlesSeparated: false,
@@ -46,7 +46,7 @@ describe("RangeSlider", function () {
         assert.equal(defaultData.handleHeight, 20);
         assert.equal(defaultData.borderThickness, 10);
         assert.equal(defaultData.maxSegmentsCount, 6);
-        assert.equal(defaultData.scaleFontSize, 15);
+        assert.equal(defaultData.tooltipMargin, 15);
         assert.equal(defaultData.angle, 45);
         assert.deepStrictEqual(defaultData.filledStrips, [true, false, true]);
         assert.equal(defaultData.isHandlesSeparated, false);

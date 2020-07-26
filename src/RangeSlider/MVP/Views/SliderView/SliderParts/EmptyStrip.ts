@@ -30,6 +30,7 @@ class EmptyStrip extends SliderPart {
             angle,
             sliderStripThickness,
         } = this.view.viewManager.viewData;
+
         const transformOriginX = handleWidth / 2;
         const transformOriginY = sliderStripThickness / 2;
         this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;

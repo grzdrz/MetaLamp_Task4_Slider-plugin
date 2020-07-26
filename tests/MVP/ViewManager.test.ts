@@ -24,7 +24,7 @@ describe("ViewManager", function () {
         assert.equal(oldData.data.hasScale, newData.data.hasScale);
         assert.equal(oldData.data.isHandlesSeparated, newData.data.isHandlesSeparated);
         assert.equal(oldData.data.maxSegmentsCount, newData.data.maxSegmentsCount);
-        assert.equal(oldData.data.scaleFontSize, newData.data.scaleFontSize);
+        assert.equal(oldData.data.tooltipMargin, newData.data.tooltipMargin);
         assert.equal(oldData.data.scaleMargin, newData.data.scaleMargin);
         assert.equal(oldData.data.sliderLength, newData.data.sliderLength);
         assert.equal(oldData.data.sliderStripThickness, newData.data.sliderStripThickness);

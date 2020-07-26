@@ -15,12 +15,9 @@ class Tooltip extends SliderPart {
         super.buildDOMElement();
 
         const { values } = this.view.viewManager.getModelData();
-        const { tooltipWidth, tooltipHeight } = this.view.viewManager.viewData;
 
         this.DOMElement.className = `range-slider__tooltip range-slider__tooltip_${this.countNumber}`;
         this.DOMElement.dataset.sliderCountNumber = this.countNumber.toString();
-        this.DOMElement.style.width = `${tooltipWidth}px`;
-        this.DOMElement.style.height = `${tooltipHeight}px`;
         this.DOMElement.textContent = `${values[this.countNumber]}`;
         this.view.containerElement.append(this.DOMElement);
     }
@@ -33,11 +30,11 @@ class Tooltip extends SliderPart {
             angleInRad,
             isHandlesSeparated,
             borderThickness,
-            tooltipWidth,
             tooltipMargin,
         } = this.view.viewManager.viewData;
 
         this.DOMElement.textContent = `${values[this.countNumber]}`;
+        const tooltipWidth = this.DOMElement.getBoundingClientRect().width;
 
         const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
         const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient), angleInRad);

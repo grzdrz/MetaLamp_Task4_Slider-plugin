@@ -22,7 +22,7 @@ class Scale extends SliderPart {
 
     private buildSegments() {
         const modelData = this.view.viewManager.getModelData();
-        const { maxSegmentsCount, scaleFontSize } = this.view.viewManager.viewData;
+        const { maxSegmentsCount } = this.view.viewManager.viewData;
 
         const segmentDensityLimit = this.calculateSegmentDensityLimit();
 
@@ -36,20 +36,18 @@ class Scale extends SliderPart {
         for (let i = 0; i < exactMaxSegmentsCount; i += 1) {
             const segmentValue = i * modelData.stepSize * stepsInOneSegment + modelData.minValue;
             if (segmentValue >= modelData.maxValue) break;
-            this.buildSegment(segmentValue, scaleFontSize);
+            this.buildSegment(segmentValue);
         }
-        this.buildSegment(modelData.maxValue, scaleFontSize);
+        this.buildSegment(modelData.maxValue);
     }
 
-    private buildSegment(segmentValue: number, fontSize: number) {
+    private buildSegment(segmentValue: number) {
         const segment = document.createElement("div");
         this.DOMElement.append(segment);
         segment.className = "range-slider__scale-segment";
         segment.textContent = segmentValue.toFixed(4);// ////////
         segment.dataset.segmentValue = segmentValue.toString();
         segment.addEventListener("click", this.handlerClickOnSegment);
-        segment.style.fontSize = `${fontSize}px`;
-        segment.style.lineHeight = `${fontSize}px`;
         this.calculateSegmentPosition(segment, segmentValue);
     }
 
@@ -69,14 +67,14 @@ class Scale extends SliderPart {
         const modelData = this.view.viewManager.getModelData();
         const {
             angleInRad,
-            scaleFontSize,
             handleWidth,
             isHandlesSeparated,
             scaleMargin,
         } = this.view.viewManager.viewData;
 
-        const segmentWidth = segment.getBoundingClientRect().width * Math.cos(angleInRad);
-        const segmentHeight = scaleFontSize * Math.sin(angleInRad);
+        const segmentRect = segment.getBoundingClientRect();
+        const segmentWidth = segmentRect.width * Math.cos(angleInRad);
+        const segmentHeight = segmentRect.height * Math.sin(angleInRad);
         const vectorizedSegmentLength = new Vector(segmentWidth, segmentHeight).length;
 
         let handlePositionInContainer = this.view.calculateProportionalPixelValue(value);

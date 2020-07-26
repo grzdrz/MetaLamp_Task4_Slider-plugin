@@ -44,7 +44,8 @@ const slider = $(".js-some-container").rangeSlider(modelData, viewData);
 | sliderStripThickness | number | 10 | Толщина "рельсы" по которой движутся ползунки |
 | handleWidth | number | 15 | Ширина ползунка |
 | handleHeight | number | 15 | Высота ползунка |
-| borderThickness | number | 5 | Толщина рамки вокруг ползунка |
+| isHandlesSeparated | boolean | false | Определяет будут ли ползунки заезжать друг на друга, или сталкиваться по своим границам |
+| borderThickness | number | 5 | Толщина неосязаемой рамки(т.е. не учитываемой в isHandlesSeparated) вокруг ползунка, которая создается за счет элемента-задника большего по размерам чем соответствующий элемент ползунка |
 | hasTooltip | boolean | true | Есть ли подсказки над ползунками |
 | tooltipMargin | number | 10 | Отступ подсказки со значением от ползунка |
 | hasScale | boolean | true | Есть ли шкала |
@@ -52,7 +53,6 @@ const slider = $(".js-some-container").rangeSlider(modelData, viewData);
 | scaleMargin | number | 30 | Отступ шкалы от основной части слайдера |
 | angle | number | 0 | Угол наклона слайдера в градусах(от 0 до 90) |
 | filledStrips | boolean[] | [true, false] | Определяет какие интервалы отрисовывать |
-| isHandlesSeparated | boolean | false | Определяет будут ли ползунки заезжать друг на друга, или сталкиваться по своим границам |
 
 
 # Методы

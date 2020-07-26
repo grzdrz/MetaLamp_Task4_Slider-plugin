@@ -34,9 +34,9 @@
     }
 
     &__empty-strip {
+        /* height: 10px; */
         background: #ffffff;
         border: 1px solid rgba(31, 32, 65, 0.25);
-        border-radius: 3px;
         position: absolute;
 
         //border: 5px solid black;
@@ -44,8 +44,7 @@
     }
 
     &__filled-strip {
-        width: 8px;
-        height: 8px;
+        /* height: 10px; */
         background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
         position: absolute;
 
@@ -94,6 +93,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 5px;
         position: absolute;
         background: rgb(170, 220, 240);
         color: black;
@@ -107,7 +107,8 @@
     &__scale-segment {
         cursor: pointer;
         color: black;
-        font-size: 14px;
+        font-size: 20px;
+        line-height: 20px;
         position: absolute;
         left: 0px;
         bottom: 0px;

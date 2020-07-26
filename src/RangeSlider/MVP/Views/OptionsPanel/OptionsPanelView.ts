@@ -14,6 +14,7 @@ import HandlesSeparated from "./OptionsPanelElements/HandlesSeparated";
 import HasScale from "./OptionsPanelElements/HasScale";
 import ScaleMargin from "./OptionsPanelElements/ScaleMargin";
 import HasTooltip from "./OptionsPanelElements/HasTooltip";
+import TooltipMargin from "./OptionsPanelElements/TooltipMargin";
 
 class OptionsPanelView extends View {
     public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
@@ -37,6 +38,7 @@ class OptionsPanelView extends View {
         this.panelElements.push(new HasScale(this));
         this.panelElements.push(new HasTooltip(this));
         this.panelElements.push(new ScaleMargin(this));
+        this.panelElements.push(new TooltipMargin(this));
 
         this.update(true);
     }

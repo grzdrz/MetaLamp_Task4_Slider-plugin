@@ -2,7 +2,7 @@ import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
 import ViewDataEventArgs from "../../../../Events/ViewDataEventArgs";
 
-class ScaleMargin extends OptionPanelElement {
+class TooltipMargin extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,17 +12,17 @@ class ScaleMargin extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { scaleMargin } = this.view.viewManager.viewData;
+        const { tooltipMargin } = this.view.viewManager.viewData;
 
         const input = document.createElement("input");
         input.type = "number";
         input.step = "1";
-        input.value = `${scaleMargin}`;
+        input.value = `${tooltipMargin}`;
         input.className = "options__input js-options__input";
 
         const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "scale margin";
+        text.textContent = "tooltip margin";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -33,9 +33,9 @@ class ScaleMargin extends OptionPanelElement {
     }
 
     public update(): void {
-        const { scaleMargin } = this.view.viewManager.viewData;
+        const { tooltipMargin } = this.view.viewManager.viewData;
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${scaleMargin}`;
+        input.value = `${tooltipMargin}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
@@ -47,11 +47,11 @@ class ScaleMargin extends OptionPanelElement {
         input.value = inputValue.toString();
 
         const dataToUpdate = {
-            scaleMargin: inputValue,
+            tooltipMargin: inputValue,
         };
 
         this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
     }
 }
 
-export default ScaleMargin;
+export default TooltipMargin;
