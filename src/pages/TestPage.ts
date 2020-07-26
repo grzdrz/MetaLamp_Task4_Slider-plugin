@@ -12,7 +12,7 @@ import ViewData from "../RangeSlider/MVP/Views/Data/ViewData";
 
 const modelData = {
     minValue: 19,
-    maxValue: 29,
+    maxValue: 0,
     values: [-3, 3, -7, -11, 11],
     stepSize: 100,
     canPush: true,
@@ -32,8 +32,9 @@ const viewData = {
     hasOptions: true,
 };
 const sliderElement1 = $(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData);
+const sliderElement2 = $(".js-test-page__tested-range-slider-container_2").rangeSlider({}, {});
 
-const setData = <(modelData: IModelData, viewData: IViewData) => void>sliderElement1.data("setData");
+/* const setData = <(modelData: IModelData, viewData: IViewData) => void>sliderElement1.data("setData");
 setData({
     values: [-3, 3],
 }, {});
@@ -43,7 +44,6 @@ const mData = getModelData();
 for (const porperty of Object.entries(mData)) {
     console.log(`${porperty[0]}: ${porperty[1]}`);
 }
-
 console.log("\n");
 
 const getViewData = <() => ViewData>sliderElement1.data("getViewData");
@@ -51,5 +51,25 @@ const vData = getViewData();
 for (const porperty of Object.entries(vData)) {
     console.log(`${porperty[0]}: ${porperty[1]}`);
 }
+console.log("\n");
 
-$(".js-test-page__tested-range-slider-container_2").rangeSlider({}, {});
+const sliderElement2 = $(".js-test-page__tested-range-slider-container_2").rangeSlider({}, {});
+
+const setData2 = <(modelData: IModelData, viewData: IViewData) => void>sliderElement2.data("setData");
+setData2({
+    values: [-9, 0, 9],
+}, {});
+
+const getModelData2 = <() => ModelData>sliderElement2.data("getModelData");
+const mData2 = getModelData2();
+for (const porperty of Object.entries(mData2)) {
+    console.log(`${porperty[0]}: ${porperty[1]}`);
+}
+console.log("\n");
+
+const getViewData2 = <() => ViewData>sliderElement2.data("getViewData");
+const vData2 = getViewData2();
+for (const porperty of Object.entries(vData2)) {
+    console.log(`${porperty[0]}: ${porperty[1]}`);
+}
+console.log("\n"); */

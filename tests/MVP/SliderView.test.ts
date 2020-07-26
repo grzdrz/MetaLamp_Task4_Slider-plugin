@@ -55,10 +55,12 @@ describe("SliderView", function () {
 
         presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
             isHandlesSeparated: true,
-        }));
-        presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+            hasTooltip: false,
             filledStrips: [true, true, true],
         }));
+        /* presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+            filledStrips: [true, true, true],
+        })); */
 
         const data1 = new ViewDataEventArgs({});
         presenter.viewManager.getData(data1);

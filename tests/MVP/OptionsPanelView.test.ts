@@ -17,7 +17,7 @@ describe("OptionsPanelView", function () {
         }
 
         const callsCount = spy.calls.count();
-        assert.equal(callsCount, 11);
+        assert.equal(callsCount, 12);
     });
 
     it("обработчик изменяющий численность значений вызвается корректно", function () {

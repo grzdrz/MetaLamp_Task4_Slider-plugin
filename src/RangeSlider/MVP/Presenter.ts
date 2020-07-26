@@ -27,15 +27,13 @@ class Presenter {
     private initialize(): void {
         this.viewManager.onStatesUpdate.subscribe(this.handlerStatesUpdate);
         this.viewManager.onStatesUpdate.subscribe(this.handlerViewsUpdate);
+        this.model.onStatesUpdate.subscribe(this.handlerStatesUpdate);
 
         this.viewManager.onHandleMove.subscribe(this.handlerStatesUpdate);
         this.viewManager.onHandleMove.subscribe(this.handlerHandleMove);
 
         this.viewManager.onInputsChange.subscribe(this.handlerStatesUpdate);
         this.viewManager.onInputsChange.subscribe(this.handlerHandleMove);
-
-        this.viewManager.onStatesUpdate.subscribe(this.handlerStatesUpdate);
-        this.model.onStatesUpdate.subscribe(this.handlerStatesUpdate);
 
         this.model.onGetViewData.subscribe(this.handlerGetViewData);
         this.viewManager.onGetModelData.subscribe(this.handlerGetModelData);
@@ -45,8 +43,8 @@ class Presenter {
     }
 
     private handlerStatesUpdate(args: EventArgs): void {
-        this.model.update((<ModelDataEventArgs>args).data);
-        this.viewManager.update((<ViewDataEventArgs>args).data);
+        if (args instanceof ModelDataEventArgs) this.model.update(args.data);
+        if (args instanceof ViewDataEventArgs) this.viewManager.update(args.data);
     }
 
     private handlerGetModelData(args: EventArgs): void {

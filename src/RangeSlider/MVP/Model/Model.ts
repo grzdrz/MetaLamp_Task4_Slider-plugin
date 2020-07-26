@@ -52,7 +52,8 @@ class Model {
         const wasSliderParametersChanged = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined;
         if (wasSliderParametersChanged) {
             if (data.values !== undefined) this.data.values = data.values;
-            this.data.values = this.data.values.map((value) => this.validateGoingOutOfBounds(value));
+            // this.data.values = this.data.values.map((value) => this.validateGoingOutOfBounds(value));
+            this.data.values = this.data.values.map((value, index) => this.validateValue(value, index, true));
             this.valuesChanged();
         } else if (data.values !== undefined && data.values.length > 0) {
             // проверяем был ли сдвинут какой либо ползунок
