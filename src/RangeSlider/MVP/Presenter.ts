@@ -50,7 +50,7 @@ class Presenter {
     }
 
     private handlerGetModelData(args: EventArgs): void {
-        this.model.getOptions(<ModelDataEventArgs>args);
+        this.model.getData(<ModelDataEventArgs>args);
     }
 
     private handlerGetViewData(args: EventArgs): void {

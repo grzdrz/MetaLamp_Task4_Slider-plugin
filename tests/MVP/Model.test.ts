@@ -12,7 +12,7 @@ describe("Model", function () {
         });
 
         const oldData = new ModelDataEventArgs({});
-        presenter.model.getOptions(oldData);
+        presenter.model.getData(oldData);
 
         presenter.model.update({
             stepSize: 5,
@@ -21,7 +21,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(oldData.data.values, newData.data.values);
     });
@@ -33,14 +33,14 @@ describe("Model", function () {
         });
 
         const oldData = new ModelDataEventArgs({});
-        presenter.model.getOptions(oldData);
+        presenter.model.getData(oldData);
 
         presenter.model.update({
             values: oldData.data.values,
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.values, oldData.data.values);
     });
@@ -56,7 +56,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.values, [0]);
     });
@@ -71,7 +71,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.values, [0, 30]);
     });
@@ -86,7 +86,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.values, [10, 10]);
     });
@@ -101,7 +101,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.values, [-10, -10]);
     });
@@ -116,7 +116,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.values, [0, 100]);
     });
@@ -131,7 +131,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.values, [-100, 0]);
     });
@@ -145,7 +145,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.maxValue, 50);
     });
@@ -159,7 +159,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.maxValue, 110);
     });
@@ -173,7 +173,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.maxValue, -90);
     });
@@ -187,7 +187,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.minValue, -50);
     });
@@ -201,7 +201,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.minValue, -110);
     });
@@ -215,7 +215,7 @@ describe("Model", function () {
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.minValue, 90);
     });
@@ -235,21 +235,21 @@ describe("Model", function () {
         });
 
         const data1 = new ModelDataEventArgs({});
-        presenter.model.getOptions(data1);
+        presenter.model.getData(data1);
         if (data1.data.values) data1.data.values[1] = 12;
         presenter.model.update({
             values: data1.data.values,
         });
 
         const data2 = new ModelDataEventArgs({});
-        presenter.model.getOptions(data2);
+        presenter.model.getData(data2);
         if (data2.data.values) data2.data.values[0] = 0;
         presenter.model.update({
             values: data2.data.values,
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.stepSize, 1);
         assert.deepEqual(newData.data.maxValue, 11);
@@ -272,21 +272,21 @@ describe("Model", function () {
         });
 
         const data1 = new ModelDataEventArgs({});
-        presenter.model.getOptions(data1);
+        presenter.model.getData(data1);
         if (data1.data.values) data1.data.values[1] = 12;
         presenter.model.update({
             values: data1.data.values,
         });
 
         const data2 = new ModelDataEventArgs({});
-        presenter.model.getOptions(data2);
+        presenter.model.getData(data2);
         if (data2.data.values) data2.data.values[0] = -2;
         presenter.model.update({
             values: data2.data.values,
         });
 
         const newData = new ModelDataEventArgs({});
-        presenter.model.getOptions(newData);
+        presenter.model.getData(newData);
 
         assert.deepEqual(newData.data.stepSize, 1);
         assert.deepEqual(newData.data.maxValue, 11);

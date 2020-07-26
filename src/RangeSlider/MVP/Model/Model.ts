@@ -44,7 +44,7 @@ class Model {
         return <ViewData>eventArgs.data;
     }
 
-    public getOptions(args: ModelDataEventArgs): void {
+    public getData(args: ModelDataEventArgs): void {
         args.data = new ModelData(this.data);
     }
 
