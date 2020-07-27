@@ -1,8 +1,7 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ViewDataEventArgs from "../../../../Events/ViewDataEventArgs";
 
-class TooltipMargin extends OptionPanelElement {
+class HandlesSeparated extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,17 +11,16 @@ class TooltipMargin extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { tooltipMargin } = this.view.viewManager.viewData;
+        const { isHandlesSeparated } = this.view.getViewData();
 
         const input = document.createElement("input");
-        input.type = "number";
-        input.step = "1";
-        input.value = `${tooltipMargin}`;
-        input.className = "options__input js-options__input";
+        input.type = "checkbox";
+        input.checked = isHandlesSeparated;
+        input.className = "options__checkbox-input js-options__input";
 
         const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "tooltip margin";
+        text.textContent = "is handles separated ?";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -33,25 +31,21 @@ class TooltipMargin extends OptionPanelElement {
     }
 
     public update(): void {
-        const { tooltipMargin } = this.view.viewManager.viewData;
+        const { isHandlesSeparated } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${tooltipMargin}`;
+        input.checked = isHandlesSeparated;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        const inputValue = Number.parseInt(input.value, 10);
-
-        input.value = inputValue.toString();
-
         const dataToUpdate = {
-            tooltipMargin: inputValue,
+            isHandlesSeparated: input.checked,
         };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
+        this.view.setData({}, dataToUpdate);
     }
 }
 
-export default TooltipMargin;
+export default HandlesSeparated;

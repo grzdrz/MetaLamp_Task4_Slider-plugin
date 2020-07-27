@@ -1,6 +1,5 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
 
 class HandlesCount extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
@@ -12,7 +11,7 @@ class HandlesCount extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const modelData = this.view.viewManager.getModelData();
+        const modelData = this.view.getModelData();
 
         const input = document.createElement("input");
         const text = document.createElement("p");
@@ -35,7 +34,7 @@ class HandlesCount extends OptionPanelElement {
     }
 
     public update(): void {
-        const { values } = this.view.viewManager.getModelData();
+        const { values } = this.view.getModelData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         input.value = `${values.length}`;
     }
@@ -46,7 +45,7 @@ class HandlesCount extends OptionPanelElement {
         const currentInput = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         const handlesCount = Number.parseInt(currentInput.value, 10);
 
-        const modelData = this.view.viewManager.getModelData();
+        const modelData = this.view.getModelData();
         const values = [];
 
         for (let i = 0; i < handlesCount; i += 1) {
@@ -55,7 +54,7 @@ class HandlesCount extends OptionPanelElement {
         }
         const optionsToUpdate = { values };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
+        this.view.setData(optionsToUpdate, {});
     }
 }
 

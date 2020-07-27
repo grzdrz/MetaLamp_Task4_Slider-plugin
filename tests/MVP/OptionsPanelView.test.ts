@@ -1,4 +1,4 @@
-import RangeSlider from "../../src/RangeSlider/RangeSlider";
+/* import RangeSlider from "../../src/RangeSlider/RangeSlider";
 import OptionsPanelView from "../../src/RangeSlider/MVP/Views/OptionsPanel/OptionsPanelView";
 
 describe("OptionsPanelView", function () {
@@ -73,4 +73,4 @@ describe("OptionsPanelView", function () {
         const callsCount = spy.calls.count();
         assert.equal(callsCount, 3);
     });
-});
+}); */

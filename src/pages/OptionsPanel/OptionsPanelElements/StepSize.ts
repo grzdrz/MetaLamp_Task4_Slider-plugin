@@ -1,8 +1,7 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ViewDataEventArgs from "../../../../Events/ViewDataEventArgs";
 
-class ScaleMargin extends OptionPanelElement {
+class StepSize extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,17 +11,18 @@ class ScaleMargin extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { scaleMargin } = this.view.viewManager.viewData;
+        const modelData = this.view.getModelData();
 
         const input = document.createElement("input");
+        const text = document.createElement("p");
+
         input.type = "number";
         input.step = "1";
-        input.value = `${scaleMargin}`;
-        input.className = "options__input js-options__input";
+        input.value = modelData.stepSize.toString();
+        input.className = "options__input js-options__input js-options__step-size-input";
 
-        const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "scale margin";
+        text.textContent = "step size";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -33,25 +33,27 @@ class ScaleMargin extends OptionPanelElement {
     }
 
     public update(): void {
-        const { scaleMargin } = this.view.viewManager.viewData;
+        const { stepSize } = this.view.getModelData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${scaleMargin}`;
+        input.value = `${stepSize}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        const inputValue = Number.parseInt(input.value, 10);
-
-        input.value = inputValue.toString();
+        let inputValue = Number.parseFloat(input.value);
+        if (inputValue <= 0) { // ///
+            inputValue = 0.000001;
+            input.value = inputValue.toString();
+        }
 
         const dataToUpdate = {
-            scaleMargin: inputValue,
+            stepSize: inputValue,
         };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
+        this.view.setData(dataToUpdate, {});
     }
 }
 
-export default ScaleMargin;
+export default StepSize;

@@ -1,8 +1,7 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ViewDataEventArgs from "../../../../Events/ViewDataEventArgs";
 
-class Angle extends OptionPanelElement {
+class MinValue extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,17 +11,20 @@ class Angle extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { angle } = this.view.viewManager.viewData;
+        const modelData = this.view.getModelData();
 
         const input = document.createElement("input");
+        const text = document.createElement("p");
+
         input.type = "number";
-        input.step = "1";
-        input.value = angle.toString();
+        input.step = modelData.stepSize.toString();
+        input.value = modelData.minValue.toString();
+        input.max = (modelData.maxValue + modelData.stepSize).toString();
+        input.min = (modelData.minValue - modelData.stepSize).toString();
         input.className = "options__input js-options__input";
 
-        const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "angle size";
+        text.textContent = "min value";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -33,25 +35,26 @@ class Angle extends OptionPanelElement {
     }
 
     public update(): void {
-        const { angle } = this.view.viewManager.viewData;
+        const { minValue, maxValue, stepSize } = this.view.getModelData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${angle}`;
+        input.value = `${minValue}`;
+        input.step = `${stepSize}`;
+        input.max = `${maxValue + stepSize}`;
+        input.min = `${minValue - stepSize}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        const inputValue = Number.parseInt(input.value, 10);
-
-        input.value = inputValue.toString();
+        const inputValue = Number.parseFloat(input.value);
 
         const dataToUpdate = {
-            angle: inputValue,
+            minValue: inputValue,
         };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
+        this.view.setData(dataToUpdate, {});
     }
 }
 
-export default Angle;
+export default MinValue;

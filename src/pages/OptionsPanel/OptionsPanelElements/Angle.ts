@@ -1,8 +1,8 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
+/* import ViewDataEventArgs from "../../../Events/ViewDataEventArgs"; */
 
-class StepSize extends OptionPanelElement {
+class Angle extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,18 +12,18 @@ class StepSize extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const modelData = this.view.viewManager.getModelData();
+        /* const { angle } = this.view.viewManager.viewData; */
+        const { angle } = this.view.getViewData();
 
         const input = document.createElement("input");
-        const text = document.createElement("p");
-
         input.type = "number";
         input.step = "1";
-        input.value = modelData.stepSize.toString();
-        input.className = "options__input js-options__input js-options__step-size-input";
+        input.value = angle.toString();
+        input.className = "options__input js-options__input";
 
+        const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "step size";
+        text.textContent = "angle size";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -34,27 +34,27 @@ class StepSize extends OptionPanelElement {
     }
 
     public update(): void {
-        const { stepSize } = this.view.viewManager.getModelData();
+        /* const { angle } = this.view.viewManager.viewData; */
+        const { angle } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${stepSize}`;
+        input.value = `${angle}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        let inputValue = Number.parseFloat(input.value);
-        if (inputValue <= 0) { // ///
-            inputValue = 0.000001;
-            input.value = inputValue.toString();
-        }
+        const inputValue = Number.parseInt(input.value, 10);
 
-        const optionsToUpdate = {
-            stepSize: inputValue,
+        input.value = inputValue.toString();
+
+        const dataToUpdate = {
+            angle: inputValue,
         };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
+        /* this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate)); */
+        this.view.setData({}, dataToUpdate);
     }
 }
 
-export default StepSize;
+export default Angle;

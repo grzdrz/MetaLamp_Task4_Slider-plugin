@@ -43,6 +43,7 @@ class ViewData implements IViewData {
         if (data.filledStrips !== undefined) this.filledStrips = data.filledStrips.map((e) => e);
         if (data.isHandlesSeparated !== undefined) this.isHandlesSeparated = data.isHandlesSeparated;
         if (data.hasScale !== undefined) this.hasScale = data.hasScale;
+        if (data.hasTooltip !== undefined) this.hasTooltip = data.hasTooltip;
         if (data.scaleMargin !== undefined) this.scaleMargin = data.scaleMargin;
         if (data.tooltipMargin !== undefined) this.tooltipMargin = data.tooltipMargin;
         if (data.hasOptions !== undefined) this.hasOptions = data.hasOptions;

@@ -1,6 +1,5 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ViewDataEventArgs from "../../../../Events/ViewDataEventArgs";
 
 class ListOfFilledStrip extends OptionPanelElement {
     public inputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();
@@ -27,7 +26,7 @@ class ListOfFilledStrip extends OptionPanelElement {
         filledStripsTitle.className = "options__title";
         this.filledStripsContainer.className = "options__inputs";
 
-        const { filledStrips } = this.view.viewManager.viewData;
+        const { filledStrips } = this.view.getViewData();
         for (let i = 0; i < filledStrips.length; i += 1) {
             const valueInput = document.createElement("input");
             valueInput.type = "checkbox";
@@ -50,7 +49,7 @@ class ListOfFilledStrip extends OptionPanelElement {
         this.inputsDOMElements = [];
         this.filledStripsContainer.innerHTML = "";
 
-        const { filledStrips } = this.view.viewManager.viewData;
+        const { filledStrips } = this.view.getViewData();
         for (let i = 0; i < filledStrips.length; i += 1) {
             const valueInput = document.createElement("input");
             valueInput.type = "checkbox";
@@ -71,13 +70,17 @@ class ListOfFilledStrip extends OptionPanelElement {
     }
 
     handlerInputChange(): void {
-        const { filledStrips } = this.view.viewManager.viewData;
+        const { filledStrips } = this.view.getViewData();
         this.inputsDOMElements.forEach((e, i) => {
             const value = e.checked;
             filledStrips[i] = value;
         });
 
-        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({ filledStrips }));
+        const dataToUpdate = {
+            filledStrips,
+        };
+
+        this.view.setData({}, dataToUpdate);
     }
 }
 

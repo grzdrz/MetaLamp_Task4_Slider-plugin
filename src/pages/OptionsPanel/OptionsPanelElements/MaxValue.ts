@@ -1,8 +1,7 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ViewDataEventArgs from "../../../../Events/ViewDataEventArgs";
 
-class HasTooltip extends OptionPanelElement {
+class MaxValue extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,16 +11,21 @@ class HasTooltip extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { hasTooltip } = this.view.viewManager.viewData;
+        const modelData = this.view.getModelData();
 
+        // максимальное значение
         const input = document.createElement("input");
-        input.type = "checkbox";
-        input.checked = hasTooltip;
-        input.className = "options__checkbox-input js-options__input";
-
         const text = document.createElement("p");
+
+        input.type = "number";
+        input.step = modelData.stepSize.toString();
+        input.value = modelData.maxValue.toString();
+        input.max = (modelData.maxValue + modelData.stepSize).toString();
+        input.min = (modelData.minValue - modelData.stepSize).toString();
+        input.className = "options__input js-options__input";
+
         text.className = "options__text";
-        text.textContent = "has tooltip ?";
+        text.textContent = "max value";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -32,21 +36,26 @@ class HasTooltip extends OptionPanelElement {
     }
 
     public update(): void {
-        const { hasTooltip } = this.view.viewManager.viewData;
+        const { minValue, maxValue, stepSize } = this.view.getModelData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.checked = hasTooltip;
+        input.value = `${maxValue}`;
+        input.step = `${stepSize}`;
+        input.max = `${maxValue + stepSize}`;
+        input.min = `${minValue - stepSize}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        const inputValue = Number.parseFloat(input.value);
+
         const dataToUpdate = {
-            hasTooltip: input.checked,
+            maxValue: inputValue,
         };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
+        this.view.setData(dataToUpdate, {});
     }
 }
 
-export default HasTooltip;
+export default MaxValue;

@@ -1,8 +1,7 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ViewDataEventArgs from "../../../../Events/ViewDataEventArgs";
 
-class MaxSegmentCount extends OptionPanelElement {
+class ScaleMargin extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,18 +11,17 @@ class MaxSegmentCount extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { maxSegmentsCount } = this.view.viewManager.viewData;
+        const { scaleMargin } = this.view.getViewData();
 
         const input = document.createElement("input");
-        const text = document.createElement("p");
-
         input.type = "number";
         input.step = "1";
-        input.value = maxSegmentsCount.toString();
+        input.value = `${scaleMargin}`;
         input.className = "options__input js-options__input";
 
+        const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "maximum segments count";
+        text.textContent = "scale margin";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -34,9 +32,9 @@ class MaxSegmentCount extends OptionPanelElement {
     }
 
     public update(): void {
-        const { maxSegmentsCount } = this.view.viewManager.viewData;
+        const { scaleMargin } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${maxSegmentsCount}`;
+        input.value = `${scaleMargin}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
@@ -45,12 +43,14 @@ class MaxSegmentCount extends OptionPanelElement {
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         const inputValue = Number.parseInt(input.value, 10);
 
+        input.value = inputValue.toString();
+
         const dataToUpdate = {
-            maxSegmentsCount: inputValue,
+            scaleMargin: inputValue,
         };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
+        this.view.setData({}, dataToUpdate);
     }
 }
 
-export default MaxSegmentCount;
+export default ScaleMargin;

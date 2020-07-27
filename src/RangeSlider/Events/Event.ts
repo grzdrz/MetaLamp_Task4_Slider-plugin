@@ -1,14 +1,14 @@
 import EventArgs from "./EventArgs";
-
-interface EventHandler {
-    (args: EventArgs): void;
-}
+import EventHandler from "./EventHandler";
 
 class Event {
     private handlers: EventHandler[];
 
     constructor() {
         this.handlers = new Array<EventHandler>();
+
+        this.invoke = this.invoke.bind(this);
+        this.subscribe = this.subscribe.bind(this);
     }
 
     invoke(args: EventArgs): void {

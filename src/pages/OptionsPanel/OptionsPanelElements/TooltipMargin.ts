@@ -1,8 +1,7 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
 
-class MinValue extends OptionPanelElement {
+class TooltipMargin extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,20 +11,17 @@ class MinValue extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const modelData = this.view.viewManager.getModelData();
+        const { tooltipMargin } = this.view.getViewData();
 
         const input = document.createElement("input");
-        const text = document.createElement("p");
-
         input.type = "number";
-        input.step = modelData.stepSize.toString();
-        input.value = modelData.minValue.toString();
-        input.max = (modelData.maxValue + modelData.stepSize).toString();
-        input.min = (modelData.minValue - modelData.stepSize).toString();
+        input.step = "1";
+        input.value = `${tooltipMargin}`;
         input.className = "options__input js-options__input";
 
+        const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "min value";
+        text.textContent = "tooltip margin";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -36,26 +32,25 @@ class MinValue extends OptionPanelElement {
     }
 
     public update(): void {
-        const { minValue, maxValue, stepSize } = this.view.viewManager.getModelData();
+        const { tooltipMargin } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${minValue}`;
-        input.step = `${stepSize}`;
-        input.max = `${maxValue + stepSize}`;
-        input.min = `${minValue - stepSize}`;
+        input.value = `${tooltipMargin}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        const inputValue = Number.parseFloat(input.value);
+        const inputValue = Number.parseInt(input.value, 10);
 
-        const optionsToUpdate = {
-            minValue: inputValue,
+        input.value = inputValue.toString();
+
+        const dataToUpdate = {
+            tooltipMargin: inputValue,
         };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
+        this.view.setData({}, dataToUpdate);
     }
 }
 
-export default MinValue;
+export default TooltipMargin;

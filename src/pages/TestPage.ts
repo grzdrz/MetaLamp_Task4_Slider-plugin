@@ -5,6 +5,7 @@
 import "../plugin.ts";
 import $ from "jquery";
 import "./TestPage.scss";
+import OptionsPanelView from "./OptionsPanel/OptionsPanelView";
 import IModelData from "../RangeSlider/MVP/Model/Data/IModelData";
 import IViewData from "../RangeSlider/MVP/Views/Data/IViewData";
 import ModelData from "../RangeSlider/MVP/Model/Data/ModelData";
@@ -32,7 +33,9 @@ const viewData = {
     hasOptions: true,
 };
 const sliderElement1 = $(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData);
-const sliderElement2 = $(".js-test-page__tested-range-slider-container_2").rangeSlider({}, {});
+const optionsPanel = new OptionsPanelView(sliderElement1, sliderElement1[0]);
+
+/* const sliderElement2 = $(".js-test-page__tested-range-slider-container_2").rangeSlider({}, {}); */
 
 /* const setData = <(modelData: IModelData, viewData: IViewData) => void>sliderElement1.data("setData");
 setData({

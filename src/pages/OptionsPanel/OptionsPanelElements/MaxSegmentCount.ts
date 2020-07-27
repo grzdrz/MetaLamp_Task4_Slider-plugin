@@ -1,8 +1,7 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
 
-class MaxValue extends OptionPanelElement {
+class MaxSegmentCount extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,21 +11,18 @@ class MaxValue extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const modelData = this.view.viewManager.getModelData();
+        const { maxSegmentsCount } = this.view.getViewData();
 
-        // максимальное значение
         const input = document.createElement("input");
         const text = document.createElement("p");
 
         input.type = "number";
-        input.step = modelData.stepSize.toString();
-        input.value = modelData.maxValue.toString();
-        input.max = (modelData.maxValue + modelData.stepSize).toString();
-        input.min = (modelData.minValue - modelData.stepSize).toString();
+        input.step = "1";
+        input.value = maxSegmentsCount.toString();
         input.className = "options__input js-options__input";
 
         text.className = "options__text";
-        text.textContent = "max value";
+        text.textContent = "maximum segments count";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -37,26 +33,23 @@ class MaxValue extends OptionPanelElement {
     }
 
     public update(): void {
-        const { minValue, maxValue, stepSize } = this.view.viewManager.getModelData();
+        const { maxSegmentsCount } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${maxValue}`;
-        input.step = `${stepSize}`;
-        input.max = `${maxValue + stepSize}`;
-        input.min = `${minValue - stepSize}`;
+        input.value = `${maxSegmentsCount}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        const inputValue = Number.parseFloat(input.value);
+        const inputValue = Number.parseInt(input.value, 10);
 
-        const optionsToUpdate = {
-            maxValue: inputValue,
+        const dataToUpdate = {
+            maxSegmentsCount: inputValue,
         };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ModelDataEventArgs(optionsToUpdate));
+        this.view.setData({}, dataToUpdate);
     }
 }
 
-export default MaxValue;
+export default MaxSegmentCount;

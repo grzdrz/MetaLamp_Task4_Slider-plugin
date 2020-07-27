@@ -1,8 +1,7 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-import ViewDataEventArgs from "../../../../Events/ViewDataEventArgs";
 
-class HandlesSeparated extends OptionPanelElement {
+class CanPush extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
         super(view);
 
@@ -12,16 +11,16 @@ class HandlesSeparated extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { isHandlesSeparated } = this.view.viewManager.viewData;
+        const { canPush } = this.view.getModelData();
 
         const input = document.createElement("input");
         input.type = "checkbox";
-        input.checked = isHandlesSeparated;
+        input.checked = canPush;
         input.className = "options__checkbox-input js-options__input";
 
         const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "is handles separated ?";
+        text.textContent = "can push ?";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -32,9 +31,9 @@ class HandlesSeparated extends OptionPanelElement {
     }
 
     public update(): void {
-        const { isHandlesSeparated } = this.view.viewManager.viewData;
+        const { canPush } = this.view.getModelData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.checked = isHandlesSeparated;
+        input.checked = canPush;
     }
 
     private handlerInputChange(event: globalThis.Event) {
@@ -42,11 +41,11 @@ class HandlesSeparated extends OptionPanelElement {
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         const dataToUpdate = {
-            isHandlesSeparated: input.checked,
+            canPush: input.checked,
         };
 
-        this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate));
+        this.view.setData(dataToUpdate, {});
     }
 }
 
-export default HandlesSeparated;
+export default CanPush;

@@ -56,9 +56,10 @@ class Presenter {
     }
 
     private handlerViewsUpdate(): void {
-        this.viewManager.views[0].update(true);
-        this.viewManager.views[1].update(true);
-        this.viewManager.views[2].update(false);
+        /* this.viewManager.views[0].update(true);
+        this.viewManager.views[1].update(true); */
+        /* this.viewManager.views[2].update(false); */
+        this.viewManager.views.forEach((e) => e.update(true));
     }
 
     private handlerHandleMove(): void {
