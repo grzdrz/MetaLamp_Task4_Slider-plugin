@@ -16,7 +16,7 @@ $ npm run test
 # Как использовать
 1) Подключить jQuery и сам плагин:
 ```
-import "../plugin.ts";
+import "../plugin.js";
 import $ from "jquery";
 ```
 2) С помощью jQuery выбрать нужный элемент-контейнер и вызвать функцию rangeSlider:
@@ -41,16 +41,16 @@ const slider = $(".js-some-container").rangeSlider(modelData, viewData);
 
 | Свойство | Тип | Значение по умолчанию | Описание |
 | --- | --- | --- | --- |
-| sliderStripThickness | number | 10 | Толщина "рельсы" по которой движутся ползунки |
+| sliderStripThickness | number | 10 | Толщина "рельсы" по которой скользят ползунки |
 | handleWidth | number | 15 | Ширина ползунка |
 | handleHeight | number | 15 | Высота ползунка |
-| isHandlesSeparated | boolean | false | Определяет будут ли ползунки заезжать друг на друга, или сталкиваться по своим границам |
 | borderThickness | number | 5 | Толщина неосязаемой рамки(т.е. не учитываемой в isHandlesSeparated) вокруг ползунка, которая создается за счет элемента-задника большего по размерам чем соответствующий элемент ползунка |
+| isHandlesSeparated | boolean | false | Определяет будут ли ползунки заезжать друг на друга, или сталкиваться по своим границам |
 | hasTooltip | boolean | true | Есть ли подсказки над ползунками |
 | tooltipMargin | number | 10 | Отступ подсказки со значением от ползунка |
 | hasScale | boolean | true | Есть ли шкала |
-| maxSegmentsCount | number | 10 | Максимальное количество сегментов шкалы |
 | scaleMargin | number | 30 | Отступ шкалы от основной части слайдера |
+| maxSegmentsCount | number | 10 | Максимальное количество сегментов шкалы |
 | angle | number | 0 | Угол наклона слайдера в градусах(от 0 до 90) |
 | filledStrips | boolean[] | [true, false] | Определяет какие интервалы отрисовывать |
 
@@ -62,3 +62,4 @@ const slider = $(".js-some-container").rangeSlider(modelData, viewData);
 | setData | (modelData: IModelData, viewData: IViewData) => void | Изменяет указанные настройки экземпляра плагина |
 | getModelData | () => ModelData | Извлекает из экземпляра плагина настройки модели |
 | getViewData | () => ViewData | Извлекает из экземпляра плагина настройки представлений |
+| subscribeOnUpdates | (handler: EventHandler) => void | Подписка на обновление плагина |

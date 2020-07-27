@@ -8,8 +8,6 @@
 @import "../../assets/fonts/fonts.scss";
 @include setFonts("../../");
 
-@import "./OptionsPanel.scss";
-
 .range-slider {
     border: 1px solid black;
 

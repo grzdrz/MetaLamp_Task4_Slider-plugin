@@ -22,6 +22,8 @@ import IViewData from "../../RangeSlider/MVP/Views/Data/IViewData";
 import ViewData from "../../RangeSlider/MVP/Views/Data/ViewData";
 import EventHandler from "../../RangeSlider/Events/EventHandler";
 
+import "./OptionsPanel.scss";
+
 class OptionsPanelView /* extends View  */ {
     public jqueryElement: JQuery;
 

@@ -16,48 +16,6 @@
   font-weight: bold;
   font-style: normal; }
 
-.options {
-  display: flex;
-  flex-direction: column;
-  width: 100%; }
-  .options__label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 5px; }
-  .options__cheackboxes-container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    width: 100%;
-    margin-bottom: 5px; }
-  .options__input {
-    width: 30%;
-    height: 25px;
-    border: 1px solid black;
-    font-size: 1.5rem; }
-  .options__checkbox-input {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px; }
-  .options__text {
-    margin: 0px;
-    margin-left: 10px;
-    text-align: center;
-    display: inline-flex;
-    align-items: flex-end;
-    font-size: 1.2rem; }
-  .options__title {
-    font-size: 1.2rem;
-    margin-bottom: 5px; }
-  .options__inputs {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    margin-bottom: 5px; }
-
 .range-slider {
   border: 1px solid black;
   height: 300px;
@@ -172,4 +130,46 @@
     align-items: center;
     width: 70%;
     margin-bottom: 50px; }
+
+.options {
+  display: flex;
+  flex-direction: column;
+  width: 100%; }
+  .options__label {
+    display: flex;
+    flex-direction: row;
+    /* align-items: center; */
+    width: 100%;
+    margin-bottom: 5px; }
+  .options__cheackboxes-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 5px; }
+  .options__input {
+    width: 30%;
+    height: 25px;
+    border: 1px solid black;
+    font-size: 1.5rem; }
+  .options__checkbox-input {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px; }
+  .options__text {
+    margin: 0px;
+    margin-left: 10px;
+    text-align: center;
+    display: inline-flex;
+    align-items: flex-end;
+    font-size: 1.2rem; }
+  .options__title {
+    font-size: 1.2rem;
+    margin-bottom: 5px; }
+  .options__inputs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 5px; }
 

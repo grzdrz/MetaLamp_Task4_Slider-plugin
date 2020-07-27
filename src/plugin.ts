@@ -7,10 +7,9 @@ import ModelDataEventArgs from "./RangeSlider/Events/ModelDataEventArgs";
 import ViewDataEventArgs from "./RangeSlider/Events/ViewDataEventArgs";
 import ModelData from "./RangeSlider/MVP/Model/Data/ModelData";
 import ViewData from "./RangeSlider/MVP/Views/Data/ViewData";
-import EventHandler from "./RangeSlider/Events/EventHandler";
 
 $.fn.rangeSlider = function createRangeSlider(this: JQuery, modelData: IModelData, viewData: IViewData): JQuery {
-    const presenter = RangeSlider.createRangeSlider(this[0], modelData, viewData);// предоставлять не презентер а айпи над ним
+    const presenter = RangeSlider.createRangeSlider(this[0], modelData, viewData);
 
     $(this).data().setData = function setData(modelData: IModelData, viewData: IViewData): void {
         if (modelData) presenter.viewManager.onStatesUpdate.invoke(new ModelDataEventArgs(modelData));
@@ -25,11 +24,7 @@ $.fn.rangeSlider = function createRangeSlider(this: JQuery, modelData: IModelDat
         return presenter.model.getViewData();
     };
 
-    $(this).data().subscribeOnUpdates = presenter.viewManager.onStatesUpdate.subscribe;/* function subscribeOnUpdates(): (handler: EventHandler) => void {
-        return presenter.model.getViewData();
-    }; */
-
-    /* this.viewManager.onStatesUpdate.subscribe */
+    $(this).data().subscribeOnUpdates = presenter.viewManager.onStatesUpdate.subscribe;
 
     return this;
 };
