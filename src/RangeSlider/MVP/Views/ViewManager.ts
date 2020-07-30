@@ -40,42 +40,13 @@ class ViewManager {
         this.views.push(new SliderView(sliderContainer, this));
 
         const inputsContainer: HTMLElement = document.createElement("div");
-        inputsContainer.className = "range-slider__value-inputs-container";
+        inputsContainer.className = "range-slider__inputs-container";
         this.views.push(new InputsView(inputsContainer, this));
 
         pluginContainer.append(sliderContainer);
 
-        /* if (this.viewData.hasOptions) {
-            const optionsContainer = document.createElement("div");
-            optionsContainer.className = "range-slider__inputs-and-options-panel-container";
-
-            const optionsPanelContainer: HTMLElement = document.createElement("div");
-            optionsPanelContainer.className = "options";
-
-            optionsContainer.append(inputsContainer);
-            optionsContainer.append(optionsPanelContainer);
-
-            this.containerElement.append(pluginContainer);
-            this.containerElement.append(optionsContainer);
-
-            this.views.push(new OptionsPanelView(optionsPanelContainer, this));
-        } else {
-            this.containerElement.append(pluginContainer);
-            this.containerElement.append(inputsContainer);
-        } */
-        const optionsContainer = document.createElement("div");
-        optionsContainer.className = "range-slider__inputs-and-options-panel-container";
-
-        /* const optionsPanelContainer: HTMLElement = document.createElement("div"); */
-        /* optionsPanelContainer.className = "options"; */
-
-        optionsContainer.append(inputsContainer);
-        /* optionsContainer.append(optionsPanelContainer); */
-
         this.containerElement.append(pluginContainer);
-        this.containerElement.append(optionsContainer);
-
-        // this.views.push(new OptionsPanelView(optionsPanelContainer, this));
+        this.containerElement.append(inputsContainer);
 
         this.views.forEach((e) => e.initialize());
 

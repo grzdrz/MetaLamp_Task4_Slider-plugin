@@ -32,9 +32,15 @@ class ScaleMargin extends OptionPanelElement {
     }
 
     public update(): void {
-        const { scaleMargin } = this.view.getViewData();
+        const { hasScale, scaleMargin } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         input.value = `${scaleMargin}`;
+
+        if (hasScale) {
+            this.DOMElement.style.display = "flex";
+        } else {
+            this.DOMElement.style.display = "none";
+        }
     }
 
     private handlerInputChange(event: globalThis.Event) {

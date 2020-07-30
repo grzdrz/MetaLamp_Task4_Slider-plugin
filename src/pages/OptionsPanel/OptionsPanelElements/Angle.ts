@@ -1,6 +1,5 @@
 import OptionPanelElement from "./OptionPanelElement";
 import OptionsPanelView from "../OptionsPanelView";
-/* import ViewDataEventArgs from "../../../Events/ViewDataEventArgs"; */
 
 class Angle extends OptionPanelElement {
     constructor(view: OptionsPanelView) {
@@ -12,7 +11,6 @@ class Angle extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        /* const { angle } = this.view.viewManager.viewData; */
         const { angle } = this.view.getViewData();
 
         const input = document.createElement("input");
@@ -34,7 +32,6 @@ class Angle extends OptionPanelElement {
     }
 
     public update(): void {
-        /* const { angle } = this.view.viewManager.viewData; */
         const { angle } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
         input.value = `${angle}`;
@@ -52,7 +49,6 @@ class Angle extends OptionPanelElement {
             angle: inputValue,
         };
 
-        /* this.view.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs(dataToUpdate)); */
         this.view.setData({}, dataToUpdate);
     }
 }

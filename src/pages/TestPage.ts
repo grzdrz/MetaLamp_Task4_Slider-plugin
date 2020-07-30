@@ -12,10 +12,10 @@ import ModelData from "../RangeSlider/MVP/Model/Data/ModelData";
 import ViewData from "../RangeSlider/MVP/Views/Data/ViewData";
 
 const modelData = {
-    minValue: 19,
-    maxValue: 0,
-    values: [-3, 3, -7, -11, 11],
-    stepSize: 100,
+    minValue: -100,
+    maxValue: 100,
+    values: [-99, -7, -3, 3, 99],
+    stepSize: 1,
     canPush: true,
 };
 const viewData = {
@@ -32,8 +32,8 @@ const viewData = {
     scaleMargin: 30,
     hasOptions: true,
 };
-const sliderElement1 = $(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData);
-const optionsPanel = new OptionsPanelView(sliderElement1, sliderElement1[0]);
+const jqSlider1 = $(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData);
+const optionsPanel1 = new OptionsPanelView(jqSlider1, jqSlider1[0]);
 
 /* const sliderElement2 = $(".js-test-page__tested-range-slider-container_2").rangeSlider({}, {}); */
 

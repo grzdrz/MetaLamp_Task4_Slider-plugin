@@ -32,7 +32,6 @@
     }
 
     &__empty-strip {
-        /* height: 10px; */
         background: #ffffff;
         border: 1px solid rgba(31, 32, 65, 0.25);
         position: absolute;
@@ -42,7 +41,6 @@
     }
 
     &__filled-strip {
-        /* height: 10px; */
         background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
         position: absolute;
 
@@ -110,16 +108,6 @@
         position: absolute;
         left: 0px;
         bottom: 0px;
-    }
-
-    &__inputs-and-options-panel-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-        padding: 10px;
-        border: 2px solid #50bda5;
-        // margin: 20px;
     }
 
     @import "./ValueInputs.scss";

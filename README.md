@@ -16,7 +16,7 @@ $ npm run test
 # Как использовать
 1) Подключить jQuery и сам плагин:
 ```
-import "../plugin.js";
+import "./plugin.js";
 import $ from "jquery";
 ```
 2) С помощью jQuery выбрать нужный элемент-контейнер и вызвать функцию rangeSlider:

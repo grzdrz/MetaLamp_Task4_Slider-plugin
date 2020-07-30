@@ -1,12 +1,16 @@
 .options {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     width: 100%;
+    padding: 10px;
+    border: 2px solid rgb(58, 37, 179);
+
+    grid-column-start: 1;
+    grid-column-end: 3;
 
     &__label {
         display: flex;
         flex-direction: row;
-        /* align-items: center; */
+        align-items: center;
         width: 100%;
 
         margin-bottom: 5px;
@@ -19,6 +23,10 @@
         width: 100%;
 
         margin-bottom: 5px;
+
+        grid-column-start: 1;
+        grid-column-end: 3;
+        align-items: baseline;
     }
 
     &__input {

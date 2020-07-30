@@ -21,6 +21,7 @@ class InputsView extends View {
 
         this.containerElement.innerHTML = "";
         this.valueInputsDOMElements = [];
+
         for (let i = 0; i < modelData.values.length; i += 1) {
             const valueInputContainer = document.createElement("div");
             const valueInput = document.createElement("input");
