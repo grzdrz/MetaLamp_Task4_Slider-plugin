@@ -1,3 +1,5 @@
+@import "../color-sliders/color-sliders.scss";
+
 * {
     border: 0px;
     margin: 0px;
@@ -12,16 +14,19 @@
     align-items: center;
     padding: 40px 0px;
 
-    &__tested-range-slider-container_1,
-    &__tested-range-slider-container_2,
-    &__tested-range-slider-container_3,
-    &__tested-range-slider-container_4 {
+    &__tested-range-slider-container_1 {
         display: grid;
         grid-template-columns: 70% auto;
         grid-template-rows: auto auto;
         justify-content: center;
         align-items: center;
         width: 70%;
+        /* height: 300px; */
         margin-bottom: 50px;
+    }
+
+    &__color-sliders {
+        display: flex;
+        width: 100%;
     }
 }

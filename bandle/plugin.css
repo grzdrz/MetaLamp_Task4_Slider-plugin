@@ -18,28 +18,25 @@
 
 .range-slider {
   border: 1px solid black;
-  height: 300px;
-  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   align-self: center;
-  height: 300px;
-  width: 100%; }
+  width: 100%;
+  height: 100%; }
   .range-slider__slider-container {
     display: flex;
     position: relative;
     background: transparent;
-    width: 100%; }
+    width: 100%;
+    height: 100%; }
   .range-slider__empty-strip {
-    /* height: 10px; */
     background: #ffffff;
     border: 1px solid rgba(31, 32, 65, 0.25);
     position: absolute;
     z-index: 1; }
   .range-slider__filled-strip {
-    /* height: 10px; */
     background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
     position: absolute;
     z-index: 2; }

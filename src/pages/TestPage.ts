@@ -11,6 +11,8 @@ import IViewData from "../RangeSlider/MVP/Views/Data/IViewData";
 import ModelData from "../RangeSlider/MVP/Model/Data/ModelData";
 import ViewData from "../RangeSlider/MVP/Views/Data/ViewData";
 
+import ColorSliders from "../color-sliders/color-sliders";
+
 const modelData = {
     minValue: -100,
     maxValue: 100,
@@ -35,44 +37,5 @@ const viewData = {
 const jqSlider1 = $(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData);
 const optionsPanel1 = new OptionsPanelView(jqSlider1, jqSlider1[0]);
 
-/* const sliderElement2 = $(".js-test-page__tested-range-slider-container_2").rangeSlider({}, {}); */
-
-/* const setData = <(modelData: IModelData, viewData: IViewData) => void>sliderElement1.data("setData");
-setData({
-    values: [-3, 3],
-}, {});
-
-const getModelData = <() => ModelData>sliderElement1.data("getModelData");
-const mData = getModelData();
-for (const porperty of Object.entries(mData)) {
-    console.log(`${porperty[0]}: ${porperty[1]}`);
-}
-console.log("\n");
-
-const getViewData = <() => ViewData>sliderElement1.data("getViewData");
-const vData = getViewData();
-for (const porperty of Object.entries(vData)) {
-    console.log(`${porperty[0]}: ${porperty[1]}`);
-}
-console.log("\n");
-
-const sliderElement2 = $(".js-test-page__tested-range-slider-container_2").rangeSlider({}, {});
-
-const setData2 = <(modelData: IModelData, viewData: IViewData) => void>sliderElement2.data("setData");
-setData2({
-    values: [-9, 0, 9],
-}, {});
-
-const getModelData2 = <() => ModelData>sliderElement2.data("getModelData");
-const mData2 = getModelData2();
-for (const porperty of Object.entries(mData2)) {
-    console.log(`${porperty[0]}: ${porperty[1]}`);
-}
-console.log("\n");
-
-const getViewData2 = <() => ViewData>sliderElement2.data("getViewData");
-const vData2 = getViewData2();
-for (const porperty of Object.entries(vData2)) {
-    console.log(`${porperty[0]}: ${porperty[1]}`);
-}
-console.log("\n"); */
+const colorSlidersContainer = <HTMLElement>(document.querySelector(".test-page__color-sliders"));
+const colorSliders = new ColorSliders(colorSlidersContainer);

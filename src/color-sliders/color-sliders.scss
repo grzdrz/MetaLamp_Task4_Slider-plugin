@@ -1,0 +1,46 @@
+.color-sliders {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 0px 200px;
+
+    &__sliders {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-self: flex-end;
+        width: 50%;
+    }
+
+    &__red {
+        height: 400px;
+        width: 50px;
+    }
+
+    &__green {
+        height: 400px;
+        width: 50px;
+    }
+
+    &__blue {
+        height: 400px;
+        width: 50px;
+    }
+
+    &__alpha {
+        height: 400px;
+        width: 50px;
+    }
+
+    &__color-square {
+        width: 100px;
+        height: 100px;
+        background: black;
+    }
+
+    & .range-slider__inputs-container {
+        display: none;
+    }
+}
