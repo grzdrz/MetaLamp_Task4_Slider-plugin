@@ -7,7 +7,7 @@ import IViewData from "../RangeSlider/MVP/Views/Data/IViewData";
 import ModelData from "../RangeSlider/MVP/Model/Data/ModelData";
 import ViewData from "../RangeSlider/MVP/Views/Data/ViewData";
 import EventHandler from "../RangeSlider/Events/EventHandler";
-import ColorSliders from "./color-sliders";
+import ColorCustomizer from "./color-customizer";
 
 const modelData = {
     minValue: 0,
@@ -21,19 +21,19 @@ const viewData = {
     handleWidth: 15,
     handleHeight: 15,
     borderThickness: 5,
-    maxSegmentsCount: 5,
+    maxSegmentsCount: 1,
     scaleFontSize: 15,
     angle: 90,
     filledStrips: [false, false],
     /* isHandlesSeparated: false, */
-    hasScale: true,
+    hasScale: false,
     hasTooltip: true,
     scaleMargin: 30,
 };
 class ColorSlider {
     public containerElement: HTMLElement;
 
-    public manager: ColorSliders;
+    public manager: ColorCustomizer;
 
     public jqueryElement: JQuery<HTMLElement>;
 
@@ -47,9 +47,9 @@ class ColorSlider {
 
     public color = 0;
 
-    constructor(containerElement: HTMLElement, manager: ColorSliders) {
-        this.containerElement = containerElement;
+    constructor(manager: ColorCustomizer, containerElement: HTMLElement) {
         this.manager = manager;
+        this.containerElement = containerElement;
 
         this.jqueryElement = $(this.containerElement).rangeSlider(modelData, viewData);
         this.setData = this.jqueryElement.data("setData");

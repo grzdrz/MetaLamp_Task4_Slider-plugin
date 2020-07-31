@@ -1,5 +1,5 @@
-@import "../color-sliders/color-sliders.scss";
-
+/* @import "../color-customizer/color-customizer.scss";
+ */
 * {
     border: 0px;
     margin: 0px;
@@ -22,11 +22,17 @@
         align-items: center;
         width: 70%;
         /* height: 300px; */
-        margin-bottom: 50px;
+        padding: 50px 0px;
+
+        border-bottom: 1px solid rgb(85, 85, 85);
     }
 
-    &__color-sliders {
+    &__color-customizer {
         display: flex;
         width: 100%;
+        padding: 50px 0px;
+        width: 70%;
+
+        border-bottom: 1px solid rgb(85, 85, 85);
     }
 }

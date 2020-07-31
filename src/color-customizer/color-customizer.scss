@@ -1,0 +1,93 @@
+.color-customizer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 0px 200px;
+
+    &__sliders {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-self: flex-end;
+        width: 50%;
+    }
+
+    &__red {
+        height: 400px;
+        width: 50px;
+
+        & .range-slider__empty-strip {
+            background: linear-gradient(to left, rgba(255, 0, 0, 1), white);
+            border: 1px solid rgb(90, 90, 90);
+            border-radius: 2px;
+        }
+    }
+
+    &__green {
+        height: 400px;
+        width: 50px;
+
+        & .range-slider__empty-strip {
+            background: linear-gradient(to left, rgba(0, 255, 0, 1), white);
+            border: 1px solid rgb(90, 90, 90);
+            border-radius: 2px;
+        }
+    }
+
+    &__blue {
+        height: 400px;
+        width: 50px;
+
+        & .range-slider__empty-strip {
+            background: linear-gradient(to left, rgba(0, 0, 255, 1), white);
+            border: 1px solid rgb(90, 90, 90);
+            border-radius: 2px;
+        }
+    }
+
+    &__alpha {
+        height: 400px;
+        width: 50px;
+
+        & .range-slider__empty-strip {
+            background: linear-gradient(to left, black, white);
+            border: 1px solid rgb(90, 90, 90);
+            border-radius: 2px;
+        }
+    }
+
+    &__color-square {
+        width: 300px;
+        height: 300px;
+    }
+
+    & .range-slider {
+        border: 0px;
+    }
+
+    & .range-slider__inputs-container {
+        display: none;
+    }
+
+    & .range-slider__handle {
+        border-radius: 50%;
+        opacity: 1;
+        background: linear-gradient(to left, rgb(80, 80, 80), rgb(173, 173, 173));
+        box-shadow: inset 2px 0px 2px rgba(0, 0, 0, 0.384);
+    }
+
+    & .range-slider__handle-background {
+        border-radius: 50%;
+        opacity: 1;
+        background: linear-gradient(to left, rgb(172, 172, 172), rgb(233, 233, 233));
+        box-shadow: inset 2px 0px 2px rgba(0, 0, 0, 0.384);
+    }
+
+    & .range-slider__tooltip {
+        border-radius: 5px;
+        background: linear-gradient(180deg, rgb(206, 206, 206), rgb(134, 134, 134));
+        box-shadow: inset 2px 0px 5px rgba(0, 0, 0, 0.384);
+    }
+}
