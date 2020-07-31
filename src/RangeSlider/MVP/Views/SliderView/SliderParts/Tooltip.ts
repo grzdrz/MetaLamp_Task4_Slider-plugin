@@ -26,25 +26,34 @@ class Tooltip extends SliderPart {
         const { values } = this.view.viewManager.getModelData();
         const {
             handleWidth,
-            handleHeight,
             angleInRad,
             isHandlesSeparated,
-            borderThickness,
             tooltipMargin,
         } = this.view.viewManager.viewData;
 
         this.DOMElement.textContent = `${values[this.countNumber]}`;
-        const tooltipWidth = this.DOMElement.getBoundingClientRect().width;
+
+        const tooltipRect = this.DOMElement.getBoundingClientRect();
+        const tooltipWidth = tooltipRect.width * Math.cos(angleInRad);
+        const tooltipHeight = tooltipRect.height * Math.sin(angleInRad);
+        const vectorizedTooltipLength = new Vector(tooltipWidth, tooltipHeight).length;
 
         const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
         const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient), angleInRad);
-        const handlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
+        let handlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
+        handlePosition = handlePosition + handleWidth / 2 - vectorizedTooltipLength / 2;
 
-        const tooltipPosition = handlePosition + borderThickness + handleWidth / 2 - tooltipWidth / 2;
-        const vectorizedTooltipPosition = Vector.calculateVector(tooltipPosition, angleInRad).sum(handlesCountShift).sumNumber(-borderThickness);
-        const vectorizedMargin = Vector.calculateVector(tooltipMargin + handleHeight + borderThickness * 2, angleInRad).rotateVector(Math.PI / 2);
+        const vectorizedHandlePosition = Vector.calculateVector(handlePosition, angleInRad).sum(handlesCountShift);
 
-        this.setPosition(vectorizedTooltipPosition.sum(vectorizedMargin));
+        const reverseTooltipWidth = tooltipRect.width * Math.sin(angleInRad);
+        const reverseTooltipHeight = tooltipRect.height * Math.cos(angleInRad);
+        const reverseVectorizedTooltipLength = new Vector(reverseTooltipWidth, reverseTooltipHeight).length;
+
+        const vectorizedMargin = Vector.calculateVector(tooltipMargin + reverseVectorizedTooltipLength /* + handleHeight + borderThickness */, angleInRad);
+        const rotatedMargin = vectorizedMargin.rotateVector(Math.PI / 2);
+        const position = vectorizedHandlePosition.sum(rotatedMargin);
+
+        this.setPosition(position);
     }
 }
 

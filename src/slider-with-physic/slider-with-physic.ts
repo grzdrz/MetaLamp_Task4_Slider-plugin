@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import "../plugin.ts";
 import $ from "jquery";
@@ -17,8 +18,8 @@ const modelData = {
 };
 const viewData = {
     sliderStripThickness: 10,
-    handleWidth: 15,
-    handleHeight: 15,
+    handleWidth: 45,
+    handleHeight: 45,
     borderThickness: 5,
     maxSegmentsCount: 1,
     scaleFontSize: 15,
@@ -28,7 +29,6 @@ const viewData = {
     hasTooltip: true,
     tooltipMargin: 10,
 };
-const G = -0.5;
 
 class SliderWithPhysic {
     public containerElement: HTMLElement;
@@ -51,9 +51,20 @@ class SliderWithPhysic {
 
     public velocity = 0;
 
-    public readonly defaultDamping = 0.5;
+    public readonly defaultDamping = 0.8;
 
-    public damping = this.defaultDamping;
+    public readonly gAcceleration = -1.5;
+
+    private _damping = this.defaultDamping;
+
+    public set damping(value: number) {
+        if (value <= 0) value = 0;
+        this._damping = value;
+    }
+
+    public get damping(): number {
+        return this._damping;
+    }
 
     public isHandleGripped = false;
 
@@ -99,15 +110,15 @@ class SliderWithPhysic {
                 this.velocity *= (-1 * this.damping);
                 this.damping -= 0.05;
             } else {
-                this.velocity += G;
+                this.velocity += this.gAcceleration;
             }
 
-            let newValue = values[0] + this.velocity - G / 2;
+            let newValue = values[0] + this.velocity - this.gAcceleration / 2;
 
             // если скорость близка к нулю И смещение близко к полу, т.е. почти загашенное колебание, то обнуляем оба значения
-            if (Math.abs(this.velocity) < Math.abs(G)) {
+            if (Math.abs(this.velocity) < Math.abs(this.gAcceleration / 2)) {
                 this.velocity = 0;
-                if (newValue <= Math.abs(G)) {
+                if (newValue <= Math.abs(this.gAcceleration)) {
                     newValue = minValue;
                 }
             }

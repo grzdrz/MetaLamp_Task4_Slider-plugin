@@ -71,7 +71,9 @@ class Vector {
     }
 
     public static calculateVector(length: number, angle: number): Vector {
-        return new Vector(length * Math.cos(angle), length * Math.sin(angle));
+        const cos = Number.parseFloat(Math.cos(angle).toFixed(6));
+        const sin = Number.parseFloat(Math.sin(angle).toFixed(6));
+        return new Vector(length * cos, length * sin);
     }
 
     public rotateVector(angleInRad: number): Vector {
