@@ -28,5 +28,11 @@ $.fn.rangeSlider = function createRangeSlider(this: JQuery, modelData: IModelDat
 
     $(this).data().subscribeOnHandleMove = presenter.viewManager.onHandleMove.subscribe;
 
+    $(this).data().subscribeOnMouseDown = presenter.viewManager.onMouseDown.subscribe;
+
+    $(this).data().subscribeOnMouseMove = presenter.viewManager.onMouseMove.subscribe;
+
+    $(this).data().subscribeOnMouseUp = presenter.viewManager.onMouseUp.subscribe;
+
     return this;
 };

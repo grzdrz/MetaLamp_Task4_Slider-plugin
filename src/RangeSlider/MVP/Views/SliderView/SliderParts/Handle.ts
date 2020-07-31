@@ -138,6 +138,8 @@ class Handle extends SliderPart {
         document.addEventListener("mouseup", handlerMouseUp);
         document.addEventListener("touchmove", handlerMouseMove);
         document.addEventListener("touchend", handlerMouseUp);
+
+        this.view.viewManager.onMouseDown.invoke({});
     }
 
     private handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent) {
@@ -162,6 +164,8 @@ class Handle extends SliderPart {
         const cursorPositionInContainer = this.calculateCursorPositionInContainer(mouseGlobalPosition, mousePositionInsideTargetSlider);
 
         this.view.calculateProportionalValue(cursorPositionInContainer, this.countNumber);
+
+        this.view.viewManager.onMouseMove.invoke({});
     }
 
     private handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, _event: UIEvent) {
@@ -169,6 +173,8 @@ class Handle extends SliderPart {
         document.removeEventListener("mouseup", optionsFromMouseDown.handlerMouseUp);
         document.removeEventListener("touchmove", optionsFromMouseDown.handlerMouseMove);
         document.removeEventListener("touchend", optionsFromMouseDown.handlerMouseUp);
+
+        this.view.viewManager.onMouseUp.invoke({});
     }
 
     private calculateCursorPositionInContainer(mouseGlobalPosition: Vector, mousePositionInsideTargetSlider: Vector) {

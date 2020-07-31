@@ -7,6 +7,7 @@ import $ from "jquery";
 import "./TestPage.scss";
 import OptionsPanelView from "./OptionsPanel/OptionsPanelView";
 import ColorCustomizer from "../color-customizer/color-customizer";
+import SliderWithPhysic from "../slider-with-physic/slider-with-physic";
 
 const modelData = {
     minValue: -100,
@@ -34,3 +35,6 @@ const optionsPanel1 = new OptionsPanelView(jqSlider1, jqSlider1[0]);
 
 const colorCustomizerContainer = <HTMLElement>(document.querySelector(".test-page__color-customizer"));
 const colorCustomizer = new ColorCustomizer(colorCustomizerContainer);
+
+const sliderWithPhysicContainer = <HTMLElement>(document.querySelector(".test-page__slider-with-physic"));
+const sliderWithPhysic = new SliderWithPhysic(sliderWithPhysicContainer);

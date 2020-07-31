@@ -29,9 +29,18 @@
 
     &__color-customizer {
         display: flex;
-        width: 100%;
         padding: 50px 0px;
         width: 70%;
+
+        border-bottom: 1px solid rgb(85, 85, 85);
+    }
+
+    &__slider-with-physic {
+        display: flex;
+        justify-content: center;
+        padding: 50px 0px;
+        width: 70%;
+        height: 400px;
 
         border-bottom: 1px solid rgb(85, 85, 85);
     }

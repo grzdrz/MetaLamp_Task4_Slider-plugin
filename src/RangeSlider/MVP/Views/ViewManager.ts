@@ -26,6 +26,12 @@ class ViewManager {
 
     public onInputsChange = new Event();
 
+    public onMouseDown = new Event();
+
+    public onMouseMove = new Event();
+
+    public onMouseUp = new Event();
+
     constructor(viewData: ViewData, containerElement: HTMLElement) {
         this.viewData = viewData;
         this.containerElement = containerElement;

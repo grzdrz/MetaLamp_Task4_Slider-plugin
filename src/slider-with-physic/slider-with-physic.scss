@@ -1,0 +1,9 @@
+.slider-with-physic {
+    & .range-slider {
+        border: 0px;
+    }
+
+    & .range-slider__inputs-container {
+        display: none;
+    }
+}

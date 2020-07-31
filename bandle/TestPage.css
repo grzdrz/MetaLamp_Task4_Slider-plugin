@@ -129,9 +129,15 @@
     border-bottom: 1px solid #555555; }
   .test-page__color-customizer {
     display: flex;
-    width: 100%;
     padding: 50px 0px;
     width: 70%;
+    border-bottom: 1px solid #555555; }
+  .test-page__slider-with-physic {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0px;
+    width: 70%;
+    height: 400px;
     border-bottom: 1px solid #555555; }
 
 .options {
@@ -244,4 +250,10 @@
     border-radius: 5px;
     background: linear-gradient(180deg, #cecece, #868686);
     box-shadow: inset 2px 0px 5px rgba(0, 0, 0, 0.384); }
+
+.slider-with-physic .range-slider {
+  border: 0px; }
+
+.slider-with-physic .range-slider__inputs-container {
+  display: none; }
 
