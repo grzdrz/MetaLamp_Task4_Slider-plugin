@@ -1,13 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import "../plugin.ts";
+import "../../plugin.ts";
 import $ from "jquery";
 
-import IModelData from "../RangeSlider/MVP/Model/Data/IModelData";
-import IViewData from "../RangeSlider/MVP/Views/Data/IViewData";
-import ModelData from "../RangeSlider/MVP/Model/Data/ModelData";
-import ViewData from "../RangeSlider/MVP/Views/Data/ViewData";
-import EventHandler from "../RangeSlider/Events/EventHandler";
+import IModelData from "../../RangeSlider/MVP/Model/Data/IModelData";
+import IViewData from "../../RangeSlider/MVP/Views/Data/IViewData";
+import ModelData from "../../RangeSlider/MVP/Model/Data/ModelData";
+import ViewData from "../../RangeSlider/MVP/Views/Data/ViewData";
+import EventHandler from "../../RangeSlider/Events/EventHandler";
 import "./slider-with-physic.scss";
 
 const modelData = {

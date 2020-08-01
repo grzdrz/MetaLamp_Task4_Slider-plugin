@@ -1,8 +1,8 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanelView from "../OptionsPanelView";
+import OptionsPanel from "../OptionsPanel";
 
-class MaxValue extends OptionPanelElement {
-    constructor(view: OptionsPanelView) {
+class StepSize extends OptionPanelElement {
+    constructor(view: OptionsPanel) {
         super(view);
 
         this.handlerInputChange = this.handlerInputChange.bind(this);
@@ -13,19 +13,16 @@ class MaxValue extends OptionPanelElement {
 
         const modelData = this.view.getModelData();
 
-        // максимальное значение
         const input = document.createElement("input");
         const text = document.createElement("p");
 
         input.type = "number";
-        input.step = modelData.stepSize.toString();
-        input.value = modelData.maxValue.toString();
-        input.max = (modelData.maxValue + modelData.stepSize).toString();
-        input.min = (modelData.minValue - modelData.stepSize).toString();
-        input.className = "options__input js-options__input";
+        input.step = "1";
+        input.value = modelData.stepSize.toString();
+        input.className = "options__input js-options__input js-options__step-size-input";
 
         text.className = "options__text";
-        text.textContent = "max value";
+        text.textContent = "step size";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -36,26 +33,27 @@ class MaxValue extends OptionPanelElement {
     }
 
     public update(): void {
-        const { minValue, maxValue, stepSize } = this.view.getModelData();
+        const { stepSize } = this.view.getModelData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${maxValue}`;
-        input.step = `${stepSize}`;
-        input.max = `${maxValue + stepSize}`;
-        input.min = `${minValue - stepSize}`;
+        input.value = `${stepSize}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        const inputValue = Number.parseFloat(input.value);
+        let inputValue = Number.parseFloat(input.value);
+        if (inputValue <= 0) { // ///
+            inputValue = 0.000001;
+            input.value = inputValue.toString();
+        }
 
         const dataToUpdate = {
-            maxValue: inputValue,
+            stepSize: inputValue,
         };
 
         this.view.setData(dataToUpdate, {});
     }
 }
 
-export default MaxValue;
+export default StepSize;

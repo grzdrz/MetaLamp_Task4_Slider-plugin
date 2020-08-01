@@ -1,8 +1,8 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanelView from "../OptionsPanelView";
+import OptionsPanel from "../OptionsPanel";
 
-class HasTooltip extends OptionPanelElement {
-    constructor(view: OptionsPanelView) {
+class MaxSegmentCount extends OptionPanelElement {
+    constructor(view: OptionsPanel) {
         super(view);
 
         this.handlerInputChange = this.handlerInputChange.bind(this);
@@ -11,16 +11,18 @@ class HasTooltip extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { hasTooltip } = this.view.getViewData();
+        const { maxSegmentsCount } = this.view.getViewData();
 
         const input = document.createElement("input");
-        input.type = "checkbox";
-        input.checked = hasTooltip;
-        input.className = "options__checkbox-input js-options__input";
-
         const text = document.createElement("p");
+
+        input.type = "number";
+        input.step = "1";
+        input.value = maxSegmentsCount.toString();
+        input.className = "options__input js-options__input";
+
         text.className = "options__text";
-        text.textContent = "has tooltip ?";
+        text.textContent = "maximum segments count";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -31,21 +33,23 @@ class HasTooltip extends OptionPanelElement {
     }
 
     public update(): void {
-        const { hasTooltip } = this.view.getViewData();
+        const { maxSegmentsCount } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.checked = hasTooltip;
+        input.value = `${maxSegmentsCount}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
+        const inputValue = Number.parseInt(input.value, 10);
+
         const dataToUpdate = {
-            hasTooltip: input.checked,
+            maxSegmentsCount: inputValue,
         };
 
         this.view.setData({}, dataToUpdate);
     }
 }
 
-export default HasTooltip;
+export default MaxSegmentCount;

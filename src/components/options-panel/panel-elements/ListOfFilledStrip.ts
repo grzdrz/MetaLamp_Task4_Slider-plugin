@@ -1,12 +1,12 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanelView from "../OptionsPanelView";
+import OptionsPanel from "../OptionsPanel";
 
 class ListOfFilledStrip extends OptionPanelElement {
     public inputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();
 
     public filledStripsContainer: HTMLElement;
 
-    constructor(view: OptionsPanelView) {
+    constructor(view: OptionsPanel) {
         super(view);
 
         this.filledStripsContainer = document.createElement("div");

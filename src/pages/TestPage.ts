@@ -5,33 +5,13 @@
 import "../plugin.ts";
 import $ from "jquery";
 import "./TestPage.scss";
-import OptionsPanelView from "./OptionsPanel/OptionsPanelView";
-import ColorCustomizer from "../color-customizer/color-customizer";
-import SliderWithPhysic from "../slider-with-physic/slider-with-physic";
+import OptionsPanel from "../components/options-panel/OptionsPanel";
+import ColorCustomizer from "../components/color-customizer/color-customizer";
+import SliderWithPhysic from "../components/slider-with-physic/slider-with-physic";
 
-const modelData = {
-    minValue: -100,
-    maxValue: 100,
-    values: [-99, -7, -3, 3, 99],
-    stepSize: 1,
-    canPush: true,
-};
-const viewData = {
-    sliderStripThickness: 10,
-    handleWidth: 20,
-    handleHeight: 20,
-    borderThickness: 10,
-    maxSegmentsCount: 6,
-    scaleFontSize: 15,
-    angle: 0,
-    filledStrips: [true, false],
-    isHandlesSeparated: false,
-    hasScale: true,
-    scaleMargin: 30,
-    hasOptions: true,
-};
-const jqSlider1 = $(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData);
-const optionsPanel1 = new OptionsPanelView(jqSlider1, jqSlider1[0]);
+/* const jqSlider1 = $(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData); */
+const optionsPanelContainer1 = <HTMLElement>(document.querySelector(".js-test-page__tested-range-slider-container_1"));
+const optionsPanel1 = new OptionsPanel(optionsPanelContainer1/* jqSlider1, jqSlider1[0] */);
 
 const colorCustomizerContainer = <HTMLElement>(document.querySelector(".test-page__color-customizer"));
 const colorCustomizer = new ColorCustomizer(colorCustomizerContainer);

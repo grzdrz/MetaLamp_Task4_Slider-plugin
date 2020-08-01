@@ -1,8 +1,8 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanelView from "../OptionsPanelView";
+import OptionsPanel from "../OptionsPanel";
 
-class TooltipMargin extends OptionPanelElement {
-    constructor(view: OptionsPanelView) {
+class Angle extends OptionPanelElement {
+    constructor(view: OptionsPanel) {
         super(view);
 
         this.handlerInputChange = this.handlerInputChange.bind(this);
@@ -11,17 +11,17 @@ class TooltipMargin extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { tooltipMargin } = this.view.getViewData();
+        const { angle } = this.view.getViewData();
 
         const input = document.createElement("input");
         input.type = "number";
         input.step = "1";
-        input.value = `${tooltipMargin}`;
+        input.value = angle.toString();
         input.className = "options__input js-options__input";
 
         const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "tooltip margin";
+        text.textContent = "angle size";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -32,15 +32,9 @@ class TooltipMargin extends OptionPanelElement {
     }
 
     public update(): void {
-        const { hasTooltip, tooltipMargin } = this.view.getViewData();
+        const { angle } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${tooltipMargin}`;
-
-        if (hasTooltip) {
-            this.DOMElement.style.display = "flex";
-        } else {
-            this.DOMElement.style.display = "none";
-        }
+        input.value = `${angle}`;
     }
 
     private handlerInputChange(event: globalThis.Event) {
@@ -52,11 +46,11 @@ class TooltipMargin extends OptionPanelElement {
         input.value = inputValue.toString();
 
         const dataToUpdate = {
-            tooltipMargin: inputValue,
+            angle: inputValue,
         };
 
         this.view.setData({}, dataToUpdate);
     }
 }
 
-export default TooltipMargin;
+export default Angle;

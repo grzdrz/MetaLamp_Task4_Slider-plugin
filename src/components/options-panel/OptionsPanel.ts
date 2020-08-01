@@ -1,29 +1,51 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* import View from "../View"; */
 
-import OptionPanelElement from "./OptionsPanelElements/OptionPanelElement";
-import Angle from "./OptionsPanelElements/Angle";
-import HandlesCount from "./OptionsPanelElements/HandlesCount";
-import MaxSegmentCount from "./OptionsPanelElements/MaxSegmentCount";
-import MaxValue from "./OptionsPanelElements/MaxValue";
-import MinValue from "./OptionsPanelElements/MinValue";
-import StepSize from "./OptionsPanelElements/StepSize";
-import ListOfFilledStrip from "./OptionsPanelElements/ListOfFilledStrip";
-import CanPush from "./OptionsPanelElements/CanPush";
-import HandlesSeparated from "./OptionsPanelElements/HandlesSeparated";
-import HasScale from "./OptionsPanelElements/HasScale";
-import ScaleMargin from "./OptionsPanelElements/ScaleMargin";
-import HasTooltip from "./OptionsPanelElements/HasTooltip";
-import TooltipMargin from "./OptionsPanelElements/TooltipMargin";
+import OptionPanelElement from "./panel-elements/OptionPanelElement";
+import Angle from "./panel-elements/Angle";
+import HandlesCount from "./panel-elements/HandlesCount";
+import MaxSegmentCount from "./panel-elements/MaxSegmentCount";
+import MaxValue from "./panel-elements/MaxValue";
+import MinValue from "./panel-elements/MinValue";
+import StepSize from "./panel-elements/StepSize";
+import ListOfFilledStrip from "./panel-elements/ListOfFilledStrip";
+import CanPush from "./panel-elements/CanPush";
+import HandlesSeparated from "./panel-elements/HandlesSeparated";
+import HasScale from "./panel-elements/HasScale";
+import ScaleMargin from "./panel-elements/ScaleMargin";
+import HasTooltip from "./panel-elements/HasTooltip";
+import TooltipMargin from "./panel-elements/TooltipMargin";
 import IModelData from "../../RangeSlider/MVP/Model/Data/IModelData";
 import ModelData from "../../RangeSlider/MVP/Model/Data/ModelData";
 import IViewData from "../../RangeSlider/MVP/Views/Data/IViewData";
 import ViewData from "../../RangeSlider/MVP/Views/Data/ViewData";
 import EventHandler from "../../RangeSlider/Events/EventHandler";
 
-import "./OptionsPanel.scss";
+import "./options-panel.scss";
 
-class OptionsPanelView {
+const modelData = {
+    minValue: -100,
+    maxValue: 100,
+    values: [-99, -7, -3, 3, 99],
+    stepSize: 1,
+    canPush: true,
+};
+const viewData = {
+    sliderStripThickness: 10,
+    handleWidth: 20,
+    handleHeight: 20,
+    borderThickness: 10,
+    maxSegmentsCount: 6,
+    scaleFontSize: 15,
+    angle: 0,
+    filledStrips: [true, false],
+    isHandlesSeparated: false,
+    hasScale: true,
+    scaleMargin: 30,
+    hasOptions: true,
+};
+
+class OptionsPanel {
     public jqueryElement: JQuery;
 
     public containerElement: HTMLElement;
@@ -38,12 +60,13 @@ class OptionsPanelView {
 
     public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
 
-    constructor(jqueryElement: JQuery, outerContainerElement: HTMLElement) {
+    constructor(outerContainerElement: HTMLElement) {
+        this.jqueryElement = $(outerContainerElement).rangeSlider(modelData, viewData);
+
         this.containerElement = document.createElement("div");
         this.containerElement.className = "options";
         outerContainerElement.append(this.containerElement);
 
-        this.jqueryElement = jqueryElement;
         this.setData = this.jqueryElement.data("setData");
         this.getModelData = this.jqueryElement.data("getModelData");
         this.getViewData = this.jqueryElement.data("getViewData");
@@ -87,4 +110,4 @@ class OptionsPanelView {
     }
 }
 
-export default OptionsPanelView;
+export default OptionsPanel;

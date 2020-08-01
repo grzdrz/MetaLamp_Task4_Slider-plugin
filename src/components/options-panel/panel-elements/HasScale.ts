@@ -1,8 +1,8 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanelView from "../OptionsPanelView";
+import OptionsPanel from "../OptionsPanel";
 
 class HasScale extends OptionPanelElement {
-    constructor(view: OptionsPanelView) {
+    constructor(view: OptionsPanel) {
         super(view);
 
         this.handlerInputChange = this.handlerInputChange.bind(this);

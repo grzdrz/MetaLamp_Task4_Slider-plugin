@@ -1,8 +1,8 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanelView from "../OptionsPanelView";
+import OptionsPanel from "../OptionsPanel";
 
-class MaxSegmentCount extends OptionPanelElement {
-    constructor(view: OptionsPanelView) {
+class CanPush extends OptionPanelElement {
+    constructor(view: OptionsPanel) {
         super(view);
 
         this.handlerInputChange = this.handlerInputChange.bind(this);
@@ -11,18 +11,16 @@ class MaxSegmentCount extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const { maxSegmentsCount } = this.view.getViewData();
+        const { canPush } = this.view.getModelData();
 
         const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = canPush;
+        input.className = "options__checkbox-input js-options__input";
+
         const text = document.createElement("p");
-
-        input.type = "number";
-        input.step = "1";
-        input.value = maxSegmentsCount.toString();
-        input.className = "options__input js-options__input";
-
         text.className = "options__text";
-        text.textContent = "maximum segments count";
+        text.textContent = "can push ?";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -33,23 +31,21 @@ class MaxSegmentCount extends OptionPanelElement {
     }
 
     public update(): void {
-        const { maxSegmentsCount } = this.view.getViewData();
+        const { canPush } = this.view.getModelData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${maxSegmentsCount}`;
+        input.checked = canPush;
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        const inputValue = Number.parseInt(input.value, 10);
-
         const dataToUpdate = {
-            maxSegmentsCount: inputValue,
+            canPush: input.checked,
         };
 
-        this.view.setData({}, dataToUpdate);
+        this.view.setData(dataToUpdate, {});
     }
 }
 
-export default MaxSegmentCount;
+export default CanPush;

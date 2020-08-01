@@ -1,8 +1,8 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanelView from "../OptionsPanelView";
+import OptionsPanel from "../OptionsPanel";
 
-class StepSize extends OptionPanelElement {
-    constructor(view: OptionsPanelView) {
+class ScaleMargin extends OptionPanelElement {
+    constructor(view: OptionsPanel) {
         super(view);
 
         this.handlerInputChange = this.handlerInputChange.bind(this);
@@ -11,18 +11,17 @@ class StepSize extends OptionPanelElement {
     public build(): void {
         super.build();
 
-        const modelData = this.view.getModelData();
+        const { scaleMargin } = this.view.getViewData();
 
         const input = document.createElement("input");
-        const text = document.createElement("p");
-
         input.type = "number";
         input.step = "1";
-        input.value = modelData.stepSize.toString();
-        input.className = "options__input js-options__input js-options__step-size-input";
+        input.value = `${scaleMargin}`;
+        input.className = "options__input js-options__input";
 
+        const text = document.createElement("p");
         text.className = "options__text";
-        text.textContent = "step size";
+        text.textContent = "scale margin";
 
         this.DOMElement.append(input);
         this.DOMElement.append(text);
@@ -33,27 +32,31 @@ class StepSize extends OptionPanelElement {
     }
 
     public update(): void {
-        const { stepSize } = this.view.getModelData();
+        const { hasScale, scaleMargin } = this.view.getViewData();
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${stepSize}`;
+        input.value = `${scaleMargin}`;
+
+        if (hasScale) {
+            this.DOMElement.style.display = "flex";
+        } else {
+            this.DOMElement.style.display = "none";
+        }
     }
 
     private handlerInputChange(event: globalThis.Event) {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        let inputValue = Number.parseFloat(input.value);
-        if (inputValue <= 0) { // ///
-            inputValue = 0.000001;
-            input.value = inputValue.toString();
-        }
+        const inputValue = Number.parseInt(input.value, 10);
+
+        input.value = inputValue.toString();
 
         const dataToUpdate = {
-            stepSize: inputValue,
+            scaleMargin: inputValue,
         };
 
-        this.view.setData(dataToUpdate, {});
+        this.view.setData({}, dataToUpdate);
     }
 }
 
-export default StepSize;
+export default ScaleMargin;

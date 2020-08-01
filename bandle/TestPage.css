@@ -103,8 +103,6 @@
     align-items: flex-end;
     font-size: 1.2rem; }
 
-/* @import "../color-customizer/color-customizer.scss";
- */
 * {
   border: 0px;
   margin: 0px;
@@ -120,11 +118,11 @@
   .test-page__tested-range-slider-container_1 {
     display: grid;
     grid-template-columns: 70% auto;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto max-content;
     justify-content: center;
     align-items: center;
     width: 70%;
-    /* height: 300px; */
+    height: 800px;
     padding: 50px 0px;
     border-bottom: 1px solid #555555; }
   .test-page__color-customizer {

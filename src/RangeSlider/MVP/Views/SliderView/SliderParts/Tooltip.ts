@@ -29,6 +29,7 @@ class Tooltip extends SliderPart {
             angleInRad,
             isHandlesSeparated,
             tooltipMargin,
+            borderThickness,
         } = this.view.viewManager.viewData;
 
         this.DOMElement.textContent = `${values[this.countNumber]}`;
@@ -48,8 +49,9 @@ class Tooltip extends SliderPart {
         const reverseTooltipWidth = tooltipRect.width * Math.sin(angleInRad);
         const reverseTooltipHeight = tooltipRect.height * Math.cos(angleInRad);
         const reverseVectorizedTooltipLength = new Vector(reverseTooltipWidth, reverseTooltipHeight).length;
+        const borderMargin = borderThickness * Math.sin(angleInRad);
 
-        const vectorizedMargin = Vector.calculateVector(tooltipMargin + reverseVectorizedTooltipLength /* + handleHeight + borderThickness */, angleInRad);
+        const vectorizedMargin = Vector.calculateVector(tooltipMargin + reverseVectorizedTooltipLength + borderMargin, angleInRad);
         const rotatedMargin = vectorizedMargin.rotateVector(Math.PI / 2);
         const position = vectorizedHandlePosition.sum(rotatedMargin);
 
