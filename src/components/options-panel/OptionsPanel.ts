@@ -23,28 +23,6 @@ import EventHandler from "../../RangeSlider/Events/EventHandler";
 
 import "./options-panel.scss";
 
-const modelData = {
-    minValue: -100,
-    maxValue: 100,
-    values: [-99, -7, -3, 3, 99],
-    stepSize: 1,
-    canPush: true,
-};
-const viewData = {
-    sliderStripThickness: 10,
-    handleWidth: 20,
-    handleHeight: 20,
-    borderThickness: 10,
-    maxSegmentsCount: 6,
-    scaleFontSize: 15,
-    angle: 0,
-    filledStrips: [true, false],
-    isHandlesSeparated: false,
-    hasScale: true,
-    scaleMargin: 30,
-    hasOptions: true,
-};
-
 class OptionsPanel {
     public jqueryElement: JQuery;
 
@@ -60,7 +38,7 @@ class OptionsPanel {
 
     public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
 
-    constructor(outerContainerElement: HTMLElement) {
+    constructor(outerContainerElement: HTMLElement, modelData: IModelData, viewData: IViewData) {
         this.jqueryElement = $(outerContainerElement).rangeSlider(modelData, viewData);
 
         this.containerElement = document.createElement("div");

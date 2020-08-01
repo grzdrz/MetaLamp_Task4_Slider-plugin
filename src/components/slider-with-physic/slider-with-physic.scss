@@ -12,7 +12,9 @@
     & .range-slider__handle {
         border-radius: 50%;
         opacity: 1;
-        background: linear-gradient(to left, rgb(241, 141, 59), rgb(153, 99, 49));
+        background-color: black;
+        background-image: url(img/ball.png);
+        background-size: cover;
     }
 
     & .range-slider__handle-background {
