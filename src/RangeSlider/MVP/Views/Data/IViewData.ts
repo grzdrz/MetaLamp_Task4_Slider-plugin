@@ -12,7 +12,6 @@ interface IViewData {
     hasScale?: boolean,
     hasTooltip?: boolean,
     scaleMargin?: number,
-    hasOptions?: boolean,
 }
 
 export default IViewData;

@@ -27,8 +27,6 @@ class ViewData implements IViewData {
 
     public tooltipMargin = 10;
 
-    public hasOptions = true;// //////
-
     constructor(data: IViewData) {
         this.initialize(data);
     }
@@ -46,7 +44,6 @@ class ViewData implements IViewData {
         if (data.hasTooltip !== undefined) this.hasTooltip = data.hasTooltip;
         if (data.scaleMargin !== undefined) this.scaleMargin = data.scaleMargin;
         if (data.tooltipMargin !== undefined) this.tooltipMargin = data.tooltipMargin;
-        if (data.hasOptions !== undefined) this.hasOptions = data.hasOptions;
     }
 
     public get angleInRad(): number {

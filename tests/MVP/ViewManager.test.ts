@@ -1,5 +1,4 @@
 import RangeSlider from "../../src/RangeSlider/RangeSlider";
-import Presenter from "../../src/RangeSlider/MVP/Presenter";
 import ViewDataEventArgs from "../../src/RangeSlider/Events/ViewDataEventArgs";
 
 describe("ViewManager", function () {
@@ -20,7 +19,6 @@ describe("ViewManager", function () {
         assert.deepStrictEqual(oldData.data.filledStrips, newData.data.filledStrips);
         assert.equal(oldData.data.handleHeight, newData.data.handleHeight);
         assert.equal(oldData.data.handleWidth, newData.data.handleWidth);
-        assert.equal(oldData.data.hasOptions, newData.data.hasOptions);
         assert.equal(oldData.data.hasScale, newData.data.hasScale);
         assert.equal(oldData.data.isHandlesSeparated, newData.data.isHandlesSeparated);
         assert.equal(oldData.data.maxSegmentsCount, newData.data.maxSegmentsCount);
@@ -32,9 +30,7 @@ describe("ViewManager", function () {
 
     it("валидация угла при передачи в update более 90 градусов", function () {
         const container = document.createElement("div");
-        const presenter = RangeSlider.createRangeSlider(container, {}, {
-            hasOptions: false,
-        });
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
         presenter.viewManager.update({
             angle: 91,
@@ -48,9 +44,7 @@ describe("ViewManager", function () {
 
     it("валидация угла при передачи в update менее 0 градусов", function () {
         const container = document.createElement("div");
-        const presenter = RangeSlider.createRangeSlider(container, {}, {
-            hasOptions: false,
-        });
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
         presenter.viewManager.update({
             angle: -1,

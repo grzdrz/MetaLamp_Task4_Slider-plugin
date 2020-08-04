@@ -46,7 +46,7 @@ class ViewManager {
         this.views.push(new SliderView(sliderContainer, this));
 
         const inputsContainer: HTMLElement = document.createElement("div");
-        inputsContainer.className = "range-slider__inputs-container";
+        inputsContainer.className = "range-slider__additional-container";
         this.views.push(new InputsView(inputsContainer, this));
 
         pluginContainer.append(sliderContainer);
@@ -72,7 +72,6 @@ class ViewManager {
         if (data.tooltipMargin !== undefined) this.viewData.tooltipMargin = data.tooltipMargin;
         if (data.isHandlesSeparated !== undefined) this.viewData.isHandlesSeparated = data.isHandlesSeparated;
         if (data.scaleMargin !== undefined) this.viewData.scaleMargin = data.scaleMargin;
-        if (data.hasOptions !== undefined) this.viewData.hasOptions = data.hasOptions;
     }
 
     public getModelData(): ModelData {

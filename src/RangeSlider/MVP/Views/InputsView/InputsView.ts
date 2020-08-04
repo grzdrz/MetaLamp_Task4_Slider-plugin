@@ -28,11 +28,11 @@ class InputsView extends View {
             this.valueInputsDOMElements.push(valueInput);
             const valueInputText = document.createElement("p");
 
-            valueInputContainer.className = `range-slider__value-input-container range-slider__value-input-container_${i}`;
+            valueInputContainer.className = `range-slider__input-container range-slider__input-container_${i}`;
             valueInput.dataset.countNumber = `${i}`;
-            valueInput.className = `range-slider__value-input range-slider__value-input_${i}`;
+            valueInput.className = `range-slider__input range-slider__input_${i}`;
             valueInput.value = `${modelData.minValue}`;
-            valueInputText.className = "range-slider__value-input-text";
+            valueInputText.className = "range-slider__input-text";
             valueInputText.textContent = `value ${i + 1}`;
 
             valueInputContainer.append(valueInput);

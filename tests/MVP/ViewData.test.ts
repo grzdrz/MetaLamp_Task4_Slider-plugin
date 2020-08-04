@@ -21,7 +21,6 @@ describe("RangeSlider", function () {
         assert.equal(defaultData.isHandlesSeparated, false);
         assert.equal(defaultData.hasScale, true);
         assert.equal(defaultData.scaleMargin, 30);
-        assert.equal(defaultData.hasOptions, true);
     });
 
     it("кастомные значения", function () {
@@ -37,7 +36,6 @@ describe("RangeSlider", function () {
             isHandlesSeparated: false,
             hasScale: true,
             scaleMargin: 30,
-            hasOptions: false,
         });
 
         assert.equal(defaultData.sliderLength, 0);
@@ -52,7 +50,6 @@ describe("RangeSlider", function () {
         assert.equal(defaultData.isHandlesSeparated, false);
         assert.equal(defaultData.hasScale, true);
         assert.equal(defaultData.scaleMargin, 30);
-        assert.equal(defaultData.hasOptions, false);
     });
 
     it("angleInRad", function () {

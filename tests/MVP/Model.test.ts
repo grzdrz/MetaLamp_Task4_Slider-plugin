@@ -1,15 +1,10 @@
 import RangeSlider from "../../src/RangeSlider/RangeSlider";
-import Presenter from "../../src/RangeSlider/MVP/Presenter";
-import ViewDataEventArgs from "../../src/RangeSlider/Events/ViewDataEventArgs";
-import InputsView from "../../src/RangeSlider/MVP/Views/InputsView/InputsView";
 import ModelDataEventArgs from "../../src/RangeSlider/Events/ModelDataEventArgs";
 
 describe("Model", function () {
     it("validateValues без data.values", function () {
         const container = document.createElement("div");
-        const presenter = RangeSlider.createRangeSlider(container, {}, {
-            hasOptions: false,
-        });
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
         const oldData = new ModelDataEventArgs({});
         presenter.model.getData(oldData);
@@ -28,9 +23,7 @@ describe("Model", function () {
 
     it("validateValues без изменения значений", function () {
         const container = document.createElement("div");
-        const presenter = RangeSlider.createRangeSlider(container, {}, {
-            hasOptions: false,
-        });
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
         const oldData = new ModelDataEventArgs({});
         presenter.model.getData(oldData);
@@ -47,9 +40,7 @@ describe("Model", function () {
 
     it("validateValues с изменением до 1го значения", function () {
         const container = document.createElement("div");
-        const presenter = RangeSlider.createRangeSlider(container, {}, {
-            hasOptions: false,
-        });
+        const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
         presenter.model.update({
             values: [0],
