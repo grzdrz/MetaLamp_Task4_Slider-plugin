@@ -48,7 +48,7 @@ class Model {
         args.data = new ModelData(this.data);
     }
 
-    private validateValues(data: IModelData) {
+    private validateValues(data: IModelData): void {
         const wasSliderParametersChanged = data.stepSize !== undefined || data.maxValue !== undefined || data.minValue !== undefined;
         if (wasSliderParametersChanged) {
             if (data.values !== undefined) this.data.values = data.values;

@@ -125,7 +125,7 @@ class SliderView extends View {
         View.renderSize(this.containerElement, size);
     }
 
-    private calculateSliderLength() {
+    private calculateSliderLength(): void {
         const { angleInRad, borderThickness } = this.viewManager.viewData;
 
         const rangleSlider = <HTMLElement>(this.containerElement.closest(".range-slider"));

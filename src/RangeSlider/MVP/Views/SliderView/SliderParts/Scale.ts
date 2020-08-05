@@ -20,7 +20,9 @@ class Scale extends SliderPart {
         this.buildSegments();
     }
 
-    private buildSegments() {
+    public update(): void { }
+
+    private buildSegments(): void {
         const modelData = this.view.viewManager.getModelData();
         const { maxSegmentsCount } = this.view.viewManager.viewData;
 
@@ -41,7 +43,7 @@ class Scale extends SliderPart {
         this.buildSegment(modelData.maxValue);
     }
 
-    private buildSegment(segmentValue: number) {
+    private buildSegment(segmentValue: number): void {
         const segment = document.createElement("div");
         this.DOMElement.append(segment);
         segment.className = "range-slider__scale-segment";
@@ -51,11 +53,7 @@ class Scale extends SliderPart {
         this.calculateSegmentPosition(segment, segmentValue);
     }
 
-    public update(): void {
-
-    }
-
-    private calculateSegmentDensityLimit() {
+    private calculateSegmentDensityLimit(): number {
         const modelData = this.view.viewManager.getModelData();
 
         const dMaxMinValue = modelData.maxValue - modelData.minValue;
@@ -63,7 +61,7 @@ class Scale extends SliderPart {
         return temp;
     }
 
-    private calculateSegmentPosition(segment: HTMLElement, value: number) {
+    private calculateSegmentPosition(segment: HTMLElement, value: number): void {
         const modelData = this.view.viewManager.getModelData();
         const {
             angleInRad,
@@ -89,7 +87,7 @@ class Scale extends SliderPart {
         View.renderPosition(segment, position);
     }
 
-    private handlerClickOnSegment(event: MouseEvent) {
+    private handlerClickOnSegment(event: MouseEvent): void {
         event.preventDefault();
 
         const modelData = this.view.viewManager.getModelData();

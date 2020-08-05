@@ -42,20 +42,6 @@ class Handle extends SliderPart {
         this.setDragAndDropHandlers();
     }
 
-    private setDragAndDropHandlers(): void {
-        this.DOMElement.ondragstart = () => false;
-        this.DOMElement.addEventListener("mousedown", this.handlerMouseDown);
-        this.DOMElement.addEventListener("touchstart", this.handlerMouseDown);
-        // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
-        this.backgroundDOMElement.addEventListener("mousedown", (event: UIEvent) => {
-            this.handlerMouseDown(event);
-        });
-        // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
-        this.backgroundDOMElement.addEventListener("touchstart", (event: UIEvent) => {
-            this.handlerMouseDown(event);
-        });
-    }
-
     public update(): void {
         const modelData = this.view.viewManager.getModelData();
         const { values } = modelData;
@@ -71,6 +57,20 @@ class Handle extends SliderPart {
         this.rotate();
 
         this.renderBackground(vectorizedHandlePosition);
+    }
+
+    private setDragAndDropHandlers(): void {
+        this.DOMElement.ondragstart = () => false;
+        this.DOMElement.addEventListener("mousedown", this.handlerMouseDown);
+        this.DOMElement.addEventListener("touchstart", this.handlerMouseDown);
+        // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
+        this.backgroundDOMElement.addEventListener("mousedown", (event: UIEvent) => {
+            this.handlerMouseDown(event);
+        });
+        // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
+        this.backgroundDOMElement.addEventListener("touchstart", (event: UIEvent) => {
+            this.handlerMouseDown(event);
+        });
     }
 
     private rotate(): void {
@@ -104,7 +104,7 @@ class Handle extends SliderPart {
     }
 
     // d&d
-    private handlerMouseDown(event: UIEvent) {
+    private handlerMouseDown(event: UIEvent): void {
         event.preventDefault();
 
         let cursorMouseDownPositionX;
@@ -142,7 +142,7 @@ class Handle extends SliderPart {
         this.view.viewManager.onMouseDown.invoke({});
     }
 
-    private handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent) {
+    private handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent): void {
         const {
             mousePositionInsideTargetSlider,
         } = optionsFromMouseDown;
@@ -168,7 +168,7 @@ class Handle extends SliderPart {
         this.view.viewManager.onMouseMove.invoke({});
     }
 
-    private handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, _event: UIEvent) {
+    private handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, _event: UIEvent): void {
         document.removeEventListener("mousemove", optionsFromMouseDown.handlerMouseMove);
         document.removeEventListener("mouseup", optionsFromMouseDown.handlerMouseUp);
         document.removeEventListener("touchmove", optionsFromMouseDown.handlerMouseMove);
@@ -177,7 +177,7 @@ class Handle extends SliderPart {
         this.view.viewManager.onMouseUp.invoke({});
     }
 
-    private calculateCursorPositionInContainer(mouseGlobalPosition: Vector, mousePositionInsideTargetSlider: Vector) {
+    private calculateCursorPositionInContainer(mouseGlobalPosition: Vector, mousePositionInsideTargetSlider: Vector): Vector {
         const containerBoundingRect = this.view.containerElement.getBoundingClientRect();
         const containerCoord = new Vector(
             containerBoundingRect.x,
@@ -187,7 +187,7 @@ class Handle extends SliderPart {
         return mouseGlobalPosition.subtract(containerCoord).subtract(mousePositionInsideTargetSlider);
     }
 
-    private calculateCursorPositionInsideTargetHandle(cursorMouseDownPosition: Vector) {
+    private calculateCursorPositionInsideTargetHandle(cursorMouseDownPosition: Vector): Vector {
         const { handleHeight } = this.view.viewManager.viewData;
 
         const targetSliderBoundingCoords = this.DOMElement.getBoundingClientRect();

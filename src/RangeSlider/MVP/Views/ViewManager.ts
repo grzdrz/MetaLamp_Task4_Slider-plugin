@@ -94,13 +94,13 @@ class ViewManager {
         return newFilledStrips;
     }
 
-    private validateAngle(angle: number) {
+    private validateAngle(angle: number): number {
         if (angle > 90) return 90;
         if (angle < 0 || angle === undefined) return 0;
         return angle;
     }
 
-    private validateMaxSegmentsCount(maxSegmentsCount: number) {
+    private validateMaxSegmentsCount(maxSegmentsCount: number): number {
         if (maxSegmentsCount < 1) return 1;
         return maxSegmentsCount;
     }

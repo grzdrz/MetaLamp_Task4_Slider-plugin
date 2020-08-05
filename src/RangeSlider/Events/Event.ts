@@ -11,11 +11,11 @@ class Event {
         this.subscribe = this.subscribe.bind(this);
     }
 
-    invoke(args: EventArgs): void {
+    public invoke(args: EventArgs): void {
         this.handlers.forEach((eventHandler) => eventHandler(args));
     }
 
-    subscribe(handler: EventHandler): void {
+    public subscribe(handler: EventHandler): void {
         this.handlers.push(handler);
     }
 }

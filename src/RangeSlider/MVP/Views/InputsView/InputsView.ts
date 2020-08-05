@@ -43,11 +43,11 @@ class InputsView extends View {
         }
     }
 
-    public update(_neededFullRerender: boolean): void {
+    public update(neededFullRerender: boolean): void {
         const modelData = this.viewManager.getModelData();
 
         const { values } = modelData;
-        if (_neededFullRerender) this.build();
+        if (neededFullRerender) this.build();
         this.valueInputsDOMElements.forEach((e, i) => {
             e.value = values[i].toString();
         });

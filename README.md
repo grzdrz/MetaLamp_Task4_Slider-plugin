@@ -62,7 +62,11 @@ const slider = $(".js-some-container").rangeSlider(modelData, viewData);
 | setData | (modelData: IModelData, viewData: IViewData) => void | Изменяет указанные настройки экземпляра плагина |
 | getModelData | () => ModelData | Извлекает из экземпляра плагина настройки модели |
 | getViewData | () => ViewData | Извлекает из экземпляра плагина настройки представлений |
-| subscribeOnUpdates | (handler: EventHandler) => void | Подписка на обновление плагина |
+| subscribeOnUpdates | (handler: EventHandler) => void | Подписаться на событие изменения данных модели или представления  |
+| subscribeOnHandleMove | (handler: EventHandler) => void | Подписаться на событие изменения позиции ползунка |
+| subscribeOnMouseDown | (handler: EventHandler) => void | Подписаться на событие нажатия кнопки мыши на ползунке |
+| subscribeOnMouseMove | (handler: EventHandler) => void | Подписаться на событие движений мыши с захваченным ползунком |
+| subscribeOnMouseUp | (handler: EventHandler) => void | Подписаться на событие отжатия кнопки мыши с захваченного ползунка |
 
 
 # Архитектура
@@ -71,3 +75,7 @@ const slider = $(".js-some-container").rangeSlider(modelData, viewData);
 1) subscribe - для подписки, т.е. добавления обработчиков в список
 2) invoke - для вызова всех обработчиков из списка
 Так же Event используется в качестве API плагина, давая возможность подписываться на события модели и вью извне. 
+
+# UML
+
+![](uml.jpg)
