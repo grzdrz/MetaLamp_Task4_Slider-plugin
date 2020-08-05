@@ -78,24 +78,24 @@
     position: absolute;
     left: 0px;
     bottom: 0px; }
-  .range-slider__inputs-container {
+  .range-slider__additional-container {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
     padding: 10px;
     border: 2px solid #50bda5; }
-  .range-slider__value-input-container {
+  .range-slider__input-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-bottom: 5px; }
-  .range-slider__value-input {
+  .range-slider__input {
     width: 30%;
     height: 25px;
     border: 1px solid black;
     font-size: 1.5rem; }
-  .range-slider__value-input-text {
+  .range-slider__input-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;
@@ -258,7 +258,7 @@
     height: 300px; }
   .color-customizer .range-slider {
     border: 0px; }
-  .color-customizer .range-slider__inputs-container {
+  .color-customizer .range-slider__additional-container {
     display: none; }
   .color-customizer .range-slider__handle {
     border-radius: 50%;
@@ -280,7 +280,7 @@
   height: 100%; }
   .slider-with-physic .range-slider {
     border: 0px; }
-  .slider-with-physic .range-slider__inputs-container {
+  .slider-with-physic .range-slider__additional-container {
     display: none; }
   .slider-with-physic .range-slider__handle {
     border-radius: 50%;

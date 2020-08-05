@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -9,7 +10,6 @@ import OptionsPanel from "../components/options-panel/OptionsPanel";
 import ColorCustomizer from "../components/color-customizer/color-customizer";
 import SliderWithPhysic from "../components/slider-with-physic/slider-with-physic";
 
-/* const jqSlider1 = $(".js-test-page__tested-range-slider-container_1").rangeSlider(modelData, viewData); */
 const modelData1 = {
     minValue: -100,
     maxValue: 100,
