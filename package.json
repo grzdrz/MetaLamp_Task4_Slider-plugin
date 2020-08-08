@@ -8,7 +8,8 @@
     "dev": "webpack --mode development",
     "devServer": "webpack-dev-server --open --mode development",
     "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src",
-    "eslint:dump": "eslint --print-config ./.eslintrc.json"
+    "eslint:dump": "eslint --print-config ./.eslintrc.json",
+    "deploy": "gh-pages -d bandle"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +32,7 @@
     "eslint-plugin-fsd": "^1.0.1",
     "eslint-plugin-import": "^2.22.0",
     "file-loader": "^6.0.0",
+    "gh-pages": "^3.1.0",
     "html-webpack-plugin": "^4.3.0",
     "jasmine-jquery": "^2.1.1",
     "karma": "^5.1.0",
