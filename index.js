@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/pages/TestPage.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/pages/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,14 @@ eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/
 
 /***/ }),
 
-/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/TestPage.scss":
-/*!********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/TestPage.scss ***!
-  \********************************************************************************************************************************************************************/
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/index.scss":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/index.scss ***!
+  \*****************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/pages/TestPage.scss?./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js");
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/pages/index.scss?./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js");
 
 /***/ }),
 
@@ -676,26 +676,26 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _plu
 
 /***/ }),
 
-/***/ "./src/pages/TestPage.scss":
-/*!*********************************!*\
-  !*** ./src/pages/TestPage.scss ***!
-  \*********************************/
+/***/ "./src/pages/index.scss":
+/*!******************************!*\
+  !*** ./src/pages/index.scss ***!
+  \******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var api = __webpack_require__(/*! ../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ \"./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js\");\n            var content = __webpack_require__(/*! !../../node_modules/mini-css-extract-plugin/dist/loader.js!../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./TestPage.scss */ \"./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/TestPage.scss\");\n\n            content = content.__esModule ? content.default : content;\n\n            if (typeof content === 'string') {\n              content = [[module.i, content, '']];\n            }\n\nvar options = {};\n\noptions.insert = \"head\";\noptions.singleton = false;\n\nvar update = api(content, options);\n\n\n\nmodule.exports = content.locals || {};\n\n//# sourceURL=webpack:///./src/pages/TestPage.scss?");
+eval("var api = __webpack_require__(/*! ../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ \"./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js\");\n            var content = __webpack_require__(/*! !../../node_modules/mini-css-extract-plugin/dist/loader.js!../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./index.scss */ \"./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/index.scss\");\n\n            content = content.__esModule ? content.default : content;\n\n            if (typeof content === 'string') {\n              content = [[module.i, content, '']];\n            }\n\nvar options = {};\n\noptions.insert = \"head\";\noptions.singleton = false;\n\nvar update = api(content, options);\n\n\n\nmodule.exports = content.locals || {};\n\n//# sourceURL=webpack:///./src/pages/index.scss?");
 
 /***/ }),
 
-/***/ "./src/pages/TestPage.ts":
-/*!*******************************!*\
-  !*** ./src/pages/TestPage.ts ***!
-  \*******************************/
+/***/ "./src/pages/index.ts":
+/*!****************************!*\
+  !*** ./src/pages/index.ts ***!
+  \****************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _plugin_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../plugin.ts */ \"./src/plugin.ts\");\n/* harmony import */ var _TestPage_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TestPage.scss */ \"./src/pages/TestPage.scss\");\n/* harmony import */ var _TestPage_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_TestPage_scss__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _components_options_panel_OptionsPanel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/options-panel/OptionsPanel */ \"./src/components/options-panel/OptionsPanel.ts\");\n/* harmony import */ var _components_color_customizer_color_customizer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/color-customizer/color-customizer */ \"./src/components/color-customizer/color-customizer.ts\");\n/* harmony import */ var _components_slider_with_physic_slider_with_physic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/slider-with-physic/slider-with-physic */ \"./src/components/slider-with-physic/slider-with-physic.ts\");\n/* eslint-disable @typescript-eslint/no-unused-vars */\r\n/* eslint-disable no-console */\r\n/* eslint-disable no-restricted-syntax */\r\n/* eslint-disable @typescript-eslint/restrict-template-expressions */\r\n/* eslint-disable @typescript-eslint/no-unsafe-assignment */\r\n\r\n\r\n\r\n\r\n\r\nconst modelData1 = {\r\n    minValue: -100,\r\n    maxValue: 100,\r\n    values: [-99, -7, -3, 3, 99],\r\n    stepSize: 1,\r\n    canPush: true,\r\n};\r\nconst viewData1 = {\r\n    sliderStripThickness: 10,\r\n    handleWidth: 20,\r\n    handleHeight: 20,\r\n    borderThickness: 10,\r\n    maxSegmentsCount: 6,\r\n    scaleFontSize: 15,\r\n    angle: 0,\r\n    filledStrips: [true, false],\r\n    isHandlesSeparated: false,\r\n    hasScale: true,\r\n    scaleMargin: 30,\r\n    hasOptions: true,\r\n};\r\nconst optionsPanelContainer1 = (document.querySelector(\".js-test-page__tested-range-slider-container_1\"));\r\nconst optionsPanel1 = new _components_options_panel_OptionsPanel__WEBPACK_IMPORTED_MODULE_2__[\"default\"](optionsPanelContainer1, modelData1, viewData1);\r\nconst modelData2 = {\r\n    minValue: -100,\r\n    maxValue: 100,\r\n    values: [0, 50],\r\n    stepSize: 1,\r\n    canPush: true,\r\n};\r\nconst viewData2 = {\r\n    sliderStripThickness: 12,\r\n    handleWidth: 20,\r\n    handleHeight: 20,\r\n    borderThickness: 4,\r\n    maxSegmentsCount: 6,\r\n    scaleFontSize: 15,\r\n    angle: 0,\r\n    filledStrips: [true, false],\r\n    isHandlesSeparated: false,\r\n    hasTooltip: true,\r\n    hasScale: true,\r\n    scaleMargin: 30,\r\n    hasOptions: true,\r\n};\r\nconst optionsPanelContainer2 = (document.querySelector(\".js-test-page__tested-range-slider-container_2\"));\r\nconst optionsPanel2 = new _components_options_panel_OptionsPanel__WEBPACK_IMPORTED_MODULE_2__[\"default\"](optionsPanelContainer2, modelData2, viewData2);\r\nconst colorCustomizerContainer = (document.querySelector(\".test-page__color-customizer\"));\r\nconst colorCustomizer = new _components_color_customizer_color_customizer__WEBPACK_IMPORTED_MODULE_3__[\"default\"](colorCustomizerContainer);\r\nconst sliderWithPhysicContainer = (document.querySelector(\".test-page__slider-with-physic\"));\r\nconst sliderWithPhysic = new _components_slider_with_physic_slider_with_physic__WEBPACK_IMPORTED_MODULE_4__[\"default\"](sliderWithPhysicContainer);\r\n\n\n//# sourceURL=webpack:///./src/pages/TestPage.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _plugin_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../plugin.ts */ \"./src/plugin.ts\");\n/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.scss */ \"./src/pages/index.scss\");\n/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _components_options_panel_OptionsPanel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/options-panel/OptionsPanel */ \"./src/components/options-panel/OptionsPanel.ts\");\n/* harmony import */ var _components_color_customizer_color_customizer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/color-customizer/color-customizer */ \"./src/components/color-customizer/color-customizer.ts\");\n/* harmony import */ var _components_slider_with_physic_slider_with_physic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/slider-with-physic/slider-with-physic */ \"./src/components/slider-with-physic/slider-with-physic.ts\");\n/* eslint-disable @typescript-eslint/no-unused-vars */\r\n/* eslint-disable no-console */\r\n/* eslint-disable no-restricted-syntax */\r\n/* eslint-disable @typescript-eslint/restrict-template-expressions */\r\n/* eslint-disable @typescript-eslint/no-unsafe-assignment */\r\n\r\n\r\n\r\n\r\n\r\nconst modelData1 = {\r\n    minValue: -100,\r\n    maxValue: 100,\r\n    values: [-99, -7, -3, 3, 99],\r\n    stepSize: 1,\r\n    canPush: true,\r\n};\r\nconst viewData1 = {\r\n    sliderStripThickness: 10,\r\n    handleWidth: 20,\r\n    handleHeight: 20,\r\n    borderThickness: 10,\r\n    maxSegmentsCount: 6,\r\n    scaleFontSize: 15,\r\n    angle: 0,\r\n    filledStrips: [true, false],\r\n    isHandlesSeparated: false,\r\n    hasScale: true,\r\n    scaleMargin: 30,\r\n    hasOptions: true,\r\n};\r\nconst optionsPanelContainer1 = (document.querySelector(\".js-test-page__tested-range-slider-container_1\"));\r\nconst optionsPanel1 = new _components_options_panel_OptionsPanel__WEBPACK_IMPORTED_MODULE_2__[\"default\"](optionsPanelContainer1, modelData1, viewData1);\r\nconst modelData2 = {\r\n    minValue: -100,\r\n    maxValue: 100,\r\n    values: [0, 50],\r\n    stepSize: 1,\r\n    canPush: true,\r\n};\r\nconst viewData2 = {\r\n    sliderStripThickness: 12,\r\n    handleWidth: 20,\r\n    handleHeight: 20,\r\n    borderThickness: 4,\r\n    maxSegmentsCount: 6,\r\n    scaleFontSize: 15,\r\n    angle: 0,\r\n    filledStrips: [true, false],\r\n    isHandlesSeparated: false,\r\n    hasTooltip: true,\r\n    hasScale: true,\r\n    scaleMargin: 30,\r\n    hasOptions: true,\r\n};\r\nconst optionsPanelContainer2 = (document.querySelector(\".js-test-page__tested-range-slider-container_2\"));\r\nconst optionsPanel2 = new _components_options_panel_OptionsPanel__WEBPACK_IMPORTED_MODULE_2__[\"default\"](optionsPanelContainer2, modelData2, viewData2);\r\nconst colorCustomizerContainer = (document.querySelector(\".test-page__color-customizer\"));\r\nconst colorCustomizer = new _components_color_customizer_color_customizer__WEBPACK_IMPORTED_MODULE_3__[\"default\"](colorCustomizerContainer);\r\nconst sliderWithPhysicContainer = (document.querySelector(\".test-page__slider-with-physic\"));\r\nconst sliderWithPhysic = new _components_slider_with_physic_slider_with_physic__WEBPACK_IMPORTED_MODULE_4__[\"default\"](sliderWithPhysicContainer);\r\n\n\n//# sourceURL=webpack:///./src/pages/index.ts?");
 
 /***/ }),
 
