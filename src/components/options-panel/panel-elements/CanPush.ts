@@ -1,13 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanel from "../OptionsPanel";
 
 class CanPush extends OptionPanelElement {
-    constructor(view: OptionsPanel) {
-        super(view);
-
-        this.handlerInputChange = this.handlerInputChange.bind(this);
-    }
-
     public build(): void {
         super.build();
 
@@ -36,7 +29,7 @@ class CanPush extends OptionPanelElement {
         input.checked = canPush;
     }
 
-    private handlerInputChange(event: globalThis.Event) {
+    private handlerInputChange = (event: globalThis.Event) => {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
@@ -45,7 +38,7 @@ class CanPush extends OptionPanelElement {
         };
 
         this.view.setModelData(dataToUpdate);
-    }
+    };
 }
 
 export default CanPush;

@@ -3,14 +3,11 @@ import OptionsPanel from "../OptionsPanel";
 
 class ListOfFilledStrip extends OptionPanelElement {
     public inputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();
-
     public filledStripsContainer: HTMLElement;
 
     constructor(view: OptionsPanel) {
         super(view);
-
         this.filledStripsContainer = document.createElement("div");
-        this.handlerInputChange = this.handlerInputChange.bind(this);
     }
 
     public build(): void {
@@ -45,7 +42,7 @@ class ListOfFilledStrip extends OptionPanelElement {
         this.view.containerElement.append(this.DOMElement);
     }
 
-    update(): void {
+    public update(): void {
         this.inputsDOMElements = [];
         this.filledStripsContainer.innerHTML = "";
 
@@ -69,7 +66,7 @@ class ListOfFilledStrip extends OptionPanelElement {
         });
     }
 
-    handlerInputChange(): void {
+    private handlerInputChange = () => {
         const { filledStrips } = this.view.getViewData();
         this.inputsDOMElements.forEach((e, i) => {
             const value = e.checked;
@@ -81,7 +78,7 @@ class ListOfFilledStrip extends OptionPanelElement {
         };
 
         this.view.setViewData(dataToUpdate);
-    }
+    };
 }
 
 export default ListOfFilledStrip;

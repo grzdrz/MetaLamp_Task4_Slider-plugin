@@ -1,13 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanel from "../OptionsPanel";
 
 class TooltipMargin extends OptionPanelElement {
-    constructor(view: OptionsPanel) {
-        super(view);
-
-        this.handlerInputChange = this.handlerInputChange.bind(this);
-    }
-
     public build(): void {
         super.build();
 
@@ -43,7 +36,7 @@ class TooltipMargin extends OptionPanelElement {
         }
     }
 
-    private handlerInputChange(event: globalThis.Event) {
+    private handlerInputChange = (event: globalThis.Event) => {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
@@ -56,7 +49,7 @@ class TooltipMargin extends OptionPanelElement {
         };
 
         this.view.setViewData(dataToUpdate);
-    }
+    };
 }
 
 export default TooltipMargin;

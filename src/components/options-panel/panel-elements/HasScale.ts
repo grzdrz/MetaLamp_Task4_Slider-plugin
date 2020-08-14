@@ -1,13 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanel from "../OptionsPanel";
 
 class HasScale extends OptionPanelElement {
-    constructor(view: OptionsPanel) {
-        super(view);
-
-        this.handlerInputChange = this.handlerInputChange.bind(this);
-    }
-
     public build(): void {
         super.build();
 
@@ -36,7 +29,7 @@ class HasScale extends OptionPanelElement {
         input.checked = hasScale;
     }
 
-    private handlerInputChange(event: globalThis.Event) {
+    private handlerInputChange = (event: globalThis.Event) => {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
@@ -45,7 +38,7 @@ class HasScale extends OptionPanelElement {
         };
 
         this.view.setViewData(dataToUpdate);
-    }
+    };
 }
 
 export default HasScale;

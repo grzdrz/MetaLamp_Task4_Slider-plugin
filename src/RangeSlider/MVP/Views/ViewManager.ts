@@ -1,19 +1,16 @@
+import IViewData from "./Data/IViewData";
 import ViewData from "./Data/ViewData";
-
+import IModelData from "../Model/Data/IModelData";
+import ModelData from "../Model/Data/ModelData";
+import IMouseData from "./Data/IMouseData";
+import View from "./View";
 import SliderView from "./SliderView/SliderView";
 import InputsView from "./InputsView/InputsView";
-import IViewData from "./Data/IViewData";
-
 import Event from "../../Events/Event";
-import ModelData from "../Model/Data/ModelData";
-import View from "./View";
-import IModelData from "../Model/Data/IModelData";
 import EventArgs from "../../Events/EventArgs";
-import IMouseData from "./Data/IMouseData";
 
 class ViewManager {
     public containerElement: HTMLElement;
-
     public viewData: ViewData;
     public views: View[] = new Array<View>();
 

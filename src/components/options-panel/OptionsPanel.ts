@@ -18,7 +18,6 @@ import ModelData from "../../RangeSlider/MVP/Model/Data/ModelData";
 import IViewData from "../../RangeSlider/MVP/Views/Data/IViewData";
 import ViewData from "../../RangeSlider/MVP/Views/Data/ViewData";
 import EventHandler from "../../RangeSlider/Events/EventHandler";
-
 import "./options-panel.scss";
 
 class OptionsPanel {
@@ -50,8 +49,6 @@ class OptionsPanel {
 
         this.subscribeOnSetModelData = this.jqueryElement.data("subscribeOnSetModelData");
         this.subscribeOnSetViewData = this.jqueryElement.data("subscribeOnSetViewData");
-
-        this.handlerPanelUpdate = this.handlerPanelUpdate.bind(this);
 
         this.initialize();
     }
@@ -85,9 +82,9 @@ class OptionsPanel {
         }
     }
 
-    private handlerPanelUpdate(): void {
+    private handlerPanelUpdate = () => {
         this.update(false);
-    }
+    };
 }
 
 export default OptionsPanel;

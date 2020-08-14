@@ -8,7 +8,6 @@ import FilledStrip from "./SliderParts/FilledStrip";
 import EmptyStrip from "./SliderParts/EmptyStrip";
 import Vector from "../../../Helpers/Vector";
 import Scale from "./SliderParts/Scale";
-import ViewManager from "../ViewManager";
 import MathFunctions from "../../../Helpers/MathFunctions";
 import Tooltip from "./SliderParts/Tooltip";
 import EventArgs from "../../../Events/EventArgs";
@@ -17,36 +16,51 @@ import IModelData from "../../Model/Data/IModelData";
 class SliderView extends View {
     public parts: SliderPart[] = [];
 
-    constructor(containerElement: HTMLElement, viewManager: ViewManager) {
-        super(containerElement, viewManager);
-
-        this.handlerViewportSizeChange = this.handlerViewportSizeChange.bind(this);
-    }
-
     public initialize(): void {
-        this.createParts();
+        const resizeObserver = new ResizeObserver(this.handlerViewportSizeChange);
+        const htmlElement = <HTMLElement>(document.querySelector("html"));
+        resizeObserver.observe(htmlElement);
+
+        this.build();
         this.renderContainer();
         this.parts.forEach((part) => {
             part.initialize();
         });
 
-        const ro = new ResizeObserver(this.handlerViewportSizeChange);
-        const htmlElement = <HTMLElement>(document.querySelector("html"));
-        ro.observe(htmlElement);
-
-        this.update(true);
+        this.update(false);
     }
 
-    public update(neededRerender: boolean): void {
-        if (neededRerender) { // полный перерендер всех элементов слайдера
+    public build(): void {
+        const modelData = this.viewManager.getModelData();
+        this.parts = [];
+
+        this.parts.push(new EmptyStrip(this));
+        modelData.values.forEach((value, index) => {
+            this.parts.push(new Handle(this, index));
+        });
+        if (this.viewManager.viewData.hasTooltip) {
+            modelData.values.forEach((value, index) => {
+                this.parts.push(new Tooltip(this, index));
+            });
+        }
+        this.viewManager.viewData.filledStrips.forEach((value, index) => {
+            if (value) this.parts.push(new FilledStrip(this, index));
+        });
+        if (this.viewManager.viewData.hasScale) {
+            this.parts.push(new Scale(this));
+        }
+    }
+
+    public update(isNeedRebuild: boolean): void {
+        if (isNeedRebuild) {
             this.containerElement.innerHTML = "";
-            this.createParts();
+            this.build();
             this.renderContainer();
             this.parts.forEach((part) => {
-                part.buildDOMElement();
+                part.build();
                 part.update();
             });
-        } else { // или просто обновление их состояний
+        } else {
             this.renderContainer();
             this.parts.forEach((part) => {
                 part.update();
@@ -93,27 +107,6 @@ class SliderView extends View {
         return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
     }
 
-    private createParts(): void {
-        const modelData = this.viewManager.getModelData();
-        this.parts = [];
-
-        this.parts.push(new EmptyStrip(this));
-        modelData.values.forEach((value, index) => {
-            this.parts.push(new Handle(this, index));
-        });
-        if (this.viewManager.viewData.hasTooltip) {
-            modelData.values.forEach((value, index) => {
-                this.parts.push(new Tooltip(this, index));
-            });
-        }
-        this.viewManager.viewData.filledStrips.forEach((value, index) => {
-            if (value) this.parts.push(new FilledStrip(this, index));
-        });
-        if (this.viewManager.viewData.hasScale) {
-            this.parts.push(new Scale(this));
-        }
-    }
-
     private renderContainer(): void {
         const { sliderLength, angleInRad } = this.viewManager.viewData;
 
@@ -136,9 +129,9 @@ class SliderView extends View {
         this.viewManager.viewData.sliderLength = curLength;
     }
 
-    private handlerViewportSizeChange(): void {
+    private handlerViewportSizeChange = () => {
         this.update(true);
-    }
+    };
 }
 
 export default SliderView;

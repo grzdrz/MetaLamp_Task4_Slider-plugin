@@ -1,20 +1,16 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable fsd/no-heavy-constructor */
-import "./color-customizer.scss";
-
 import ColorSlider from "./color-slider";
+import "./color-customizer.scss";
 
 class ColorCustomizer {
     public containerElement: HTMLElement;
+    public colorSquare: HTMLElement;
 
     public red: ColorSlider;
-
     public green: ColorSlider;
-
     public blue: ColorSlider;
-
     public alpha: ColorSlider;
-
-    public colorSquare: HTMLElement;
 
     constructor(containerElement: HTMLElement) {
         this.containerElement = containerElement;
@@ -31,19 +27,17 @@ class ColorCustomizer {
 
         this.colorSquare = <HTMLElement>(this.containerElement.querySelector(".js-color-customizer__color-square"));
 
-        this.changeSquareColor = this.changeSquareColor.bind(this);
-
         this.initialize();
     }
 
-    initialize(): void {
+    public initialize(): void {
         this.changeSquareColor();
     }
 
-    changeSquareColor(): void {
+    public changeSquareColor = () => {
         const rgba = `rgba(${this.red.color}, ${this.green.color}, ${this.blue.color}, ${this.alpha.color / 255})`;
         this.colorSquare.style.background = rgba;
-    }
+    };
 }
 
 export default ColorCustomizer;

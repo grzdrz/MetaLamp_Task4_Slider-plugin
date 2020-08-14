@@ -1,14 +1,11 @@
 import Model from "./Model/Model";
-
 import ViewManager from "./Views/ViewManager";
-
 import EventArgs from "../Events/EventArgs";
 import IModelData from "./Model/Data/IModelData";
 import IViewData from "./Views/Data/IViewData";
 
 class Presenter {
     public model: Model;
-
     public viewManager: ViewManager;
 
     constructor(model: Model, viewManager: ViewManager) {

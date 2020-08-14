@@ -13,11 +13,11 @@ abstract class SliderPart {
     }
 
     public initialize(): void {
-        this.buildDOMElement();
+        this.build();
         this.update();
     }
 
-    public buildDOMElement(): void {
+    public build(): void {
         this.DOMElement.innerHTML = "";
     }
 

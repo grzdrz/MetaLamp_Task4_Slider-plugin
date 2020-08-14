@@ -1,19 +1,12 @@
 import SliderPart from "./SliderPart";
-import SliderView from "../SliderView";
 import Vector from "../../../../Helpers/Vector";
 import View from "../../View";
 import EventArgs from "../../../../Events/EventArgs";
 import IModelData from "../../../Model/Data/IModelData";
 
 class Scale extends SliderPart {
-    constructor(view: SliderView) {
-        super(view);
-
-        this.handlerClickOnSegment = this.handlerClickOnSegment.bind(this);
-    }
-
-    public buildDOMElement(): void {
-        super.buildDOMElement();
+    public build(): void {
+        super.build();
 
         this.DOMElement.className = "range-slider__scale-container";
         this.view.containerElement.append(this.DOMElement);
@@ -88,7 +81,7 @@ class Scale extends SliderPart {
         View.renderPosition(segment, position);
     }
 
-    private handlerClickOnSegment(event: MouseEvent): void {
+    private handlerClickOnSegment = (event: MouseEvent) => {
         event.preventDefault();
 
         const modelData = this.view.viewManager.getModelData();
@@ -116,7 +109,7 @@ class Scale extends SliderPart {
         }
 
         this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
-    }
+    };
 }
 
 export default Scale;

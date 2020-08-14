@@ -15,20 +15,16 @@ interface IMouseEventArgs {
 
 class Handle extends SliderPart {
     public countNumber: number;
-
     public backgroundDOMElement: HTMLElement;
 
     constructor(view: SliderView, countNumber: number) {
         super(view);
-
         this.backgroundDOMElement = document.createElement("div");
         this.countNumber = countNumber;
-
-        this.handlerMouseDown = this.handlerMouseDown.bind(this);
     }
 
-    public buildDOMElement(): void {
-        super.buildDOMElement();
+    public build(): void {
+        super.build();
 
         const { handleWidth, handleHeight } = this.view.viewManager.viewData;
 
@@ -107,55 +103,6 @@ class Handle extends SliderPart {
         View.renderSize(this.backgroundDOMElement, backgroundSize);
     }
 
-    // d&d
-    private handlerMouseDown(event: UIEvent): void {
-        event.preventDefault();
-
-        const mousePosition = this.calculateMouseGlobalPosition(event);
-        const mousePositionInsideTargetSlider = this.calculateCursorPositionInsideTargetHandle(mousePosition);
-
-        const optionsForMouseEvents = {
-            handlerMouseMove: (event: UIEvent): void => { },
-            handlerMouseUp: (event: UIEvent): void => { },
-            mousePositionInsideTargetSlider,
-        };
-        const handlerMouseMove = this.handlerMouseMove.bind(this, optionsForMouseEvents);
-        optionsForMouseEvents.handlerMouseMove = handlerMouseMove;
-
-        const handlerMouseUp = this.handlerMouseUp.bind(this, optionsForMouseEvents);
-        optionsForMouseEvents.handlerMouseUp = handlerMouseUp;// чтобы обработчик mouseMove можно было отписать
-
-        document.addEventListener("mousemove", handlerMouseMove);
-        document.addEventListener("mouseup", handlerMouseUp);
-        document.addEventListener("touchmove", handlerMouseMove);
-        document.addEventListener("touchend", handlerMouseUp);
-
-        this.view.viewManager.onMouseDown.invoke(new EventArgs<IMouseData>({ mousePosition }));
-    }
-
-    private handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent): void {
-        const {
-            mousePositionInsideTargetSlider,
-        } = optionsFromMouseDown;
-
-        const mousePosition = this.calculateMouseGlobalPosition(event);
-        const cursorPositionInContainer = this.calculateCursorPositionInContainer(mousePosition, mousePositionInsideTargetSlider);
-
-        this.view.calculateProportionalValue(cursorPositionInContainer, this.countNumber);
-
-        this.view.viewManager.onMouseMove.invoke(new EventArgs<IMouseData>({ mousePosition }));
-    }
-
-    private handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, event: UIEvent): void {
-        document.removeEventListener("mousemove", optionsFromMouseDown.handlerMouseMove);
-        document.removeEventListener("mouseup", optionsFromMouseDown.handlerMouseUp);
-        document.removeEventListener("touchmove", optionsFromMouseDown.handlerMouseMove);
-        document.removeEventListener("touchend", optionsFromMouseDown.handlerMouseUp);
-
-        const mousePosition = this.calculateMouseGlobalPosition(event);
-        this.view.viewManager.onMouseUp.invoke(new EventArgs<IMouseData>({ mousePosition }));
-    }
-
     private calculateMouseGlobalPosition = (event: UIEvent) => {
         let x;
         let y;
@@ -190,6 +137,55 @@ class Handle extends SliderPart {
         const mousePositionInsideTargetSliderX = cursorMouseDownPosition.x - targetSliderBoundingCoords.x;
         const mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + window.pageYOffset - targetSliderBoundingCoords.y - handleHeight);
         return new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
+    }
+
+    // d&d
+    private handlerMouseDown = (event: UIEvent) => {
+        event.preventDefault();
+
+        const mousePosition = this.calculateMouseGlobalPosition(event);
+        const mousePositionInsideTargetSlider = this.calculateCursorPositionInsideTargetHandle(mousePosition);
+
+        const optionsForMouseEvents = {
+            handlerMouseMove: (event: UIEvent): void => { },
+            handlerMouseUp: (event: UIEvent): void => { },
+            mousePositionInsideTargetSlider,
+        };
+        const handlerMouseMove = this.handlerMouseMove.bind(this, optionsForMouseEvents);
+        optionsForMouseEvents.handlerMouseMove = handlerMouseMove;
+
+        const handlerMouseUp = this.handlerMouseUp.bind(this, optionsForMouseEvents);
+        optionsForMouseEvents.handlerMouseUp = handlerMouseUp;// чтобы обработчик mouseMove можно было отписать
+
+        document.addEventListener("mousemove", handlerMouseMove);
+        document.addEventListener("mouseup", handlerMouseUp);
+        document.addEventListener("touchmove", handlerMouseMove);
+        document.addEventListener("touchend", handlerMouseUp);
+
+        this.view.viewManager.onMouseDown.invoke(new EventArgs<IMouseData>({ mousePosition }));
+    };
+
+    private handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent): void {
+        const {
+            mousePositionInsideTargetSlider,
+        } = optionsFromMouseDown;
+
+        const mousePosition = this.calculateMouseGlobalPosition(event);
+        const cursorPositionInContainer = this.calculateCursorPositionInContainer(mousePosition, mousePositionInsideTargetSlider);
+
+        this.view.calculateProportionalValue(cursorPositionInContainer, this.countNumber);
+
+        this.view.viewManager.onMouseMove.invoke(new EventArgs<IMouseData>({ mousePosition }));
+    }
+
+    private handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, event: UIEvent): void {
+        document.removeEventListener("mousemove", optionsFromMouseDown.handlerMouseMove);
+        document.removeEventListener("mouseup", optionsFromMouseDown.handlerMouseUp);
+        document.removeEventListener("touchmove", optionsFromMouseDown.handlerMouseMove);
+        document.removeEventListener("touchend", optionsFromMouseDown.handlerMouseUp);
+
+        const mousePosition = this.calculateMouseGlobalPosition(event);
+        this.view.viewManager.onMouseUp.invoke(new EventArgs<IMouseData>({ mousePosition }));
     }
 }
 

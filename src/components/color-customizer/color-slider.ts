@@ -29,9 +29,9 @@ const viewData = {
 class ColorSlider {
     public containerElement: HTMLElement;
 
-    public manager: ColorCustomizer;
-
     public jqueryElement: JQuery<HTMLElement>;
+
+    public manager: ColorCustomizer;
 
     public getModelData: () => ModelData;
     public getViewData: () => ViewData;
@@ -48,8 +48,6 @@ class ColorSlider {
         this.getViewData = this.jqueryElement.data("getViewData");
         this.subscribeOnHandleMove = this.jqueryElement.data("subscribeOnHandleMove");
 
-        this.handlerChangeColor = this.handlerChangeColor.bind(this);
-
         this.initialize();
     }
 
@@ -61,12 +59,12 @@ class ColorSlider {
         this.color = values[0];
     }
 
-    handlerChangeColor(): void {
+    private handlerChangeColor = () => {
         const { values } = this.getModelData();
         // eslint-disable-next-line prefer-destructuring
         this.color = values[0];
         this.manager.changeSquareColor();
-    }
+    };
 }
 
 export default ColorSlider;

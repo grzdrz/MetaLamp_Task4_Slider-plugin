@@ -2,8 +2,8 @@ import SliderPart from "./SliderPart";
 import Vector from "../../../../Helpers/Vector";
 
 class EmptyStrip extends SliderPart {
-    public buildDOMElement(): void {
-        super.buildDOMElement();
+    public build(): void {
+        super.build();
 
         this.DOMElement.className = "range-slider__empty-strip";
         this.view.containerElement.append(this.DOMElement);

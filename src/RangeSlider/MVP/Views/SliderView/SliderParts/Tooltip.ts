@@ -7,12 +7,11 @@ class Tooltip extends SliderPart {
 
     constructor(view: SliderView, countNumber: number) {
         super(view);
-
         this.countNumber = countNumber;
     }
 
-    public buildDOMElement(): void {
-        super.buildDOMElement();
+    public build(): void {
+        super.build();
 
         const { values } = this.view.viewManager.getModelData();
 

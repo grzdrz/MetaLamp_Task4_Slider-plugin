@@ -1,13 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanel from "../OptionsPanel";
 
 class MaxValue extends OptionPanelElement {
-    constructor(view: OptionsPanel) {
-        super(view);
-
-        this.handlerInputChange = this.handlerInputChange.bind(this);
-    }
-
     public build(): void {
         super.build();
 
@@ -44,7 +37,7 @@ class MaxValue extends OptionPanelElement {
         input.min = `${minValue - stepSize}`;
     }
 
-    private handlerInputChange(event: globalThis.Event) {
+    private handlerInputChange = (event: globalThis.Event) => {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
@@ -55,7 +48,7 @@ class MaxValue extends OptionPanelElement {
         };
 
         this.view.setModelData(dataToUpdate);
-    }
+    };
 }
 
 export default MaxValue;

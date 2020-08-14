@@ -1,13 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanel from "../OptionsPanel";
 
 class Angle extends OptionPanelElement {
-    constructor(view: OptionsPanel) {
-        super(view);
-
-        this.handlerInputChange = this.handlerInputChange.bind(this);
-    }
-
     public build(): void {
         super.build();
 
@@ -37,7 +30,7 @@ class Angle extends OptionPanelElement {
         input.value = `${angle}`;
     }
 
-    private handlerInputChange(event: globalThis.Event) {
+    private handlerInputChange = (event: globalThis.Event) => {
         event.preventDefault();
 
         const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
@@ -50,7 +43,7 @@ class Angle extends OptionPanelElement {
         };
 
         this.view.setViewData(dataToUpdate);
-    }
+    };
 }
 
 export default Angle;

@@ -10,8 +10,8 @@ class FilledStrip extends SliderPart {
         this.countNumber = countNumber;
     }
 
-    public buildDOMElement(): void {
-        super.buildDOMElement();
+    public build(): void {
+        super.build();
 
         this.DOMElement.className = `range-slider__filled-strip range-slider__filled-strip_${this.countNumber}`;
         this.view.containerElement.append(this.DOMElement);

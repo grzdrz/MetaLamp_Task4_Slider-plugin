@@ -1,16 +1,9 @@
 import View from "../View";
-import ViewManager from "../ViewManager";
 import EventArgs from "../../../Events/EventArgs";
 import IModelData from "../../Model/Data/IModelData";
 
 class InputsView extends View {
     public valueInputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();
-
-    constructor(containerElement: HTMLElement, viewManager: ViewManager) {
-        super(containerElement, viewManager);
-
-        this.handlerValueInputChange = this.handlerValueInputChange.bind(this);
-    }
 
     public initialize(): void {
         this.build();
@@ -44,17 +37,17 @@ class InputsView extends View {
         }
     }
 
-    public update(neededFullRerender: boolean): void {
+    public update(isNeedRebuild: boolean): void {
         const modelData = this.viewManager.getModelData();
 
         const { values } = modelData;
-        if (neededFullRerender) this.build();
+        if (isNeedRebuild) this.build();
         this.valueInputsDOMElements.forEach((e, i) => {
             e.value = values[i].toString();
         });
     }
 
-    private handlerValueInputChange(): void {
+    private handlerValueInputChange = () => {
         const modelData = this.viewManager.getModelData();
 
         const { values } = modelData;
@@ -64,7 +57,7 @@ class InputsView extends View {
         });
 
         this.viewManager.onInputsChange.invoke(new EventArgs<IModelData>({ values }));
-    }
+    };
 }
 
 export default InputsView;

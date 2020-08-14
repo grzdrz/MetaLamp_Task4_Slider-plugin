@@ -1,15 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import "../../plugin.ts";
 import $ from "jquery";
-
 import IModelData from "../../RangeSlider/MVP/Model/Data/IModelData";
 import IViewData from "../../RangeSlider/MVP/Views/Data/IViewData";
 import ModelData from "../../RangeSlider/MVP/Model/Data/ModelData";
 import ViewData from "../../RangeSlider/MVP/Views/Data/ViewData";
 import EventHandler from "../../RangeSlider/Events/EventHandler";
-import "./slider-with-physic.scss";
 import IMouseData from "../../RangeSlider/MVP/Views/Data/IMouseData";
+import "./slider-with-physic.scss";
+import "../../plugin.ts";
 
 const modelData = {
     minValue: 0,
@@ -79,22 +78,17 @@ class SliderWithPhysic {
         this.subscribeOnMouseMove = this.jqueryElement.data("subscribeOnMouseMove");
         this.subscribeOnMouseUp = this.jqueryElement.data("subscribeOnMouseUp");
 
-        this.calculatePosition = this.calculatePosition.bind(this);
-        this.handlerMouseDown = this.handlerMouseDown.bind(this);
-        this.handlerMouseMove = this.handlerMouseMove.bind(this);
-        this.handlerMouseUp = this.handlerMouseUp.bind(this);
-
         this.initialize();
     }
 
-    initialize(): void {
+    public initialize(): void {
         this.subscribeOnMouseDown(this.handlerMouseDown);
         this.subscribeOnMouseMove(this.handlerMouseMove);
         this.subscribeOnMouseUp(this.handlerMouseUp);
         this.calculatePosition();
     }
 
-    calculatePosition(): void {
+    private calculatePosition = () => {
         const { values, minValue } = this.getModelData();
         if (!(this.velocity === 0 && values[0] === minValue)) {
             if (this.isHandleGripped) {
@@ -126,19 +120,19 @@ class SliderWithPhysic {
         } else {
             this.damping = this.defaultDamping;
         }
-    }
+    };
 
-    private handlerMouseDown(): void {
+    private handlerMouseDown = () => {
         this.isHandleGripped = true;
-    }
+    };
 
-    private handlerMouseMove(): void {
+    private handlerMouseMove = () => {
         this.isHandleGripped = true;
-    }
+    };
 
-    private handlerMouseUp(): void {
+    private handlerMouseUp = () => {
         this.isHandleGripped = false;
         this.calculatePosition();
-    }
+    };
 }
 export default SliderWithPhysic;

@@ -1,13 +1,10 @@
 import IModelData from "../Model/Data/IModelData";
 import Vector from "../../Helpers/Vector";
-
 import ViewManager from "./ViewManager";
 
 abstract class View {
     public containerElement: HTMLElement;
-
     public viewManager: ViewManager;
-
     public modelData: IModelData = {};
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
@@ -17,7 +14,9 @@ abstract class View {
 
     public abstract initialize(): void;
 
-    public abstract update(neededFullRerender: boolean): void;
+    public abstract build(): void;
+
+    public abstract update(isNeedRebuild: boolean): void;
 
     public static renderPosition(htmlElement: HTMLElement, position: Vector): void {
         const element = htmlElement;

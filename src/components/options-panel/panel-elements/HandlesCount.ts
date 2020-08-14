@@ -1,13 +1,6 @@
 import OptionPanelElement from "./OptionPanelElement";
-import OptionsPanel from "../OptionsPanel";
 
 class HandlesCount extends OptionPanelElement {
-    constructor(view: OptionsPanel) {
-        super(view);
-
-        this.handlerInputChange = this.handlerInputChange.bind(this);
-    }
-
     public build(): void {
         super.build();
 
@@ -39,7 +32,7 @@ class HandlesCount extends OptionPanelElement {
         input.value = `${values.length}`;
     }
 
-    private handlerInputChange(event: globalThis.Event) {
+    private handlerInputChange = (event: globalThis.Event) => {
         event.preventDefault();
 
         const currentInput = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
@@ -55,7 +48,7 @@ class HandlesCount extends OptionPanelElement {
         const dataToUpdate = { values };
 
         this.view.setModelData(dataToUpdate);
-    }
+    };
 }
 
 export default HandlesCount;
