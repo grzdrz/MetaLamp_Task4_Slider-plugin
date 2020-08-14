@@ -9,6 +9,7 @@ import ModelData from "../../RangeSlider/MVP/Model/Data/ModelData";
 import ViewData from "../../RangeSlider/MVP/Views/Data/ViewData";
 import EventHandler from "../../RangeSlider/Events/EventHandler";
 import "./slider-with-physic.scss";
+import IMouseData from "../../RangeSlider/MVP/Views/Data/IMouseData";
 
 const modelData = {
     minValue: 0,
@@ -35,19 +36,14 @@ class SliderWithPhysic {
 
     public jqueryElement: JQuery<HTMLElement>;
 
-    public setData: (modelData: IModelData, viewData: IViewData) => void;
-
+    public setModelData: (modelData: IModelData, viewData: IViewData) => void;
     public getModelData: () => ModelData;
-
     public getViewData: () => ViewData;
 
-    public subscribeOnHandleMove: (handler: EventHandler) => void;
-
-    public subscribeOnMouseDown: (handler: EventHandler) => void;
-
-    public subscribeOnMouseMove: (handler: EventHandler) => void;
-
-    public subscribeOnMouseUp: (handler: EventHandler) => void;
+    public subscribeOnHandleMove: (handler: EventHandler<IModelData>) => void;
+    public subscribeOnMouseDown: (handler: EventHandler<IMouseData>) => void;
+    public subscribeOnMouseMove: (handler: EventHandler<IMouseData>) => void;
+    public subscribeOnMouseUp: (handler: EventHandler<IMouseData>) => void;
 
     public velocity = 0;
 
@@ -74,7 +70,8 @@ class SliderWithPhysic {
         outerContainerElement.append(this.containerElement);
 
         this.jqueryElement = $(this.containerElement).rangeSlider(modelData, viewData);
-        this.setData = this.jqueryElement.data("setData");
+
+        this.setModelData = this.jqueryElement.data("setModelData");
         this.getModelData = this.jqueryElement.data("getModelData");
         this.getViewData = this.jqueryElement.data("getViewData");
         this.subscribeOnHandleMove = this.jqueryElement.data("subscribeOnHandleMove");
@@ -97,7 +94,7 @@ class SliderWithPhysic {
         this.calculatePosition();
     }
 
-    calculatePosition() {
+    calculatePosition(): void {
         const { values, minValue } = this.getModelData();
         if (!(this.velocity === 0 && values[0] === minValue)) {
             if (this.isHandleGripped) {
@@ -123,7 +120,7 @@ class SliderWithPhysic {
                 }
             }
 
-            this.setData({ values: [newValue] }, {});
+            this.setModelData({ values: [newValue] }, {});
 
             requestAnimationFrame(this.calculatePosition);
         } else {

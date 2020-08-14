@@ -2,35 +2,29 @@ import ViewData from "./Data/ViewData";
 
 import SliderView from "./SliderView/SliderView";
 import InputsView from "./InputsView/InputsView";
-/* import OptionsPanelView from "./OptionsPanel/OptionsPanelView"; */
-import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
 import IViewData from "./Data/IViewData";
 
 import Event from "../../Events/Event";
 import ModelData from "../Model/Data/ModelData";
-import ModelDataEventArgs from "../../Events/ModelDataEventArgs";
 import View from "./View";
+import IModelData from "../Model/Data/IModelData";
+import EventArgs from "../../Events/EventArgs";
+import IMouseData from "./Data/IMouseData";
 
 class ViewManager {
     public containerElement: HTMLElement;
 
     public viewData: ViewData;
-
     public views: View[] = new Array<View>();
 
-    public onStatesUpdate = new Event();
-
-    public onGetModelData = new Event();
-
-    public onHandleMove = new Event();
-
-    public onInputsChange = new Event();
-
-    public onMouseDown = new Event();
-
-    public onMouseMove = new Event();
-
-    public onMouseUp = new Event();
+    public onSetViewData = new Event<IViewData>();
+    public onSetModelData = new Event<IModelData>();
+    public onGetModelData = new Event<IModelData>();
+    public onHandleMove = new Event<IModelData>();
+    public onInputsChange = new Event<IModelData>();
+    public onMouseDown = new Event<IMouseData>();
+    public onMouseMove = new Event<IMouseData>();
+    public onMouseUp = new Event<IMouseData>();
 
     constructor(viewData: ViewData, containerElement: HTMLElement) {
         this.viewData = viewData;
@@ -75,7 +69,7 @@ class ViewManager {
     }
 
     public getModelData(): ModelData {
-        const optionsEventArgs = new ModelDataEventArgs({});
+        const optionsEventArgs = new EventArgs<IModelData>({});
         this.onGetModelData.invoke(optionsEventArgs);
         return <ModelData>optionsEventArgs.data;
     }
@@ -105,7 +99,7 @@ class ViewManager {
         return maxSegmentsCount;
     }
 
-    public getData(args: ViewDataEventArgs): void {
+    public getData(args: EventArgs<IViewData>): void {
         args.data = new ViewData(this.viewData);
     }
 }

@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import "../../plugin.ts";
 import $ from "jquery";
-
 import IModelData from "../../RangeSlider/MVP/Model/Data/IModelData";
-import IViewData from "../../RangeSlider/MVP/Views/Data/IViewData";
 import ModelData from "../../RangeSlider/MVP/Model/Data/ModelData";
 import ViewData from "../../RangeSlider/MVP/Views/Data/ViewData";
 import EventHandler from "../../RangeSlider/Events/EventHandler";
@@ -14,7 +12,6 @@ const modelData = {
     maxValue: 255,
     values: [50],
     stepSize: 1,
-    /* canPush: true, */
 };
 const viewData = {
     sliderStripThickness: 10,
@@ -25,7 +22,6 @@ const viewData = {
     scaleFontSize: 15,
     angle: 90,
     filledStrips: [false, false],
-    /* isHandlesSeparated: false, */
     hasScale: false,
     hasTooltip: true,
     scaleMargin: 30,
@@ -37,13 +33,9 @@ class ColorSlider {
 
     public jqueryElement: JQuery<HTMLElement>;
 
-    public setData: (modelData: IModelData, viewData: IViewData) => void;
-
     public getModelData: () => ModelData;
-
     public getViewData: () => ViewData;
-
-    public subscribeOnHandleMove: (handler: EventHandler) => void;
+    public subscribeOnHandleMove: (handler: EventHandler<IModelData>) => void;
 
     public color = 0;
 
@@ -52,7 +44,6 @@ class ColorSlider {
         this.containerElement = containerElement;
 
         this.jqueryElement = $(this.containerElement).rangeSlider(modelData, viewData);
-        this.setData = this.jqueryElement.data("setData");
         this.getModelData = this.jqueryElement.data("getModelData");
         this.getViewData = this.jqueryElement.data("getViewData");
         this.subscribeOnHandleMove = this.jqueryElement.data("subscribeOnHandleMove");

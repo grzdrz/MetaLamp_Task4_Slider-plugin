@@ -2,17 +2,16 @@ import Event from "../../Events/Event";
 
 import IModelData from "./Data/IModelData";
 import ModelData from "./Data/ModelData";
-import ModelDataEventArgs from "../../Events/ModelDataEventArgs";
 import MathFunctions from "../../Helpers/MathFunctions";
-import ViewDataEventArgs from "../../Events/ViewDataEventArgs";
 import ViewData from "../Views/Data/ViewData";
+import IViewData from "../Views/Data/IViewData";
+import EventArgs from "../../Events/EventArgs";
 
 class Model {
     private data: ModelData;
 
-    public onGetViewData = new Event();
-
-    public onStatesUpdate = new Event();
+    public onGetViewData = new Event<IViewData>();
+    public onSetViewData = new Event<IViewData>();
 
     constructor(data: ModelData) {
         this.data = data;
@@ -39,12 +38,12 @@ class Model {
     }
 
     public getViewData(): ViewData {
-        const eventArgs = new ViewDataEventArgs({});
+        const eventArgs = new EventArgs<IViewData>({});
         this.onGetViewData.invoke(eventArgs);
         return <ViewData>eventArgs.data;
     }
 
-    public getData(args: ModelDataEventArgs): void {
+    public getData(args: EventArgs<IModelData>): void {
         args.data = new ModelData(this.data);
     }
 
@@ -97,7 +96,8 @@ class Model {
                 newFilledStrips.push(false);
             }
         }
-        this.onStatesUpdate.invoke(new ViewDataEventArgs({ filledStrips: newFilledStrips }));
+
+        this.onSetViewData.invoke(new EventArgs<IViewData>({ filledStrips: newFilledStrips }));
     }
 
     private validateValue(value: number, countNumber: number, canPush: boolean): number {

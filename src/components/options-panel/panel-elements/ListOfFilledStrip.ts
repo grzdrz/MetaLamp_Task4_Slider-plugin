@@ -80,7 +80,7 @@ class ListOfFilledStrip extends OptionPanelElement {
             filledStrips,
         };
 
-        this.view.setData({}, dataToUpdate);
+        this.view.setViewData(dataToUpdate);
     }
 }
 

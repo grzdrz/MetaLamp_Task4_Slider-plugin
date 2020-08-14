@@ -52,7 +52,7 @@ class StepSize extends OptionPanelElement {
             stepSize: inputValue,
         };
 
-        this.view.setData(dataToUpdate, {});
+        this.view.setModelData(dataToUpdate);
     }
 }
 

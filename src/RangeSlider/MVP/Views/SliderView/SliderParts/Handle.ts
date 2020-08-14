@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-shadow */
 import SliderPart from "./SliderPart";
 import Vector from "../../../../Helpers/Vector";
 import SliderView from "../SliderView";
 import View from "../../View";
+import EventArgs from "../../../../Events/EventArgs";
+import IMouseData from "../../Data/IMouseData";
 
 interface IMouseEventArgs {
     handlerMouseMove: (event: UIEvent) => void,
@@ -107,25 +111,12 @@ class Handle extends SliderPart {
     private handlerMouseDown(event: UIEvent): void {
         event.preventDefault();
 
-        let cursorMouseDownPositionX;
-        let cursorMouseDownPositionY;
-        if (event instanceof TouchEvent) {
-            const touchEvent = /* <TouchEvent> */event;
-            cursorMouseDownPositionX = touchEvent.changedTouches[0].pageX;
-            cursorMouseDownPositionY = touchEvent.changedTouches[0].pageY;
-        } else {
-            const mouseEvent = <MouseEvent>event;
-            cursorMouseDownPositionX = mouseEvent.clientX;
-            cursorMouseDownPositionY = mouseEvent.clientY;
-        }
-        cursorMouseDownPositionY = (document.documentElement.clientHeight + window.pageYOffset) - cursorMouseDownPositionY;
-        // cursorMouseDownPositionX =;
-        const cursorMouseDownPosition = new Vector(cursorMouseDownPositionX, cursorMouseDownPositionY);// место нажатия левой кнопки мыши
-        const mousePositionInsideTargetSlider = this.calculateCursorPositionInsideTargetHandle(cursorMouseDownPosition);
+        const mousePosition = this.calculateMouseGlobalPosition(event);
+        const mousePositionInsideTargetSlider = this.calculateCursorPositionInsideTargetHandle(mousePosition);
 
         const optionsForMouseEvents = {
-            handlerMouseMove: (_event: UIEvent): void => { },
-            handlerMouseUp: (_event: UIEvent): void => { },
+            handlerMouseMove: (event: UIEvent): void => { },
+            handlerMouseUp: (event: UIEvent): void => { },
             mousePositionInsideTargetSlider,
         };
         const handlerMouseMove = this.handlerMouseMove.bind(this, optionsForMouseEvents);
@@ -139,7 +130,7 @@ class Handle extends SliderPart {
         document.addEventListener("touchmove", handlerMouseMove);
         document.addEventListener("touchend", handlerMouseUp);
 
-        this.view.viewManager.onMouseDown.invoke({});
+        this.view.viewManager.onMouseDown.invoke(new EventArgs<IMouseData>({ mousePosition }));
     }
 
     private handlerMouseMove(optionsFromMouseDown: IMouseEventArgs, event: UIEvent): void {
@@ -147,35 +138,40 @@ class Handle extends SliderPart {
             mousePositionInsideTargetSlider,
         } = optionsFromMouseDown;
 
-        let mouseGlobalPositionX;
-        let mouseGlobalPositionY;
-        if (event instanceof TouchEvent) {
-            const touchEvent = /* <TouchEvent> */event;
-            mouseGlobalPositionX = touchEvent.changedTouches[0].pageX;
-            mouseGlobalPositionY = touchEvent.changedTouches[0].pageY;
-        } else {
-            const mouseEvent = <MouseEvent>event;
-            mouseGlobalPositionX = mouseEvent.clientX;
-            mouseGlobalPositionY = mouseEvent.clientY;
-        }
-        mouseGlobalPositionY = (document.documentElement.clientHeight + window.pageYOffset) - mouseGlobalPositionY;
-        // mouseGlobalPositionX =;
-        const mouseGlobalPosition = new Vector(mouseGlobalPositionX, mouseGlobalPositionY);// место нажатия левой кнопки мыши
-        const cursorPositionInContainer = this.calculateCursorPositionInContainer(mouseGlobalPosition, mousePositionInsideTargetSlider);
+        const mousePosition = this.calculateMouseGlobalPosition(event);
+        const cursorPositionInContainer = this.calculateCursorPositionInContainer(mousePosition, mousePositionInsideTargetSlider);
 
         this.view.calculateProportionalValue(cursorPositionInContainer, this.countNumber);
 
-        this.view.viewManager.onMouseMove.invoke({});
+        this.view.viewManager.onMouseMove.invoke(new EventArgs<IMouseData>({ mousePosition }));
     }
 
-    private handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, _event: UIEvent): void {
+    private handlerMouseUp(optionsFromMouseDown: IMouseEventArgs, event: UIEvent): void {
         document.removeEventListener("mousemove", optionsFromMouseDown.handlerMouseMove);
         document.removeEventListener("mouseup", optionsFromMouseDown.handlerMouseUp);
         document.removeEventListener("touchmove", optionsFromMouseDown.handlerMouseMove);
         document.removeEventListener("touchend", optionsFromMouseDown.handlerMouseUp);
 
-        this.view.viewManager.onMouseUp.invoke({});
+        const mousePosition = this.calculateMouseGlobalPosition(event);
+        this.view.viewManager.onMouseUp.invoke(new EventArgs<IMouseData>({ mousePosition }));
     }
+
+    private calculateMouseGlobalPosition = (event: UIEvent) => {
+        let x;
+        let y;
+        if (event instanceof TouchEvent) {
+            const touchEvent = /* <TouchEvent> */event;
+            x = touchEvent.changedTouches[0].pageX;
+            y = touchEvent.changedTouches[0].pageY;
+        } else {
+            const mouseEvent = <MouseEvent>event;
+            x = mouseEvent.clientX;
+            y = mouseEvent.clientY;
+        }
+        y = (document.documentElement.clientHeight + window.pageYOffset) - y;
+
+        return new Vector(x, y);
+    };
 
     private calculateCursorPositionInContainer(mouseGlobalPosition: Vector, mousePositionInsideTargetSlider: Vector): Vector {
         const containerBoundingRect = this.view.containerElement.getBoundingClientRect();

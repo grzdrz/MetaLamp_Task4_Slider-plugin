@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* import View from "../View"; */
-
 import OptionPanelElement from "./panel-elements/OptionPanelElement";
 import Angle from "./panel-elements/Angle";
 import HandlesCount from "./panel-elements/HandlesCount";
@@ -25,16 +23,16 @@ import "./options-panel.scss";
 
 class OptionsPanel {
     public jqueryElement: JQuery;
-
     public containerElement: HTMLElement;
 
-    public setData: (modelData: IModelData, viewData: IViewData) => void;
+    public setModelData: (modelData: IModelData) => void;
+    public setViewData: (viewData: IViewData) => void;
 
     public getModelData: () => ModelData;
-
     public getViewData: () => ViewData;
 
-    public subscribeOnUpdates: (handler: EventHandler) => void;
+    public subscribeOnSetModelData: (handler: EventHandler<IModelData>) => void;
+    public subscribeOnSetViewData: (handler: EventHandler<IViewData>) => void;
 
     public panelElements: OptionPanelElement[] = new Array<OptionPanelElement>();
 
@@ -45,10 +43,13 @@ class OptionsPanel {
         this.containerElement.className = "options";
         outerContainerElement.append(this.containerElement);
 
-        this.setData = this.jqueryElement.data("setData");
+        this.setModelData = this.jqueryElement.data("setModelData");
+        this.setViewData = this.jqueryElement.data("setViewData");
         this.getModelData = this.jqueryElement.data("getModelData");
         this.getViewData = this.jqueryElement.data("getViewData");
-        this.subscribeOnUpdates = this.jqueryElement.data("subscribeOnUpdates");
+
+        this.subscribeOnSetModelData = this.jqueryElement.data("subscribeOnSetModelData");
+        this.subscribeOnSetViewData = this.jqueryElement.data("subscribeOnSetViewData");
 
         this.handlerPanelUpdate = this.handlerPanelUpdate.bind(this);
 
@@ -72,7 +73,8 @@ class OptionsPanel {
 
         this.update(true);
 
-        this.subscribeOnUpdates(this.handlerPanelUpdate);
+        this.subscribeOnSetModelData(this.handlerPanelUpdate);
+        this.subscribeOnSetViewData(this.handlerPanelUpdate);
     }
 
     public update(neededFullRerender: boolean): void {

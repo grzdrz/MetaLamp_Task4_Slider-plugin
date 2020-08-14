@@ -49,7 +49,7 @@ class Angle extends OptionPanelElement {
             angle: inputValue,
         };
 
-        this.view.setData({}, dataToUpdate);
+        this.view.setViewData(dataToUpdate);
     }
 }
 

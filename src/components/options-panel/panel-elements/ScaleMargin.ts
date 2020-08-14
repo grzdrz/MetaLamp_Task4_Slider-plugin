@@ -55,7 +55,7 @@ class ScaleMargin extends OptionPanelElement {
             scaleMargin: inputValue,
         };
 
-        this.view.setData({}, dataToUpdate);
+        this.view.setViewData(dataToUpdate);
     }
 }
 

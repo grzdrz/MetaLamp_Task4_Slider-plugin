@@ -53,7 +53,7 @@ class MinValue extends OptionPanelElement {
             minValue: inputValue,
         };
 
-        this.view.setData(dataToUpdate, {});
+        this.view.setModelData(dataToUpdate);
     }
 }
 

@@ -44,7 +44,7 @@ class HandlesSeparated extends OptionPanelElement {
             isHandlesSeparated: input.checked,
         };
 
-        this.view.setData({}, dataToUpdate);
+        this.view.setViewData(dataToUpdate);
     }
 }
 

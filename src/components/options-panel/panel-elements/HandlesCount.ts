@@ -52,9 +52,9 @@ class HandlesCount extends OptionPanelElement {
             if (i < modelData.values.length) values.push(modelData.values[i]);
             else values.push(modelData.maxValue);
         }
-        const optionsToUpdate = { values };
+        const dataToUpdate = { values };
 
-        this.view.setData(optionsToUpdate, {});
+        this.view.setModelData(dataToUpdate);
     }
 }
 

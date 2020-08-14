@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import "../plugin.ts";
 import $ from "jquery";
-import "./TestPage.scss";
+import "./index.scss";
 import OptionsPanel from "../components/options-panel/OptionsPanel";
 import ColorCustomizer from "../components/color-customizer/color-customizer";
 import SliderWithPhysic from "../components/slider-with-physic/slider-with-physic";

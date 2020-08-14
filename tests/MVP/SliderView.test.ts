@@ -1,14 +1,15 @@
 import RangeSlider from "../../src/RangeSlider/RangeSlider";
-import ViewDataEventArgs from "../../src/RangeSlider/Events/ViewDataEventArgs";
 import SliderView from "../../src/RangeSlider/MVP/Views/SliderView/SliderView";
 import Vector from "../../src/RangeSlider/Helpers/Vector";
+import EventArgs from "../../src/RangeSlider/Events/EventArgs";
+import IViewData from "../../src/RangeSlider/MVP/Views/Data/IViewData";
 
 describe("SliderView", function () {
     it("создание слайдера без шкалы", function () {
         const container = document.createElement("div");
         const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
-        presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+        presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
             hasScale: false,
         }));
 
@@ -53,29 +54,26 @@ describe("SliderView", function () {
         const container = document.createElement("div");
         const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
-        presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+        presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
             isHandlesSeparated: true,
             hasTooltip: false,
             filledStrips: [true, true, true],
         }));
-        /* presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
-            filledStrips: [true, true, true],
-        })); */
 
-        const data1 = new ViewDataEventArgs({});
+        const data1 = new EventArgs<IViewData>({});
         presenter.viewManager.getData(data1);
 
         assert.deepEqual(data1.data.filledStrips, [true, true, true]);
 
 
-        presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+        presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
             isHandlesSeparated: false,
         }));
-        presenter.viewManager.onStatesUpdate.invoke(new ViewDataEventArgs({
+        presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
             filledStrips: [true, true, true],
         }));
 
-        const data2 = new ViewDataEventArgs({});
+        const data2 = new EventArgs<IViewData>({});
         presenter.viewManager.getData(data2);
 
         assert.deepEqual(data2.data.filledStrips, [true, true, true]);

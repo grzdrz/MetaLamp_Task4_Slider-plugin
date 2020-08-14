@@ -1,8 +1,9 @@
 import SliderPart from "./SliderPart";
 import SliderView from "../SliderView";
 import Vector from "../../../../Helpers/Vector";
-import ModelDataEventArgs from "../../../../Events/ModelDataEventArgs";
 import View from "../../View";
+import EventArgs from "../../../../Events/EventArgs";
+import IModelData from "../../../Model/Data/IModelData";
 
 class Scale extends SliderPart {
     constructor(view: SliderView) {
@@ -114,7 +115,7 @@ class Scale extends SliderPart {
             values[smallestValues[indexOfSuitableValue].index] = value;
         }
 
-        this.view.viewManager.onHandleMove.invoke(new ModelDataEventArgs({ values }));
+        this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
     }
 }
 

@@ -1,4 +1,5 @@
 import Event from "../../src/RangeSlider/Events/Event";
+import EventArgs from "../../src/RangeSlider/Events/EventArgs";
 
 describe("Event", function () {
     it("Создание экземмпляра события", function () {
@@ -30,7 +31,7 @@ describe("Event", function () {
     it("invoke, корректный вызов обработчиков",
         function () {
             let number = 0;
-            const onIncreaseNumber = new Event();
+            const onIncreaseNumber = new Event<{}>();
 
             onIncreaseNumber.subscribe(() => {
                 number += 1;
@@ -43,7 +44,7 @@ describe("Event", function () {
             const expected1 = 0;
             assert.equal(actual1, expected1, "Несовпадение значений");
 
-            onIncreaseNumber.invoke({});
+            onIncreaseNumber.invoke(new EventArgs<{}>({}));
 
             const actual2 = number;
             const expected2 = 3;

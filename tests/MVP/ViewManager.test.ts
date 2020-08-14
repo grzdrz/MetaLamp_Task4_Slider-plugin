@@ -1,17 +1,18 @@
 import RangeSlider from "../../src/RangeSlider/RangeSlider";
-import ViewDataEventArgs from "../../src/RangeSlider/Events/ViewDataEventArgs";
+import EventArgs from "../../src/RangeSlider/Events/EventArgs";
+import IViewData from "../../src/RangeSlider/MVP/Views/Data/IViewData";
 
 describe("ViewManager", function () {
     it("обновление viewManager без указания данных", function () {
         const container = document.createElement("div");
         const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
-        const oldData = new ViewDataEventArgs({});
+        const oldData = new EventArgs<IViewData>({});
         presenter.viewManager.getData(oldData);
 
         presenter.viewManager.update({});
 
-        const newData = new ViewDataEventArgs({});
+        const newData = new EventArgs<IViewData>({});
         presenter.viewManager.getData(newData);
 
         assert.equal(oldData.data.angle, newData.data.angle);
@@ -36,7 +37,7 @@ describe("ViewManager", function () {
             angle: 91,
         });
 
-        const updatedData = new ViewDataEventArgs({});
+        const updatedData = new EventArgs<IViewData>({});
         presenter.viewManager.getData(updatedData);
 
         assert.equal(updatedData.data.angle, 90);
@@ -50,7 +51,7 @@ describe("ViewManager", function () {
             angle: -1,
         });
 
-        const updatedData = new ViewDataEventArgs({});
+        const updatedData = new EventArgs<IViewData>({});
         presenter.viewManager.getData(updatedData);
 
         assert.equal(updatedData.data.angle, 0);
@@ -64,7 +65,7 @@ describe("ViewManager", function () {
             filledStrips: [true],
         });
 
-        const updatedData = new ViewDataEventArgs({});
+        const updatedData = new EventArgs<IViewData>({});
         presenter.viewManager.getData(updatedData);
 
         assert.deepEqual(updatedData.data.filledStrips, [true, false, false]);

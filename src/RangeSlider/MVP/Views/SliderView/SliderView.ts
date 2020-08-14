@@ -2,19 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import View from "../View";
-
 import SliderPart from "./SliderParts/SliderPart";
 import Handle from "./SliderParts/Handle";
 import FilledStrip from "./SliderParts/FilledStrip";
 import EmptyStrip from "./SliderParts/EmptyStrip";
-
 import Vector from "../../../Helpers/Vector";
-
-import ModelDataEventArgs from "../../../Events/ModelDataEventArgs";
 import Scale from "./SliderParts/Scale";
 import ViewManager from "../ViewManager";
 import MathFunctions from "../../../Helpers/MathFunctions";
 import Tooltip from "./SliderParts/Tooltip";
+import EventArgs from "../../../Events/EventArgs";
+import IModelData from "../../Model/Data/IModelData";
 
 class SliderView extends View {
     public parts: SliderPart[] = [];
@@ -81,7 +79,7 @@ class SliderView extends View {
 
         const { values } = modelData;
         values[handleCountNumber] = proportionalValue;
-        this.viewManager.onHandleMove.invoke(new ModelDataEventArgs({ values }));
+        this.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
     }
 
     // пиксельное значение пропорциональное условному значению

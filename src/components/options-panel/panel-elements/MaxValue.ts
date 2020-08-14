@@ -54,7 +54,7 @@ class MaxValue extends OptionPanelElement {
             maxValue: inputValue,
         };
 
-        this.view.setData(dataToUpdate, {});
+        this.view.setModelData(dataToUpdate);
     }
 }
 

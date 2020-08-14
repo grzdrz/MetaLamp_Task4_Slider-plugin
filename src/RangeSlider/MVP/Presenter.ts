@@ -3,8 +3,8 @@ import Model from "./Model/Model";
 import ViewManager from "./Views/ViewManager";
 
 import EventArgs from "../Events/EventArgs";
-import ModelDataEventArgs from "../Events/ModelDataEventArgs";
-import ViewDataEventArgs from "../Events/ViewDataEventArgs";
+import IModelData from "./Model/Data/IModelData";
+import IViewData from "./Views/Data/IViewData";
 
 class Presenter {
     public model: Model;
@@ -19,20 +19,23 @@ class Presenter {
         this.handlerGetViewData = this.handlerGetViewData.bind(this);
         this.handlerHandleMove = this.handlerHandleMove.bind(this);
         this.handlerViewsUpdate = this.handlerViewsUpdate.bind(this);
-        this.handlerStatesUpdate = this.handlerStatesUpdate.bind(this);
 
         this.initialize();
     }
 
     private initialize(): void {
-        this.viewManager.onStatesUpdate.subscribe(this.handlerStatesUpdate);
-        this.viewManager.onStatesUpdate.subscribe(this.handlerViewsUpdate);
-        this.model.onStatesUpdate.subscribe(this.handlerStatesUpdate);
+        this.viewManager.onSetModelData.subscribe(this.handlerSetModelData);
+        this.viewManager.onSetModelData.subscribe(this.handlerViewsUpdate);
 
-        this.viewManager.onHandleMove.subscribe(this.handlerStatesUpdate);
+        this.viewManager.onSetViewData.subscribe(this.handlerSetViewData);
+        this.viewManager.onSetViewData.subscribe(this.handlerViewsUpdate);
+
+        this.model.onSetViewData.subscribe(this.handlerSetViewData);
+
+        this.viewManager.onHandleMove.subscribe(this.handlerSetModelData);
         this.viewManager.onHandleMove.subscribe(this.handlerHandleMove);
 
-        this.viewManager.onInputsChange.subscribe(this.handlerStatesUpdate);
+        this.viewManager.onInputsChange.subscribe(this.handlerSetModelData);
         this.viewManager.onInputsChange.subscribe(this.handlerHandleMove);
 
         this.model.onGetViewData.subscribe(this.handlerGetViewData);
@@ -42,17 +45,20 @@ class Presenter {
         this.viewManager.initialize();
     }
 
-    private handlerStatesUpdate(args: EventArgs): void {
-        if (args instanceof ModelDataEventArgs) this.model.update(args.data);
-        if (args instanceof ViewDataEventArgs) this.viewManager.update(args.data);
+    private handlerSetModelData = (args: EventArgs<IModelData>) => {
+        this.model.update(args.data);
+    };
+
+    private handlerSetViewData = (args: EventArgs<IViewData>) => {
+        this.viewManager.update(args.data);
+    };
+
+    private handlerGetModelData(args: EventArgs<IModelData>): void {
+        this.model.getData(args);
     }
 
-    private handlerGetModelData(args: EventArgs): void {
-        this.model.getData(<ModelDataEventArgs>args);
-    }
-
-    private handlerGetViewData(args: EventArgs): void {
-        this.viewManager.getData(<ViewDataEventArgs>args);
+    private handlerGetViewData(args: EventArgs<IViewData>): void {
+        this.viewManager.getData(args);
     }
 
     private handlerViewsUpdate(): void {

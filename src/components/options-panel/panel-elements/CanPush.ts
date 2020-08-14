@@ -44,7 +44,7 @@ class CanPush extends OptionPanelElement {
             canPush: input.checked,
         };
 
-        this.view.setData(dataToUpdate, {});
+        this.view.setModelData(dataToUpdate);
     }
 }
 

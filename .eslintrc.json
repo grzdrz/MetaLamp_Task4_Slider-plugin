@@ -23,7 +23,8 @@
     "ignorePatterns": [
         "temp.js",
         "tests/**/*.ts",
-        "karma.conf.js"
+        "karma.conf.js",
+        "webpack.config.js"
     ],
     "rules": {
         "@typescript-eslint/indent": [
@@ -36,6 +37,7 @@
         ],
         "max-len": 0,
         "@typescript-eslint/unbound-method": 0,
+        "@typescript-eslint/lines-between-class-members": 0,
         "import/extensions": "off",
         "import/no-unresolved": "off",
         "linebreak-style": "off",
@@ -43,7 +45,6 @@
         "import/no-cycle": 0,
         "no-param-reassign": 0,
         "class-methods-use-this": 0,
-        
         "fsd/hof-name-prefix": "error",
         "fsd/no-heavy-constructor": "error",
         "fsd/jq-cache-dom-elements": "error",
