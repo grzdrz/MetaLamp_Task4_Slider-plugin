@@ -1,64 +1,45 @@
-* {
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box; }
-
-@font-face {
-  font-family: "Montserrat";
-  src: url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.woff), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.woff2), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.eot), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.ttf), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-regular.svg);
-  font-weight: normal;
-  font-style: normal; }
-
-@font-face {
-  font-family: "Montserrat";
-  src: url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.woff), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.woff2), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.eot), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.ttf), url(src/assets/fonts/Montserrat/montserrat-v14-vietnamese_latin-ext_latin_cyrillic-ext_cyrillic-700.svg);
-  font-weight: bold;
-  font-style: normal; }
-
 .range-slider {
-  border: 1px solid black;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   align-self: center;
-  width: 100%;
-  height: 100%; }
+  margin: 0px;
+  padding: 0px;
+  border: 1px solid black;
+  box-sizing: border-box; }
   .range-slider__slider-container {
+    width: 100%;
+    height: 100%;
     display: flex;
     position: relative;
-    background: transparent;
-    width: 100%;
-    height: 100%; }
+    background: transparent; }
   .range-slider__empty-strip {
+    z-index: 1;
+    position: absolute;
     background: #ffffff;
-    border: 1px solid rgba(31, 32, 65, 0.25);
-    position: absolute;
-    z-index: 1; }
+    border: 1px solid rgba(31, 32, 65, 0.25); }
   .range-slider__filled-strip {
-    background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
+    z-index: 2;
     position: absolute;
-    z-index: 2; }
+    background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%); }
   .range-slider__handle {
     cursor: pointer;
+    z-index: 4;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
     background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
-    opacity: 0.5;
-    left: auto;
-    bottom: 0px;
-    z-index: 4; }
+    opacity: 0.5; }
   .range-slider__handle-background {
     cursor: pointer;
+    z-index: 3;
     position: absolute;
     background: #d86f6f;
-    opacity: 0.5;
-    left: auto;
-    bottom: 0px;
-    z-index: 3; }
+    opacity: 0.5; }
   .range-slider__tooltip {
     display: flex;
     justify-content: center;
@@ -75,14 +56,12 @@
     color: black;
     font-size: 20px;
     line-height: 20px;
-    position: absolute;
-    left: 0px;
-    bottom: 0px; }
+    position: absolute; }
   .range-slider__additional-container {
-    display: flex;
-    flex-direction: column;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
     padding: 10px;
     border: 2px solid #50bda5; }
   .range-slider__input-container {
@@ -94,12 +73,12 @@
     width: 30%;
     height: 25px;
     border: 1px solid black;
-    font-size: 1.5rem; }
+    font-size: 20px; }
   .range-slider__input-text {
     margin: 0px;
     margin-left: 10px;
     text-align: center;
     display: inline-flex;
     align-items: flex-end;
-    font-size: 1.2rem; }
+    font-size: 20px; }
 
