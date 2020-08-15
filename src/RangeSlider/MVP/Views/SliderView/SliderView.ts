@@ -18,15 +18,13 @@ class SliderView extends View {
 
     public initialize(): void {
         const resizeObserver = new ResizeObserver(this.handlerViewportSizeChange);
-        const htmlElement = <HTMLElement>(document.querySelector("html"));
+        const htmlElement = this.viewManager.containerElement;
         resizeObserver.observe(htmlElement);
 
         this.build();
-        this.renderContainer();
         this.parts.forEach((part) => {
             part.initialize();
         });
-
         this.update(false);
     }
 
@@ -52,16 +50,15 @@ class SliderView extends View {
     }
 
     public update(isNeedRebuild: boolean): void {
+        this.renderContainer();
         if (isNeedRebuild) {
             this.containerElement.innerHTML = "";
             this.build();
-            this.renderContainer();
             this.parts.forEach((part) => {
                 part.build();
                 part.update();
             });
         } else {
-            this.renderContainer();
             this.parts.forEach((part) => {
                 part.update();
             });
@@ -130,7 +127,8 @@ class SliderView extends View {
     }
 
     private handlerViewportSizeChange = () => {
-        this.update(true);
+        this.renderContainer();
+        this.update(false);
     };
 }
 

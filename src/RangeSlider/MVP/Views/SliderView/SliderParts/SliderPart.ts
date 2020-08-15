@@ -14,7 +14,7 @@ abstract class SliderPart {
 
     public initialize(): void {
         this.build();
-        this.update();
+        //this.update();
     }
 
     public build(): void {

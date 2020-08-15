@@ -5,6 +5,8 @@ import EventArgs from "../../../../Events/EventArgs";
 import IModelData from "../../../Model/Data/IModelData";
 
 class Scale extends SliderPart {
+    public segments: HTMLElement[] = new Array<HTMLElement>();
+
     public build(): void {
         super.build();
 
@@ -14,10 +16,20 @@ class Scale extends SliderPart {
         this.buildSegments();
     }
 
-    public update(): void { }
+    public update(): void {
+        this.segments.forEach((segment) => {
+            const value = Number.parseFloat(<string>(segment.dataset.value));
+            this.calculateSegmentPosition(segment, value);
+        });
+    }
 
     private buildSegments(): void {
-        const modelData = this.view.viewManager.getModelData();
+        this.segments = [];
+        const {
+            stepSize,
+            minValue,
+            maxValue,
+        } = this.view.viewManager.getModelData();
         const { maxSegmentsCount } = this.view.viewManager.viewData;
 
         const segmentDensityLimit = this.calculateSegmentDensityLimit();
@@ -30,19 +42,20 @@ class Scale extends SliderPart {
         const stepsInOneSegment = Math.round(segmentDensityLimit / exactMaxSegmentsCount);
 
         for (let i = 0; i < exactMaxSegmentsCount; i += 1) {
-            const segmentValue = i * modelData.stepSize * stepsInOneSegment + modelData.minValue;
-            if (segmentValue >= modelData.maxValue) break;
+            const segmentValue = i * stepSize * stepsInOneSegment + minValue;
+            if (segmentValue >= maxValue) break;
             this.buildSegment(segmentValue);
         }
-        this.buildSegment(modelData.maxValue);
+        this.buildSegment(maxValue);
     }
 
     private buildSegment(segmentValue: number): void {
         const segment = document.createElement("div");
+        this.segments.push(segment);
         this.DOMElement.append(segment);
         segment.className = "range-slider__scale-segment";
         segment.textContent = segmentValue.toFixed(4);// ////////
-        segment.dataset.segmentValue = segmentValue.toString();
+        segment.dataset.value = `${segmentValue}`;
         segment.addEventListener("click", this.handlerClickOnSegment);
         this.calculateSegmentPosition(segment, segmentValue);
     }
@@ -87,7 +100,7 @@ class Scale extends SliderPart {
         const modelData = this.view.viewManager.getModelData();
 
         const currentSegment = <HTMLElement>(event.currentTarget);
-        const segmentValueString = <string>(currentSegment.dataset.segmentValue);
+        const segmentValueString = <string>(currentSegment.dataset.value);
         const value = Number.parseFloat(segmentValueString);
 
         const { values } = modelData;

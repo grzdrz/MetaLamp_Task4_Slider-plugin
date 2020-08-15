@@ -24,7 +24,7 @@ const viewData1 = {
     borderThickness: 10,
     maxSegmentsCount: 6,
     scaleFontSize: 15,
-    angle: 0,
+    angle: 45,
     filledStrips: [true, false],
     isHandlesSeparated: false,
     hasScale: true,
@@ -62,5 +62,5 @@ const optionsPanel2 = new OptionsPanel(optionsPanelContainer2, modelData2, viewD
 const colorCustomizerContainer = <HTMLElement>(document.querySelector(".test-page__color-customizer"));
 const colorCustomizer = new ColorCustomizer(colorCustomizerContainer);
 
-const sliderWithPhysicContainer = <HTMLElement>(document.querySelector(".test-page__slider-with-physic"));
-const sliderWithPhysic = new SliderWithPhysic(sliderWithPhysicContainer);
+/* const sliderWithPhysicContainer = <HTMLElement>(document.querySelector(".test-page__slider-with-physic"));
+const sliderWithPhysic = new SliderWithPhysic(sliderWithPhysicContainer); */
