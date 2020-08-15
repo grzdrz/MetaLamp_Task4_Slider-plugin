@@ -1,39 +1,35 @@
 .options {
-    display: grid;
     width: 100%;
+    display: grid;
+    grid-column-start: 1;
+    grid-column-end: 3;
     padding: 10px;
     border: 2px solid rgb(58, 37, 179);
 
-    grid-column-start: 1;
-    grid-column-end: 3;
-
     &__label {
+        width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
-        width: 100%;
-
         margin-bottom: 5px;
     }
 
     &__cheackboxes-container {
+        width: 100%;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        width: 100%;
-
-        margin-bottom: 5px;
-
         grid-column-start: 1;
         grid-column-end: 3;
         align-items: baseline;
+        margin-bottom: 5px;
     }
 
     &__input {
         width: 30%;
         height: 25px;
         border: 1px solid black;
-        font-size: 1.5rem;
+        font-size: 20px;
     }
 
     &__checkbox-input {
@@ -43,24 +39,24 @@
     }
 
     &__text {
+        display: inline-flex;
+        align-items: flex-end;
         margin: 0px;
         margin-left: 10px;
         text-align: center;
-        display: inline-flex;
-        align-items: flex-end;
-        font-size: 1.2rem;
+        font-size: 20px;
     }
 
     &__title {
-        font-size: 1.2rem;
         margin-bottom: 5px;
+        font-size: 20px;
     }
 
     &__inputs {
+        width: 100%;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        width: 100%;
         margin-bottom: 5px;
     }
 }

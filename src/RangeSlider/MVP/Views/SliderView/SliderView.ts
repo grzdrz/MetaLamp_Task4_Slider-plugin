@@ -63,7 +63,6 @@ class SliderView extends View {
                 part.update();
             });
         }
-
         this.renderContainer();
     }
 

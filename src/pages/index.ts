@@ -4,11 +4,10 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import "../plugin.ts";
-import $ from "jquery";
-import "./index.scss";
 import OptionsPanel from "../components/options-panel/OptionsPanel";
 import ColorCustomizer from "../components/color-customizer/color-customizer";
 import SliderWithPhysic from "../components/slider-with-physic/slider-with-physic";
+import "./index.scss";
 
 const modelData1 = {
     minValue: -100,
@@ -48,7 +47,7 @@ const viewData2 = {
     borderThickness: 4,
     maxSegmentsCount: 6,
     scaleFontSize: 15,
-    angle: 0,
+    angle: 70,
     filledStrips: [true, false],
     isHandlesSeparated: false,
     hasTooltip: true,
@@ -62,5 +61,5 @@ const optionsPanel2 = new OptionsPanel(optionsPanelContainer2, modelData2, viewD
 const colorCustomizerContainer = <HTMLElement>(document.querySelector(".test-page__color-customizer"));
 const colorCustomizer = new ColorCustomizer(colorCustomizerContainer);
 
-/* const sliderWithPhysicContainer = <HTMLElement>(document.querySelector(".test-page__slider-with-physic"));
-const sliderWithPhysic = new SliderWithPhysic(sliderWithPhysicContainer); */
+const sliderWithPhysicContainer = <HTMLElement>(document.querySelector(".test-page__slider-with-physic"));
+const sliderWithPhysic = new SliderWithPhysic(sliderWithPhysicContainer);
