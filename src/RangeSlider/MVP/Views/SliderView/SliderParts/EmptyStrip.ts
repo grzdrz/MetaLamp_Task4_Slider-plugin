@@ -5,8 +5,8 @@ class EmptyStrip extends SliderPart {
     public build(): void {
         super.build();
 
-        this.DOMElement.className = "range-slider__empty-strip";
-        this.view.containerElement.append(this.DOMElement);
+        this.element.className = "range-slider__empty-strip";
+        this.view.containerElement.append(this.element);
     }
 
     public update(): void {
@@ -14,7 +14,7 @@ class EmptyStrip extends SliderPart {
             sliderLength,
             handleHeight,
             sliderStripThickness,
-        } = this.view.viewManager.viewData;
+        } = this.view.viewManager.data;
 
         this.rotate();
 
@@ -29,12 +29,12 @@ class EmptyStrip extends SliderPart {
             handleWidth,
             angle,
             sliderStripThickness,
-        } = this.view.viewManager.viewData;
+        } = this.view.viewManager.data;
 
         const transformOriginX = handleWidth / 2;
         const transformOriginY = sliderStripThickness / 2;
-        this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.DOMElement.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
+        this.element.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
+        this.element.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
     }
 }
 

@@ -11,7 +11,7 @@ import EventArgs from "../../Events/EventArgs";
 
 class ViewManager {
     public containerElement: HTMLElement;
-    public viewData: ViewData;
+    public data: ViewData;
     public views: View[] = new Array<View>();
 
     public onSetViewData = new Event<IViewData>();
@@ -24,7 +24,7 @@ class ViewManager {
     public onMouseUp = new Event<IMouseData>();
 
     constructor(viewData: ViewData, containerElement: HTMLElement) {
-        this.viewData = viewData;
+        this.data = viewData;
         this.containerElement = containerElement;
     }
 
@@ -47,28 +47,32 @@ class ViewManager {
 
         this.views.forEach((e) => e.initialize());
 
-        this.update(this.viewData);
+        this.update(this.data);
     }
 
     public update(data: IViewData): void {
-        if (data.sliderStripThickness !== undefined) this.viewData.sliderStripThickness = data.sliderStripThickness;
-        if (data.handleWidth !== undefined) this.viewData.handleWidth = data.handleWidth;
-        if (data.handleHeight !== undefined) this.viewData.handleHeight = data.handleHeight;
-        if (data.borderThickness !== undefined) this.viewData.borderThickness = data.borderThickness;
-        if (data.maxSegmentsCount !== undefined) this.viewData.maxSegmentsCount = this.validateMaxSegmentsCount(data.maxSegmentsCount);
-        if (data.angle !== undefined) this.viewData.angle = this.validateAngle(data.angle);
-        if (data.filledStrips !== undefined) this.viewData.filledStrips = this.validateFilledStrips(data.filledStrips);
-        if (data.hasScale !== undefined) this.viewData.hasScale = data.hasScale;
-        if (data.hasTooltip !== undefined) this.viewData.hasTooltip = data.hasTooltip;
-        if (data.tooltipMargin !== undefined) this.viewData.tooltipMargin = data.tooltipMargin;
-        if (data.isHandlesSeparated !== undefined) this.viewData.isHandlesSeparated = data.isHandlesSeparated;
-        if (data.scaleMargin !== undefined) this.viewData.scaleMargin = data.scaleMargin;
+        if (data.sliderStripThickness !== undefined) this.data.sliderStripThickness = data.sliderStripThickness;
+        if (data.handleWidth !== undefined) this.data.handleWidth = data.handleWidth;
+        if (data.handleHeight !== undefined) this.data.handleHeight = data.handleHeight;
+        if (data.borderThickness !== undefined) this.data.borderThickness = data.borderThickness;
+        if (data.maxSegmentsCount !== undefined) this.data.maxSegmentsCount = this.validateMaxSegmentsCount(data.maxSegmentsCount);
+        if (data.angle !== undefined) this.data.angle = this.validateAngle(data.angle);
+        if (data.filledStrips !== undefined) this.data.filledStrips = this.validateFilledStrips(data.filledStrips);
+        if (data.hasScale !== undefined) this.data.hasScale = data.hasScale;
+        if (data.hasTooltip !== undefined) this.data.hasTooltip = data.hasTooltip;
+        if (data.tooltipMargin !== undefined) this.data.tooltipMargin = data.tooltipMargin;
+        if (data.isHandlesSeparated !== undefined) this.data.isHandlesSeparated = data.isHandlesSeparated;
+        if (data.scaleMargin !== undefined) this.data.scaleMargin = data.scaleMargin;
     }
 
     public getModelData(): ModelData {
         const optionsEventArgs = new EventArgs<IModelData>({});
         this.onGetModelData.invoke(optionsEventArgs);
         return <ModelData>optionsEventArgs.data;
+    }
+
+    public getData(args: EventArgs<IViewData>): void {
+        args.data = new ViewData(this.data);
     }
 
     private validateFilledStrips(filledStrips: boolean[]): boolean[] {
@@ -94,10 +98,6 @@ class ViewManager {
     private validateMaxSegmentsCount(maxSegmentsCount: number): number {
         if (maxSegmentsCount < 1) return 1;
         return maxSegmentsCount;
-    }
-
-    public getData(args: EventArgs<IViewData>): void {
-        args.data = new ViewData(this.viewData);
     }
 }
 

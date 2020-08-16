@@ -3,32 +3,27 @@ import SliderView from "../SliderView";
 import View from "../../View";
 
 abstract class SliderPart {
-    public DOMElement: HTMLElement;
+    public element: HTMLElement;
 
     public view: SliderView;
 
     constructor(view: SliderView) {
         this.view = view;
-        this.DOMElement = document.createElement("div");
-    }
-
-    public initialize(): void {
-        this.build();
-        //this.update();
+        this.element = document.createElement("div");
     }
 
     public build(): void {
-        this.DOMElement.innerHTML = "";
+        this.element.innerHTML = "";
     }
 
     public abstract update(): void;
 
     protected setPosition(position: Vector): void {
-        View.renderPosition(this.DOMElement, position);
+        View.renderPosition(this.element, position);
     }
 
     protected setSize(size: Vector): void {
-        View.renderSize(this.DOMElement, size);
+        View.renderSize(this.element, size);
     }
 }
 

@@ -15,10 +15,10 @@ class Tooltip extends SliderPart {
 
         const { values } = this.view.viewManager.getModelData();
 
-        this.DOMElement.className = `range-slider__tooltip range-slider__tooltip_${this.countNumber}`;
-        this.DOMElement.dataset.sliderCountNumber = this.countNumber.toString();
-        this.DOMElement.textContent = `${values[this.countNumber]}`;
-        this.view.containerElement.append(this.DOMElement);
+        this.element.className = `range-slider__tooltip range-slider__tooltip_${this.countNumber}`;
+        this.element.dataset.sliderCountNumber = this.countNumber.toString();
+        this.element.textContent = `${values[this.countNumber]}`;
+        this.view.containerElement.append(this.element);
     }
 
     public update(): void {
@@ -29,11 +29,11 @@ class Tooltip extends SliderPart {
             isHandlesSeparated,
             tooltipMargin,
             borderThickness,
-        } = this.view.viewManager.viewData;
+        } = this.view.viewManager.data;
 
-        this.DOMElement.textContent = `${values[this.countNumber]}`;
+        this.element.textContent = `${values[this.countNumber]}`;
 
-        const tooltipRect = this.DOMElement.getBoundingClientRect();
+        const tooltipRect = this.element.getBoundingClientRect();
         const tooltipWidth = tooltipRect.width * Math.cos(angleInRad);
         const tooltipHeight = tooltipRect.height * Math.sin(angleInRad);
         const vectorizedTooltipLength = new Vector(tooltipWidth, tooltipHeight).length;

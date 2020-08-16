@@ -1,5 +1,4 @@
 import Event from "../../Events/Event";
-
 import IModelData from "./Data/IModelData";
 import ModelData from "./Data/ModelData";
 import MathFunctions from "../../Helpers/MathFunctions";

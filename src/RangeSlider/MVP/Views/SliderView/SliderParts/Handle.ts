@@ -15,29 +15,29 @@ interface IMouseEventArgs {
 
 class Handle extends SliderPart {
     public countNumber: number;
-    public backgroundDOMElement: HTMLElement;
+    public backgroundElement: HTMLElement;
 
     constructor(view: SliderView, countNumber: number) {
         super(view);
-        this.backgroundDOMElement = document.createElement("div");
+        this.backgroundElement = document.createElement("div");
         this.countNumber = countNumber;
     }
 
     public build(): void {
         super.build();
 
-        const { handleWidth, handleHeight } = this.view.viewManager.viewData;
+        const { handleWidth, handleHeight } = this.view.viewManager.data;
 
-        this.DOMElement.className = `range-slider__handle range-slider__handle_${this.countNumber}`;
-        this.DOMElement.dataset.sliderCountNumber = this.countNumber.toString();
-        this.DOMElement.style.width = `${handleWidth}px`;
-        this.DOMElement.style.height = `${handleHeight}px`;
-        this.view.containerElement.append(this.DOMElement);
+        this.element.className = `range-slider__handle range-slider__handle_${this.countNumber}`;
+        this.element.dataset.sliderCountNumber = this.countNumber.toString();
+        this.element.style.width = `${handleWidth}px`;
+        this.element.style.height = `${handleHeight}px`;
+        this.view.containerElement.append(this.element);
 
-        this.backgroundDOMElement.innerHTML = "";
-        this.backgroundDOMElement.className = `range-slider__handle-background range-slider__handle-background_${this.countNumber}`;
-        this.backgroundDOMElement.dataset.sliderCountNumber = this.countNumber.toString();
-        this.view.containerElement.append(this.backgroundDOMElement);
+        this.backgroundElement.innerHTML = "";
+        this.backgroundElement.className = `range-slider__handle-background range-slider__handle-background_${this.countNumber}`;
+        this.backgroundElement.dataset.sliderCountNumber = this.countNumber.toString();
+        this.view.containerElement.append(this.backgroundElement);
 
         this.setDragAndDropHandlers();
     }
@@ -45,7 +45,7 @@ class Handle extends SliderPart {
     public update(): void {
         const modelData = this.view.viewManager.getModelData();
         const { values } = modelData;
-        const { handleWidth, angleInRad, isHandlesSeparated } = this.view.viewManager.viewData;
+        const { handleWidth, angleInRad, isHandlesSeparated } = this.view.viewManager.data;
 
         const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
         const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient), angleInRad);
@@ -60,26 +60,26 @@ class Handle extends SliderPart {
     }
 
     private setDragAndDropHandlers(): void {
-        this.DOMElement.ondragstart = () => false;
-        this.DOMElement.addEventListener("mousedown", this.handlerMouseDown);
-        this.DOMElement.addEventListener("touchstart", this.handlerMouseDown);
+        this.element.ondragstart = () => false;
+        this.element.addEventListener("mousedown", this.handlerMouseDown);
+        this.element.addEventListener("touchstart", this.handlerMouseDown);
         // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
-        this.backgroundDOMElement.addEventListener("mousedown", (event: UIEvent) => {
+        this.backgroundElement.addEventListener("mousedown", (event: UIEvent) => {
             this.handlerMouseDown(event);
         });
         // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
-        this.backgroundDOMElement.addEventListener("touchstart", (event: UIEvent) => {
+        this.backgroundElement.addEventListener("touchstart", (event: UIEvent) => {
             this.handlerMouseDown(event);
         });
     }
 
     private rotate(): void {
-        const { handleWidth, angle } = this.view.viewManager.viewData;
+        const { handleWidth, angle } = this.view.viewManager.data;
 
         const transformOriginX = handleWidth / 2;
         const transformOriginY = handleWidth / 2;
-        this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.DOMElement.style.transform = `rotate(${-angle}deg)`;
+        this.element.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
+        this.element.style.transform = `rotate(${-angle}deg)`;
     }
 
     private renderBackground(position: Vector): void {
@@ -88,7 +88,7 @@ class Handle extends SliderPart {
             handleHeight,
             angle,
             borderThickness,
-        } = this.view.viewManager.viewData;
+        } = this.view.viewManager.data;
 
         const vectorizedHandleSize = new Vector(handleWidth, handleHeight);
 
@@ -96,11 +96,11 @@ class Handle extends SliderPart {
         const backgroundPosition = new Vector(position.x, position.y).sumNumber(-borderThickness);
 
         const transformOrigin = backgroundSize.multiplyByNumber(0.5);
-        this.backgroundDOMElement.style.transformOrigin = `${transformOrigin.x}px ${transformOrigin.y}px`;
-        this.backgroundDOMElement.style.transform = `rotate(${-angle}deg)`;
+        this.backgroundElement.style.transformOrigin = `${transformOrigin.x}px ${transformOrigin.y}px`;
+        this.backgroundElement.style.transform = `rotate(${-angle}deg)`;
 
-        View.renderPosition(this.backgroundDOMElement, backgroundPosition);
-        View.renderSize(this.backgroundDOMElement, backgroundSize);
+        View.renderPosition(this.backgroundElement, backgroundPosition);
+        View.renderSize(this.backgroundElement, backgroundSize);
     }
 
     private calculateMouseGlobalPosition = (event: UIEvent) => {
@@ -131,9 +131,9 @@ class Handle extends SliderPart {
     }
 
     private calculateCursorPositionInsideTargetHandle(cursorMouseDownPosition: Vector): Vector {
-        const { handleHeight } = this.view.viewManager.viewData;
+        const { handleHeight } = this.view.viewManager.data;
 
-        const targetSliderBoundingCoords = this.DOMElement.getBoundingClientRect();
+        const targetSliderBoundingCoords = this.element.getBoundingClientRect();
         const mousePositionInsideTargetSliderX = cursorMouseDownPosition.x - targetSliderBoundingCoords.x;
         const mousePositionInsideTargetSliderY = cursorMouseDownPosition.y - (document.documentElement.clientHeight + window.pageYOffset - targetSliderBoundingCoords.y - handleHeight);
         return new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);

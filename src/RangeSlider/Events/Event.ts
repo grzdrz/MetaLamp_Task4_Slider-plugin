@@ -3,11 +3,7 @@ import EventArgs from "./EventArgs";
 import EventHandler from "./EventHandler";
 
 class Event<TData> {
-    private handlers: EventHandler<TData>[];
-
-    constructor() {
-        this.handlers = new Array<EventHandler<TData>>();
-    }
+    private handlers = new Array<EventHandler<TData>>();
 
     public invoke = (args: EventArgs<TData>) => {
         this.handlers.forEach((eventHandler) => eventHandler(args));

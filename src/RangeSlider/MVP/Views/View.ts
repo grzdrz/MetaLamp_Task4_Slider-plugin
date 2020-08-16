@@ -1,11 +1,9 @@
-import IModelData from "../Model/Data/IModelData";
 import Vector from "../../Helpers/Vector";
 import ViewManager from "./ViewManager";
 
 abstract class View {
     public containerElement: HTMLElement;
     public viewManager: ViewManager;
-    public modelData: IModelData = {};
 
     constructor(containerElement: HTMLElement, viewManager: ViewManager) {
         this.containerElement = containerElement;

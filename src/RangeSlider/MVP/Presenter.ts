@@ -12,11 +12,6 @@ class Presenter {
         this.model = model;
         this.viewManager = viewManager;
 
-        this.handlerGetModelData = this.handlerGetModelData.bind(this);
-        this.handlerGetViewData = this.handlerGetViewData.bind(this);
-        this.handlerHandleMove = this.handlerHandleMove.bind(this);
-        this.handlerViewsUpdate = this.handlerViewsUpdate.bind(this);
-
         this.initialize();
     }
 
@@ -50,21 +45,21 @@ class Presenter {
         this.viewManager.update(args.data);
     };
 
-    private handlerGetModelData(args: EventArgs<IModelData>): void {
+    private handlerGetModelData = (args: EventArgs<IModelData>) => {
         this.model.getData(args);
-    }
+    };
 
-    private handlerGetViewData(args: EventArgs<IViewData>): void {
+    private handlerGetViewData = (args: EventArgs<IViewData>) => {
         this.viewManager.getData(args);
-    }
+    };
 
-    private handlerViewsUpdate(): void {
+    private handlerViewsUpdate = () => {
         this.viewManager.views.forEach((e) => e.update(true));
-    }
+    };
 
-    private handlerHandleMove(): void {
+    private handlerHandleMove = () => {
         this.viewManager.views.forEach((e) => e.update(false));
-    }
+    };
 }
 
 export default Presenter;

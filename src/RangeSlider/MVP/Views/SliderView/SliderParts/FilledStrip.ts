@@ -13,8 +13,8 @@ class FilledStrip extends SliderPart {
     public build(): void {
         super.build();
 
-        this.DOMElement.className = `range-slider__filled-strip range-slider__filled-strip_${this.countNumber}`;
-        this.view.containerElement.append(this.DOMElement);
+        this.element.className = `range-slider__filled-strip range-slider__filled-strip_${this.countNumber}`;
+        this.view.containerElement.append(this.element);
     }
 
     public update(): void {
@@ -26,7 +26,8 @@ class FilledStrip extends SliderPart {
             angleInRad,
             sliderStripThickness,
             isHandlesSeparated,
-        } = this.view.viewManager.viewData;
+            filledStrips,
+        } = this.view.viewManager.data;
 
         this.rotate();
 
@@ -44,7 +45,7 @@ class FilledStrip extends SliderPart {
             const width = vectorizedLastHandlePosition.sum(handlesCountShift).length;
             size = new Vector(width, sliderStripThickness);
             position = new Vector(0, yShift);
-        } else if (this.countNumber === this.view.viewManager.viewData.filledStrips.length - 1) { // интервал от конца
+        } else if (this.countNumber === filledStrips.length - 1) { // интервал от конца
             const maxValueLength = this.view.calculateProportionalPixelValue(modelData.maxValue);
             const vectorizedMaxValueLength = Vector.calculateVector(maxValueLength - handleWidth / 2, angleInRad);
             const width = vectorizedMaxValueLength.subtract(vectorizedFirstHandlePosition).sum(vectorizedHandleWidth).length;
@@ -65,12 +66,12 @@ class FilledStrip extends SliderPart {
             handleWidth,
             angle,
             sliderStripThickness,
-        } = this.view.viewManager.viewData;
+        } = this.view.viewManager.data;
 
         const transformOriginX = handleWidth / 2;
         const transformOriginY = sliderStripThickness / 2;
-        this.DOMElement.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.DOMElement.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
+        this.element.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
+        this.element.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
     }
 }
 

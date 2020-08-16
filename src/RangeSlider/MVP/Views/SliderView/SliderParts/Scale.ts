@@ -10,8 +10,8 @@ class Scale extends SliderPart {
     public build(): void {
         super.build();
 
-        this.DOMElement.className = "range-slider__scale-container";
-        this.view.containerElement.append(this.DOMElement);
+        this.element.className = "range-slider__scale-container";
+        this.view.containerElement.append(this.element);
 
         this.buildSegments();
     }
@@ -30,7 +30,7 @@ class Scale extends SliderPart {
             minValue,
             maxValue,
         } = this.view.viewManager.getModelData();
-        const { maxSegmentsCount } = this.view.viewManager.viewData;
+        const { maxSegmentsCount } = this.view.viewManager.data;
 
         const segmentDensityLimit = this.calculateSegmentDensityLimit();
 
@@ -52,7 +52,7 @@ class Scale extends SliderPart {
     private buildSegment(segmentValue: number): void {
         const segment = document.createElement("div");
         this.segments.push(segment);
-        this.DOMElement.append(segment);
+        this.element.append(segment);
         segment.className = "range-slider__scale-segment";
         segment.textContent = segmentValue.toFixed(4);// ////////
         segment.dataset.value = `${segmentValue}`;
@@ -75,7 +75,7 @@ class Scale extends SliderPart {
             handleWidth,
             isHandlesSeparated,
             scaleMargin,
-        } = this.view.viewManager.viewData;
+        } = this.view.viewManager.data;
 
         const segmentRect = segment.getBoundingClientRect();
         const segmentWidth = segmentRect.width * Math.cos(angleInRad);

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import View from "../View";
 import SliderPart from "./SliderParts/SliderPart";
 import Handle from "./SliderParts/Handle";
@@ -21,41 +18,40 @@ class SliderView extends View {
         const htmlElement = this.viewManager.containerElement;
         resizeObserver.observe(htmlElement);
 
-        this.build();
-        this.parts.forEach((part) => {
-            part.initialize();
-        });
-        this.update(false);
+        this.update(true);
     }
 
     public build(): void {
         const modelData = this.viewManager.getModelData();
         this.parts = [];
 
+        this.containerElement.innerHTML = "";
+        this.renderContainer();
+
         this.parts.push(new EmptyStrip(this));
         modelData.values.forEach((value, index) => {
             this.parts.push(new Handle(this, index));
         });
-        if (this.viewManager.viewData.hasTooltip) {
+        if (this.viewManager.data.hasTooltip) {
             modelData.values.forEach((value, index) => {
                 this.parts.push(new Tooltip(this, index));
             });
         }
-        this.viewManager.viewData.filledStrips.forEach((value, index) => {
+        this.viewManager.data.filledStrips.forEach((value, index) => {
             if (value) this.parts.push(new FilledStrip(this, index));
         });
-        if (this.viewManager.viewData.hasScale) {
+        if (this.viewManager.data.hasScale) {
             this.parts.push(new Scale(this));
         }
+        this.parts.forEach((part) => {
+            part.build();
+        });
     }
 
     public update(isNeedRebuild: boolean): void {
-        this.renderContainer();
         if (isNeedRebuild) {
-            this.containerElement.innerHTML = "";
             this.build();
             this.parts.forEach((part) => {
-                part.build();
                 part.update();
             });
         } else {
@@ -74,7 +70,7 @@ class SliderView extends View {
             handleWidth,
             angleInRad,
             isHandlesSeparated,
-        } = this.viewManager.viewData;
+        } = this.viewManager.data;
 
         const shiftCoefficient = (isHandlesSeparated ? handleCountNumber : 0);
         const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
@@ -95,7 +91,7 @@ class SliderView extends View {
     // пиксельное значение пропорциональное условному значению
     public calculateProportionalPixelValue(value: number): number {
         const modelData = this.viewManager.getModelData();
-        const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.viewData;
+        const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.data;
 
         const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
         const usedLength = sliderLength - handleWidth * maxShiftCoefficient;
@@ -104,7 +100,7 @@ class SliderView extends View {
     }
 
     private renderContainer(): void {
-        const { sliderLength, angleInRad } = this.viewManager.viewData;
+        const { sliderLength, angleInRad } = this.viewManager.data;
 
         this.calculateSliderLength();
 
@@ -113,7 +109,7 @@ class SliderView extends View {
     }
 
     private calculateSliderLength(): void {
-        const { angleInRad, borderThickness } = this.viewManager.viewData;
+        const { angleInRad, borderThickness } = this.viewManager.data;
 
         const rangleSlider = <HTMLElement>(this.containerElement.closest(".range-slider"));
         const boundingRect = rangleSlider.getBoundingClientRect();
@@ -122,7 +118,7 @@ class SliderView extends View {
         const width = boundingRect.width - borderThickness * 2;
         const height = boundingRect.height - borderThickness * 2;
         const curLength = MathFunctions.calculateEllipseSurfacePointCoordinate(width, height, angleInRad).length;
-        this.viewManager.viewData.sliderLength = curLength;
+        this.viewManager.data.sliderLength = curLength;
     }
 
     private handlerViewportSizeChange = () => {
