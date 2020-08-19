@@ -54,8 +54,14 @@ class Scale extends SliderPart {
         this.segments.push(segment);
         this.element.append(segment);
         segment.className = "range-slider__scale-segment";
-        segment.textContent = segmentValue.toFixed(4);// ////////
-        segment.dataset.value = `${segmentValue}`;
+        const splitedValue = `${segmentValue}`.split(".");
+        let value;
+        if (splitedValue.length > 1) {
+            value = `${splitedValue[0]}.${splitedValue[1].length > 6 ? Number.parseFloat(splitedValue[1]) : splitedValue[1]}`;
+        } else value = `${splitedValue[0]}`;
+        /* value.slice(0, 6); */
+        segment.textContent = value/* .toFixed(4) */;// ////////
+        segment.dataset.value = value;
         segment.addEventListener("click", this.handlerClickOnSegment);
         this.calculateSegmentPosition(segment, segmentValue);
     }
@@ -97,30 +103,11 @@ class Scale extends SliderPart {
     private handlerClickOnSegment = (event: MouseEvent) => {
         event.preventDefault();
 
-        const modelData = this.view.viewManager.getModelData();
-
         const currentSegment = <HTMLElement>(event.currentTarget);
         const segmentValueString = <string>(currentSegment.dataset.value);
         const value = Number.parseFloat(segmentValueString);
 
-        const { values } = modelData;
-        // определяет к какому ползунку ближе выбранный сегмент
-        // список приращений всех значений к выбранному и их индексы
-        const deltaValues = values.map((e, index) => ({ index, dValue: Math.abs(e - value) }));
-        // отсеиваем самые маленькие приращения, т.е. элементы которых были ближе всех к выбранному сегменту
-        const sortedDeltaValues = deltaValues.sort((a, b) => a.dValue - b.dValue);
-        const smallestDeltaValues = sortedDeltaValues.filter((e) => e.dValue === sortedDeltaValues[0].dValue);
-        const smallestValues = smallestDeltaValues.map((e) => ({ index: e.index, value: values[e.index] }));
-        const suitableValue = smallestValues[0].value;
-        // выбираем какое значение из отсеяных нужно сдвинуть(нужно для случаев когда есть несколько ближайших одинаковых значений)
-        if (value > suitableValue) {
-            const indexOfSuitableValue = smallestValues.length - 1;
-            values[smallestValues[indexOfSuitableValue].index] = value;
-        } else if (value < suitableValue) {
-            const indexOfSuitableValue = 0;
-            values[smallestValues[indexOfSuitableValue].index] = value;
-        }
-
+        const values = this.view.findHandle(value);
         this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
     };
 }

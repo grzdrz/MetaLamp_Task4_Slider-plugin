@@ -1,6 +1,8 @@
 import SliderPart from "./SliderPart";
 import Vector from "../../../../Helpers/Vector";
 import SliderView from "../SliderView";
+import EventArgs from "../../../../Events/EventArgs";
+import IModelData from "../../../Model/Data/IModelData";
 
 class FilledStrip extends SliderPart {
     public countNumber = 0;
@@ -8,6 +10,12 @@ class FilledStrip extends SliderPart {
     constructor(view: SliderView, countNumber: number) {
         super(view);
         this.countNumber = countNumber;
+
+        this.initialize();
+    }
+
+    public initialize(): void {
+        this.element.addEventListener("click", this.handlerClick);
     }
 
     public build(): void {
@@ -71,8 +79,17 @@ class FilledStrip extends SliderPart {
         const transformOriginX = handleWidth / 2;
         const transformOriginY = sliderStripThickness / 2;
         this.element.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.element.style.transform = `rotate(${-angle}deg)`;// минус из-за нестандартного направления обхода функции rotate
+        this.element.style.transform = `rotate(${-angle}deg)`;
     }
+
+    private handlerClick = (event: UIEvent) => {
+        const mousePosition = this.view.calculateMouseGlobalPosition(event);
+        const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
+
+        const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
+        const values = this.view.findHandle(proportionalValue);
+        this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
+    };
 }
 
 export default FilledStrip;

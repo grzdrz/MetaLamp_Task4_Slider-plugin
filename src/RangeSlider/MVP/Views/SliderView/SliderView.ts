@@ -7,8 +7,6 @@ import Vector from "../../../Helpers/Vector";
 import Scale from "./SliderParts/Scale";
 import MathFunctions from "../../../Helpers/MathFunctions";
 import Tooltip from "./SliderParts/Tooltip";
-import EventArgs from "../../../Events/EventArgs";
-import IModelData from "../../Model/Data/IModelData";
 
 class SliderView extends View {
     public parts: SliderPart[] = [];
@@ -63,7 +61,7 @@ class SliderView extends View {
     }
 
     // значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
-    public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber: number): void {
+    public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber?: number): number {
         const modelData = this.viewManager.getModelData();
         const {
             sliderLength,
@@ -72,7 +70,10 @@ class SliderView extends View {
             isHandlesSeparated,
         } = this.viewManager.data;
 
-        const shiftCoefficient = (isHandlesSeparated ? handleCountNumber : 0);
+        let shiftCoefficient;
+        if (handleCountNumber !== undefined) shiftCoefficient = isHandlesSeparated ? handleCountNumber : 0;
+        else shiftCoefficient = 1;
+
         const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
         const vectorizedHandleWidth = Vector.calculateVector(handleWidth * shiftCoefficient, angleInRad);
         cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
@@ -82,10 +83,7 @@ class SliderView extends View {
         const cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
 
         const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
-
-        const { values } = modelData;
-        values[handleCountNumber] = proportionalValue;
-        this.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
+        return proportionalValue;
     }
 
     // пиксельное значение пропорциональное условному значению
@@ -97,6 +95,58 @@ class SliderView extends View {
         const usedLength = sliderLength - handleWidth * maxShiftCoefficient;
 
         return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
+    }
+
+    public calculateMouseGlobalPosition(event: UIEvent): Vector {
+        let x;
+        let y;
+        if (event instanceof TouchEvent) {
+            const touchEvent = /* <TouchEvent> */event;
+            x = touchEvent.changedTouches[0].pageX;
+            y = touchEvent.changedTouches[0].pageY;
+        } else {
+            const mouseEvent = <MouseEvent>event;
+            x = mouseEvent.clientX;
+            y = mouseEvent.clientY;
+        }
+        y = (document.documentElement.clientHeight + window.pageYOffset) - y;
+
+        return new Vector(x, y);
+    }
+
+    public calculateMousePositionInsideContainer(mouseGlobalPosition: Vector, mousePositionInsideTargetSlider?: Vector): Vector {
+        const containerBoundingRect = this.containerElement.getBoundingClientRect();
+        const containerCoord = new Vector(
+            containerBoundingRect.x,
+            (document.documentElement.clientHeight + window.pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height),
+        );
+
+        if (mousePositionInsideTargetSlider) {
+            return mouseGlobalPosition.subtract(containerCoord).subtract(mousePositionInsideTargetSlider);
+        }
+        return mouseGlobalPosition.subtract(containerCoord);
+    }
+
+    public findHandle(value: number): number[] { // определяет к какому ползунку ближе выбранный сегмент
+        const { values } = this.viewManager.getModelData();
+
+        // список приращений всех значений к выбранному и их индексы
+        const deltaValues = values.map((e, index) => ({ index, dValue: Math.abs(e - value) }));
+        // отсеиваем самые маленькие приращения, т.е. элементы которых были ближе всех к выбранному сегменту
+        const sortedDeltaValues = deltaValues.sort((a, b) => a.dValue - b.dValue);
+        const smallestDeltaValues = sortedDeltaValues.filter((e) => e.dValue === sortedDeltaValues[0].dValue);
+        const smallestValues = smallestDeltaValues.map((e) => ({ index: e.index, value: values[e.index] }));
+        const suitableValue = smallestValues[0].value;
+        // выбираем какое значение из отсеяных нужно сдвинуть(нужно для случаев когда есть несколько ближайших одинаковых значений)
+        if (value > suitableValue) {
+            const indexOfSuitableValue = smallestValues.length - 1;
+            values[smallestValues[indexOfSuitableValue].index] = value;
+        } else if (value < suitableValue) {
+            const indexOfSuitableValue = 0;
+            values[smallestValues[indexOfSuitableValue].index] = value;
+        }
+
+        return values;
     }
 
     private renderContainer(): void {

@@ -3,6 +3,7 @@ import SliderView from "../SliderView";
 import Vector from "../../../../Helpers/Vector";
 
 class Tooltip extends SliderPart {
+    public segments: HTMLElement[] = new Array<HTMLElement>();
     public countNumber: number;
 
     constructor(view: SliderView, countNumber: number) {
@@ -56,6 +57,10 @@ class Tooltip extends SliderPart {
 
         this.setPosition(position);
     }
+
+    /* private merge() {
+        for (let i = 0; i < this.)
+    } */
 }
 
 export default Tooltip;
