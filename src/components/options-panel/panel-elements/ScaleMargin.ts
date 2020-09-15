@@ -1,55 +1,55 @@
-import OptionPanelElement from "./OptionPanelElement";
+import OptionPanelElement from './OptionPanelElement';
 
 class ScaleMargin extends OptionPanelElement {
-    public build(): void {
-        super.build();
+  public build(): void {
+    super.build();
 
-        const { scaleMargin } = this.view.getViewData();
+    const { scaleMargin } = this.view.getViewData();
 
-        const input = document.createElement("input");
-        input.type = "number";
-        input.step = "1";
-        input.value = `${scaleMargin}`;
-        input.className = "options__input js-options__input";
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.step = '1';
+    input.value = `${scaleMargin}`;
+    input.className = 'options__input js-options__input';
 
-        const text = document.createElement("p");
-        text.className = "options__text";
-        text.textContent = "scale margin";
+    const text = document.createElement('p');
+    text.className = 'options__text';
+    text.textContent = 'scale margin';
 
-        this.DOMElement.append(input);
-        this.DOMElement.append(text);
+    this.DOMElement.append(input);
+    this.DOMElement.append(text);
 
-        this.DOMElement.addEventListener("change", this.handlerInputChange);
+    this.DOMElement.addEventListener('change', this.handlerInputChange);
 
-        this.view.containerElement.append(this.DOMElement);
+    this.view.containerElement.append(this.DOMElement);
+  }
+
+  public update(): void {
+    const { hasScale, scaleMargin } = this.view.getViewData();
+    const input = <HTMLInputElement>(this.DOMElement.querySelector('.js-options__input'));
+    input.value = `${scaleMargin}`;
+
+    if (hasScale) {
+      this.DOMElement.style.display = 'flex';
+    } else {
+      this.DOMElement.style.display = 'none';
     }
+  }
 
-    public update(): void {
-        const { hasScale, scaleMargin } = this.view.getViewData();
-        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        input.value = `${scaleMargin}`;
+  private handlerInputChange = (event: globalThis.Event) => {
+    event.preventDefault();
 
-        if (hasScale) {
-            this.DOMElement.style.display = "flex";
-        } else {
-            this.DOMElement.style.display = "none";
-        }
-    }
+    const input = <HTMLInputElement>(this.DOMElement.querySelector('.js-options__input'));
+    const inputValue = Number.parseInt(input.value, 10);
 
-    private handlerInputChange = (event: globalThis.Event) => {
-        event.preventDefault();
+    input.value = inputValue.toString();
 
-        const input = <HTMLInputElement>(this.DOMElement.querySelector(".js-options__input"));
-        const inputValue = Number.parseInt(input.value, 10);
-
-        input.value = inputValue.toString();
-
-        const dataToUpdate = {
-            scaleMargin: inputValue,
-        };
-
-        this.view.setViewData(dataToUpdate);
+    const dataToUpdate = {
+      scaleMargin: inputValue,
     };
+
+    this.view.setViewData(dataToUpdate);
+  };
 }
 
 export default ScaleMargin;

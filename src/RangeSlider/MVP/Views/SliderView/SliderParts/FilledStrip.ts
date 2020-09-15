@@ -1,95 +1,95 @@
-import SliderPart from "./SliderPart";
-import Vector from "../../../../Helpers/Vector";
-import SliderView from "../SliderView";
-import EventArgs from "../../../../Events/EventArgs";
-import IModelData from "../../../Model/Data/IModelData";
+import SliderPart from './SliderPart';
+import Vector from '../../../../Helpers/Vector';
+import SliderView from '../SliderView';
+import EventArgs from '../../../../Events/EventArgs';
+import IModelData from '../../../../Data/IModelData';
 
 class FilledStrip extends SliderPart {
-    public countNumber = 0;
+  public countNumber = 0;
 
-    constructor(view: SliderView, countNumber: number) {
-        super(view);
-        this.countNumber = countNumber;
+  constructor(view: SliderView, countNumber: number) {
+    super(view);
+    this.countNumber = countNumber;
 
-        this.initialize();
+    this.initialize();
+  }
+
+  public initialize(): void {
+    this.element.addEventListener('click', this.handleClick);
+  }
+
+  public build(): void {
+    super.build();
+
+    this.element.className = `range-slider__filled-strip range-slider__filled-strip_${this.countNumber}`;
+    this.view.containerElement.append(this.element);
+  }
+
+  public update(): void {
+    const modelData = this.view.viewManager.getModelData();
+    const { values } = modelData;
+    const {
+      handleWidth,
+      handleHeight,
+      angleInRad,
+      sliderStripThickness,
+      isHandlesSeparated,
+      filledStrips,
+    } = this.view.viewManager.data;
+
+    this.rotate();
+
+    let size;
+    let position;
+    const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
+    const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
+    const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient - handleWidth / 2), angleInRad);
+    const yShift = handleHeight / 2 - sliderStripThickness / 2;
+    const firstHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber - 1]);
+    const lastHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
+    const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRad);
+    const vectorizedLastHandlePosition = Vector.calculateVector(lastHandlePosition, angleInRad);
+    if (this.countNumber === 0) { // интервал от начала
+      const width = vectorizedLastHandlePosition.sum(handlesCountShift).length;
+      size = new Vector(width, sliderStripThickness);
+      position = new Vector(0, yShift);
+    } else if (this.countNumber === filledStrips.length - 1) { // интервал от конца
+      const maxValueLength = this.view.calculateProportionalPixelValue(modelData.maxValue);
+      const vectorizedMaxValueLength = Vector.calculateVector(maxValueLength - handleWidth / 2, angleInRad);
+      const width = vectorizedMaxValueLength.subtract(vectorizedFirstHandlePosition).sum(vectorizedHandleWidth).length;
+      size = new Vector(width, sliderStripThickness);
+      position = vectorizedFirstHandlePosition.sum(handlesCountShift).sum(new Vector(0, yShift));
+    } else { // промежуточные интервалы
+      let width = vectorizedLastHandlePosition.subtract(vectorizedFirstHandlePosition);
+      if (isHandlesSeparated) width = width.sum(vectorizedHandleWidth);
+      size = new Vector(width.length, sliderStripThickness);
+      position = vectorizedFirstHandlePosition.sum(handlesCountShift).sum(new Vector(0, yShift));
     }
+    this.setSize(size);
+    this.setPosition(position);
+  }
 
-    public initialize(): void {
-        this.element.addEventListener("click", this.handlerClick);
-    }
+  private rotate(): void {
+    const {
+      handleWidth,
+      angle,
+      sliderStripThickness,
+    } = this.view.viewManager.data;
 
-    public build(): void {
-        super.build();
+    const transformOriginX = handleWidth / 2;
+    const transformOriginY = sliderStripThickness / 2;
+    this.element.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
+    this.element.style.transform = `rotate(${-angle}deg)`;
+  }
 
-        this.element.className = `range-slider__filled-strip range-slider__filled-strip_${this.countNumber}`;
-        this.view.containerElement.append(this.element);
-    }
+  private handleClick = (event: UIEvent) => {
+    const mousePosition = this.view.calculateMouseGlobalPosition(event);
+    const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
 
-    public update(): void {
-        const modelData = this.view.viewManager.getModelData();
-        const { values } = modelData;
-        const {
-            handleWidth,
-            handleHeight,
-            angleInRad,
-            sliderStripThickness,
-            isHandlesSeparated,
-            filledStrips,
-        } = this.view.viewManager.data;
-
-        this.rotate();
-
-        let size;
-        let position;
-        const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
-        const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
-        const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient - handleWidth / 2), angleInRad);
-        const yShift = handleHeight / 2 - sliderStripThickness / 2;
-        const firstHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber - 1]);
-        const lastHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
-        const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRad);
-        const vectorizedLastHandlePosition = Vector.calculateVector(lastHandlePosition, angleInRad);
-        if (this.countNumber === 0) { // интервал от начала
-            const width = vectorizedLastHandlePosition.sum(handlesCountShift).length;
-            size = new Vector(width, sliderStripThickness);
-            position = new Vector(0, yShift);
-        } else if (this.countNumber === filledStrips.length - 1) { // интервал от конца
-            const maxValueLength = this.view.calculateProportionalPixelValue(modelData.maxValue);
-            const vectorizedMaxValueLength = Vector.calculateVector(maxValueLength - handleWidth / 2, angleInRad);
-            const width = vectorizedMaxValueLength.subtract(vectorizedFirstHandlePosition).sum(vectorizedHandleWidth).length;
-            size = new Vector(width, sliderStripThickness);
-            position = vectorizedFirstHandlePosition.sum(handlesCountShift).sum(new Vector(0, yShift));
-        } else { // промежуточные интервалы
-            let width = vectorizedLastHandlePosition.subtract(vectorizedFirstHandlePosition);
-            if (isHandlesSeparated) width = width.sum(vectorizedHandleWidth);
-            size = new Vector(width.length, sliderStripThickness);
-            position = vectorizedFirstHandlePosition.sum(handlesCountShift).sum(new Vector(0, yShift));
-        }
-        this.setSize(size);
-        this.setPosition(position);
-    }
-
-    private rotate(): void {
-        const {
-            handleWidth,
-            angle,
-            sliderStripThickness,
-        } = this.view.viewManager.data;
-
-        const transformOriginX = handleWidth / 2;
-        const transformOriginY = sliderStripThickness / 2;
-        this.element.style.transformOrigin = `${transformOriginX}px ${transformOriginY}px`;
-        this.element.style.transform = `rotate(${-angle}deg)`;
-    }
-
-    private handlerClick = (event: UIEvent) => {
-        const mousePosition = this.view.calculateMouseGlobalPosition(event);
-        const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
-
-        const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
-        const values = this.view.findHandle(proportionalValue);
-        this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
-    };
+    const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
+    const values = this.view.findHandle(proportionalValue);
+    this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
+  };
 }
 
 export default FilledStrip;

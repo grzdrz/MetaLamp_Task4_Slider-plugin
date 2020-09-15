@@ -1,55 +1,41 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "es2017": true
-    },
-    "extends": [
-        "airbnb-typescript/base",
-        //"eslint:recommended",
-        //"plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "project": "./tsconfig.json",
-        "tsconfigRootDir": "."
-    },
-    "plugins": [
-        "@typescript-eslint",
-        "fsd"
-    ],
-    "ignorePatterns": [
-        "temp.js",
-        "tests/**/*.ts",
-        "karma.conf.js",
-        "webpack.config.js"
-    ],
-    "rules": {
-        "@typescript-eslint/indent": [
-            "error",
-            4
-        ],
-        "@typescript-eslint/quotes": [
-            "error",
-            "double"
-        ],
-        "max-len": 0,
-        "@typescript-eslint/unbound-method": 0,
-        "@typescript-eslint/lines-between-class-members": 0,
-        "import/extensions": "off",
-        "import/no-unresolved": "off",
-        "linebreak-style": "off",
-        "@typescript-eslint/ban-ts-ignore": 0,
-        "import/no-cycle": 0,
-        "no-param-reassign": 0,
-        "class-methods-use-this": 0,
-        "fsd/hof-name-prefix": "error",
-        "fsd/no-heavy-constructor": "error",
-        "fsd/jq-cache-dom-elements": "error",
-        "fsd/jq-use-js-prefix-in-selector": "error",
-        "fsd/no-function-declaration-in-event-listener": "error",
-        "fsd/split-conditionals": "error"
-    }
+  "env": {
+    "browser": true,
+    "es6": true,
+    "es2017": true
+  },
+  "extends": [
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "."
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "fsd"
+  ],
+  "ignorePatterns": [
+    "temp.js",
+    "tests/**/*.ts",
+    "karma.conf.js",
+    "webpack.config.js"
+  ],
+  "rules": {
+    "@typescript-eslint/lines-between-class-members": 0,
+    "linebreak-style": "off",
+    "max-len": 0,
+    "no-param-reassign": 0,
+    "class-methods-use-this": 0,
+    "import/no-cycle": 0,
+    "fsd/hof-name-prefix": "error",
+    "fsd/no-heavy-constructor": "error",
+    "fsd/jq-cache-dom-elements": "error",
+    "fsd/jq-use-js-prefix-in-selector": "error",
+    "fsd/no-function-declaration-in-event-listener": "error",
+    "fsd/split-conditionals": "error"
+  }
 }

@@ -2,10 +2,25 @@
 <p>FSD_Задание 4: Плагин слайдера</p>
 <a href="https://grzdrz.github.io/FSD_Task4"><p>Github Pages</p></a>
 
-# Сборка
+# Загрузка
+```
+$ git clone https://github.com/grzdrz/FSD_Task2.git
+```
+
+# Установка
 ```
 $ npm install
+```
+
+# Сборка
+```
 $ npm run dev
+$ npm run prod
+```
+
+# Запуск
+```
+$ npm run server
 ```
 
 # Запуск тестов

@@ -6,9 +6,9 @@
   "scripts": {
     "test": "karma start karma.conf.js",
     "dev": "webpack --mode development",
+    "prod": "webpack --mode production",
     "server": "webpack-dev-server --open --mode development",
-    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src",
-    "eslint:dump": "eslint --print-config ./.eslintrc.json",
+    "eslint": "eslint --ext .js,.jsx,.ts,.tsx src",
     "deploy": "gh-pages -d bandle"
   },
   "author": "",

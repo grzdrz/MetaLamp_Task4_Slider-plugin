@@ -1,65 +1,65 @@
-import Model from "./Model/Model";
-import ViewManager from "./Views/ViewManager";
-import EventArgs from "../Events/EventArgs";
-import IModelData from "./Model/Data/IModelData";
-import IViewData from "./Views/Data/IViewData";
+import Model from './Model/Model';
+import ViewManager from './Views/ViewManager';
+import EventArgs from '../Events/EventArgs';
+import IModelData from '../Data/IModelData';
+import IViewData from '../Data/IViewData';
 
 class Presenter {
-    public model: Model;
-    public viewManager: ViewManager;
+  public model: Model;
+  public viewManager: ViewManager;
 
-    constructor(model: Model, viewManager: ViewManager) {
-        this.model = model;
-        this.viewManager = viewManager;
+  constructor(model: Model, viewManager: ViewManager) {
+    this.model = model;
+    this.viewManager = viewManager;
 
-        this.initialize();
-    }
+    this.initialize();
+  }
 
-    private initialize(): void {
-        this.viewManager.onSetModelData.subscribe(this.handlerSetModelData);
-        this.viewManager.onSetModelData.subscribe(this.handlerViewsUpdate);
+  private initialize(): void {
+    this.viewManager.onSetModelData.subscribe(this.handleSetModelData);
+    this.viewManager.onSetModelData.subscribe(this.handleViewsUpdate);
 
-        this.viewManager.onSetViewData.subscribe(this.handlerSetViewData);
-        this.viewManager.onSetViewData.subscribe(this.handlerViewsUpdate);
+    this.viewManager.onSetViewData.subscribe(this.handleSetViewData);
+    this.viewManager.onSetViewData.subscribe(this.handleViewsUpdate);
 
-        this.model.onSetViewData.subscribe(this.handlerSetViewData);
+    this.model.onSetViewData.subscribe(this.handleSetViewData);
 
-        this.viewManager.onHandleMove.subscribe(this.handlerSetModelData);
-        this.viewManager.onHandleMove.subscribe(this.handlerHandleMove);
+    this.viewManager.onHandleMove.subscribe(this.handleSetModelData);
+    this.viewManager.onHandleMove.subscribe(this.handleHandleMove);
 
-        this.viewManager.onInputsChange.subscribe(this.handlerSetModelData);
-        this.viewManager.onInputsChange.subscribe(this.handlerHandleMove);
+    this.viewManager.onInputsChange.subscribe(this.handleSetModelData);
+    this.viewManager.onInputsChange.subscribe(this.handleHandleMove);
 
-        this.model.onGetViewData.subscribe(this.handlerGetViewData);
-        this.viewManager.onGetModelData.subscribe(this.handlerGetModelData);
+    this.model.onGetViewData.subscribe(this.handleGetViewData);
+    this.viewManager.onGetModelData.subscribe(this.handleGetModelData);
 
-        this.model.initialize();
-        this.viewManager.initialize();
-    }
+    this.model.initialize();
+    this.viewManager.initialize();
+  }
 
-    private handlerSetModelData = (args: EventArgs<IModelData>) => {
-        this.model.update(args.data);
-    };
+  private handleSetModelData = (args: EventArgs<IModelData>) => {
+    this.model.update(args.data);
+  };
 
-    private handlerSetViewData = (args: EventArgs<IViewData>) => {
-        this.viewManager.update(args.data);
-    };
+  private handleSetViewData = (args: EventArgs<IViewData>) => {
+    this.viewManager.update(args.data);
+  };
 
-    private handlerGetModelData = (args: EventArgs<IModelData>) => {
-        this.model.getData(args);
-    };
+  private handleGetModelData = (args: EventArgs<IModelData>) => {
+    this.model.getData(args);
+  };
 
-    private handlerGetViewData = (args: EventArgs<IViewData>) => {
-        this.viewManager.getData(args);
-    };
+  private handleGetViewData = (args: EventArgs<IViewData>) => {
+    this.viewManager.getData(args);
+  };
 
-    private handlerViewsUpdate = () => {
-        this.viewManager.views.forEach((e) => e.update(true));
-    };
+  private handleViewsUpdate = () => {
+    this.viewManager.views.forEach((e) => e.update(true));
+  };
 
-    private handlerHandleMove = () => {
-        this.viewManager.views.forEach((e) => e.update(false));
-    };
+  private handleHandleMove = () => {
+    this.viewManager.views.forEach((e) => e.update(false));
+  };
 }
 
 export default Presenter;

@@ -1,18 +1,18 @@
-import OptionsPanel from "../OptionsPanel";
+import OptionsPanel from '../OptionsPanel';
 
 abstract class OptionPanelElement {
-    public DOMElement: HTMLElement;
+  public DOMElement: HTMLElement;
 
-    constructor(public view: OptionsPanel) {
-        this.DOMElement = document.createElement("label");
-        this.DOMElement.className = "options__label";
-    }
+  constructor(public view: OptionsPanel) {
+    this.DOMElement = document.createElement('label');
+    this.DOMElement.className = 'options__label';
+  }
 
-    public build(): void {
-        this.DOMElement.innerHTML = "";
-    }
+  public build(): void {
+    this.DOMElement.innerHTML = '';
+  }
 
-    abstract update(): void;
+  abstract update(): void;
 }
 
 export default OptionPanelElement;

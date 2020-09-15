@@ -1,93 +1,93 @@
 .color-customizer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0rem 12.5rem;
+
+  &__sliders {
+    width: 50%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    padding: 0px 200px;
+    align-self: flex-end;
+  }
 
-    &__sliders {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-self: flex-end;
-        width: 50%;
+  &__red {
+    width: 3.125rem;
+    height: 25rem;
+
+    & .range-slider__empty-strip {
+      background: linear-gradient(to left, rgba(255, 0, 0, 1), white);
+      border: 0.0625rem solid rgb(90, 90, 90);
+      border-radius: 0.125rem;
     }
+  }
 
-    &__red {
-        height: 400px;
-        width: 50px;
+  &__green {
+    width: 3.125rem;
+    height: 25rem;
 
-        & .range-slider__empty-strip {
-            background: linear-gradient(to left, rgba(255, 0, 0, 1), white);
-            border: 1px solid rgb(90, 90, 90);
-            border-radius: 2px;
-        }
+    & .range-slider__empty-strip {
+      background: linear-gradient(to left, rgba(0, 255, 0, 1), white);
+      border: 0.0625rem solid rgb(90, 90, 90);
+      border-radius: 0.125rem;
     }
+  }
 
-    &__green {
-        height: 400px;
-        width: 50px;
+  &__blue {
+    width: 3.125rem;
+    height: 25rem;
 
-        & .range-slider__empty-strip {
-            background: linear-gradient(to left, rgba(0, 255, 0, 1), white);
-            border: 1px solid rgb(90, 90, 90);
-            border-radius: 2px;
-        }
+    & .range-slider__empty-strip {
+      background: linear-gradient(to left, rgba(0, 0, 255, 1), white);
+      border: 0.0625rem solid rgb(90, 90, 90);
+      border-radius: 0.125rem;
     }
+  }
 
-    &__blue {
-        height: 400px;
-        width: 50px;
+  &__alpha {
+    width: 3.125rem;
+    height: 25rem;
 
-        & .range-slider__empty-strip {
-            background: linear-gradient(to left, rgba(0, 0, 255, 1), white);
-            border: 1px solid rgb(90, 90, 90);
-            border-radius: 2px;
-        }
+    & .range-slider__empty-strip {
+      background: linear-gradient(to left, black, white);
+      border: 0.0625rem solid rgb(90, 90, 90);
+      border-radius: 0.125rem;
     }
+  }
 
-    &__alpha {
-        height: 400px;
-        width: 50px;
+  &__color-square {
+    width: 18.75rem;
+    height: 18.75rem;
+  }
 
-        & .range-slider__empty-strip {
-            background: linear-gradient(to left, black, white);
-            border: 1px solid rgb(90, 90, 90);
-            border-radius: 2px;
-        }
-    }
+  & .range-slider {
+    border: 0rem;
+  }
 
-    &__color-square {
-        width: 300px;
-        height: 300px;
-    }
+  & .range-slider__additional-container {
+    display: none;
+  }
 
-    & .range-slider {
-        border: 0px;
-    }
+  & .range-slider__handle {
+    border-radius: 50%;
+    opacity: 1;
+    background: linear-gradient(to left, rgb(80, 80, 80), rgb(173, 173, 173));
+    box-shadow: inset 0.125rem 0rem 0.125rem rgba(0, 0, 0, 0.384);
+  }
 
-    & .range-slider__additional-container {
-        display: none;
-    }
+  & .range-slider__handle-background {
+    border-radius: 50%;
+    opacity: 1;
+    background: linear-gradient(to left, rgb(172, 172, 172), rgb(233, 233, 233));
+    box-shadow: inset 0.125rem 0rem 0.125rem rgba(0, 0, 0, 0.384);
+  }
 
-    & .range-slider__handle {
-        border-radius: 50%;
-        opacity: 1;
-        background: linear-gradient(to left, rgb(80, 80, 80), rgb(173, 173, 173));
-        box-shadow: inset 2px 0px 2px rgba(0, 0, 0, 0.384);
-    }
-
-    & .range-slider__handle-background {
-        border-radius: 50%;
-        opacity: 1;
-        background: linear-gradient(to left, rgb(172, 172, 172), rgb(233, 233, 233));
-        box-shadow: inset 2px 0px 2px rgba(0, 0, 0, 0.384);
-    }
-
-    & .range-slider__tooltip {
-        border-radius: 5px;
-        background: linear-gradient(180deg, rgb(206, 206, 206), rgb(134, 134, 134));
-        box-shadow: inset 2px 0px 5px rgba(0, 0, 0, 0.384);
-    }
+  & .range-slider__tooltip {
+    border-radius: 0.3125rem;
+    background: linear-gradient(180deg, rgb(206, 206, 206), rgb(134, 134, 134));
+    box-shadow: inset 0.125rem 0rem 0.3125rem rgba(0, 0, 0, 0.384);
+  }
 }
