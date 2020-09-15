@@ -57,10 +57,6 @@ class Tooltip extends SliderPart {
 
         this.setPosition(position);
     }
-
-    /* private merge() {
-        for (let i = 0; i < this.)
-    } */
 }
 
 export default Tooltip;

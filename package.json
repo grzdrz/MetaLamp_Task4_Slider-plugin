@@ -6,7 +6,7 @@
   "scripts": {
     "test": "karma start karma.conf.js",
     "dev": "webpack --mode development",
-    "devServer": "webpack-dev-server --open --mode development",
+    "server": "webpack-dev-server --open --mode development",
     "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src",
     "eslint:dump": "eslint --print-config ./.eslintrc.json",
     "deploy": "gh-pages -d bandle"
@@ -55,7 +55,8 @@
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.6",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "jquery": "^3.5.1"

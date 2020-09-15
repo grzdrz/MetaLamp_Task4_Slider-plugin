@@ -56,12 +56,11 @@ class Scale extends SliderPart {
         segment.className = "range-slider__scale-segment";
         const splitedValue = `${segmentValue}`.split(".");
         let value;
-        if (splitedValue.length > 1) {
-            value = `${splitedValue[0]}.${splitedValue[1].length > 6 ? Number.parseFloat(splitedValue[1]) : splitedValue[1]}`;
-        } else value = `${splitedValue[0]}`;
-        /* value.slice(0, 6); */
-        segment.textContent = value/* .toFixed(4) */;// ////////
-        segment.dataset.value = value;
+        if (splitedValue.length > 1 && splitedValue[1].length > 6) {
+            value = +segmentValue.toFixed(6);
+        } else value = segmentValue;
+        segment.textContent = `${value}`;
+        segment.dataset.value = `${value}`;
         segment.addEventListener("click", this.handlerClickOnSegment);
         this.calculateSegmentPosition(segment, segmentValue);
     }

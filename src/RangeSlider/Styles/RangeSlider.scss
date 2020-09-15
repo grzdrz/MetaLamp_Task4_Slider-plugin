@@ -20,6 +20,7 @@
     }
 
     &__empty-strip {
+        cursor: pointer;
         z-index: 1;
         position: absolute;
         background: #ffffff;
@@ -27,6 +28,7 @@
     }
 
     &__filled-strip {
+        cursor: pointer;
         z-index: 2;
         position: absolute;
         background: linear-gradient(90deg, #6fcf97 0%, #66d2ea 100%);
