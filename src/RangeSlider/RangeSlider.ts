@@ -8,15 +8,9 @@ import ViewData from './Data/ViewData';
 import './Styles/RangeSlider.scss';
 
 class RangeSlider {
-  private static sliderInstanceCount = 0;
-
   public static createRangeSlider(containerElement: HTMLElement, modelData: IModelData, viewData: IViewData): Presenter {
     const defaultModelData = new ModelData(modelData);
     const defaultViewData = new ViewData(viewData);
-
-    defaultModelData.id = RangeSlider.sliderInstanceCount;
-    RangeSlider.sliderInstanceCount += 1;
-
     const model = new Model(defaultModelData);
     const viewManager = new ViewManager(defaultViewData, containerElement);
 

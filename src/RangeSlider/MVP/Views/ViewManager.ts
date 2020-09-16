@@ -8,12 +8,13 @@ import SliderView from './SliderView/SliderView';
 import InputsView from './InputsView/InputsView';
 import Event from '../../Events/Event';
 import EventArgs from '../../Events/EventArgs';
+import ViewDataValidator from './ViewDataValidator';
 
 class ViewManager {
   public containerElement: HTMLElement;
   public data: ViewData;
   public views: View[] = new Array<View>();
-
+  public validator: ViewDataValidator;
   public onSetViewData = new Event<IViewData>();
   public onSetModelData = new Event<IModelData>();
   public onGetModelData = new Event<IModelData>();
@@ -26,6 +27,7 @@ class ViewManager {
   constructor(viewData: ViewData, containerElement: HTMLElement) {
     this.data = viewData;
     this.containerElement = containerElement;
+    this.validator = new ViewDataValidator(this);
   }
 
   public initialize(): void {
@@ -47,22 +49,14 @@ class ViewManager {
 
     this.views.forEach((e) => e.initialize());
 
-    this.update(this.data);
+    this.update();
   }
 
-  public update(data: IViewData): void {
-    if (data.sliderStripThickness !== undefined) this.data.sliderStripThickness = data.sliderStripThickness;
-    if (data.handleWidth !== undefined) this.data.handleWidth = data.handleWidth;
-    if (data.handleHeight !== undefined) this.data.handleHeight = data.handleHeight;
-    if (data.borderThickness !== undefined) this.data.borderThickness = data.borderThickness;
-    if (data.maxSegmentsCount !== undefined) this.data.maxSegmentsCount = this.validateMaxSegmentsCount(data.maxSegmentsCount);
-    if (data.angle !== undefined) this.data.angle = this.validateAngle(data.angle);
-    if (data.filledStrips !== undefined) this.data.filledStrips = this.validateFilledStrips(data.filledStrips);
-    if (data.hasScale !== undefined) this.data.hasScale = data.hasScale;
-    if (data.hasTooltip !== undefined) this.data.hasTooltip = data.hasTooltip;
-    if (data.tooltipMargin !== undefined) this.data.tooltipMargin = data.tooltipMargin;
-    if (data.isHandlesSeparated !== undefined) this.data.isHandlesSeparated = data.isHandlesSeparated;
-    if (data.scaleMargin !== undefined) this.data.scaleMargin = data.scaleMargin;
+  public update(data: IViewData = this.data): void {
+    this.data.update(data);
+    if (data.maxSegmentsCount !== undefined) this.data.maxSegmentsCount = this.validator.validateMaxSegmentsCount(data.maxSegmentsCount);
+    if (data.angle !== undefined) this.data.angle = this.validator.validateAngle(data.angle);
+    if (data.filledStrips !== undefined) this.data.filledStrips = this.validator.validateFilledStrips(data.filledStrips);
   }
 
   public getModelData(): ModelData {
@@ -71,33 +65,8 @@ class ViewManager {
     return <ModelData>optionsEventArgs.data;
   }
 
-  public getData(args: EventArgs<IViewData>): void {
-    args.data = new ViewData(this.data);
-  }
-
-  private validateFilledStrips(filledStrips: boolean[]): boolean[] {
-    const modelData = this.getModelData();
-    const { values } = modelData;
-    const newFilledStrips = new Array<boolean>();
-    for (let i = 0; i < values.length + 1; i += 1) {
-      if (i < filledStrips.length) {
-        newFilledStrips.push(filledStrips[i]);
-      } else {
-        newFilledStrips.push(false);
-      }
-    }
-    return newFilledStrips;
-  }
-
-  private validateAngle(angle: number): number {
-    if (angle > 90) return 90;
-    if (angle < 0 || angle === undefined) return 0;
-    return angle;
-  }
-
-  private validateMaxSegmentsCount(maxSegmentsCount: number): number {
-    if (maxSegmentsCount < 1) return 1;
-    return maxSegmentsCount;
+  public getData(): IViewData {
+    return new ViewData(this.data);
   }
 }
 

@@ -1,32 +1,26 @@
 import RangeSlider from '../../src/RangeSlider/RangeSlider';
-import EventArgs from '../../src/RangeSlider/Events/EventArgs';
-import IViewData from '../../src/RangeSlider/Data/IViewData';
 
 describe('ViewManager', function () {
   it('обновление viewManager без указания данных', function () {
     const container = document.createElement('div');
     const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
-    const oldData = new EventArgs<IViewData>({});
-    presenter.viewManager.getData(oldData);
-
+    const oldData = presenter.viewManager.getData();
     presenter.viewManager.update({});
+    const newData = presenter.viewManager.getData();
 
-    const newData = new EventArgs<IViewData>({});
-    presenter.viewManager.getData(newData);
-
-    assert.equal(oldData.data.angle, newData.data.angle);
-    assert.equal(oldData.data.borderThickness, newData.data.borderThickness);
-    assert.deepStrictEqual(oldData.data.filledStrips, newData.data.filledStrips);
-    assert.equal(oldData.data.handleHeight, newData.data.handleHeight);
-    assert.equal(oldData.data.handleWidth, newData.data.handleWidth);
-    assert.equal(oldData.data.hasScale, newData.data.hasScale);
-    assert.equal(oldData.data.isHandlesSeparated, newData.data.isHandlesSeparated);
-    assert.equal(oldData.data.maxSegmentsCount, newData.data.maxSegmentsCount);
-    assert.equal(oldData.data.tooltipMargin, newData.data.tooltipMargin);
-    assert.equal(oldData.data.scaleMargin, newData.data.scaleMargin);
-    assert.equal(oldData.data.sliderLength, newData.data.sliderLength);
-    assert.equal(oldData.data.sliderStripThickness, newData.data.sliderStripThickness);
+    assert.equal(oldData.angle, newData.angle);
+    assert.equal(oldData.borderThickness, newData.borderThickness);
+    assert.deepStrictEqual(oldData.filledStrips, newData.filledStrips);
+    assert.equal(oldData.handleHeight, newData.handleHeight);
+    assert.equal(oldData.handleWidth, newData.handleWidth);
+    assert.equal(oldData.hasScale, newData.hasScale);
+    assert.equal(oldData.isHandlesSeparated, newData.isHandlesSeparated);
+    assert.equal(oldData.maxSegmentsCount, newData.maxSegmentsCount);
+    assert.equal(oldData.tooltipMargin, newData.tooltipMargin);
+    assert.equal(oldData.scaleMargin, newData.scaleMargin);
+    assert.equal(oldData.sliderLength, newData.sliderLength);
+    assert.equal(oldData.sliderStripThickness, newData.sliderStripThickness);
   });
 
   it('валидация угла при передачи в update более 90 градусов', function () {
@@ -37,10 +31,8 @@ describe('ViewManager', function () {
       angle: 91,
     });
 
-    const updatedData = new EventArgs<IViewData>({});
-    presenter.viewManager.getData(updatedData);
-
-    assert.equal(updatedData.data.angle, 90);
+    const updatedData = presenter.viewManager.getData();
+    assert.equal(updatedData.angle, 90);
   });
 
   it('валидация угла при передачи в update менее 0 градусов', function () {
@@ -51,10 +43,8 @@ describe('ViewManager', function () {
       angle: -1,
     });
 
-    const updatedData = new EventArgs<IViewData>({});
-    presenter.viewManager.getData(updatedData);
-
-    assert.equal(updatedData.data.angle, 0);
+    const updatedData = presenter.viewManager.getData();
+    assert.equal(updatedData.angle, 0);
   });
 
   it('валидация численности интервальных полос при большей численности значений', function () {
@@ -65,9 +55,7 @@ describe('ViewManager', function () {
       filledStrips: [true],
     });
 
-    const updatedData = new EventArgs<IViewData>({});
-    presenter.viewManager.getData(updatedData);
-
-    assert.deepEqual(updatedData.data.filledStrips, [true, false, false]);
+    const updatedData = presenter.viewManager.getData();
+    assert.deepEqual(updatedData.filledStrips, [true, false, false]);
   });
 });

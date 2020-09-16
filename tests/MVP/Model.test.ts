@@ -7,36 +7,27 @@ describe('Model', function () {
     const container = document.createElement('div');
     const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
-    const oldData = new EventArgs<IModelData>({});
-    presenter.model.getData(oldData);
-
+    const oldData = presenter.model.getData();
     presenter.model.update({
       stepSize: 5,
       maxValue: 10,
       minValue: 0,
     });
-
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(oldData.data.values, newData.data.values);
+    const newData = presenter.model.getData();
+    assert.deepEqual(oldData.values, newData.values);
   });
 
   it('validateValues без изменения значений', function () {
     const container = document.createElement('div');
     const presenter = RangeSlider.createRangeSlider(container, {}, {});
 
-    const oldData = new EventArgs<IModelData>({});
-    presenter.model.getData(oldData);
-
+    const oldData = presenter.model.getData();
     presenter.model.update({
-      values: oldData.data.values,
+      values: oldData.values,
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.values, oldData.data.values);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.values, oldData.values);
   });
 
   it('validateValues с изменением до 1го значения', function () {
@@ -46,11 +37,8 @@ describe('Model', function () {
     presenter.model.update({
       values: [0],
     });
-
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.values, [0]);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.values, [0]);
   });
 
   it('validateValues с изменением более 1го значения вперед направлении', function () {
@@ -62,10 +50,8 @@ describe('Model', function () {
       values: [0, 30],
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.values, [0, 30]);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.values, [0, 30]);
   });
 
   it('validateValues с изменением более 1го значения вперед направлении с проталкиванием вперед', function () {
@@ -77,10 +63,8 @@ describe('Model', function () {
       values: [10, 0],
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.values, [10, 10]);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.values, [10, 10]);
   });
 
   it('validateValues с изменением более 1го значения назад направлении с проталкиванием назад', function () {
@@ -92,10 +76,8 @@ describe('Model', function () {
       values: [0, -10],
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.values, [-10, -10]);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.values, [-10, -10]);
   });
 
   it('validateValues с изменением более 1го значения вперед с выходом за максимальное значение', function () {
@@ -107,10 +89,8 @@ describe('Model', function () {
       values: [0, 110],
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.values, [0, 100]);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.values, [0, 100]);
   });
 
   it('validateValues с изменением более 1го значения назад с выходом за минимальное значение', function () {
@@ -122,10 +102,8 @@ describe('Model', function () {
       values: [-110, 0],
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.values, [-100, 0]);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.values, [-100, 0]);
   });
 
   it('validateMaxValue', function () {
@@ -136,10 +114,8 @@ describe('Model', function () {
       maxValue: 50,
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.maxValue, 50);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.maxValue, 50);
   });
 
   it('validateMaxValue с попыткой установить значение не кратное шагу', function () {
@@ -150,10 +126,8 @@ describe('Model', function () {
       maxValue: 109,
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.maxValue, 110);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.maxValue, 110);
   });
 
   it('validateMaxValue с попыткой зайти за минимальное значение', function () {
@@ -164,10 +138,8 @@ describe('Model', function () {
       maxValue: -110,
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.maxValue, -90);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.maxValue, -90);
   });
 
   it('validateMinValue', function () {
@@ -178,10 +150,8 @@ describe('Model', function () {
       minValue: -50,
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.minValue, -50);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.minValue, -50);
   });
 
   it('validateMinValue с попыткой установить значение не кратное шагу', function () {
@@ -192,10 +162,8 @@ describe('Model', function () {
       minValue: -109,
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.minValue, -110);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.minValue, -110);
   });
 
   it('validateMinValue с попыткой зайти за максимально значение', function () {
@@ -206,10 +174,8 @@ describe('Model', function () {
       minValue: 110,
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
-
-    assert.deepEqual(newData.data.minValue, 90);
+    const newData = presenter.model.getData();
+    assert.deepEqual(newData.minValue, 90);
   });
 
   it('calculateNearestPositionForHandle с минимальным значение больше 0', function () {
@@ -226,27 +192,25 @@ describe('Model', function () {
       minValue: 1,
     });
 
-    const data1 = new EventArgs<IModelData>({});
-    presenter.model.getData(data1);
-    if (data1.data.values) data1.data.values[1] = 12;
+    const data1 = presenter.model.getData(/* data1 */);
+    if (data1.values) data1.values[1] = 12;
     presenter.model.update({
-      values: data1.data.values,
+      values: data1.values,
     });
 
-    const data2 = new EventArgs<IModelData>({});
-    presenter.model.getData(data2);
-    if (data2.data.values) data2.data.values[0] = 0;
+    /* const data2 = new EventArgs<IModelData>({}); */
+    const data2 = presenter.model.getData(/* data2 */);
+    if (data2.values) data2.values[0] = 0;
     presenter.model.update({
-      values: data2.data.values,
+      values: data2.values,
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
+    const newData = presenter.model.getData();
 
-    assert.deepEqual(newData.data.stepSize, 1);
-    assert.deepEqual(newData.data.maxValue, 11);
-    assert.deepEqual(newData.data.minValue, 1);
-    assert.deepEqual(newData.data.values, [1, 11]);
+    assert.deepEqual(newData.stepSize, 1);
+    assert.deepEqual(newData.maxValue, 11);
+    assert.deepEqual(newData.minValue, 1);
+    assert.deepEqual(newData.values, [1, 11]);
   });
 
   it('calculateNearestPositionForHandle с минимальным значение меньше 0', function () {
@@ -263,26 +227,23 @@ describe('Model', function () {
       minValue: -1,
     });
 
-    const data1 = new EventArgs<IModelData>({});
-    presenter.model.getData(data1);
-    if (data1.data.values) data1.data.values[1] = 12;
+    const data1 = presenter.model.getData();
+    if (data1.values) data1.values[1] = 12;
     presenter.model.update({
-      values: data1.data.values,
+      values: data1.values,
     });
 
-    const data2 = new EventArgs<IModelData>({});
-    presenter.model.getData(data2);
-    if (data2.data.values) data2.data.values[0] = -2;
+    const data2 = presenter.model.getData();
+    if (data2.values) data2.values[0] = -2;
     presenter.model.update({
-      values: data2.data.values,
+      values: data2.values,
     });
 
-    const newData = new EventArgs<IModelData>({});
-    presenter.model.getData(newData);
+    const newData = presenter.model.getData();
 
-    assert.deepEqual(newData.data.stepSize, 1);
-    assert.deepEqual(newData.data.maxValue, 11);
-    assert.deepEqual(newData.data.minValue, -1);
-    assert.deepEqual(newData.data.values, [-1, 11]);
+    assert.deepEqual(newData.stepSize, 1);
+    assert.deepEqual(newData.maxValue, 11);
+    assert.deepEqual(newData.minValue, -1);
+    assert.deepEqual(newData.values, [-1, 11]);
   });
 });

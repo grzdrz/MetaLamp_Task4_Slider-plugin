@@ -46,11 +46,11 @@ class Presenter {
   };
 
   private handleGetModelData = (args: EventArgs<IModelData>) => {
-    this.model.getData(args);
+    args.data = this.model.getData();
   };
 
   private handleGetViewData = (args: EventArgs<IViewData>) => {
-    this.viewManager.getData(args);
+    args.data = this.viewManager.getData();
   };
 
   private handleViewsUpdate = () => {

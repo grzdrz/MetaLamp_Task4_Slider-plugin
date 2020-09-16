@@ -28,10 +28,10 @@ class ViewData implements IViewData {
   public tooltipMargin = 10;
 
   constructor(data: IViewData) {
-    this.initialize(data);
+    this.update(data);
   }
 
-  private initialize(data: IViewData): void {
+  public update(data: IViewData): void {
     if (data.sliderStripThickness !== undefined) this.sliderStripThickness = data.sliderStripThickness;
     if (data.handleWidth !== undefined) this.handleWidth = data.handleWidth;
     if (data.handleHeight !== undefined) this.handleHeight = data.handleHeight;

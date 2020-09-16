@@ -1,5 +1,4 @@
 interface IModelData {
-  id?: number;
   minValue?: number,
   maxValue?: number,
   values?: number[],

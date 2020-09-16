@@ -24,30 +24,29 @@ class MathFunctions {
 
   // заменяет строку с числом в формате с экспонентой на строку с числом в обычном формате
   // например '1e-9' -> на выходе получаем '0.000000001'
-  // p.s. код стырен со стаковерфлове
   static getStringOfNumberWithoutE(number: number): string {
     const numberParts = number.toString().split(/[eE]/);
     if (numberParts.length === 1) return numberParts[0];
 
-    let z = '';
+    let currentNumberString = '';
     const sign = number < 0 ? '-' : '';
-    const str = numberParts[0].replace('.', '');
-    let mag = Number(numberParts[1]) + 1;
+    const leftNumberPart = numberParts[0].replace('.', '');
+    let valueOfE = Number(numberParts[1]) + 1;
 
-    if (mag < 0) {
-      z = `${sign}0.`;
-      while (mag) {
-        z = `${z}0`;
-        mag += 1;
+    if (valueOfE < 0) {
+      currentNumberString = `${sign}0.`;
+      while (valueOfE) {
+        currentNumberString = `${currentNumberString}0`;
+        valueOfE += 1;
       }
-      return z + str.replace(/^\-/, '');
+      return currentNumberString + leftNumberPart.replace(/^\-/, '');
     }
-    mag -= str.length;
-    while (mag) {
-      z = `${z}0`;
-      mag -= 1;
+    valueOfE -= leftNumberPart.length;
+    while (valueOfE) {
+      currentNumberString = `${currentNumberString}0`;
+      valueOfE -= 1;
     }
-    return str + z;
+    return leftNumberPart + currentNumberString;
   }
 
   // проверка на запись очень большого(или маленького) числа через e(например 1e-10)
@@ -57,11 +56,11 @@ class MathFunctions {
   }
 
   static getFractionOfNumber(number: number): number {
-    const test1 = number.toString().split('.');
-    let test12;
-    if (test1.length > 1) {
-      test12 = `0.${test1[1]}`;
-      return Number.parseFloat(test12);
+    const splitedNumber = number.toString().split('.');
+    let leftNumberPart;
+    if (splitedNumber.length > 1) {
+      leftNumberPart = `0.${splitedNumber[1]}`;
+      return Number.parseFloat(leftNumberPart);
     }
     return 0;
   }

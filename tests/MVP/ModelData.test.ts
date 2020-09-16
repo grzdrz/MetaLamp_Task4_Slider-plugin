@@ -9,7 +9,6 @@ describe('RangeSlider', function () {
   it('дефолтные значения', function () {
     const defaultData = new ModelData({});
 
-    assert.equal(defaultData.id, 0);
     assert.equal(defaultData.minValue, -100);
     assert.equal(defaultData.maxValue, 100);
     assert.deepStrictEqual(defaultData.values, [0, 0]);
@@ -19,7 +18,6 @@ describe('RangeSlider', function () {
 
   it('кастомные значения', function () {
     const defaultData = new ModelData({
-      id: 1,
       minValue: -9,
       maxValue: 9,
       values: [-3, 3],
@@ -27,7 +25,6 @@ describe('RangeSlider', function () {
       canPush: false,
     });
 
-    assert.equal(defaultData.id, 1);
     assert.equal(defaultData.minValue, -9);
     assert.equal(defaultData.maxValue, 9);
     assert.deepStrictEqual(defaultData.values, [-3, 3]);

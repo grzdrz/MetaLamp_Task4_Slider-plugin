@@ -14,7 +14,6 @@ describe('SliderView', function () {
     }));
 
     const scaleElement = <HTMLElement>(container.querySelector('.range-slider__scale-container'));
-
     assert.equal(scaleElement, null);
   });
 
@@ -60,10 +59,8 @@ describe('SliderView', function () {
       filledStrips: [true, true, true],
     }));
 
-    const data1 = new EventArgs<IViewData>({});
-    presenter.viewManager.getData(data1);
-
-    assert.deepEqual(data1.data.filledStrips, [true, true, true]);
+    const data1 = presenter.viewManager.getData();
+    assert.deepEqual(data1.filledStrips, [true, true, true]);
 
 
     presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
@@ -73,10 +70,8 @@ describe('SliderView', function () {
       filledStrips: [true, true, true],
     }));
 
-    const data2 = new EventArgs<IViewData>({});
-    presenter.viewManager.getData(data2);
-
-    assert.deepEqual(data2.data.filledStrips, [true, true, true]);
+    const data2 = presenter.viewManager.getData();
+    assert.deepEqual(data2.filledStrips, [true, true, true]);
   });
 
   it('срабатывают клики по сегментам c несколькими одинаковыми значениями', function () {
@@ -94,7 +89,6 @@ describe('SliderView', function () {
     }
 
     const callsCount = spy.calls.count();
-
     assert.equal(callsCount, 11);
   });
 
@@ -112,7 +106,6 @@ describe('SliderView', function () {
 
 
     const callsCount = spy.calls.count();
-
     assert.equal(callsCount, 1);
   });
 
@@ -130,7 +123,6 @@ describe('SliderView', function () {
 
 
     const callsCount = spy.calls.count();
-
     assert.equal(callsCount, 1);
   });
 });
