@@ -45,15 +45,15 @@ class ModelDataValidator {
       this.updateFilledStrips();
     } else if (data.values !== undefined && data.values.length > 0) {
       const changedValueIndex = this.findMovedHandle(data.values);
-      const valueShift = changedValueIndex !== -1 ? data.values[changedValueIndex] - this.model.data.values[changedValueIndex] : 0;
+      const targetHandleShift = changedValueIndex !== -1 ? data.values[changedValueIndex] - this.model.data.values[changedValueIndex] : 0;
       this.model.data.values = data.values;
-      this.moveHandle(changedValueIndex, valueShift);
+      this.moveHandle(changedValueIndex, targetHandleShift);
       this.updateFilledStrips();
     }
   }
 
-  private moveHandle(changedValueIndex: number, valueShift: number): void {
-    const wasHandleMoved = changedValueIndex !== -1 && valueShift !== 0;
+  private moveHandle(changedValueIndex: number, targetHandleShift: number): void {
+    const wasHandleMoved = changedValueIndex !== -1 && targetHandleShift !== 0;
     const needMoveMoreThanOneHandle = this.model.data.values.length > 1 && wasHandleMoved;
     const needMoveOneHandle = this.model.data.values.length === 1;
 
@@ -63,14 +63,14 @@ class ModelDataValidator {
         changedValueIndex,
         this.model.data.canPush,
       );
-      this.pushHandles(changedValueIndex, valueShift);
+      this.pushHandles(changedValueIndex, targetHandleShift);
     } else if (needMoveOneHandle) {
       this.model.data.values[0] = this.validateValue(this.model.data.values[0], 0, false);
     }
   }
 
-  private pushHandles(changedValueIndex: number, valueShift: number): void {
-    const needPushForward = valueShift > 0;
+  private pushHandles(changedValueIndex: number, targetHandleShift: number): void {
+    const needPushForward = targetHandleShift > 0;
     if (needPushForward) {
       for (let i = changedValueIndex + 1; i < this.model.data.values.length; i += 1) {
         this.model.data.values[i] = this.validateValue(this.model.data.values[i], i, !this.model.data.canPush);
