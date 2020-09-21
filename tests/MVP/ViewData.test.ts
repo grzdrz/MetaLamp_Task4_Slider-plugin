@@ -52,11 +52,11 @@ describe('RangeSlider', function () {
     assert.equal(defaultData.scaleMargin, 30);
   });
 
-  it('angleInRad', function () {
+  it('angleInRadians', function () {
     const data = new ViewData({
       angle: 45,
     });
 
-    assert.equal(data.angleInRad, Math.PI / 4);
+    assert.equal(data.angleInRadians, Math.PI / 4);
   });
 });

@@ -212,29 +212,29 @@ describe('Vector', function () {
 
   describe('calculateVector(число векторизованное на основании значения угла)', function () {
     let number: number;
-    let angleInRad: number;
+    let angleInRadians: number;
     let resultVector: Vector;
     beforeAll(function () {
       number = 2;
     });
 
     it('Возвращает вектор', function () {
-      angleInRad = 0;
-      resultVector = Vector.calculateVector(number, angleInRad);
+      angleInRadians = 0;
+      resultVector = Vector.calculateVector(number, angleInRadians);
       assert.instanceOf(resultVector, Vector);
     });
 
     it('Проверка x координаты вектора', function () {
-      angleInRad = Math.PI / 3;//(60 градусов)
-      resultVector = Vector.calculateVector(number, angleInRad);
+      angleInRadians = Math.PI / 3;//(60 градусов)
+      resultVector = Vector.calculateVector(number, angleInRadians);
       let actual = Number.parseFloat(resultVector.x.toFixed(4));
       let expected = 1;
       assert.equal(actual, expected);
     });
 
     it('Проверка y координаты вектора', function () {
-      angleInRad = Math.PI / 6;//(30 градусов)
-      resultVector = Vector.calculateVector(number, angleInRad);
+      angleInRadians = Math.PI / 6;//(30 градусов)
+      resultVector = Vector.calculateVector(number, angleInRadians);
       let actual = Number.parseFloat(resultVector.y.toFixed(4));
       let expected = 1;
       assert.equal(actual, expected);

@@ -46,7 +46,7 @@ class ViewData implements IViewData {
     if (data.tooltipMargin !== undefined) this.tooltipMargin = data.tooltipMargin;
   }
 
-  public get angleInRad(): number {
+  public get angleInRadians(): number {
     return this.angle * (Math.PI / 180);
   }
 }

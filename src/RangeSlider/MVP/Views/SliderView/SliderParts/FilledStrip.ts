@@ -37,19 +37,19 @@ class FilledStrip extends SliderPart {
     const { values } = modelData;
     const {
       handleWidth,
-      angleInRad,
+      angleInRadians,
       isHandlesSeparated,
     } = this.view.viewManager.data;
 
     this.rotate();
 
-    const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRad);
+    const vectorizedHandleWidth = Vector.calculateVector(handleWidth, angleInRadians);
     const shiftCoefficient = isHandlesSeparated ? this.countNumber : 0;
-    const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient - handleWidth / 2), angleInRad);
+    const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient - handleWidth / 2), angleInRadians);
     const firstHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber - 1]);
     const lastHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
-    const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRad);
-    const vectorizedLastHandlePosition = Vector.calculateVector(lastHandlePosition, angleInRad);
+    const vectorizedFirstHandlePosition = Vector.calculateVector(firstHandlePosition, angleInRadians);
+    const vectorizedLastHandlePosition = Vector.calculateVector(lastHandlePosition, angleInRadians);
 
     const size = this.calculateSize({
       vectorizedLastHandlePosition,
@@ -66,7 +66,7 @@ class FilledStrip extends SliderPart {
     const modelData = this.view.viewManager.getModelData();
     const {
       handleWidth,
-      angleInRad,
+      angleInRadians,
       sliderStripThickness,
       isHandlesSeparated,
       filledStrips,
@@ -84,7 +84,7 @@ class FilledStrip extends SliderPart {
       size = new Vector(width, sliderStripThickness);
     } else if (this.countNumber === filledStrips.length - 1) {
       const maxValueLength = this.view.calculateProportionalPixelValue(modelData.maxValue);
-      const vectorizedMaxValueLength = Vector.calculateVector(maxValueLength - handleWidth / 2, angleInRad);
+      const vectorizedMaxValueLength = Vector.calculateVector(maxValueLength - handleWidth / 2, angleInRadians);
       const width = vectorizedMaxValueLength.subtract(vectorizedFirstHandlePosition).sum(vectorizedHandleWidth).length;
       size = new Vector(width, sliderStripThickness);
     } else {
@@ -99,7 +99,6 @@ class FilledStrip extends SliderPart {
     const {
       handleHeight,
       sliderStripThickness,
-      filledStrips,
     } = this.view.viewManager.data;
 
     const yShift = handleHeight / 2 - sliderStripThickness / 2;
@@ -107,8 +106,6 @@ class FilledStrip extends SliderPart {
     let position;
     if (this.countNumber === 0) {
       position = new Vector(0, yShift);
-    } else if (this.countNumber === filledStrips.length - 1) {
-      position = vectorizedFirstHandlePosition.sum(handlesCountShift).sum(new Vector(0, yShift));
     } else {
       position = vectorizedFirstHandlePosition.sum(handlesCountShift).sum(new Vector(0, yShift));
     }

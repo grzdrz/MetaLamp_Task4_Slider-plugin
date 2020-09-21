@@ -66,7 +66,7 @@ class SliderView extends View {
     const {
       sliderLength,
       handleWidth,
-      angleInRad,
+      angleInRadians,
       isHandlesSeparated,
     } = this.viewManager.data;
 
@@ -75,11 +75,11 @@ class SliderView extends View {
     else shiftCoefficient = 1;
 
     const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
-    const vectorizedHandleWidth = Vector.calculateVector(handleWidth * shiftCoefficient, angleInRad);
+    const vectorizedHandleWidth = Vector.calculateVector(handleWidth * shiftCoefficient, angleInRadians);
     cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
     const containerCapacity = sliderLength - handleWidth * maxShiftCoefficient;
 
-    const mainAxisVector = Vector.calculateVector(sliderLength, angleInRad);
+    const mainAxisVector = Vector.calculateVector(sliderLength, angleInRadians);
     const cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
 
     const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
@@ -150,25 +150,24 @@ class SliderView extends View {
   }
 
   private renderContainer(): void {
-    const { sliderLength, angleInRad } = this.viewManager.data;
+    const { sliderLength, angleInRadians } = this.viewManager.data;
 
     this.calculateSliderLength();
 
-    const size = Vector.calculateVector(sliderLength, angleInRad);
+    const size = Vector.calculateVector(sliderLength, angleInRadians);
     View.renderSize(this.containerElement, size);
   }
 
   private calculateSliderLength(): void {
-    const { angleInRad, borderThickness } = this.viewManager.data;
+    const { angleInRadians, borderThickness } = this.viewManager.data;
 
     const rangleSlider = <HTMLElement>(this.containerElement.closest('.range-slider'));
     const boundingRect = rangleSlider.getBoundingClientRect();
 
-    // координаты точки поверхности эллипса
-    const width = boundingRect.width - borderThickness * 2;
-    const height = boundingRect.height - borderThickness * 2;
-    const curLength = MathFunctions.calculateEllipseSurfacePointCoordinate(width, height, angleInRad).length;
-    this.viewManager.data.sliderLength = curLength;
+    const containerActiveWidth = boundingRect.width - borderThickness * 2;
+    const containerActiveHeight = boundingRect.height - borderThickness * 2;
+    const sliderLength = MathFunctions.calculateEllipseSurfacePointCoordinate(containerActiveWidth, containerActiveHeight, angleInRadians).length;
+    this.viewManager.data.sliderLength = sliderLength;
   }
 
   private handleViewportSizeChange = () => {

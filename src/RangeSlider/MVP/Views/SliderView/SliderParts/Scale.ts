@@ -67,33 +67,31 @@ class Scale extends SliderPart {
 
   private calculateSegmentDensityLimit(): number {
     const modelData = this.view.viewManager.getModelData();
-
-    const dMaxMinValue = modelData.maxValue - modelData.minValue;
-    const temp = dMaxMinValue / modelData.stepSize;
-    return temp;
+    const density = modelData.deltaMaxMin / modelData.stepSize;
+    return density;
   }
 
   private calculateSegmentPosition(segment: HTMLElement, value: number): void {
     const modelData = this.view.viewManager.getModelData();
     const {
-      angleInRad,
+      angleInRadians,
       handleWidth,
       isHandlesSeparated,
       scaleMargin,
     } = this.view.viewManager.data;
 
     const segmentRect = segment.getBoundingClientRect();
-    const segmentWidth = segmentRect.width * Math.cos(angleInRad);
-    const segmentHeight = segmentRect.height * Math.sin(angleInRad);
+    const segmentWidth = segmentRect.width * Math.cos(angleInRadians);
+    const segmentHeight = segmentRect.height * Math.sin(angleInRadians);
     const vectorizedSegmentLength = new Vector(segmentWidth, segmentHeight).length;
 
     let handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
     const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
     handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth * (maxShiftCoefficient / 2);
 
-    const vectorizedMargin = Vector.calculateVector(scaleMargin, angleInRad);
+    const vectorizedMargin = Vector.calculateVector(scaleMargin, angleInRadians);
     const rotatedMargin = vectorizedMargin.rotateVector(-Math.PI / 2);
-    const vectorizedHandlePosition = Vector.calculateVector(handlePositionInContainer, angleInRad);
+    const vectorizedHandlePosition = Vector.calculateVector(handlePositionInContainer, angleInRadians);
     const position = vectorizedHandlePosition.sum(rotatedMargin);
 
     View.renderPosition(segment, position);

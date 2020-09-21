@@ -1,4 +1,5 @@
 import ViewManager from './ViewManager';
+import constants from '../../utils/constants';
 
 class ViewDataValidator {
   public viewManager: ViewManager;
@@ -22,8 +23,8 @@ class ViewDataValidator {
   }
 
   public validateAngle(angle: number): number {
-    if (angle > 90) return 90;
-    if (angle < 0 || angle === undefined) return 0;
+    if (angle > constants.MAX_ANGLE) return 90;
+    if (angle < constants.MIN_ANGLE || angle === undefined) return 0;
     return angle;
   }
 
