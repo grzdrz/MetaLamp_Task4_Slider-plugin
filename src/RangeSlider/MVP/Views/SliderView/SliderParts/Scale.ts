@@ -36,9 +36,8 @@ class Scale extends SliderPart {
 
     let exactMaxSegmentsCount = maxSegmentsCount;
     if (maxSegmentsCount >= segmentDensityLimit) {
-      exactMaxSegmentsCount = segmentDensityLimit;// для относительно больших сегментов
+      exactMaxSegmentsCount = segmentDensityLimit;
     }
-
     const stepsInOneSegment = Math.round(segmentDensityLimit / exactMaxSegmentsCount);
 
     for (let i = 0; i < exactMaxSegmentsCount; i += 1) {
@@ -61,7 +60,7 @@ class Scale extends SliderPart {
     } else value = segmentValue;
     segment.textContent = `${value}`;
     segment.dataset.value = `${value}`;
-    segment.addEventListener('click', this.handleClickOnSegment);
+    segment.addEventListener('click', this.handleSegmentClick);
     this.calculateSegmentPosition(segment, segmentValue);
   }
 
@@ -97,14 +96,14 @@ class Scale extends SliderPart {
     View.renderPosition(segment, position);
   }
 
-  private handleClickOnSegment = (event: MouseEvent) => {
+  private handleSegmentClick = (event: MouseEvent) => {
     event.preventDefault();
 
     const currentSegment = <HTMLElement>(event.currentTarget);
     const segmentValueString = <string>(currentSegment.dataset.value);
     const value = Number.parseFloat(segmentValueString);
 
-    const values = this.view.findHandle(value);
+    const values = this.view.setClosestHandle(value);
     this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
   };
 }

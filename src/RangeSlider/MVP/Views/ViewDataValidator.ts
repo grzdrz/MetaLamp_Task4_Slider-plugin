@@ -23,8 +23,8 @@ class ViewDataValidator {
   }
 
   public validateAngle(angle: number): number {
-    if (angle > constants.MAX_ANGLE) return 90;
-    if (angle < constants.MIN_ANGLE || angle === undefined) return 0;
+    if (angle > constants.MAX_ANGLE) return constants.MAX_ANGLE;
+    if (angle < constants.MIN_ANGLE || angle === undefined) return constants.MIN_ANGLE;
     return angle;
   }
 

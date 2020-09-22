@@ -12,10 +12,10 @@ class ModelDataValidator {
   }
 
   public validateMaxValue(stepSize: number, maxValue: number): number {
-    const dMaxMin = maxValue - this.model.data.minValue;
-    if (dMaxMin <= 0) return this.model.data.minValue + stepSize;
+    const deltaMaxMin = maxValue - this.model.data.minValue;
+    if (deltaMaxMin <= 0) return this.model.data.minValue + stepSize;
 
-    const valueOfOneStep = dMaxMin / stepSize;
+    const valueOfOneStep = deltaMaxMin / stepSize;
     const fraction = MathFunctions.getFractionOfNumber(valueOfOneStep);
 
     if (fraction === 0) return maxValue;
@@ -25,8 +25,8 @@ class ModelDataValidator {
   }
 
   public validateMinValue(minValue: number, stepSize: number): number {
-    const dMaxMin = this.model.data.maxValue - minValue;
-    if (dMaxMin <= 0) return this.model.data.maxValue - stepSize;
+    const deltaMaxMin = this.model.data.maxValue - minValue;
+    if (deltaMaxMin <= 0) return this.model.data.maxValue - stepSize;
 
     const valueOfOneStep = (this.model.data.maxValue - minValue) / stepSize;
     const fraction = MathFunctions.getFractionOfNumber(valueOfOneStep);
@@ -122,9 +122,6 @@ class ModelDataValidator {
     return value;
   }
 
-  // подменяем текущее значение инпута на число к которому ближе всего текущее значение курсора
-  // т.е. например шаг 10, значение 78 -> на выходе получаем 80,
-  // или например  шаг 10, значение 73 -> на выходе получаем 70
   private calculateNearestPositionForHandle(value: number): number {
     let absoluteValue;
     let resultValue;

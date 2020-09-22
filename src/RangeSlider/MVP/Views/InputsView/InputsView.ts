@@ -33,7 +33,7 @@ class InputsView extends View {
       valueInputContainer.append(valueInputText);
       this.containerElement.append(valueInputContainer);
 
-      valueInput.addEventListener('change', this.handleValueInputChange);
+      valueInput.addEventListener('change', this.handleInputChange);
     }
   }
 
@@ -47,7 +47,7 @@ class InputsView extends View {
     });
   }
 
-  private handleValueInputChange = () => {
+  private handleInputChange = () => {
     const modelData = this.viewManager.getModelData();
 
     const { values } = modelData;

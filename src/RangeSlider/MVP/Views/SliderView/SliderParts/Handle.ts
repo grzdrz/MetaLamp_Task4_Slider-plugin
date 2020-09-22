@@ -107,7 +107,6 @@ class Handle extends SliderPart {
     return new Vector(mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
   }
 
-  // d&d
   private handleMouseDown = (event: UIEvent) => {
     event.preventDefault();
 
@@ -123,7 +122,7 @@ class Handle extends SliderPart {
     optionsForMouseEvents.handleMouseMove = handleMouseMove;
 
     const handleMouseUp = this.handleMouseUp.bind(this, optionsForMouseEvents);
-    optionsForMouseEvents.handleMouseUp = handleMouseUp;// чтобы обработчик mouseMove можно было отписать
+    optionsForMouseEvents.handleMouseUp = handleMouseUp;
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);

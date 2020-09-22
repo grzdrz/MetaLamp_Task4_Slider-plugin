@@ -60,7 +60,6 @@ class SliderView extends View {
     this.renderContainer();
   }
 
-  // значение в условных единицах пропорциональное пиксельным координатам курсора в контейнере
   public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber?: number): number {
     const modelData = this.viewManager.getModelData();
     const {
@@ -86,7 +85,6 @@ class SliderView extends View {
     return proportionalValue;
   }
 
-  // пиксельное значение пропорциональное условному значению
   public calculateProportionalPixelValue(value: number): number {
     const modelData = this.viewManager.getModelData();
     const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.data;
@@ -101,7 +99,7 @@ class SliderView extends View {
     let x;
     let y;
     if (event instanceof TouchEvent) {
-      const touchEvent = /* <TouchEvent> */event;
+      const touchEvent = event;
       x = touchEvent.changedTouches[0].pageX;
       y = touchEvent.changedTouches[0].pageY;
     } else {
@@ -127,23 +125,23 @@ class SliderView extends View {
     return mouseGlobalPosition.subtract(containerCoord);
   }
 
-  public findHandle(value: number): number[] { // определяет к какому ползунку ближе выбранный сегмент
+  public setClosestHandle(targetValue: number): number[] {
     const { values } = this.viewManager.getModelData();
 
     // список приращений всех значений к выбранному и их индексы
-    const deltaValues = values.map((e, index) => ({ index, dValue: Math.abs(e - value) }));
+    const deltaValues = values.map((value, index) => ({ index, deltaValue: Math.abs(value - targetValue) }));
     // отсеиваем самые маленькие приращения, т.е. элементы которых были ближе всех к выбранному сегменту
-    const sortedDeltaValues = deltaValues.sort((a, b) => a.dValue - b.dValue);
-    const smallestDeltaValues = sortedDeltaValues.filter((e) => e.dValue === sortedDeltaValues[0].dValue);
-    const smallestValues = smallestDeltaValues.map((e) => ({ index: e.index, value: values[e.index] }));
+    const sortedDeltaValues = deltaValues.sort((a, b) => a.deltaValue - b.deltaValue);
+    const smallestDeltaValues = sortedDeltaValues.filter((tuple) => tuple.deltaValue === sortedDeltaValues[0].deltaValue);
+    const smallestValues = smallestDeltaValues.map((tuple) => ({ index: tuple.index, value: values[tuple.index] }));
     const suitableValue = smallestValues[0].value;
     // выбираем какое значение из отсеяных нужно сдвинуть(нужно для случаев когда есть несколько ближайших одинаковых значений)
-    if (value > suitableValue) {
+    if (targetValue > suitableValue) {
       const indexOfSuitableValue = smallestValues.length - 1;
-      values[smallestValues[indexOfSuitableValue].index] = value;
-    } else if (value < suitableValue) {
+      values[smallestValues[indexOfSuitableValue].index] = targetValue;
+    } else if (targetValue < suitableValue) {
       const indexOfSuitableValue = 0;
-      values[smallestValues[indexOfSuitableValue].index] = value;
+      values[smallestValues[indexOfSuitableValue].index] = targetValue;
     }
 
     return values;

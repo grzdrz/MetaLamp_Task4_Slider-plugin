@@ -55,7 +55,7 @@ class EmptyStrip extends SliderPart {
     const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
 
     const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
-    const values = this.view.findHandle(proportionalValue);
+    const values = this.view.setClosestHandle(proportionalValue);
     this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
   };
 }
