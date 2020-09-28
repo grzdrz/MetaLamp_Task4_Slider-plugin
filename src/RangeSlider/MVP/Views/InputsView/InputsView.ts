@@ -42,8 +42,8 @@ class InputsView extends View {
 
     const { values } = modelData;
     if (isNeedRebuild) this.build();
-    this.valueInputsDOMElements.forEach((e, i) => {
-      e.value = values[i].toString();
+    this.valueInputsDOMElements.forEach((element, i) => {
+      element.value = values[i].toString();
     });
   }
 
@@ -51,8 +51,8 @@ class InputsView extends View {
     const modelData = this.viewManager.getModelData();
 
     const { values } = modelData;
-    this.valueInputsDOMElements.forEach((e, i) => {
-      const value = Number.parseFloat(e.value);
+    this.valueInputsDOMElements.forEach((element, i) => {
+      const value = Number.parseFloat(element.value);
       values[i] = value;
     });
 

@@ -55,7 +55,6 @@ class ModelDataValidator {
   private moveHandle(changedValueIndex: number, targetHandleShift: number): void {
     const wasHandleMoved = changedValueIndex !== -1 && targetHandleShift !== 0;
     const needMoveMoreThanOneHandle = this.model.data.values.length > 1 && wasHandleMoved;
-    const needMoveOneHandle = this.model.data.values.length === 1;
 
     if (needMoveMoreThanOneHandle) {
       this.model.data.values[changedValueIndex] = this.validateValue(
@@ -64,7 +63,7 @@ class ModelDataValidator {
         this.model.data.canPush,
       );
       this.pushHandles(changedValueIndex, targetHandleShift);
-    } else if (needMoveOneHandle) {
+    } else {
       this.model.data.values[0] = this.validateValue(this.model.data.values[0], 0, false);
     }
   }
@@ -84,8 +83,8 @@ class ModelDataValidator {
 
   private findMovedHandle(values: number[]): number {
     let changedValueIndex = -1;
-    values.forEach((e, i) => {
-      if (e !== this.model.data.values[i]) changedValueIndex = i;
+    values.forEach((value, i) => {
+      if (value !== this.model.data.values[i]) changedValueIndex = i;
     });
     return changedValueIndex;
   }
@@ -107,11 +106,15 @@ class ModelDataValidator {
 
   private validateValue(value: number, countNumber: number, canPush: boolean): number {
     const newTargetInputValue = this.calculateNearestPositionForHandle(value);
-
     const { values } = this.model.data;
 
-    if (newTargetInputValue > values[countNumber + 1] && !canPush) return values[countNumber + 1];
-    if (newTargetInputValue < values[countNumber - 1] && !canPush) return values[countNumber - 1];
+    const isCurrentValueMoreThanNextValue = newTargetInputValue > values[countNumber + 1];
+    const isCurrentValueLessThanPreviousValue = newTargetInputValue < values[countNumber - 1];
+    const needAlignCurrentValueLeftOfNextValue = isCurrentValueMoreThanNextValue && !canPush;
+    const needAlignCurrentValueRightOfPreviousValue = isCurrentValueLessThanPreviousValue && !canPush;
+
+    if (needAlignCurrentValueLeftOfNextValue) return values[countNumber + 1];
+    if (needAlignCurrentValueRightOfPreviousValue) return values[countNumber - 1];
     return this.validateGoingOutOfBounds(newTargetInputValue);
   }
 

@@ -3,6 +3,7 @@ import Vector from '../../../../Helpers/Vector';
 import View from '../../View';
 import EventArgs from '../../../../Events/EventArgs';
 import IModelData from '../../../../Data/IModelData';
+import MathFunctions from '../../../../Helpers/MathFunctions';
 
 class Scale extends SliderPart {
   public segments: HTMLElement[] = new Array<HTMLElement>();
@@ -49,19 +50,20 @@ class Scale extends SliderPart {
   }
 
   private buildSegment(segmentValue: number): void {
+    const { stepSize } = this.view.viewManager.getModelData();
+
     const segment = document.createElement('div');
-    this.segments.push(segment);
-    this.element.append(segment);
     segment.className = 'range-slider__scale-segment';
-    const splitedValue = `${segmentValue}`.split('.');
-    let value;
-    if (splitedValue.length > 1 && splitedValue[1].length > 6) {
-      value = +segmentValue.toFixed(6);
-    } else value = segmentValue;
+
+    const value = MathFunctions.cutOffJunkValuesFromFraction(segmentValue, stepSize);
     segment.textContent = `${value}`;
     segment.dataset.value = `${value}`;
+
     segment.addEventListener('click', this.handleSegmentClick);
     this.calculateSegmentPosition(segment, segmentValue);
+
+    this.segments.push(segment);
+    this.element.append(segment);
   }
 
   private calculateSegmentDensityLimit(): number {

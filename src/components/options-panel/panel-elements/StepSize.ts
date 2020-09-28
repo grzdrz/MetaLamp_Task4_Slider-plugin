@@ -36,7 +36,7 @@ class StepSize extends OptionPanelElement {
 
     const input = <HTMLInputElement>(this.DOMElement.querySelector('.js-options__input'));
     let inputValue = Number.parseFloat(input.value);
-    if (inputValue <= 0) { // ///
+    if (inputValue <= 0) {
       inputValue = 0.000001;
       input.value = inputValue.toString();
     }

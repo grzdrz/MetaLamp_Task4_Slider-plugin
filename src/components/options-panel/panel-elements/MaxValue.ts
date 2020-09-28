@@ -6,7 +6,6 @@ class MaxValue extends OptionPanelElement {
 
     const modelData = this.view.getModelData();
 
-    // максимальное значение
     const input = document.createElement('input');
     const text = document.createElement('p');
 
