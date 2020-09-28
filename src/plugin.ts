@@ -1,11 +1,12 @@
 /* eslint-disable no-shadow */
 import $ from 'jquery';
-import RangeSlider from './RangeSlider/RangeSlider';
+
 import IModelData from './RangeSlider/Data/IModelData';
 import IViewData from './RangeSlider/Data/IViewData';
 import ModelData from './RangeSlider/Data/ModelData';
 import ViewData from './RangeSlider/Data/ViewData';
 import EventArgs from './RangeSlider/Events/EventArgs';
+import RangeSlider from './RangeSlider/RangeSlider';
 
 $.fn.rangeSlider = function createRangeSlider(this: JQuery, modelData: IModelData, viewData: IViewData): JQuery {
   const presenter = RangeSlider.createRangeSlider(this[0], modelData, viewData);

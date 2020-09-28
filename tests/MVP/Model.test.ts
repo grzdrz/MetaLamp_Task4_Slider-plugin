@@ -1,6 +1,4 @@
 import RangeSlider from '../../src/RangeSlider/RangeSlider';
-import EventArgs from '../../src/RangeSlider/Events/EventArgs';
-import IModelData from '../../src/RangeSlider/Data/IModelData';
 
 describe('Model', function () {
   it('validateValues без data.values', function () {

@@ -1,9 +1,9 @@
-import SliderPart from './SliderPart';
-import Vector from '../../../../Helpers/Vector';
-import View from '../../View';
 import EventArgs from '../../../../Events/EventArgs';
 import IModelData from '../../../../Data/IModelData';
 import MathFunctions from '../../../../Helpers/MathFunctions';
+import Vector from '../../../../Helpers/Vector';
+import View from '../../View';
+import SliderPart from './SliderPart';
 
 class Scale extends SliderPart {
   public segments: HTMLElement[] = new Array<HTMLElement>();

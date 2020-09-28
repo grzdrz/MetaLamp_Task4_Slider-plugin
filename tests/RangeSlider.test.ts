@@ -1,5 +1,5 @@
-import RangeSlider from '../src/RangeSlider/RangeSlider';
 import Presenter from '../src/RangeSlider/MVP/Presenter';
+import RangeSlider from '../src/RangeSlider/RangeSlider';
 
 describe('RangeSlider', function () {
   it('Создание экземмпляра RangeSlider', function () {

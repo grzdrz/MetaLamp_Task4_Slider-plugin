@@ -1,6 +1,6 @@
 import Vector from '../../../../Helpers/Vector';
-import SliderView from '../SliderView';
 import View from '../../View';
+import SliderView from '../SliderView';
 
 abstract class SliderPart {
   public element: HTMLElement;

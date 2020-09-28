@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import '../../plugin';
 import $ from 'jquery';
+
+import '../../plugin';
 import IModelData from '../../RangeSlider/Data/IModelData';
 import ModelData from '../../RangeSlider/Data/ModelData';
 import ViewData from '../../RangeSlider/Data/ViewData';
@@ -28,7 +29,6 @@ const viewData = {
 };
 class ColorSlider {
   public containerElement: HTMLElement;
-
   public jqueryElement: JQuery<HTMLElement>;
 
   public manager: ColorCustomizer;

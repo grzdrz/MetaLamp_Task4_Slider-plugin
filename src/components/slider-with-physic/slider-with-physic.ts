@@ -1,14 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import $ from 'jquery';
+
+import '../../plugin';
 import IModelData from '../../RangeSlider/Data/IModelData';
 import IViewData from '../../RangeSlider/Data/IViewData';
 import ModelData from '../../RangeSlider/Data/ModelData';
 import ViewData from '../../RangeSlider/Data/ViewData';
-import EventHandler from '../../RangeSlider/Events/EventHandler';
 import IMouseData from '../../RangeSlider/Data/IMouseData';
+import EventHandler from '../../RangeSlider/Events/EventHandler';
 import './slider-with-physic.scss';
-import '../../plugin';
 
 const modelData = {
   minValue: 0,

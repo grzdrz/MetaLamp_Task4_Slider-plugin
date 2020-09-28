@@ -3,12 +3,12 @@ import ViewData from '../../Data/ViewData';
 import IModelData from '../../Data/IModelData';
 import ModelData from '../../Data/ModelData';
 import IMouseData from '../../Data/IMouseData';
-import View from './View';
-import SliderView from './SliderView/SliderView';
-import InputsView from './InputsView/InputsView';
 import Event from '../../Events/Event';
 import EventArgs from '../../Events/EventArgs';
+import SliderView from './SliderView/SliderView';
+import InputsView from './InputsView/InputsView';
 import ViewDataValidator from './ViewDataValidator';
+import View from './View';
 
 class ViewManager {
   public containerElement: HTMLElement;
@@ -47,7 +47,7 @@ class ViewManager {
     this.containerElement.append(pluginContainer);
     this.containerElement.append(inputsContainer);
 
-    this.views.forEach((e) => e.initialize());
+    this.views.forEach((view) => view.initialize());
 
     this.update();
   }

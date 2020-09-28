@@ -3,11 +3,11 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import './base.scss';
 import '../plugin';
 import OptionsPanel from '../components/options-panel/OptionsPanel';
 import ColorCustomizer from '../components/color-customizer/color-customizer';
 import SliderWithPhysic from '../components/slider-with-physic/slider-with-physic';
+import './base.scss';
 import './index.scss';
 
 const options = [

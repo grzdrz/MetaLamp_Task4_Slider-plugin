@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-shadow */
-import SliderPart from './SliderPart';
-import Vector from '../../../../Helpers/Vector';
-import SliderView from '../SliderView';
-import View from '../../View';
 import EventArgs from '../../../../Events/EventArgs';
 import IMouseData from '../../../../Data/IMouseData';
 import IModelData from '../../../../Data/IModelData';
+import Vector from '../../../../Helpers/Vector';
+import View from '../../View';
+import SliderView from '../SliderView';
+import SliderPart from './SliderPart';
 
 interface IMouseDownEventArgs {
   handleMouseMove: (event: UIEvent) => void,

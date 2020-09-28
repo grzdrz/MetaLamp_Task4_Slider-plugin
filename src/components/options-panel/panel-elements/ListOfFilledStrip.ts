@@ -1,5 +1,5 @@
-import OptionPanelElement from './OptionPanelElement';
 import OptionsPanel from '../OptionsPanel';
+import OptionPanelElement from './OptionPanelElement';
 
 class ListOfFilledStrip extends OptionPanelElement {
   public inputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();
@@ -61,15 +61,15 @@ class ListOfFilledStrip extends OptionPanelElement {
       valueInput.addEventListener('change', this.handlerInputChange);
     }
 
-    this.inputsDOMElements.forEach((e, i) => {
-      e.checked = filledStrips[i];
+    this.inputsDOMElements.forEach((input, i) => {
+      input.checked = filledStrips[i];
     });
   }
 
   private handlerInputChange = () => {
     const { filledStrips } = this.view.getViewData();
-    this.inputsDOMElements.forEach((e, i) => {
-      const value = e.checked;
+    this.inputsDOMElements.forEach((input, i) => {
+      const value = input.checked;
       filledStrips[i] = value;
     });
 

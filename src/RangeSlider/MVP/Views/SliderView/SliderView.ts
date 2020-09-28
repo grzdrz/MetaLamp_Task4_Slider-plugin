@@ -1,11 +1,11 @@
+import MathFunctions from '../../../Helpers/MathFunctions';
+import Vector from '../../../Helpers/Vector';
 import View from '../View';
 import SliderPart from './SliderParts/SliderPart';
 import Handle from './SliderParts/Handle';
 import FilledStrip from './SliderParts/FilledStrip';
 import EmptyStrip from './SliderParts/EmptyStrip';
-import Vector from '../../../Helpers/Vector';
 import Scale from './SliderParts/Scale';
-import MathFunctions from '../../../Helpers/MathFunctions';
 import Tooltip from './SliderParts/Tooltip';
 
 class SliderView extends View {

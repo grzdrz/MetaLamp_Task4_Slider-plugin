@@ -1,6 +1,6 @@
-import View from '../View';
 import EventArgs from '../../../Events/EventArgs';
 import IModelData from '../../../Data/IModelData';
+import View from '../View';
 
 class InputsView extends View {
   public valueInputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();

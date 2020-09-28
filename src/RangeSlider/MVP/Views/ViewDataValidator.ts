@@ -1,5 +1,5 @@
-import ViewManager from './ViewManager';
 import constants from '../../utils/constants';
+import ViewManager from './ViewManager';
 
 class ViewDataValidator {
   public viewManager: ViewManager;

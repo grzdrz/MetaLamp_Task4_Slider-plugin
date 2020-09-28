@@ -61,7 +61,6 @@ class Vector {
     return this._x * vector.x + this._y * vector.y;
   }
 
-  // считает длину проекции текущего вектора на целевой вектор
   public calculateVectorProjectionOnTargetVector(targetVector: Vector): number {
     return this.calculateScalarProduct(targetVector) / targetVector.length;
   }

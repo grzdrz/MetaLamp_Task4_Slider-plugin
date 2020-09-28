@@ -1,8 +1,8 @@
-import Model from './Model/Model';
-import ViewManager from './Views/ViewManager';
 import EventArgs from '../Events/EventArgs';
 import IModelData from '../Data/IModelData';
 import IViewData from '../Data/IViewData';
+import Model from './Model/Model';
+import ViewManager from './Views/ViewManager';
 
 class Presenter {
   public model: Model;
@@ -54,11 +54,11 @@ class Presenter {
   };
 
   private handleViewsUpdate = () => {
-    this.viewManager.views.forEach((e) => e.update(true));
+    this.viewManager.views.forEach((view) => view.update(true));
   };
 
   private handleHandleMove = () => {
-    this.viewManager.views.forEach((e) => e.update(false));
+    this.viewManager.views.forEach((view) => view.update(false));
   };
 }
 

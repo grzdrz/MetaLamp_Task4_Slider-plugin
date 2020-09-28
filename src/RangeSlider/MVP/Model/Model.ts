@@ -1,8 +1,8 @@
-import Event from '../../Events/Event';
 import IModelData from '../../Data/IModelData';
 import ModelData from '../../Data/ModelData';
 import ViewData from '../../Data/ViewData';
 import IViewData from '../../Data/IViewData';
+import Event from '../../Events/Event';
 import EventArgs from '../../Events/EventArgs';
 import ModelDataValidator from './ModelDataValidator';
 

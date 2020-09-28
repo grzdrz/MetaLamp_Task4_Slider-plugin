@@ -1,6 +1,6 @@
-import SliderPart from './SliderPart';
-import SliderView from '../SliderView';
 import Vector from '../../../../Helpers/Vector';
+import SliderView from '../SliderView';
+import SliderPart from './SliderPart';
 
 class Tooltip extends SliderPart {
   public segments: HTMLElement[] = new Array<HTMLElement>();

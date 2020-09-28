@@ -1,8 +1,8 @@
-import SliderPart from './SliderPart';
 import Vector from '../../../../Helpers/Vector';
 import EventArgs from '../../../../Events/EventArgs';
 import IModelData from '../../../../Data/IModelData';
 import SliderView from '../SliderView';
+import SliderPart from './SliderPart';
 
 class EmptyStrip extends SliderPart {
   constructor(view: SliderView) {

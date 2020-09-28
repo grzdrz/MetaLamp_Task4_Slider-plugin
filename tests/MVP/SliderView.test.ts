@@ -1,6 +1,5 @@
 import RangeSlider from '../../src/RangeSlider/RangeSlider';
 import SliderView from '../../src/RangeSlider/MVP/Views/SliderView/SliderView';
-import Vector from '../../src/RangeSlider/Helpers/Vector';
 import EventArgs from '../../src/RangeSlider/Events/EventArgs';
 import IViewData from '../../src/RangeSlider/Data/IViewData';
 

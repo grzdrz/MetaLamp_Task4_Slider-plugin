@@ -1,4 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import IModelData from '../../RangeSlider/Data/IModelData';
+import ModelData from '../../RangeSlider/Data/ModelData';
+import IViewData from '../../RangeSlider/Data/IViewData';
+import ViewData from '../../RangeSlider/Data/ViewData';
+import EventHandler from '../../RangeSlider/Events/EventHandler';
 import OptionPanelElement from './panel-elements/OptionPanelElement';
 import Angle from './panel-elements/Angle';
 import HandlesCount from './panel-elements/HandlesCount';
@@ -13,11 +18,6 @@ import HasScale from './panel-elements/HasScale';
 import ScaleMargin from './panel-elements/ScaleMargin';
 import HasTooltip from './panel-elements/HasTooltip';
 import TooltipMargin from './panel-elements/TooltipMargin';
-import IModelData from '../../RangeSlider/Data/IModelData';
-import ModelData from '../../RangeSlider/Data/ModelData';
-import IViewData from '../../RangeSlider/Data/IViewData';
-import ViewData from '../../RangeSlider/Data/ViewData';
-import EventHandler from '../../RangeSlider/Events/EventHandler';
 import './options-panel.scss';
 
 class OptionsPanel {

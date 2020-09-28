@@ -1,5 +1,5 @@
-import RangeSlider from '../../src/RangeSlider/RangeSlider';
 import InputsView from '../../src/RangeSlider/MVP/Views/InputsView/InputsView';
+import RangeSlider from '../../src/RangeSlider/RangeSlider';
 
 describe('InputsView', function () {
   it('build был вызван при обновлении с полным перерендером', function () {
