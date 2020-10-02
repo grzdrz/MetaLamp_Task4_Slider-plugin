@@ -94,4 +94,4 @@ const slider = $(".js-some-container").rangeSlider(modelData, viewData);
 
 # UML
 
-![](uml.jpg)
+![](./temp/uml.jpg)
