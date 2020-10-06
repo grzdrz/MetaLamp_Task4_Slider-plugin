@@ -107,10 +107,11 @@ class SliderWithPhysic {
 
       let newValue = values[0] + this.velocity - this.gAcceleration / 2;
 
-      // если скорость близка к нулю И смещение близко к полу, т.е. почти загашенное колебание, то обнуляем оба значения
-      if (Math.abs(this.velocity) < Math.abs(this.gAcceleration / 2)) {
+      const isVelocityCloserToZero = Math.abs(this.velocity) < Math.abs(this.gAcceleration / 2);
+      const isOffsetCloserToZero = newValue <= Math.abs(this.gAcceleration);
+      if (isVelocityCloserToZero) {
         this.velocity = 0;
-        if (newValue <= Math.abs(this.gAcceleration)) {
+        if (isOffsetCloserToZero) {
           newValue = minValue;
         }
       }

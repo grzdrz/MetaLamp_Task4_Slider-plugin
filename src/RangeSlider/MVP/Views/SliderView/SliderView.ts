@@ -128,20 +128,24 @@ class SliderView extends View {
   public setClosestHandle(targetValue: number): number[] {
     const { values } = this.viewManager.getModelData();
 
-    // список приращений всех значений к выбранному и их индексы
-    const deltaValues = values.map((value, index) => ({ index, deltaValue: Math.abs(value - targetValue) }));
-    // отсеиваем самые маленькие приращения, т.е. элементы которых были ближе всех к выбранному сегменту
-    const sortedDeltaValues = deltaValues.sort((a, b) => a.deltaValue - b.deltaValue);
+    const deltaValuesToTargetValue = values.map((value, index) => ({
+      index,
+      deltaValue: Math.abs(value - targetValue),
+    }));
+
+    const sortedDeltaValues = deltaValuesToTargetValue.sort((a, b) => a.deltaValue - b.deltaValue);
     const smallestDeltaValues = sortedDeltaValues.filter((tuple) => tuple.deltaValue === sortedDeltaValues[0].deltaValue);
-    const smallestValues = smallestDeltaValues.map((tuple) => ({ index: tuple.index, value: values[tuple.index] }));
-    const suitableValue = smallestValues[0].value;
-    // выбираем какое значение из отсеяных нужно сдвинуть(нужно для случаев когда есть несколько ближайших одинаковых значений)
-    if (targetValue > suitableValue) {
-      const indexOfSuitableValue = smallestValues.length - 1;
-      values[smallestValues[indexOfSuitableValue].index] = targetValue;
-    } else if (targetValue < suitableValue) {
-      const indexOfSuitableValue = 0;
-      values[smallestValues[indexOfSuitableValue].index] = targetValue;
+    const closestValues = smallestDeltaValues.map((tuple) => ({ index: tuple.index, value: values[tuple.index] }));
+
+    const firstClosestValue = closestValues[0].value;
+    const isTargetValueToRightOfClosestValues = targetValue > firstClosestValue;
+    const isTargetValueToLeftOfClosestValues = targetValue < firstClosestValue;
+    if (isTargetValueToRightOfClosestValues) {
+      const indexOfLastClosestValue = closestValues.length - 1;
+      values[closestValues[indexOfLastClosestValue].index] = targetValue;
+    } else if (isTargetValueToLeftOfClosestValues) {
+      const indexOfFirstClosestValue = 0;
+      values[closestValues[indexOfFirstClosestValue].index] = targetValue;
     }
 
     return values;

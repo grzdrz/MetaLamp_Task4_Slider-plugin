@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-shadow */
+
 import EventArgs from '../../../../Events/EventArgs';
 import IMouseData from '../../../../Data/IMouseData';
 import IModelData from '../../../../Data/IModelData';
@@ -36,7 +37,7 @@ class Handle extends SliderPart {
     this.view.containerElement.append(this.element);
 
     this.backgroundElement.innerHTML = '';
-    this.backgroundElement.className = `range-slider__handle-background range-slider__handle-background_${this.countNumber}`;
+    this.backgroundElement.className = `range-slider__background-handle range-slider__background-handle_${this.countNumber}`;
     this.backgroundElement.dataset.sliderCountNumber = this.countNumber.toString();
     this.view.containerElement.append(this.backgroundElement);
 
