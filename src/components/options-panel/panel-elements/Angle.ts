@@ -19,7 +19,7 @@ class Angle extends OptionPanelElement {
     this.DOMElement.append(input);
     this.DOMElement.append(text);
 
-    this.DOMElement.addEventListener('change', this.handlerInputChange);
+    this.DOMElement.addEventListener('change', this.handleInputChange);
 
     this.view.containerElement.append(this.DOMElement);
   }
@@ -30,7 +30,7 @@ class Angle extends OptionPanelElement {
     input.value = `${angle}`;
   }
 
-  private handlerInputChange = (event: globalThis.Event) => {
+  private handleInputChange = (event: globalThis.Event) => {
     event.preventDefault();
 
     const input = <HTMLInputElement>(this.DOMElement.querySelector('.js-options__input'));

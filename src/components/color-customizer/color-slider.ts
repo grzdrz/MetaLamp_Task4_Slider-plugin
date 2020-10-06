@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import $ from 'jquery';
 
@@ -55,13 +56,11 @@ class ColorSlider {
     this.subscribeOnHandleMove(this.handleChangeColor);
 
     const { values } = this.getModelData();
-    // eslint-disable-next-line prefer-destructuring
     this.color = values[0];
   }
 
   private handleChangeColor = () => {
     const { values } = this.getModelData();
-    // eslint-disable-next-line prefer-destructuring
     this.color = values[0];
     this.manager.changeSquareColor();
   };

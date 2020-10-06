@@ -20,7 +20,7 @@ class StepSize extends OptionPanelElement {
     this.DOMElement.append(input);
     this.DOMElement.append(text);
 
-    this.DOMElement.addEventListener('change', this.handlerInputChange);
+    this.DOMElement.addEventListener('change', this.handleInputChange);
 
     this.view.containerElement.append(this.DOMElement);
   }
@@ -31,7 +31,7 @@ class StepSize extends OptionPanelElement {
     input.value = `${stepSize}`;
   }
 
-  private handlerInputChange = (event: globalThis.Event) => {
+  private handleInputChange = (event: globalThis.Event) => {
     event.preventDefault();
 
     const input = <HTMLInputElement>(this.DOMElement.querySelector('.js-options__input'));

@@ -16,7 +16,7 @@ class ListOfFilledStrip extends OptionPanelElement {
     this.DOMElement.innerHTML = '';
     this.inputsDOMElements = [];
 
-    this.DOMElement.className = `${this.DOMElement.className} options__cheackboxes-container`;
+    this.DOMElement.className = `${this.DOMElement.className} options__checkboxes-container`;
 
     const filledStripsTitle = document.createElement('p');
     filledStripsTitle.textContent = 'Filled strips';
@@ -35,7 +35,7 @@ class ListOfFilledStrip extends OptionPanelElement {
 
       this.filledStripsContainer.append(valueInput);
 
-      valueInput.addEventListener('change', this.handlerInputChange);
+      valueInput.addEventListener('change', this.handleInputChange);
     }
     this.DOMElement.append(filledStripsTitle);
     this.DOMElement.append(this.filledStripsContainer);
@@ -58,7 +58,7 @@ class ListOfFilledStrip extends OptionPanelElement {
 
       this.filledStripsContainer.append(valueInput);
 
-      valueInput.addEventListener('change', this.handlerInputChange);
+      valueInput.addEventListener('change', this.handleInputChange);
     }
 
     this.inputsDOMElements.forEach((input, i) => {
@@ -66,7 +66,7 @@ class ListOfFilledStrip extends OptionPanelElement {
     });
   }
 
-  private handlerInputChange = () => {
+  private handleInputChange = () => {
     const { filledStrips } = this.view.getViewData();
     this.inputsDOMElements.forEach((input, i) => {
       const value = input.checked;

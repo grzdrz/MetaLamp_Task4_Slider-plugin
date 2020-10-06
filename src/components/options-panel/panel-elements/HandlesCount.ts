@@ -21,7 +21,7 @@ class HandlesCount extends OptionPanelElement {
     this.DOMElement.append(input);
     this.DOMElement.append(text);
 
-    this.DOMElement.addEventListener('change', this.handlerInputChange);
+    this.DOMElement.addEventListener('change', this.handleInputChange);
 
     this.view.containerElement.append(this.DOMElement);
   }
@@ -32,7 +32,7 @@ class HandlesCount extends OptionPanelElement {
     input.value = `${values.length}`;
   }
 
-  private handlerInputChange = (event: globalThis.Event) => {
+  private handleInputChange = (event: globalThis.Event) => {
     event.preventDefault();
 
     const currentInput = <HTMLInputElement>(this.DOMElement.querySelector('.js-options__input'));
