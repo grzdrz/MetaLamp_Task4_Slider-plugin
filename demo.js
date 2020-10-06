@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/plugin.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/pages/demo/demo.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -10981,6 +10981,61 @@ return jQuery;
 
 /***/ }),
 
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/color-customizer/color-customizer.scss":
+/*!**************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/color-customizer/color-customizer.scss ***!
+  \**************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/options-panel/options-panel.scss":
+/*!********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/options-panel/options-panel.scss ***!
+  \********************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/slider-with-physic/slider-with-physic.scss":
+/*!******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/slider-with-physic/slider-with-physic.scss ***!
+  \******************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/base/base.scss":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/base/base.scss ***!
+  \*********************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/demo/demo.scss":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/demo/demo.scss ***!
+  \*********************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
@@ -11258,6 +11313,50 @@ module.exports = function (list, options) {
     lastIdentifiers = newLastIdentifiers;
   };
 };
+
+/***/ }),
+
+/***/ "./src sync recursive \\.(ttf|eot|woff|woff2|svg|png|jpg)$":
+/*!******************************************************!*\
+  !*** ./src sync \.(ttf|eot|woff|woff2|svg|png|jpg)$ ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./components/slider-with-physic/img/ball.png": "./src/components/slider-with-physic/img/ball.png",
+	"./favicons/android-chrome-192x192.png": "./src/favicons/android-chrome-192x192.png",
+	"./favicons/android-chrome-512x512.png": "./src/favicons/android-chrome-512x512.png",
+	"./favicons/apple-touch-icon.png": "./src/favicons/apple-touch-icon.png",
+	"./favicons/favicon-16x16.png": "./src/favicons/favicon-16x16.png",
+	"./favicons/favicon-32x32.png": "./src/favicons/favicon-32x32.png",
+	"./favicons/mstile-144x144.png": "./src/favicons/mstile-144x144.png",
+	"./favicons/mstile-150x150.png": "./src/favicons/mstile-150x150.png",
+	"./favicons/mstile-310x150.png": "./src/favicons/mstile-310x150.png",
+	"./favicons/mstile-310x310.png": "./src/favicons/mstile-310x310.png",
+	"./favicons/mstile-70x70.png": "./src/favicons/mstile-70x70.png",
+	"./favicons/safari-pinned-tab.svg": "./src/favicons/safari-pinned-tab.svg"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./src sync recursive \\.(ttf|eot|woff|woff2|svg|png|jpg)$";
 
 /***/ }),
 
@@ -12778,6 +12877,1467 @@ const constants = {
 
 /***/ }),
 
+/***/ "./src/components/color-customizer/color-customizer.scss":
+/*!***************************************************************!*\
+  !*** ./src/components/color-customizer/color-customizer.scss ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/mini-css-extract-plugin/dist/loader.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/sass-loader/dist/cjs.js!./color-customizer.scss */ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/color-customizer/color-customizer.scss");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
+/***/ "./src/components/color-customizer/color-customizer.ts":
+/*!*************************************************************!*\
+  !*** ./src/components/color-customizer/color-customizer.ts ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _color_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./color-slider */ "./src/components/color-customizer/color-slider.ts");
+/* harmony import */ var _color_customizer_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color-customizer.scss */ "./src/components/color-customizer/color-customizer.scss");
+/* harmony import */ var _color_customizer_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_color_customizer_scss__WEBPACK_IMPORTED_MODULE_1__);
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable fsd/no-heavy-constructor */
+
+
+class ColorCustomizer {
+    constructor(containerElement) {
+        this.changeSquareColor = () => {
+            const rgba = `rgba(${this.red.color}, ${this.green.color}, ${this.blue.color}, ${this.alpha.color / 255})`;
+            this.colorSquare.style.background = rgba;
+        };
+        this.containerElement = containerElement;
+        const redContainer = (this.containerElement.querySelector('.js-color-customizer__red'));
+        const greenContainer = (this.containerElement.querySelector('.js-color-customizer__green'));
+        const blueContainer = (this.containerElement.querySelector('.js-color-customizer__blue'));
+        const alphaContainer = (this.containerElement.querySelector('.js-color-customizer__alpha'));
+        this.red = new _color_slider__WEBPACK_IMPORTED_MODULE_0__["default"](this, redContainer);
+        this.green = new _color_slider__WEBPACK_IMPORTED_MODULE_0__["default"](this, greenContainer);
+        this.blue = new _color_slider__WEBPACK_IMPORTED_MODULE_0__["default"](this, blueContainer);
+        this.alpha = new _color_slider__WEBPACK_IMPORTED_MODULE_0__["default"](this, alphaContainer);
+        this.colorSquare = (this.containerElement.querySelector('.js-color-customizer__color-square'));
+        this.initialize();
+    }
+    initialize() {
+        this.changeSquareColor();
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (ColorCustomizer);
+
+
+/***/ }),
+
+/***/ "./src/components/color-customizer/color-slider.ts":
+/*!*********************************************************!*\
+  !*** ./src/components/color-customizer/color-slider.ts ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _plugin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../plugin */ "./src/plugin.ts");
+/* eslint-disable prefer-destructuring */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+
+const modelData = {
+    minValue: 0,
+    maxValue: 255,
+    values: [50],
+    stepSize: 1,
+};
+const viewData = {
+    sliderStripThickness: 10,
+    handleWidth: 15,
+    handleHeight: 15,
+    borderThickness: 5,
+    maxSegmentsCount: 1,
+    scaleFontSize: 15,
+    angle: 90,
+    filledStrips: [false, false],
+    hasScale: false,
+    hasTooltip: true,
+    scaleMargin: 30,
+};
+class ColorSlider {
+    constructor(manager, containerElement) {
+        this.color = 0;
+        this.handleChangeColor = () => {
+            const { values } = this.getModelData();
+            this.color = values[0];
+            this.manager.changeSquareColor();
+        };
+        this.manager = manager;
+        this.containerElement = containerElement;
+        this.jqueryElement = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.containerElement).rangeSlider(modelData, viewData);
+        this.getModelData = this.jqueryElement.data('getModelData');
+        this.getViewData = this.jqueryElement.data('getViewData');
+        this.subscribeOnHandleMove = this.jqueryElement.data('subscribeOnHandleMove');
+        this.initialize();
+    }
+    initialize() {
+        this.subscribeOnHandleMove(this.handleChangeColor);
+        const { values } = this.getModelData();
+        this.color = values[0];
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (ColorSlider);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/OptionsPanel.ts":
+/*!******************************************************!*\
+  !*** ./src/components/options-panel/OptionsPanel.ts ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _panel_elements_Angle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./panel-elements/Angle */ "./src/components/options-panel/panel-elements/Angle.ts");
+/* harmony import */ var _panel_elements_HandlesCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./panel-elements/HandlesCount */ "./src/components/options-panel/panel-elements/HandlesCount.ts");
+/* harmony import */ var _panel_elements_MaxSegmentCount__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./panel-elements/MaxSegmentCount */ "./src/components/options-panel/panel-elements/MaxSegmentCount.ts");
+/* harmony import */ var _panel_elements_MaxValue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./panel-elements/MaxValue */ "./src/components/options-panel/panel-elements/MaxValue.ts");
+/* harmony import */ var _panel_elements_MinValue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./panel-elements/MinValue */ "./src/components/options-panel/panel-elements/MinValue.ts");
+/* harmony import */ var _panel_elements_StepSize__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./panel-elements/StepSize */ "./src/components/options-panel/panel-elements/StepSize.ts");
+/* harmony import */ var _panel_elements_ListOfFilledStrip__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./panel-elements/ListOfFilledStrip */ "./src/components/options-panel/panel-elements/ListOfFilledStrip.ts");
+/* harmony import */ var _panel_elements_CanPush__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./panel-elements/CanPush */ "./src/components/options-panel/panel-elements/CanPush.ts");
+/* harmony import */ var _panel_elements_HandlesSeparated__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./panel-elements/HandlesSeparated */ "./src/components/options-panel/panel-elements/HandlesSeparated.ts");
+/* harmony import */ var _panel_elements_HasScale__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./panel-elements/HasScale */ "./src/components/options-panel/panel-elements/HasScale.ts");
+/* harmony import */ var _panel_elements_ScaleMargin__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./panel-elements/ScaleMargin */ "./src/components/options-panel/panel-elements/ScaleMargin.ts");
+/* harmony import */ var _panel_elements_HasTooltip__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./panel-elements/HasTooltip */ "./src/components/options-panel/panel-elements/HasTooltip.ts");
+/* harmony import */ var _panel_elements_TooltipMargin__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./panel-elements/TooltipMargin */ "./src/components/options-panel/panel-elements/TooltipMargin.ts");
+/* harmony import */ var _options_panel_scss__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./options-panel.scss */ "./src/components/options-panel/options-panel.scss");
+/* harmony import */ var _options_panel_scss__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_options_panel_scss__WEBPACK_IMPORTED_MODULE_13__);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class OptionsPanel {
+    constructor(outerContainerElement, modelData, viewData) {
+        this.panelElements = new Array();
+        this.handlePanelUpdate = () => {
+            this.update(false);
+        };
+        this.jqueryElement = $(outerContainerElement).rangeSlider(modelData, viewData);
+        this.containerElement = document.createElement('div');
+        this.containerElement.className = 'options';
+        outerContainerElement.append(this.containerElement);
+        this.setModelData = this.jqueryElement.data('setModelData');
+        this.setViewData = this.jqueryElement.data('setViewData');
+        this.getModelData = this.jqueryElement.data('getModelData');
+        this.getViewData = this.jqueryElement.data('getViewData');
+        this.subscribeOnSetModelData = this.jqueryElement.data('subscribeOnSetModelData');
+        this.subscribeOnSetViewData = this.jqueryElement.data('subscribeOnSetViewData');
+        this.initialize();
+    }
+    initialize() {
+        this.panelElements.push(new _panel_elements_ListOfFilledStrip__WEBPACK_IMPORTED_MODULE_6__["default"](this));
+        this.panelElements.push(new _panel_elements_HandlesCount__WEBPACK_IMPORTED_MODULE_1__["default"](this));
+        this.panelElements.push(new _panel_elements_HandlesSeparated__WEBPACK_IMPORTED_MODULE_8__["default"](this));
+        this.panelElements.push(new _panel_elements_StepSize__WEBPACK_IMPORTED_MODULE_5__["default"](this));
+        this.panelElements.push(new _panel_elements_CanPush__WEBPACK_IMPORTED_MODULE_7__["default"](this));
+        this.panelElements.push(new _panel_elements_MaxValue__WEBPACK_IMPORTED_MODULE_3__["default"](this));
+        this.panelElements.push(new _panel_elements_HasTooltip__WEBPACK_IMPORTED_MODULE_11__["default"](this));
+        this.panelElements.push(new _panel_elements_MinValue__WEBPACK_IMPORTED_MODULE_4__["default"](this));
+        this.panelElements.push(new _panel_elements_HasScale__WEBPACK_IMPORTED_MODULE_9__["default"](this));
+        this.panelElements.push(new _panel_elements_MaxSegmentCount__WEBPACK_IMPORTED_MODULE_2__["default"](this));
+        this.panelElements.push(new _panel_elements_Angle__WEBPACK_IMPORTED_MODULE_0__["default"](this));
+        this.panelElements.push(new _panel_elements_ScaleMargin__WEBPACK_IMPORTED_MODULE_10__["default"](this));
+        this.panelElements.push(new _panel_elements_TooltipMargin__WEBPACK_IMPORTED_MODULE_12__["default"](this));
+        this.update(true);
+        this.subscribeOnSetModelData(this.handlePanelUpdate);
+        this.subscribeOnSetViewData(this.handlePanelUpdate);
+    }
+    update(neededFullRerender) {
+        if (neededFullRerender) {
+            this.panelElements.forEach((element) => element.build());
+        }
+        else {
+            this.panelElements.forEach((element) => element.update());
+        }
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (OptionsPanel);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./src/components/options-panel/options-panel.scss":
+/*!*********************************************************!*\
+  !*** ./src/components/options-panel/options-panel.scss ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/mini-css-extract-plugin/dist/loader.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/sass-loader/dist/cjs.js!./options-panel.scss */ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/options-panel/options-panel.scss");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/Angle.ts":
+/*!**************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/Angle.ts ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class Angle extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const inputValue = Number.parseInt(input.value, 10);
+            input.value = inputValue.toString();
+            const dataToUpdate = {
+                angle: inputValue,
+            };
+            this.view.setViewData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const { angle } = this.view.getViewData();
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.step = '1';
+        input.value = angle.toString();
+        input.className = 'options__input js-options__input';
+        const text = document.createElement('p');
+        text.className = 'options__text';
+        text.textContent = 'angle size';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { angle } = this.view.getViewData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.value = `${angle}`;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (Angle);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/CanPush.ts":
+/*!****************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/CanPush.ts ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class CanPush extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const dataToUpdate = {
+                canPush: input.checked,
+            };
+            this.view.setModelData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const { canPush } = this.view.getModelData();
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = canPush;
+        input.className = 'options__checkbox-input js-options__input';
+        const text = document.createElement('p');
+        text.className = 'options__text';
+        text.textContent = 'can push ?';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { canPush } = this.view.getModelData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.checked = canPush;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (CanPush);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/HandlesCount.ts":
+/*!*********************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/HandlesCount.ts ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class HandlesCount extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const currentInput = (this.DOMElement.querySelector('.js-options__input'));
+            const handlesCount = Number.parseInt(currentInput.value, 10);
+            const modelData = this.view.getModelData();
+            const values = [];
+            for (let i = 0; i < handlesCount; i += 1) {
+                if (i < modelData.values.length)
+                    values.push(modelData.values[i]);
+                else
+                    values.push(modelData.maxValue);
+            }
+            const dataToUpdate = { values };
+            this.view.setModelData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const modelData = this.view.getModelData();
+        const input = document.createElement('input');
+        const text = document.createElement('p');
+        input.type = 'number';
+        input.step = '1';
+        input.value = modelData.values.length.toString();
+        input.min = '1';
+        input.className = 'options__input js-options__input js-options__handles-count-input';
+        text.className = 'options__text';
+        text.textContent = 'handles count';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { values } = this.view.getModelData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.value = `${values.length}`;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (HandlesCount);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/HandlesSeparated.ts":
+/*!*************************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/HandlesSeparated.ts ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class HandlesSeparated extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const dataToUpdate = {
+                isHandlesSeparated: input.checked,
+            };
+            this.view.setViewData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const { isHandlesSeparated } = this.view.getViewData();
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = isHandlesSeparated;
+        input.className = 'options__checkbox-input js-options__input';
+        const text = document.createElement('p');
+        text.className = 'options__text';
+        text.textContent = 'is handles separated ?';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { isHandlesSeparated } = this.view.getViewData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.checked = isHandlesSeparated;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (HandlesSeparated);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/HasScale.ts":
+/*!*****************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/HasScale.ts ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class HasScale extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const dataToUpdate = {
+                hasScale: input.checked,
+            };
+            this.view.setViewData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const { hasScale } = this.view.getViewData();
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = hasScale;
+        input.className = 'options__checkbox-input js-options__input';
+        const text = document.createElement('p');
+        text.className = 'options__text';
+        text.textContent = 'has scale ?';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { hasScale } = this.view.getViewData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.checked = hasScale;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (HasScale);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/HasTooltip.ts":
+/*!*******************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/HasTooltip.ts ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class HasTooltip extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const dataToUpdate = {
+                hasTooltip: input.checked,
+            };
+            this.view.setViewData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const { hasTooltip } = this.view.getViewData();
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = hasTooltip;
+        input.className = 'options__checkbox-input js-options__input';
+        const text = document.createElement('p');
+        text.className = 'options__text';
+        text.textContent = 'has tooltip ?';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { hasTooltip } = this.view.getViewData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.checked = hasTooltip;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (HasTooltip);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/ListOfFilledStrip.ts":
+/*!**************************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/ListOfFilledStrip.ts ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class ListOfFilledStrip extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(view) {
+        super(view);
+        this.inputsDOMElements = new Array();
+        this.handleInputChange = () => {
+            const { filledStrips } = this.view.getViewData();
+            this.inputsDOMElements.forEach((input, i) => {
+                const value = input.checked;
+                filledStrips[i] = value;
+            });
+            const dataToUpdate = {
+                filledStrips,
+            };
+            this.view.setViewData(dataToUpdate);
+        };
+        this.filledStripsContainer = document.createElement('div');
+    }
+    build() {
+        super.build();
+        this.DOMElement.innerHTML = '';
+        this.inputsDOMElements = [];
+        this.DOMElement.className = `${this.DOMElement.className} options__checkboxes-container`;
+        const filledStripsTitle = document.createElement('p');
+        filledStripsTitle.textContent = 'Filled strips';
+        filledStripsTitle.className = 'options__title';
+        this.filledStripsContainer.className = 'options__inputs';
+        const { filledStrips } = this.view.getViewData();
+        for (let i = 0; i < filledStrips.length; i += 1) {
+            const valueInput = document.createElement('input');
+            valueInput.type = 'checkbox';
+            this.inputsDOMElements.push(valueInput);
+            valueInput.dataset.countNumber = `${i}`;
+            valueInput.className = 'options__checkbox-input js-options__input js-options__filled-strips-checkbox-input';
+            valueInput.checked = filledStrips[i];
+            this.filledStripsContainer.append(valueInput);
+            valueInput.addEventListener('change', this.handleInputChange);
+        }
+        this.DOMElement.append(filledStripsTitle);
+        this.DOMElement.append(this.filledStripsContainer);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        this.inputsDOMElements = [];
+        this.filledStripsContainer.innerHTML = '';
+        const { filledStrips } = this.view.getViewData();
+        for (let i = 0; i < filledStrips.length; i += 1) {
+            const valueInput = document.createElement('input');
+            valueInput.type = 'checkbox';
+            this.inputsDOMElements.push(valueInput);
+            valueInput.dataset.countNumber = `${i}`;
+            valueInput.className = 'options__checkbox-input js-options__input';
+            valueInput.checked = filledStrips[i];
+            this.filledStripsContainer.append(valueInput);
+            valueInput.addEventListener('change', this.handleInputChange);
+        }
+        this.inputsDOMElements.forEach((input, i) => {
+            input.checked = filledStrips[i];
+        });
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (ListOfFilledStrip);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/MaxSegmentCount.ts":
+/*!************************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/MaxSegmentCount.ts ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class MaxSegmentCount extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const inputValue = Number.parseInt(input.value, 10);
+            const dataToUpdate = {
+                maxSegmentsCount: inputValue,
+            };
+            this.view.setViewData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const { maxSegmentsCount } = this.view.getViewData();
+        const input = document.createElement('input');
+        const text = document.createElement('p');
+        input.type = 'number';
+        input.step = '1';
+        input.value = maxSegmentsCount.toString();
+        input.className = 'options__input js-options__input';
+        text.className = 'options__text';
+        text.textContent = 'maximum segments count';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { maxSegmentsCount } = this.view.getViewData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.value = `${maxSegmentsCount}`;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (MaxSegmentCount);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/MaxValue.ts":
+/*!*****************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/MaxValue.ts ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class MaxValue extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const inputValue = Number.parseFloat(input.value);
+            const dataToUpdate = {
+                maxValue: inputValue,
+            };
+            this.view.setModelData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const modelData = this.view.getModelData();
+        const input = document.createElement('input');
+        const text = document.createElement('p');
+        input.type = 'number';
+        input.step = modelData.stepSize.toString();
+        input.value = modelData.maxValue.toString();
+        input.max = (modelData.maxValue + modelData.stepSize).toString();
+        input.min = (modelData.minValue - modelData.stepSize).toString();
+        input.className = 'options__input js-options__input';
+        text.className = 'options__text';
+        text.textContent = 'max value';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { minValue, maxValue, stepSize } = this.view.getModelData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.value = `${maxValue}`;
+        input.step = `${stepSize}`;
+        input.max = `${maxValue + stepSize}`;
+        input.min = `${minValue - stepSize}`;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (MaxValue);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/MinValue.ts":
+/*!*****************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/MinValue.ts ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class MinValue extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const inputValue = Number.parseFloat(input.value);
+            const dataToUpdate = {
+                minValue: inputValue,
+            };
+            this.view.setModelData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const modelData = this.view.getModelData();
+        const input = document.createElement('input');
+        const text = document.createElement('p');
+        input.type = 'number';
+        input.step = modelData.stepSize.toString();
+        input.value = modelData.minValue.toString();
+        input.max = (modelData.maxValue + modelData.stepSize).toString();
+        input.min = (modelData.minValue - modelData.stepSize).toString();
+        input.className = 'options__input js-options__input';
+        text.className = 'options__text';
+        text.textContent = 'min value';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { minValue, maxValue, stepSize } = this.view.getModelData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.value = `${minValue}`;
+        input.step = `${stepSize}`;
+        input.max = `${maxValue + stepSize}`;
+        input.min = `${minValue - stepSize}`;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (MinValue);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/OptionPanelElement.ts":
+/*!***************************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/OptionPanelElement.ts ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class OptionPanelElement {
+    constructor(view) {
+        this.view = view;
+        this.DOMElement = document.createElement('label');
+        this.DOMElement.className = 'options__label';
+    }
+    build() {
+        this.DOMElement.innerHTML = '';
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (OptionPanelElement);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/ScaleMargin.ts":
+/*!********************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/ScaleMargin.ts ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class ScaleMargin extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const inputValue = Number.parseInt(input.value, 10);
+            input.value = inputValue.toString();
+            const dataToUpdate = {
+                scaleMargin: inputValue,
+            };
+            this.view.setViewData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const { scaleMargin } = this.view.getViewData();
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.step = '1';
+        input.value = `${scaleMargin}`;
+        input.className = 'options__input js-options__input';
+        const text = document.createElement('p');
+        text.className = 'options__text';
+        text.textContent = 'scale margin';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { hasScale, scaleMargin } = this.view.getViewData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.value = `${scaleMargin}`;
+        if (hasScale) {
+            this.DOMElement.style.display = 'flex';
+        }
+        else {
+            this.DOMElement.style.display = 'none';
+        }
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (ScaleMargin);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/StepSize.ts":
+/*!*****************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/StepSize.ts ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class StepSize extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            let inputValue = Number.parseFloat(input.value);
+            if (inputValue <= 0) {
+                inputValue = 0.000001;
+                input.value = inputValue.toString();
+            }
+            const dataToUpdate = {
+                stepSize: inputValue,
+            };
+            this.view.setModelData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const modelData = this.view.getModelData();
+        const input = document.createElement('input');
+        const text = document.createElement('p');
+        input.type = 'number';
+        input.step = '1';
+        input.value = modelData.stepSize.toString();
+        input.className = 'options__input js-options__input js-options__step-size-input';
+        text.className = 'options__text';
+        text.textContent = 'step size';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { stepSize } = this.view.getModelData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.value = `${stepSize}`;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (StepSize);
+
+
+/***/ }),
+
+/***/ "./src/components/options-panel/panel-elements/TooltipMargin.ts":
+/*!**********************************************************************!*\
+  !*** ./src/components/options-panel/panel-elements/TooltipMargin.ts ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OptionPanelElement */ "./src/components/options-panel/panel-elements/OptionPanelElement.ts");
+
+class TooltipMargin extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.handleInputChange = (event) => {
+            event.preventDefault();
+            const input = (this.DOMElement.querySelector('.js-options__input'));
+            const inputValue = Number.parseInt(input.value, 10);
+            input.value = inputValue.toString();
+            const dataToUpdate = {
+                tooltipMargin: inputValue,
+            };
+            this.view.setViewData(dataToUpdate);
+        };
+    }
+    build() {
+        super.build();
+        const { tooltipMargin } = this.view.getViewData();
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.step = '1';
+        input.value = `${tooltipMargin}`;
+        input.className = 'options__input js-options__input';
+        const text = document.createElement('p');
+        text.className = 'options__text';
+        text.textContent = 'tooltip margin';
+        this.DOMElement.append(input);
+        this.DOMElement.append(text);
+        this.DOMElement.addEventListener('change', this.handleInputChange);
+        this.view.containerElement.append(this.DOMElement);
+    }
+    update() {
+        const { hasTooltip, tooltipMargin } = this.view.getViewData();
+        const input = (this.DOMElement.querySelector('.js-options__input'));
+        input.value = `${tooltipMargin}`;
+        if (hasTooltip) {
+            this.DOMElement.style.display = 'flex';
+        }
+        else {
+            this.DOMElement.style.display = 'none';
+        }
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (TooltipMargin);
+
+
+/***/ }),
+
+/***/ "./src/components/slider-with-physic/img/ball.png":
+/*!********************************************************!*\
+  !*** ./src/components/slider-with-physic/img/ball.png ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/components/slider-with-physic/img/ball.png");
+
+/***/ }),
+
+/***/ "./src/components/slider-with-physic/slider-with-physic.scss":
+/*!*******************************************************************!*\
+  !*** ./src/components/slider-with-physic/slider-with-physic.scss ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/mini-css-extract-plugin/dist/loader.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/sass-loader/dist/cjs.js!./slider-with-physic.scss */ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/slider-with-physic/slider-with-physic.scss");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
+/***/ "./src/components/slider-with-physic/slider-with-physic.ts":
+/*!*****************************************************************!*\
+  !*** ./src/components/slider-with-physic/slider-with-physic.ts ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _plugin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../plugin */ "./src/plugin.ts");
+/* harmony import */ var _slider_with_physic_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./slider-with-physic.scss */ "./src/components/slider-with-physic/slider-with-physic.scss");
+/* harmony import */ var _slider_with_physic_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_slider_with_physic_scss__WEBPACK_IMPORTED_MODULE_2__);
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+
+
+const modelData = {
+    minValue: 0,
+    maxValue: 1000,
+    values: [1000],
+    stepSize: 0.0000001,
+};
+const viewData = {
+    sliderStripThickness: 10,
+    handleWidth: 45,
+    handleHeight: 45,
+    borderThickness: 5,
+    maxSegmentsCount: 1,
+    scaleFontSize: 15,
+    angle: 90,
+    filledStrips: [false, false],
+    hasScale: false,
+    hasTooltip: true,
+    tooltipMargin: 10,
+};
+class SliderWithPhysic {
+    constructor(outerContainerElement) {
+        this.velocity = 0;
+        this.defaultDamping = 0.8;
+        this.gAcceleration = -1.5;
+        this._damping = this.defaultDamping;
+        this.isHandleGripped = false;
+        this.calculatePosition = () => {
+            const { values, minValue } = this.getModelData();
+            if (!(this.velocity === 0 && values[0] === minValue)) {
+                if (this.isHandleGripped) {
+                    this.velocity = 0;
+                    this.damping = this.defaultDamping;
+                    return;
+                }
+                if (values[0] <= minValue) {
+                    this.velocity *= (-1 * this.damping);
+                    this.damping -= 0.05;
+                }
+                else {
+                    this.velocity += this.gAcceleration;
+                }
+                let newValue = values[0] + this.velocity - this.gAcceleration / 2;
+                const isVelocityCloserToZero = Math.abs(this.velocity) < Math.abs(this.gAcceleration / 2);
+                const isOffsetCloserToZero = newValue <= Math.abs(this.gAcceleration);
+                if (isVelocityCloserToZero) {
+                    this.velocity = 0;
+                    if (isOffsetCloserToZero) {
+                        newValue = minValue;
+                    }
+                }
+                this.setModelData({ values: [newValue] }, {});
+                requestAnimationFrame(this.calculatePosition);
+            }
+            else {
+                this.damping = this.defaultDamping;
+            }
+        };
+        this.handleMouseDown = () => {
+            this.isHandleGripped = true;
+        };
+        this.handleMouseMove = () => {
+            this.isHandleGripped = true;
+        };
+        this.handleMouseUp = () => {
+            this.isHandleGripped = false;
+            this.calculatePosition();
+        };
+        this.containerElement = document.createElement('div');
+        this.containerElement.className = 'slider-with-physic';
+        outerContainerElement.append(this.containerElement);
+        this.jqueryElement = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.containerElement).rangeSlider(modelData, viewData);
+        this.setModelData = this.jqueryElement.data('setModelData');
+        this.getModelData = this.jqueryElement.data('getModelData');
+        this.getViewData = this.jqueryElement.data('getViewData');
+        this.subscribeOnHandleMove = this.jqueryElement.data('subscribeOnHandleMove');
+        this.subscribeOnMouseDown = this.jqueryElement.data('subscribeOnMouseDown');
+        this.subscribeOnMouseMove = this.jqueryElement.data('subscribeOnMouseMove');
+        this.subscribeOnMouseUp = this.jqueryElement.data('subscribeOnMouseUp');
+        this.initialize();
+    }
+    set damping(value) {
+        if (value <= 0)
+            value = 0;
+        this._damping = value;
+    }
+    get damping() {
+        return this._damping;
+    }
+    initialize() {
+        this.subscribeOnMouseDown(this.handleMouseDown);
+        this.subscribeOnMouseMove(this.handleMouseMove);
+        this.subscribeOnMouseUp(this.handleMouseUp);
+        this.calculatePosition();
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (SliderWithPhysic);
+
+
+/***/ }),
+
+/***/ "./src/favicons/android-chrome-192x192.png":
+/*!*************************************************!*\
+  !*** ./src/favicons/android-chrome-192x192.png ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/android-chrome-192x192.png");
+
+/***/ }),
+
+/***/ "./src/favicons/android-chrome-512x512.png":
+/*!*************************************************!*\
+  !*** ./src/favicons/android-chrome-512x512.png ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/android-chrome-512x512.png");
+
+/***/ }),
+
+/***/ "./src/favicons/apple-touch-icon.png":
+/*!*******************************************!*\
+  !*** ./src/favicons/apple-touch-icon.png ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/apple-touch-icon.png");
+
+/***/ }),
+
+/***/ "./src/favicons/favicon-16x16.png":
+/*!****************************************!*\
+  !*** ./src/favicons/favicon-16x16.png ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/favicon-16x16.png");
+
+/***/ }),
+
+/***/ "./src/favicons/favicon-32x32.png":
+/*!****************************************!*\
+  !*** ./src/favicons/favicon-32x32.png ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/favicon-32x32.png");
+
+/***/ }),
+
+/***/ "./src/favicons/mstile-144x144.png":
+/*!*****************************************!*\
+  !*** ./src/favicons/mstile-144x144.png ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/mstile-144x144.png");
+
+/***/ }),
+
+/***/ "./src/favicons/mstile-150x150.png":
+/*!*****************************************!*\
+  !*** ./src/favicons/mstile-150x150.png ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/mstile-150x150.png");
+
+/***/ }),
+
+/***/ "./src/favicons/mstile-310x150.png":
+/*!*****************************************!*\
+  !*** ./src/favicons/mstile-310x150.png ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/mstile-310x150.png");
+
+/***/ }),
+
+/***/ "./src/favicons/mstile-310x310.png":
+/*!*****************************************!*\
+  !*** ./src/favicons/mstile-310x310.png ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/mstile-310x310.png");
+
+/***/ }),
+
+/***/ "./src/favicons/mstile-70x70.png":
+/*!***************************************!*\
+  !*** ./src/favicons/mstile-70x70.png ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/mstile-70x70.png");
+
+/***/ }),
+
+/***/ "./src/favicons/safari-pinned-tab.svg":
+/*!********************************************!*\
+  !*** ./src/favicons/safari-pinned-tab.svg ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "src/favicons/safari-pinned-tab.svg");
+
+/***/ }),
+
+/***/ "./src/pages/base/base.scss":
+/*!**********************************!*\
+  !*** ./src/pages/base/base.scss ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/mini-css-extract-plugin/dist/loader.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/sass-loader/dist/cjs.js!./base.scss */ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/base/base.scss");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
+/***/ "./src/pages/base/base.ts":
+/*!********************************!*\
+  !*** ./src/pages/base/base.ts ***!
+  \********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _base_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base.scss */ "./src/pages/base/base.scss");
+/* harmony import */ var _base_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_base_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+
+__webpack_require__("./src sync recursive \\.(ttf|eot|woff|woff2|svg|png|jpg)$");
+
+
+/***/ }),
+
+/***/ "./src/pages/demo/demo.scss":
+/*!**********************************!*\
+  !*** ./src/pages/demo/demo.scss ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/mini-css-extract-plugin/dist/loader.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/sass-loader/dist/cjs.js!./demo.scss */ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/pages/demo/demo.scss");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
+/***/ "./src/pages/demo/demo.ts":
+/*!********************************!*\
+  !*** ./src/pages/demo/demo.ts ***!
+  \********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _plugin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../plugin */ "./src/plugin.ts");
+/* harmony import */ var _components_options_panel_OptionsPanel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/options-panel/OptionsPanel */ "./src/components/options-panel/OptionsPanel.ts");
+/* harmony import */ var _components_color_customizer_color_customizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/color-customizer/color-customizer */ "./src/components/color-customizer/color-customizer.ts");
+/* harmony import */ var _components_slider_with_physic_slider_with_physic__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/slider-with-physic/slider-with-physic */ "./src/components/slider-with-physic/slider-with-physic.ts");
+/* harmony import */ var _base_base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../base/base */ "./src/pages/base/base.ts");
+/* harmony import */ var _demo_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./demo.scss */ "./src/pages/demo/demo.scss");
+/* harmony import */ var _demo_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_demo_scss__WEBPACK_IMPORTED_MODULE_5__);
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+
+
+
+
+
+const options = [
+    {
+        modelData: {
+            minValue: -100,
+            maxValue: 100,
+            values: [-99, -7, -3, 3, 99],
+            stepSize: 1,
+            canPush: true,
+        },
+        viewData: {
+            sliderStripThickness: 10,
+            handleWidth: 20,
+            handleHeight: 20,
+            borderThickness: 10,
+            maxSegmentsCount: 6,
+            scaleFontSize: 15,
+            angle: 45,
+            filledStrips: [true, false],
+            isHandlesSeparated: false,
+            hasScale: true,
+            scaleMargin: 30,
+            hasOptions: true,
+        },
+    },
+    {
+        modelData: {
+            minValue: -100,
+            maxValue: 100,
+            values: [0, 50],
+            stepSize: 1,
+            canPush: true,
+        },
+        viewData: {
+            sliderStripThickness: 12,
+            handleWidth: 20,
+            handleHeight: 20,
+            borderThickness: 4,
+            maxSegmentsCount: 6,
+            scaleFontSize: 15,
+            angle: 70,
+            filledStrips: [false, true],
+            isHandlesSeparated: true,
+            hasTooltip: true,
+            hasScale: true,
+            scaleMargin: 30,
+            hasOptions: true,
+        },
+    },
+];
+const optionsPanelContainers = Array.from(document.querySelectorAll('.js-demo__range-slider-container'));
+const optionPannels = [];
+optionsPanelContainers.forEach((container, index) => {
+    optionPannels.push(new _components_options_panel_OptionsPanel__WEBPACK_IMPORTED_MODULE_1__["default"](container, options[index].modelData, options[index].viewData));
+});
+const colorCustomizerContainer = (document.querySelector('.js-demo__color-customizer'));
+const colorCustomizer = new _components_color_customizer_color_customizer__WEBPACK_IMPORTED_MODULE_2__["default"](colorCustomizerContainer);
+const sliderWithPhysicContainer = (document.querySelector('.js-demo__slider-with-physic'));
+const sliderWithPhysic = new _components_slider_with_physic_slider_with_physic__WEBPACK_IMPORTED_MODULE_3__["default"](sliderWithPhysicContainer);
+
+
+/***/ }),
+
 /***/ "./src/plugin.ts":
 /*!***********************!*\
   !*** ./src/plugin.ts ***!
@@ -12822,4 +14382,4 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.rangeSlider = function createRa
 /***/ })
 
 /******/ });
-//# sourceMappingURL=plugin.js.map?v=5be82b090ced3a90a63c
+//# sourceMappingURL=demo.js.map?v=5be82b090ced3a90a63c
