@@ -1,0 +1,15 @@
+extends ../base/base
+
+include ../../components/color-customizer/color-customizer
+
+block title
+  title Демонстрация
+
+block body
+  div(class=["demo"])
+    div(class=["demo__range-slider-container", "js-demo__range-slider-container"])
+    div(class=["demo__range-slider-container", "js-demo__range-slider-container"])
+    div(class=["demo__color-customizer", "js-demo__color-customizer"])
+      +color-customizer()
+    div(class=["demo__slider-with-physic", "js-demo__slider-with-physic"])
+

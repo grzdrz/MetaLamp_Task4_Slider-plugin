@@ -3,18 +3,19 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 
-let entries = [
-  { pageName: "index" },
+const pages = [
+  { pageName: 'index' },
+  { pageName: 'demo' },
 ];
 
 const pluginsOptions = [];
-entries.forEach(e => {
+pages.forEach(page => {
   pluginsOptions.push(
     new HtmlWebpackPlugin({
-      filename: `./${e.pageName}.html`,
-      template: `./src/pages/${e.pageName}.pug`,
+      filename: `./${page.pageName}.html`,
+      template: `./src/pages/${page.pageName}/${page.pageName}.pug`,
       inject: true,
-      chunks: [e.pageName],
+      chunks: [page.pageName],
     })
   )
 });
@@ -26,11 +27,15 @@ pluginsOptions.push(new webpack.ProvidePlugin({
   jQuery: "jquery"
 }));
 
-let entryObj = {};
-entryObj.plugin = "./src/plugin.ts";
-entryObj.index = "./src/pages/index.ts";
+const entries = pages.reduce((obj, curEntry) => {
+  obj[curEntry.pageName] = `./src/pages/${curEntry.pageName}/${curEntry.pageName}.ts`;
+  return obj;
+}, {});
+entries.plugin = "./src/plugin.ts";
+entries.favicon = './src/favicons/favicons.js';
+
 module.exports = {
-  entry: entryObj,
+  entry: entries,
 
   output: {
     path: path.resolve(__dirname, "bandle"),

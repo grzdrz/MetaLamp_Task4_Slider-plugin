@@ -21,9 +21,9 @@ class ModelDataValidator {
     if (fraction === 0) return maxValue;
 
     const roundedValueOfOneStep = Math.round(valueOfOneStep);
-    const result = stepSize * roundedValueOfOneStep + this.model.data.minValue;
-    const result2 = MathFunctions.cutOffJunkValuesFromFraction(result, stepSize);
-    return result2;
+    const newMaxValue = stepSize * roundedValueOfOneStep + this.model.data.minValue;
+    const result = MathFunctions.cutOffJunkValuesFromFraction(newMaxValue, stepSize);
+    return result;
   }
 
   public validateMinValue(minValue: number, stepSize: number): number {

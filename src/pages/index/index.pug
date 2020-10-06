@@ -1,0 +1,15 @@
+extends ../base/base
+
+block title 
+  title Навигация
+
+block body
+  div(class=["index"])
+    p(class="index__title") Навигация
+    ul(class=["index__refs-list"])
+      li(class=["index__item"])
+        a(class=["index__ref"] href="./demo.html")
+          p(class=["index__ref-text"]) Демонстрация
+      li(class=["index__item"])
+        a(class=["index__ref"] href="./coverage/index.html")
+          p(class=["index__ref-text"]) Покрытие тестами
