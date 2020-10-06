@@ -15,13 +15,15 @@ class ModelDataValidator {
     const deltaMaxMin = maxValue - this.model.data.minValue;
     if (deltaMaxMin <= 0) return this.model.data.minValue + stepSize;
 
-    const valueOfOneStep = deltaMaxMin / stepSize;
+    let valueOfOneStep = deltaMaxMin / stepSize;
+    if (valueOfOneStep < 1) valueOfOneStep += 1;
     const fraction = MathFunctions.getFractionOfNumber(valueOfOneStep);
-
     if (fraction === 0) return maxValue;
 
     const roundedValueOfOneStep = Math.round(valueOfOneStep);
-    return stepSize * roundedValueOfOneStep + this.model.data.minValue;
+    const result = stepSize * roundedValueOfOneStep + this.model.data.minValue;
+    const result2 = MathFunctions.cutOffJunkValuesFromFraction(result, stepSize);
+    return result2;
   }
 
   public validateMinValue(minValue: number, stepSize: number): number {

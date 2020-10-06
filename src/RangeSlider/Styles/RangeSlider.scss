@@ -61,6 +61,7 @@
     position: absolute;
     background: rgb(170, 220, 240);
     color: black;
+    white-space: nowrap;
   }
 
   &__scale-container {
@@ -74,6 +75,7 @@
     font-size: 20px;
     line-height: 20px;
     position: absolute;
+    white-space: nowrap;
   }
 
   &__additional-container {
