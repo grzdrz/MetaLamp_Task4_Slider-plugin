@@ -2,11 +2,6 @@ import Event from '../../src/RangeSlider/Events/Event';
 import EventArgs from '../../src/RangeSlider/Events/EventArgs';
 
 describe('Event', function () {
-  it('Создание экземмпляра события', function () {
-    const event = new Event();
-    assert.instanceOf(event, Event);
-  });
-
   it('subscribe, корректное назначение обработчиков',
     function () {
       const spy1 = jasmine.createSpy();

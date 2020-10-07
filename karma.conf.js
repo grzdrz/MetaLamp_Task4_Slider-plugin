@@ -1,18 +1,18 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = function (config) {
   config.set({
-    basePath: "",
-    frameworks: ["chai", "jasmine", "karma-typescript"],
+    basePath: '',
+    frameworks: ['chai', 'jasmine', 'karma-typescript'],
     files: [
-      "tests/**/*.test.ts",
-      "src/RangeSlider/**/*.ts",
+      'tests/**/*.test.ts',
+      'src/RangeSlider/**/*.ts',
     ],
     preprocessors: {
-      "tests/**/*.test.ts": ["karma-typescript", "sourcemap"/* , 'coverage' */],
-      "src/RangeSlider/**/*.ts": ["karma-typescript", "sourcemap", "coverage"],
+      'tests/**/*.test.ts': ['karma-typescript', 'sourcemap'],
+      'src/RangeSlider/**/*.ts': ['karma-typescript', 'sourcemap', 'coverage'],
     },
-    reporters: ["kjhtml", "coverage", "karma-typescript"],
+    reporters: ['kjhtml', 'coverage', 'karma-typescript'],
     client: {
       clearContext: false,
     },
@@ -21,7 +21,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ["Chrome"],
+    browsers: ['Chrome'],
     singleRun: false,
     concurrency: Infinity,
   });

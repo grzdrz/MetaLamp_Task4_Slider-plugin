@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-shadow */
 import $ from 'jquery';
 
@@ -6,10 +7,10 @@ import IViewData from './RangeSlider/Data/IViewData';
 import ModelData from './RangeSlider/Data/ModelData';
 import ViewData from './RangeSlider/Data/ViewData';
 import EventArgs from './RangeSlider/Events/EventArgs';
-import RangeSlider from './RangeSlider/RangeSlider';
+import createRangeSlider from './RangeSlider/createRangeSlider';
 
-$.fn.rangeSlider = function createRangeSlider(this: JQuery, modelData: IModelData, viewData: IViewData): JQuery {
-  const presenter = RangeSlider.createRangeSlider(this[0], modelData, viewData);
+$.fn.rangeSlider = function (this: JQuery, modelData: IModelData = {}, viewData: IViewData = {}): JQuery {
+  const presenter = createRangeSlider(this[0], modelData, viewData);
 
   $(this).data().setModelData = function setModelData(modelData: IModelData): void {
     presenter.viewManager.onSetModelData.invoke(new EventArgs<IModelData>(modelData));
