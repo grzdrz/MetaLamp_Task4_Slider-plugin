@@ -1,10 +1,15 @@
+import Presenter from '../../src/RangeSlider/MVP/Presenter';
 import RangeSlider from '../../src/RangeSlider/RangeSlider';
+
+let container: HTMLDivElement;
+let presenter: Presenter;
+beforeEach(() => {
+  container = document.createElement('div');
+  presenter = RangeSlider.createRangeSlider(container);
+});
 
 describe('ViewManager', function () {
   it('обновление viewManager без указания данных', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     const oldData = presenter.viewManager.getData();
     presenter.viewManager.update({});
     const newData = presenter.viewManager.getData();
@@ -24,9 +29,6 @@ describe('ViewManager', function () {
   });
 
   it('валидация угла при передачи в update более 90 градусов', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.viewManager.update({
       angle: 91,
     });
@@ -36,9 +38,6 @@ describe('ViewManager', function () {
   });
 
   it('валидация угла при передачи в update менее 0 градусов', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.viewManager.update({
       angle: -1,
     });
@@ -48,9 +47,6 @@ describe('ViewManager', function () {
   });
 
   it('валидация численности интервальных полос при большей численности значений', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.viewManager.update({
       filledStrips: [true],
     });

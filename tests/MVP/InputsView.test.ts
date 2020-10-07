@@ -1,11 +1,16 @@
 import InputsView from '../../src/RangeSlider/MVP/Views/InputsView/InputsView';
+import Presenter from '../../src/RangeSlider/MVP/Presenter';
 import RangeSlider from '../../src/RangeSlider/RangeSlider';
+
+let container: HTMLDivElement;
+let presenter: Presenter;
+beforeEach(() => {
+  container = document.createElement('div');
+  presenter = RangeSlider.createRangeSlider(container);
+});
 
 describe('InputsView', function () {
   it('build был вызван при обновлении с полным перерендером', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     const view = <InputsView>(presenter.viewManager.views[1]);
     const buildSpy = spyOn(view, 'build');
 
@@ -17,9 +22,6 @@ describe('InputsView', function () {
   });
 
   it('обработчики вызваются корректно', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     const view = <InputsView>(presenter.viewManager.views[1]);
     const input = <HTMLInputElement>(view.containerElement.querySelector('.range-slider__input_0'));
 

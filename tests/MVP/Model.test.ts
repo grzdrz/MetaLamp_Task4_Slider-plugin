@@ -1,10 +1,15 @@
+import Presenter from '../../src/RangeSlider/MVP/Presenter';
 import RangeSlider from '../../src/RangeSlider/RangeSlider';
+
+let container: HTMLDivElement;
+let presenter: Presenter;
+beforeEach(() => {
+  container = document.createElement('div');
+  presenter = RangeSlider.createRangeSlider(container);
+});
 
 describe('Model', function () {
   it('validateValues без data.values', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     const oldData = presenter.model.getData();
     presenter.model.update({
       stepSize: 5,
@@ -16,9 +21,6 @@ describe('Model', function () {
   });
 
   it('validateValues без изменения значений', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     const oldData = presenter.model.getData();
     presenter.model.update({
       values: oldData.values,
@@ -29,9 +31,6 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением до 1го значения', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       values: [0],
     });
@@ -40,9 +39,6 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения вперед направлении', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       canPush: false,
       values: [0, 30],
@@ -53,9 +49,6 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения вперед направлении с проталкиванием вперед', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       canPush: true,
       values: [10, 0],
@@ -66,9 +59,6 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения назад направлении с проталкиванием назад', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       canPush: true,
       values: [0, -10],
@@ -79,9 +69,6 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения вперед с выходом за максимальное значение', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       canPush: true,
       values: [0, 110],
@@ -92,9 +79,6 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения назад с выходом за минимальное значение', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       canPush: true,
       values: [-110, 0],
@@ -105,9 +89,6 @@ describe('Model', function () {
   });
 
   it('validateMaxValue', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       maxValue: 50,
     });
@@ -117,9 +98,6 @@ describe('Model', function () {
   });
 
   it('validateMaxValue с попыткой установить значение не кратное шагу', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       maxValue: 109,
     });
@@ -129,9 +107,6 @@ describe('Model', function () {
   });
 
   it('validateMaxValue с попыткой зайти за минимальное значение', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       maxValue: -110,
     });
@@ -141,9 +116,6 @@ describe('Model', function () {
   });
 
   it('validateMinValue', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       minValue: -50,
     });
@@ -153,9 +125,6 @@ describe('Model', function () {
   });
 
   it('validateMinValue с попыткой установить значение не кратное шагу', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       minValue: -109,
     });
@@ -165,9 +134,6 @@ describe('Model', function () {
   });
 
   it('validateMinValue с попыткой зайти за максимально значение', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       minValue: 110,
     });
@@ -177,9 +143,6 @@ describe('Model', function () {
   });
 
   it('calculateNearestPositionForHandle с минимальным значение больше 0', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       stepSize: 1,
     });
@@ -190,14 +153,13 @@ describe('Model', function () {
       minValue: 1,
     });
 
-    const data1 = presenter.model.getData(/* data1 */);
+    const data1 = presenter.model.getData();
     if (data1.values) data1.values[1] = 12;
     presenter.model.update({
       values: data1.values,
     });
 
-    /* const data2 = new EventArgs<IModelData>({}); */
-    const data2 = presenter.model.getData(/* data2 */);
+    const data2 = presenter.model.getData();
     if (data2.values) data2.values[0] = 0;
     presenter.model.update({
       values: data2.values,
@@ -212,9 +174,6 @@ describe('Model', function () {
   });
 
   it('calculateNearestPositionForHandle с минимальным значение меньше 0', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.model.update({
       stepSize: 1,
     });

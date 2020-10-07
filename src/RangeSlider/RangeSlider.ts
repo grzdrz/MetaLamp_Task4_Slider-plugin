@@ -8,7 +8,7 @@ import ViewData from './Data/ViewData';
 import './Styles/RangeSlider.scss';
 
 class RangeSlider {
-  public static createRangeSlider(containerElement: HTMLElement, modelData: IModelData, viewData: IViewData): Presenter {
+  public static createRangeSlider(containerElement: HTMLElement, modelData: IModelData = {}, viewData: IViewData = {}): Presenter {
     const defaultModelData = new ModelData(modelData);
     const defaultViewData = new ViewData(viewData);
     const model = new Model(defaultModelData);

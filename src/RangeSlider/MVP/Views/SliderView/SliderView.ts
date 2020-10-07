@@ -71,11 +71,11 @@ class SliderView extends View {
 
     let shiftCoefficient;
     if (handleCountNumber !== undefined) shiftCoefficient = isHandlesSeparated ? handleCountNumber : 0;
-    else shiftCoefficient = 1;
+    else shiftCoefficient = isHandlesSeparated ? modelData.values.length / 2 : 0.5;
 
     const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
-    const vectorizedHandleWidth = Vector.calculateVector(handleWidth * shiftCoefficient, angleInRadians);
-    cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
+    const vectorizedShift = Vector.calculateVector(handleWidth * shiftCoefficient, angleInRadians);
+    cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedShift);
     const containerCapacity = sliderLength - handleWidth * maxShiftCoefficient;
 
     const mainAxisVector = Vector.calculateVector(sliderLength, angleInRadians);

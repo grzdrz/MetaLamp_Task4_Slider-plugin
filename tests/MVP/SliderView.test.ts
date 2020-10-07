@@ -1,13 +1,19 @@
-import RangeSlider from '../../src/RangeSlider/RangeSlider';
 import SliderView from '../../src/RangeSlider/MVP/Views/SliderView/SliderView';
+import Presenter from '../../src/RangeSlider/MVP/Presenter';
+import RangeSlider from '../../src/RangeSlider/RangeSlider';
 import EventArgs from '../../src/RangeSlider/Events/EventArgs';
 import IViewData from '../../src/RangeSlider/Data/IViewData';
+import Vector from '../../src/RangeSlider/Helpers/Vector';
+
+let container: HTMLDivElement;
+let presenter: Presenter;
+beforeEach(() => {
+  container = document.createElement('div');
+  presenter = RangeSlider.createRangeSlider(container);
+});
 
 describe('SliderView', function () {
   it('создание слайдера без шкалы', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
       hasScale: false,
     }));
@@ -16,42 +22,103 @@ describe('SliderView', function () {
     assert.equal(scaleElement, null);
   });
 
-  /* it('calculateProportionalValue с дефолтными настройками и курсором у основания контейнера слайдера', function () {
-      const container = document.createElement('div');
-      const presenter = RangeSlider.createRangeSlider(container, {}, {});
+  it('calculateProportionalValue с курсором у основания контейнера слайдера', function () {
+    const view = <SliderView>(presenter.viewManager.views[0]);
+    presenter.viewManager.data.sliderLength = 1000;
+    const cursorPositionInContainer = new Vector(0, 0);
 
-      const view = <SliderView>(presenter.viewManager.views[0]);
+    const actual = view.calculateProportionalValue(cursorPositionInContainer, 0);
+    const expected = -100;
 
-      const cursorPositionInContainer = new Vector(0, 0);
-      view.calculateProportionalValue(cursorPositionInContainer, 0);
+    assert.deepEqual(actual, expected);
+  });
 
-      const data = presenter.viewManager.getModelData();
+  it('calculateProportionalValue с курсором у основания контейнера слайдера и isHandlesSeparated = true', function () {
+    const view = <SliderView>(presenter.viewManager.views[0]);
+    presenter.viewManager.data.sliderLength = 1000;
+    presenter.viewManager.data.isHandlesSeparated = true;
+    const cursorPositionInContainer = new Vector(0, 0);
 
-      assert.deepEqual(data.values, [-100, 0]);
-  }); */
+    const actual = view.calculateProportionalValue(cursorPositionInContainer, 0);
+    const expected = -100;
 
-  /* it('calculateProportionalValue с разделенными ползунками и курсором у основания контейнера слайдера', function () {
-      const container = document.createElement('div');
-      const presenter = RangeSlider.createRangeSlider(container, {}, {});
+    assert.deepEqual(actual, expected);
+  });
 
-      const view = <SliderView>(presenter.viewManager.views[0]);
+  it('calculateProportionalValue с курсором в центре контейнера слайдера и без передачи handleCountNumber', function () {
+    const view = <SliderView>(presenter.viewManager.views[0]);
+    presenter.viewManager.data.sliderLength = 1000;
+    const cursorPositionInContainer = new Vector(500, 0);
 
-      presenter.viewManager.update({
-          isHandlesSeparated: true,
-      });
+    const actual = view.calculateProportionalValue(cursorPositionInContainer);
+    const expected = 0;
 
-      const cursorPositionInContainer = new Vector(0, 0);
-      view.calculateProportionalValue(cursorPositionInContainer, 0);
+    assert.deepEqual(actual, expected);
+  });
 
-      const data = presenter.viewManager.getModelData();
+  it('calculateProportionalValue с курсором в центре контейнера слайдера, isHandlesSeparated = true и без передачи handleCountNumber', function () {
+    const view = <SliderView>(presenter.viewManager.views[0]);
+    presenter.viewManager.data.sliderLength = 1000;
+    presenter.viewManager.data.isHandlesSeparated = true;
+    const cursorPositionInContainer = new Vector(500, 0);
 
-      assert.deepEqual(data.values, [-100, 0]);
-  }); */
+    const actual = view.calculateProportionalValue(cursorPositionInContainer);
+    const expected = 0;
+
+    assert.deepEqual(actual, expected);
+  });
+
+  it('calculateMouseGlobalPosition для тачпада', function () {
+    const view = <SliderView>(presenter.viewManager.views[0]);
+
+    const eventArg = new TouchEvent('touchmove', {
+      changedTouches: [
+        new Touch({
+          pageX: 0,
+          pageY: 0,
+          identifier: 0,
+          target: document.createElement('div'),
+        }),
+      ],
+    });
+    const actual = view.calculateMouseGlobalPosition(eventArg);
+    const expected = new Vector(0, document.documentElement.clientHeight + window.pageYOffset);
+
+    assert.deepEqual(actual, expected);
+  });
+
+  it('calculateMouseGlobalPosition для мыши', function () {
+    const view = <SliderView>(presenter.viewManager.views[0]);
+
+    const eventArg = new MouseEvent('mousemove', {
+      clientX: 0,
+      clientY: 0,
+    });
+    const actual = view.calculateMouseGlobalPosition(eventArg);
+    const expected = new Vector(0, document.documentElement.clientHeight + window.pageYOffset);
+
+    assert.deepEqual(actual, expected);
+  });
+
+  it('calculateMousePositionInsideContainer', function () {
+    const view = <SliderView>(presenter.viewManager.views[0]);
+
+    const actual = view.calculateMousePositionInsideContainer(new Vector(0, document.documentElement.clientHeight + window.pageYOffset), new Vector(0, 0));
+    const expected = new Vector(0, 0);
+
+    assert.deepEqual(actual, expected);
+  });
+
+  it('calculateMousePositionInsideContainer без mousePositionInsideTargetSlider', function () {
+    const view = <SliderView>(presenter.viewManager.views[0]);
+
+    const actual = view.calculateMousePositionInsideContainer(new Vector(0, document.documentElement.clientHeight + window.pageYOffset));
+    const expected = new Vector(0, 0);
+
+    assert.deepEqual(actual, expected);
+  });
 
   it('обновление', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
       isHandlesSeparated: true,
       hasTooltip: false,
@@ -74,9 +141,6 @@ describe('SliderView', function () {
   });
 
   it('срабатывают клики по сегментам c несколькими одинаковыми значениями', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     const view = <SliderView>(presenter.viewManager.views[0]);
     const segments = Array.from(view.containerElement.querySelectorAll('.range-slider__scale-segment'));
 
@@ -92,9 +156,6 @@ describe('SliderView', function () {
   });
 
   it('срабатывают клики по левому сегменту c несколькими одинаковыми значениями', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     const view = <SliderView>(presenter.viewManager.views[0]);
     const segments = Array.from(view.containerElement.querySelectorAll('.range-slider__scale-segment'));
 
@@ -109,9 +170,6 @@ describe('SliderView', function () {
   });
 
   it('срабатывают клики по правому сегменту c несколькими одинаковыми значениями', function () {
-    const container = document.createElement('div');
-    const presenter = RangeSlider.createRangeSlider(container, {}, {});
-
     const view = <SliderView>(presenter.viewManager.views[0]);
     const segments = Array.from(view.containerElement.querySelectorAll('.range-slider__scale-segment'));
 
@@ -119,7 +177,6 @@ describe('SliderView', function () {
     segments[segments.length - 1].addEventListener('click', spy);
     const eventClick = new window.Event('click', { bubbles: true });
     segments[segments.length - 1].dispatchEvent(eventClick);
-
 
     const callsCount = spy.calls.count();
     assert.equal(callsCount, 1);
