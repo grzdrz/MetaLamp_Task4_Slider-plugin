@@ -11657,19 +11657,19 @@ class Vector {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Model/Model.ts":
-/*!********************************************!*\
-  !*** ./src/RangeSlider/MVP/Model/Model.ts ***!
-  \********************************************/
+/***/ "./src/RangeSlider/Model/Model.ts":
+/*!****************************************!*\
+  !*** ./src/RangeSlider/Model/Model.ts ***!
+  \****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Data_ModelData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Data/ModelData */ "./src/RangeSlider/Data/ModelData.ts");
-/* harmony import */ var _Events_Event__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Events/Event */ "./src/RangeSlider/Events/Event.ts");
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _ModelDataValidator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ModelDataValidator */ "./src/RangeSlider/MVP/Model/ModelDataValidator.ts");
+/* harmony import */ var _Data_ModelData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Data/ModelData */ "./src/RangeSlider/Data/ModelData.ts");
+/* harmony import */ var _Events_Event__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Events/Event */ "./src/RangeSlider/Events/Event.ts");
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+/* harmony import */ var _ModelDataValidator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ModelDataValidator */ "./src/RangeSlider/Model/ModelDataValidator.ts");
 
 
 
@@ -11713,17 +11713,17 @@ class Model {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Model/ModelDataValidator.ts":
-/*!*********************************************************!*\
-  !*** ./src/RangeSlider/MVP/Model/ModelDataValidator.ts ***!
-  \*********************************************************/
+/***/ "./src/RangeSlider/Model/ModelDataValidator.ts":
+/*!*****************************************************!*\
+  !*** ./src/RangeSlider/Model/ModelDataValidator.ts ***!
+  \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
 
 
 class ModelDataValidator {
@@ -11861,15 +11861,18 @@ class ModelDataValidator {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Presenter.ts":
-/*!******************************************!*\
-  !*** ./src/RangeSlider/MVP/Presenter.ts ***!
-  \******************************************/
+/***/ "./src/RangeSlider/Presenter.ts":
+/*!**************************************!*\
+  !*** ./src/RangeSlider/Presenter.ts ***!
+  \**************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Styles_RangeSlider_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Styles/RangeSlider.scss */ "./src/RangeSlider/Styles/RangeSlider.scss");
+/* harmony import */ var _Styles_RangeSlider_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Styles_RangeSlider_scss__WEBPACK_IMPORTED_MODULE_0__);
+
 class Presenter {
     constructor(model, viewManager) {
         this.handleSetModelData = (args) => {
@@ -11915,17 +11918,46 @@ class Presenter {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/InputsView/InputsView.ts":
-/*!************************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/InputsView/InputsView.ts ***!
-  \************************************************************/
+/***/ "./src/RangeSlider/Styles/RangeSlider.scss":
+/*!*************************************************!*\
+  !*** ./src/RangeSlider/Styles/RangeSlider.scss ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/mini-css-extract-plugin/dist/loader.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/sass-loader/dist/cjs.js!./RangeSlider.scss */ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/RangeSlider/Styles/RangeSlider.scss");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
+/***/ "./src/RangeSlider/Views/InputsView/InputsView.ts":
+/*!********************************************************!*\
+  !*** ./src/RangeSlider/Views/InputsView/InputsView.ts ***!
+  \********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../View */ "./src/RangeSlider/MVP/Views/View.ts");
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../View */ "./src/RangeSlider/Views/View.ts");
 
 
 class InputsView extends _View__WEBPACK_IMPORTED_MODULE_1__["default"] {
@@ -11982,18 +12014,18 @@ class InputsView extends _View__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/EmptyStrip.ts":
-/*!************************************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/SliderView/SliderParts/EmptyStrip.ts ***!
-  \************************************************************************/
+/***/ "./src/RangeSlider/Views/SliderView/SliderParts/EmptyStrip.ts":
+/*!********************************************************************!*\
+  !*** ./src/RangeSlider/Views/SliderView/SliderParts/EmptyStrip.ts ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/SliderPart.ts");
+/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/Views/SliderView/SliderParts/SliderPart.ts");
 
 
 
@@ -12038,18 +12070,18 @@ class EmptyStrip extends _SliderPart__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/FilledStrip.ts":
-/*!*************************************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/SliderView/SliderParts/FilledStrip.ts ***!
-  \*************************************************************************/
+/***/ "./src/RangeSlider/Views/SliderView/SliderParts/FilledStrip.ts":
+/*!*********************************************************************!*\
+  !*** ./src/RangeSlider/Views/SliderView/SliderParts/FilledStrip.ts ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/SliderPart.ts");
+/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/Views/SliderView/SliderParts/SliderPart.ts");
 
 
 
@@ -12145,19 +12177,19 @@ class FilledStrip extends _SliderPart__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/Handle.ts":
-/*!********************************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/SliderView/SliderParts/Handle.ts ***!
-  \********************************************************************/
+/***/ "./src/RangeSlider/Views/SliderView/SliderParts/Handle.ts":
+/*!****************************************************************!*\
+  !*** ./src/RangeSlider/Views/SliderView/SliderParts/Handle.ts ***!
+  \****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../View */ "./src/RangeSlider/MVP/Views/View.ts");
-/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/SliderPart.ts");
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
+/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../View */ "./src/RangeSlider/Views/View.ts");
+/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/Views/SliderView/SliderParts/SliderPart.ts");
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-shadow */
 
@@ -12168,7 +12200,6 @@ class Handle extends _SliderPart__WEBPACK_IMPORTED_MODULE_3__["default"] {
     constructor(view, countNumber) {
         super(view);
         this.handleMouseDown = (event) => {
-            event.preventDefault();
             const mousePosition = this.view.calculateMouseGlobalPosition(event);
             const mousePositionInsideHandle = this.calculateMousePositionInsideHandle(mousePosition);
             const optionsForMouseEvents = {
@@ -12271,20 +12302,20 @@ class Handle extends _SliderPart__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/Scale.ts":
-/*!*******************************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/SliderView/SliderParts/Scale.ts ***!
-  \*******************************************************************/
+/***/ "./src/RangeSlider/Views/SliderView/SliderParts/Scale.ts":
+/*!***************************************************************!*\
+  !*** ./src/RangeSlider/Views/SliderView/SliderParts/Scale.ts ***!
+  \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
-/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../View */ "./src/RangeSlider/MVP/Views/View.ts");
-/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/SliderPart.ts");
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
+/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
+/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../View */ "./src/RangeSlider/Views/View.ts");
+/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/Views/SliderView/SliderParts/SliderPart.ts");
 
 
 
@@ -12295,7 +12326,6 @@ class Scale extends _SliderPart__WEBPACK_IMPORTED_MODULE_4__["default"] {
         super(...arguments);
         this.segments = new Array();
         this.handleSegmentClick = (event) => {
-            event.preventDefault();
             const currentSegment = (event.currentTarget);
             const segmentValueString = (currentSegment.dataset.value);
             const value = Number.parseFloat(segmentValueString);
@@ -12372,16 +12402,16 @@ class Scale extends _SliderPart__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/SliderPart.ts":
-/*!************************************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/SliderView/SliderParts/SliderPart.ts ***!
-  \************************************************************************/
+/***/ "./src/RangeSlider/Views/SliderView/SliderParts/SliderPart.ts":
+/*!********************************************************************!*\
+  !*** ./src/RangeSlider/Views/SliderView/SliderParts/SliderPart.ts ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../View */ "./src/RangeSlider/MVP/Views/View.ts");
+/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../View */ "./src/RangeSlider/Views/View.ts");
 
 class SliderPart {
     constructor(view) {
@@ -12403,17 +12433,17 @@ class SliderPart {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/Tooltip.ts":
-/*!*********************************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/SliderView/SliderParts/Tooltip.ts ***!
-  \*********************************************************************/
+/***/ "./src/RangeSlider/Views/SliderView/SliderParts/Tooltip.ts":
+/*!*****************************************************************!*\
+  !*** ./src/RangeSlider/Views/SliderView/SliderParts/Tooltip.ts ***!
+  \*****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
-/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/SliderPart.ts");
+/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
+/* harmony import */ var _SliderPart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SliderPart */ "./src/RangeSlider/Views/SliderView/SliderParts/SliderPart.ts");
 
 
 class Tooltip extends _SliderPart__WEBPACK_IMPORTED_MODULE_1__["default"] {
@@ -12469,23 +12499,23 @@ class Tooltip extends _SliderPart__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/SliderView/SliderView.ts":
-/*!************************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/SliderView/SliderView.ts ***!
-  \************************************************************/
+/***/ "./src/RangeSlider/Views/SliderView/SliderView.ts":
+/*!********************************************************!*\
+  !*** ./src/RangeSlider/Views/SliderView/SliderView.ts ***!
+  \********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
-/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../View */ "./src/RangeSlider/MVP/Views/View.ts");
-/* harmony import */ var _SliderParts_Handle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SliderParts/Handle */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/Handle.ts");
-/* harmony import */ var _SliderParts_FilledStrip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SliderParts/FilledStrip */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/FilledStrip.ts");
-/* harmony import */ var _SliderParts_EmptyStrip__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SliderParts/EmptyStrip */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/EmptyStrip.ts");
-/* harmony import */ var _SliderParts_Scale__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SliderParts/Scale */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/Scale.ts");
-/* harmony import */ var _SliderParts_Tooltip__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SliderParts/Tooltip */ "./src/RangeSlider/MVP/Views/SliderView/SliderParts/Tooltip.ts");
+/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
+/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
+/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../View */ "./src/RangeSlider/Views/View.ts");
+/* harmony import */ var _SliderParts_Handle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SliderParts/Handle */ "./src/RangeSlider/Views/SliderView/SliderParts/Handle.ts");
+/* harmony import */ var _SliderParts_FilledStrip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SliderParts/FilledStrip */ "./src/RangeSlider/Views/SliderView/SliderParts/FilledStrip.ts");
+/* harmony import */ var _SliderParts_EmptyStrip__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SliderParts/EmptyStrip */ "./src/RangeSlider/Views/SliderView/SliderParts/EmptyStrip.ts");
+/* harmony import */ var _SliderParts_Scale__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SliderParts/Scale */ "./src/RangeSlider/Views/SliderView/SliderParts/Scale.ts");
+/* harmony import */ var _SliderParts_Tooltip__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SliderParts/Tooltip */ "./src/RangeSlider/Views/SliderView/SliderParts/Tooltip.ts");
 
 
 
@@ -12555,13 +12585,17 @@ class SliderView extends _View__WEBPACK_IMPORTED_MODULE_2__["default"] {
         if (handleCountNumber !== undefined)
             shiftCoefficient = isHandlesSeparated ? handleCountNumber : 0;
         else
-            shiftCoefficient = 1;
+            shiftCoefficient = isHandlesSeparated ? modelData.values.length / 2 : 0.5;
         const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
-        const vectorizedHandleWidth = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"].calculateVector(handleWidth * shiftCoefficient, angleInRadians);
-        cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedHandleWidth);
+        const vectorizedShift = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"].calculateVector(handleWidth * shiftCoefficient, angleInRadians);
+        cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedShift);
         const containerCapacity = sliderLength - handleWidth * maxShiftCoefficient;
         const mainAxisVector = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"].calculateVector(sliderLength, angleInRadians);
-        const cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
+        let cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
+        if (cursorPositionProjectionOnSliderMainAxis < 0)
+            cursorPositionProjectionOnSliderMainAxis = 0;
+        else if (cursorPositionProjectionOnSliderMainAxis > sliderLength)
+            cursorPositionProjectionOnSliderMainAxis = sliderLength;
         const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
         return proportionalValue;
     }
@@ -12639,10 +12673,10 @@ class SliderView extends _View__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/View.ts":
-/*!*******************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/View.ts ***!
-  \*******************************************/
+/***/ "./src/RangeSlider/Views/View.ts":
+/*!***************************************!*\
+  !*** ./src/RangeSlider/Views/View.ts ***!
+  \***************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12673,16 +12707,16 @@ class View {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/ViewDataValidator.ts":
-/*!********************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/ViewDataValidator.ts ***!
-  \********************************************************/
+/***/ "./src/RangeSlider/Views/ViewDataValidator.ts":
+/*!****************************************************!*\
+  !*** ./src/RangeSlider/Views/ViewDataValidator.ts ***!
+  \****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/constants */ "./src/RangeSlider/utils/constants.ts");
+/* harmony import */ var _utils_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/constants */ "./src/RangeSlider/utils/constants.ts");
 
 class ViewDataValidator {
     constructor(viewManager) {
@@ -12720,21 +12754,21 @@ class ViewDataValidator {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/MVP/Views/ViewManager.ts":
-/*!**************************************************!*\
-  !*** ./src/RangeSlider/MVP/Views/ViewManager.ts ***!
-  \**************************************************/
+/***/ "./src/RangeSlider/Views/ViewManager.ts":
+/*!**********************************************!*\
+  !*** ./src/RangeSlider/Views/ViewManager.ts ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Data_ViewData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Data/ViewData */ "./src/RangeSlider/Data/ViewData.ts");
-/* harmony import */ var _Events_Event__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Events/Event */ "./src/RangeSlider/Events/Event.ts");
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _SliderView_SliderView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SliderView/SliderView */ "./src/RangeSlider/MVP/Views/SliderView/SliderView.ts");
-/* harmony import */ var _InputsView_InputsView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./InputsView/InputsView */ "./src/RangeSlider/MVP/Views/InputsView/InputsView.ts");
-/* harmony import */ var _ViewDataValidator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ViewDataValidator */ "./src/RangeSlider/MVP/Views/ViewDataValidator.ts");
+/* harmony import */ var _Data_ViewData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Data/ViewData */ "./src/RangeSlider/Data/ViewData.ts");
+/* harmony import */ var _Events_Event__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Events/Event */ "./src/RangeSlider/Events/Event.ts");
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+/* harmony import */ var _SliderView_SliderView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SliderView/SliderView */ "./src/RangeSlider/Views/SliderView/SliderView.ts");
+/* harmony import */ var _InputsView_InputsView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./InputsView/InputsView */ "./src/RangeSlider/Views/InputsView/InputsView.ts");
+/* harmony import */ var _ViewDataValidator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ViewDataValidator */ "./src/RangeSlider/Views/ViewDataValidator.ts");
 
 
 
@@ -12794,68 +12828,34 @@ class ViewManager {
 
 /***/ }),
 
-/***/ "./src/RangeSlider/RangeSlider.ts":
-/*!****************************************!*\
-  !*** ./src/RangeSlider/RangeSlider.ts ***!
-  \****************************************/
+/***/ "./src/RangeSlider/createRangeSlider.ts":
+/*!**********************************************!*\
+  !*** ./src/RangeSlider/createRangeSlider.ts ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _MVP_Model_Model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MVP/Model/Model */ "./src/RangeSlider/MVP/Model/Model.ts");
-/* harmony import */ var _MVP_Views_ViewManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MVP/Views/ViewManager */ "./src/RangeSlider/MVP/Views/ViewManager.ts");
-/* harmony import */ var _MVP_Presenter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MVP/Presenter */ "./src/RangeSlider/MVP/Presenter.ts");
-/* harmony import */ var _Data_ModelData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Data/ModelData */ "./src/RangeSlider/Data/ModelData.ts");
-/* harmony import */ var _Data_ViewData__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Data/ViewData */ "./src/RangeSlider/Data/ViewData.ts");
-/* harmony import */ var _Styles_RangeSlider_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Styles/RangeSlider.scss */ "./src/RangeSlider/Styles/RangeSlider.scss");
-/* harmony import */ var _Styles_RangeSlider_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_Styles_RangeSlider_scss__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Data_ModelData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Data/ModelData */ "./src/RangeSlider/Data/ModelData.ts");
+/* harmony import */ var _Data_ViewData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Data/ViewData */ "./src/RangeSlider/Data/ViewData.ts");
+/* harmony import */ var _Model_Model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Model/Model */ "./src/RangeSlider/Model/Model.ts");
+/* harmony import */ var _Views_ViewManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Views/ViewManager */ "./src/RangeSlider/Views/ViewManager.ts");
+/* harmony import */ var _Presenter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Presenter */ "./src/RangeSlider/Presenter.ts");
 
 
 
 
 
+const createRangeSlider = (containerElement, modelData = {}, viewData = {}) => {
+    const defaultModelData = new _Data_ModelData__WEBPACK_IMPORTED_MODULE_0__["default"](modelData);
+    const defaultViewData = new _Data_ViewData__WEBPACK_IMPORTED_MODULE_1__["default"](viewData);
+    const model = new _Model_Model__WEBPACK_IMPORTED_MODULE_2__["default"](defaultModelData);
+    const viewManager = new _Views_ViewManager__WEBPACK_IMPORTED_MODULE_3__["default"](defaultViewData, containerElement);
+    return new _Presenter__WEBPACK_IMPORTED_MODULE_4__["default"](model, viewManager);
+};
+/* harmony default export */ __webpack_exports__["default"] = (createRangeSlider);
 
-class RangeSlider {
-    static createRangeSlider(containerElement, modelData, viewData) {
-        const defaultModelData = new _Data_ModelData__WEBPACK_IMPORTED_MODULE_3__["default"](modelData);
-        const defaultViewData = new _Data_ViewData__WEBPACK_IMPORTED_MODULE_4__["default"](viewData);
-        const model = new _MVP_Model_Model__WEBPACK_IMPORTED_MODULE_0__["default"](defaultModelData);
-        const viewManager = new _MVP_Views_ViewManager__WEBPACK_IMPORTED_MODULE_1__["default"](defaultViewData, containerElement);
-        return new _MVP_Presenter__WEBPACK_IMPORTED_MODULE_2__["default"](model, viewManager);
-    }
-}
-/* harmony default export */ __webpack_exports__["default"] = (RangeSlider);
-
-
-/***/ }),
-
-/***/ "./src/RangeSlider/Styles/RangeSlider.scss":
-/*!*************************************************!*\
-  !*** ./src/RangeSlider/Styles/RangeSlider.scss ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../node_modules/mini-css-extract-plugin/dist/loader.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/sass-loader/dist/cjs.js!./RangeSlider.scss */ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/RangeSlider/Styles/RangeSlider.scss");
-
-            content = content.__esModule ? content.default : content;
-
-            if (typeof content === 'string') {
-              content = [[module.i, content, '']];
-            }
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = api(content, options);
-
-
-
-module.exports = content.locals || {};
 
 /***/ }),
 
@@ -14350,13 +14350,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _RangeSlider_Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RangeSlider/Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _RangeSlider_RangeSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RangeSlider/RangeSlider */ "./src/RangeSlider/RangeSlider.ts");
+/* harmony import */ var _RangeSlider_createRangeSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RangeSlider/createRangeSlider */ "./src/RangeSlider/createRangeSlider.ts");
+/* eslint-disable func-names */
 /* eslint-disable no-shadow */
 
 
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.rangeSlider = function createRangeSlider(modelData, viewData) {
-    const presenter = _RangeSlider_RangeSlider__WEBPACK_IMPORTED_MODULE_2__["default"].createRangeSlider(this[0], modelData, viewData);
+jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.rangeSlider = function (modelData = {}, viewData = {}) {
+    const presenter = Object(_RangeSlider_createRangeSlider__WEBPACK_IMPORTED_MODULE_2__["default"])(this[0], modelData, viewData);
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().setModelData = function setModelData(modelData) {
         presenter.viewManager.onSetModelData.invoke(new _RangeSlider_Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__["default"](modelData));
     };
@@ -14382,4 +14383,4 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.rangeSlider = function createRa
 /***/ })
 
 /******/ });
-//# sourceMappingURL=demo.js.map?v=5be82b090ced3a90a63c
+//# sourceMappingURL=demo.js.map?v=340758afa9b620fca742
