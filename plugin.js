@@ -12101,6 +12101,7 @@ class Handle extends _SliderPart__WEBPACK_IMPORTED_MODULE_3__["default"] {
     constructor(view, countNumber) {
         super(view);
         this.handleMouseDown = (event) => {
+            event.preventDefault();
             const mousePosition = this.view.calculateMouseGlobalPosition(event);
             const mousePositionInsideHandle = this.calculateMousePositionInsideHandle(mousePosition);
             const optionsForMouseEvents = {
@@ -12180,6 +12181,7 @@ class Handle extends _SliderPart__WEBPACK_IMPORTED_MODULE_3__["default"] {
         return new _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"](mousePositionInsideTargetSliderX, mousePositionInsideTargetSliderY);
     }
     handleMouseMove(optionsFromMouseDown, event) {
+        event.preventDefault();
         const { mousePositionInsideHandle, } = optionsFromMouseDown;
         const mousePosition = this.view.calculateMouseGlobalPosition(event);
         const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition, mousePositionInsideHandle);
@@ -12190,6 +12192,7 @@ class Handle extends _SliderPart__WEBPACK_IMPORTED_MODULE_3__["default"] {
         this.view.viewManager.onMouseMove.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__["default"]({ mousePosition }));
     }
     handleMouseUp(optionsFromMouseDown, event) {
+        event.preventDefault();
         document.removeEventListener('mousemove', optionsFromMouseDown.handleMouseMove);
         document.removeEventListener('mouseup', optionsFromMouseDown.handleMouseUp);
         document.removeEventListener('touchmove', optionsFromMouseDown.handleMouseMove);
@@ -12823,4 +12826,4 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.rangeSlider = function (modelDa
 /***/ })
 
 /******/ });
-//# sourceMappingURL=plugin.js.map?v=340758afa9b620fca742
+//# sourceMappingURL=plugin.js.map?v=102fc4c7c8248245b476
