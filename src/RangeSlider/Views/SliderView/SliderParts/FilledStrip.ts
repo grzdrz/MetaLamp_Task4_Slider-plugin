@@ -62,7 +62,7 @@ class FilledStrip extends SliderPart {
     this.setPosition(position);
   }
 
-  private calculateSize(args: ISizeCalculationParameters) {
+  private calculateSize(args: ISizeCalculationParameters): Vector {
     const modelData = this.view.viewManager.getModelData();
     const {
       handleWidth,
@@ -95,7 +95,7 @@ class FilledStrip extends SliderPart {
     return size;
   }
 
-  private calculatePosition(vectorizedFirstHandlePosition: Vector, handlesCountShift: Vector) {
+  private calculatePosition(vectorizedFirstHandlePosition: Vector, handlesCountShift: Vector): Vector {
     const {
       handleHeight,
       sliderStripThickness,

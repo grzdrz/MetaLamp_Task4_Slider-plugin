@@ -31,7 +31,7 @@ class Tooltip extends SliderPart {
     this.setPosition(position);
   }
 
-  private calculatePosition() {
+  private calculatePosition(): Vector {
     const { values } = this.view.viewManager.getModelData();
     const {
       handleWidth,

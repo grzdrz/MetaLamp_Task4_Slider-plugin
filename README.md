@@ -74,14 +74,16 @@ const slider = $(".js-some-container").rangeSlider(modelData, viewData);
 
 | Метод | Тип | Описание |
 | --- | --- | --- |
-| setData | (modelData: IModelData, viewData: IViewData) => void | Изменяет указанные настройки экземпляра плагина |
+| setModelData | (modelData: IModelData) => void | Изменяет указанные настройки модели |
+| setViewData | (viewData: IViewData) => void | Изменяет указанные настройки представлений |
 | getModelData | () => ModelData | Извлекает из экземпляра плагина настройки модели |
 | getViewData | () => ViewData | Извлекает из экземпляра плагина настройки представлений |
-| subscribeOnUpdates | (handler: EventHandler) => void | Подписаться на событие изменения данных модели или представления  |
-| subscribeOnHandleMove | (handler: EventHandler) => void | Подписаться на событие изменения позиции ползунка |
-| subscribeOnMouseDown | (handler: EventHandler) => void | Подписаться на событие нажатия кнопки мыши на ползунке |
-| subscribeOnMouseMove | (handler: EventHandler) => void | Подписаться на событие движений мыши с захваченным ползунком |
-| subscribeOnMouseUp | (handler: EventHandler) => void | Подписаться на событие отжатия кнопки мыши с захваченного ползунка |
+| subscribeOnSetModelData | (handler: EventHandler<IModelData>) => void | Подписаться на событие изменения данных модели  |
+| subscribeOnSetViewData | (handler: EventHandler<IViewData>) => void | Подписаться на событие изменения данных представлений  |
+| subscribeOnHandleMove | (handler: EventHandler<IModelData>) => void | Подписаться на событие изменения позиции ползунка |
+| subscribeOnMouseDown | (handler: EventHandler<IMouseData>) => void | Подписаться на событие нажатия кнопки мыши/тачпада на ползунке |
+| subscribeOnMouseMove | (handler: EventHandler<IMouseData>) => void | Подписаться на событие движений мыши/тачпада с захваченным ползунком |
+| subscribeOnMouseUp | (handler: EventHandler<IMouseData>) => void | Подписаться на событие отжатия кнопки мыши/тачпада с захваченного ползунка |
 
 
 # Архитектура
@@ -94,4 +96,4 @@ const slider = $(".js-some-container").rangeSlider(modelData, viewData);
 
 # UML
 
-![](./temp/uml.jpg)
+![](./uml/uml.jpg)

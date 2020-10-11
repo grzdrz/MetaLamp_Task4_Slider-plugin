@@ -15,9 +15,11 @@ class ViewManager {
   public data: ViewData;
   public views: View[] = new Array<View>();
   public validator: ViewDataValidator;
+
   public onSetViewData = new Event<IViewData>();
   public onSetModelData = new Event<IModelData>();
   public onGetModelData = new Event<IModelData>();
+
   public onHandleMove = new Event<IModelData>();
   public onInputsChange = new Event<IModelData>();
   public onMouseDown = new Event<IMouseData>();

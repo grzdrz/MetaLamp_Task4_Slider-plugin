@@ -109,6 +109,8 @@ class Handle extends SliderPart {
   }
 
   private handleMouseDown = (event: UIEvent) => {
+    event.preventDefault();
+
     const mousePosition = this.view.calculateMouseGlobalPosition(event);
     const mousePositionInsideHandle = this.calculateMousePositionInsideHandle(mousePosition);
 
@@ -132,6 +134,8 @@ class Handle extends SliderPart {
   };
 
   private handleMouseMove(optionsFromMouseDown: IMouseDownEventArgs, event: UIEvent): void {
+    event.preventDefault();
+
     const {
       mousePositionInsideHandle,
     } = optionsFromMouseDown;
@@ -147,6 +151,8 @@ class Handle extends SliderPart {
   }
 
   private handleMouseUp(optionsFromMouseDown: IMouseDownEventArgs, event: UIEvent): void {
+    event.preventDefault();
+
     document.removeEventListener('mousemove', optionsFromMouseDown.handleMouseMove);
     document.removeEventListener('mouseup', optionsFromMouseDown.handleMouseUp);
     document.removeEventListener('touchmove', optionsFromMouseDown.handleMouseMove);
