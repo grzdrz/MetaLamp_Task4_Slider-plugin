@@ -9,8 +9,9 @@ class ViewDataValidator {
   }
 
   public validateFilledStrips(filledStrips: boolean[]): boolean[] {
-    const modelData = this.viewManager.getModelData();
-    const { values } = modelData;
+    this.viewManager.onExtractModelData.invoke();
+    const { values } = this.viewManager.modelData;
+
     const newFilledStrips = new Array<boolean>();
     for (let i = 0; i < values.length + 1; i += 1) {
       if (i < filledStrips.length) {

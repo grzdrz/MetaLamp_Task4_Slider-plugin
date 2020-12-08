@@ -26,11 +26,12 @@ class Scale extends SliderPart {
 
   private buildSegments(): void {
     this.segments = [];
+    this.view.viewManager.onExtractModelData.invoke();
     const {
       stepSize,
       minValue,
       maxValue,
-    } = this.view.viewManager.getModelData();
+    } = this.view.viewManager.modelData;
     const { maxSegmentsCount } = this.view.viewManager.data;
 
     const segmentDensityLimit = this.calculateSegmentDensityLimit();
@@ -50,7 +51,8 @@ class Scale extends SliderPart {
   }
 
   private buildSegment(segmentValue: number): void {
-    const { stepSize } = this.view.viewManager.getModelData();
+    this.view.viewManager.onExtractModelData.invoke();
+    const { stepSize } = this.view.viewManager.modelData;
 
     const segment = document.createElement('div');
     segment.className = 'range-slider__scale-segment';
@@ -67,13 +69,16 @@ class Scale extends SliderPart {
   }
 
   private calculateSegmentDensityLimit(): number {
-    const modelData = this.view.viewManager.getModelData();
-    const density = modelData.deltaMaxMin / modelData.stepSize;
+    this.view.viewManager.onExtractModelData.invoke();
+    const { deltaMaxMin, stepSize } = this.view.viewManager.modelData;
+
+    const density = deltaMaxMin / stepSize;
     return density;
   }
 
   private calculateSegmentPosition(segment: HTMLElement, value: number): void {
-    const modelData = this.view.viewManager.getModelData();
+    this.view.viewManager.onExtractModelData.invoke();
+    const { values } = this.view.viewManager.modelData;
     const {
       angleInRadians,
       handleWidth,
@@ -87,7 +92,7 @@ class Scale extends SliderPart {
     const vectorizedSegmentLength = new Vector(segmentWidth, segmentHeight).length;
 
     let handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
-    const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
+    const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
     handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth * (maxShiftCoefficient / 2);
 
     const vectorizedMargin = Vector.calculateVector(scaleMargin, angleInRadians);

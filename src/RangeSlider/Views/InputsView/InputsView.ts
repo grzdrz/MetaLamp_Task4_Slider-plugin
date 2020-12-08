@@ -11,12 +11,13 @@ class InputsView extends View {
   }
 
   public build(): void {
-    const modelData = this.viewManager.getModelData();
+    this.viewManager.onExtractModelData.invoke();
+    const { values, minValue } = this.viewManager.modelData;
 
     this.containerElement.innerHTML = '';
     this.valueInputsDOMElements = [];
 
-    for (let i = 0; i < modelData.values.length; i += 1) {
+    for (let i = 0; i < values.length; i += 1) {
       const valueInputContainer = document.createElement('div');
       const valueInput = document.createElement('input');
       this.valueInputsDOMElements.push(valueInput);
@@ -25,7 +26,7 @@ class InputsView extends View {
       valueInputContainer.className = `range-slider__input-container range-slider__input-container_${i}`;
       valueInput.dataset.countNumber = `${i}`;
       valueInput.className = `range-slider__input range-slider__input_${i}`;
-      valueInput.value = `${modelData.minValue}`;
+      valueInput.value = `${minValue}`;
       valueInputText.className = 'range-slider__input-text';
       valueInputText.textContent = `value ${i + 1}`;
 
@@ -38,9 +39,9 @@ class InputsView extends View {
   }
 
   public update(isNeedRebuild: boolean): void {
-    const modelData = this.viewManager.getModelData();
+    this.viewManager.onExtractModelData.invoke();
+    const { values } = this.viewManager.modelData;
 
-    const { values } = modelData;
     if (isNeedRebuild) this.build();
     this.valueInputsDOMElements.forEach((element, i) => {
       element.value = values[i].toString();
@@ -48,9 +49,9 @@ class InputsView extends View {
   }
 
   private handleInputChange = () => {
-    const modelData = this.viewManager.getModelData();
+    this.viewManager.onExtractModelData.invoke();
+    const { values } = this.viewManager.modelData;
 
-    const { values } = modelData;
     this.valueInputsDOMElements.forEach((element, i) => {
       const value = Number.parseFloat(element.value);
       values[i] = value;

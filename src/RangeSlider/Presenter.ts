@@ -31,27 +31,19 @@ class Presenter {
     this.viewManager.onInputsChange.subscribe(this.handleSetModelData);
     this.viewManager.onInputsChange.subscribe(this.handleHandleMove);
 
-    this.model.onGetViewData.subscribe(this.handleGetViewData);
-    this.viewManager.onGetModelData.subscribe(this.handleGetModelData);
+    this.model.onExtractViewData.subscribe(this.handleExtractViewData);
+    this.viewManager.onExtractModelData.subscribe(this.handleExtractModelData);
 
     this.model.initialize();
     this.viewManager.initialize();
   }
 
-  private handleSetModelData = (args: EventArgs<IModelData>) => {
-    this.model.update(args.data);
+  private handleSetModelData = (args?: EventArgs<IModelData>) => {
+    if (args) this.model.update(args.data);
   };
 
-  private handleSetViewData = (args: EventArgs<IViewData>) => {
-    this.viewManager.update(args.data);
-  };
-
-  private handleGetModelData = (args: EventArgs<IModelData>) => {
-    args.data = this.model.getData();
-  };
-
-  private handleGetViewData = (args: EventArgs<IViewData>) => {
-    args.data = this.viewManager.getData();
+  private handleSetViewData = (args?: EventArgs<IViewData>) => {
+    if (args) this.viewManager.update(args.data);
   };
 
   private handleViewsUpdate = () => {
@@ -60,6 +52,14 @@ class Presenter {
 
   private handleHandleMove = () => {
     this.viewManager.views.forEach((view) => view.update(false));
+  };
+
+  private handleExtractModelData = () => {
+    this.viewManager.modelData = this.model.getData();
+  };
+
+  private handleExtractViewData = () => {
+    this.model.viewData = this.viewManager.getData();
   };
 }
 

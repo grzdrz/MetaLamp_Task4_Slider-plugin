@@ -3,13 +3,13 @@ import ModelData from '../Data/ModelData';
 import ViewData from '../Data/ViewData';
 import IViewData from '../Data/IViewData';
 import Event from '../Events/Event';
-import EventArgs from '../Events/EventArgs';
 import ModelDataValidator from './ModelDataValidator';
 
 class Model {
   public data: ModelData;
+  public viewData = new ViewData({});
   public validator: ModelDataValidator;
-  public onGetViewData = new Event<IViewData>();
+  public onExtractViewData = new Event<IViewData>();
   public onSetViewData = new Event<IViewData>();
 
   constructor(data: ModelData) {
@@ -36,13 +36,7 @@ class Model {
     this.validator.validateValues(data);
   }
 
-  public getViewData(): ViewData {
-    const eventArgs = new EventArgs<IViewData>({});
-    this.onGetViewData.invoke(eventArgs);
-    return <ViewData>eventArgs.data;
-  }
-
-  public getData(): IModelData {
+  public getData(): ModelData {
     return new ModelData(this.data);
   }
 }

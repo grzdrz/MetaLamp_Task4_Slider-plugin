@@ -33,8 +33,9 @@ class FilledStrip extends SliderPart {
   }
 
   public update(): void {
-    const modelData = this.view.viewManager.getModelData();
-    const { values } = modelData;
+    this.view.viewManager.onExtractModelData.invoke();
+    const { values } = this.view.viewManager.modelData;
+
     const {
       handleWidth,
       angleInRadians,
@@ -63,7 +64,8 @@ class FilledStrip extends SliderPart {
   }
 
   private calculateSize(args: ISizeCalculationParameters): Vector {
-    const modelData = this.view.viewManager.getModelData();
+    this.view.viewManager.onExtractModelData.invoke();
+    const { maxValue } = this.view.viewManager.modelData;
     const {
       handleWidth,
       angleInRadians,
@@ -83,7 +85,7 @@ class FilledStrip extends SliderPart {
       const width = vectorizedLastHandlePosition.sum(handlesCountShift).length;
       size = new Vector(width, sliderStripThickness);
     } else if (this.countNumber === filledStrips.length - 1) {
-      const maxValueLength = this.view.calculateProportionalPixelValue(modelData.maxValue);
+      const maxValueLength = this.view.calculateProportionalPixelValue(maxValue);
       const vectorizedMaxValueLength = Vector.calculateVector(maxValueLength - handleWidth / 2, angleInRadians);
       const width = vectorizedMaxValueLength.subtract(vectorizedFirstHandlePosition).sum(vectorizedHandleWidth).length;
       size = new Vector(width, sliderStripThickness);

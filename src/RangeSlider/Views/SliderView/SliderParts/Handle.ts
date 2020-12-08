@@ -45,8 +45,8 @@ class Handle extends SliderPart {
   }
 
   public update(): void {
-    const modelData = this.view.viewManager.getModelData();
-    const { values } = modelData;
+    this.view.viewManager.onExtractModelData.invoke();
+    const { values } = this.view.viewManager.modelData;
     const { handleWidth, angleInRadians, isHandlesSeparated } = this.view.viewManager.data;
 
     const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
@@ -144,7 +144,8 @@ class Handle extends SliderPart {
     const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition, mousePositionInsideHandle);
 
     const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer, this.countNumber);
-    const { values } = this.view.viewManager.getModelData();
+    this.view.viewManager.onExtractModelData.invoke();
+    const { values } = this.view.viewManager.modelData;
     values[this.countNumber] = proportionalValue;
     this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
     this.view.viewManager.onMouseMove.invoke(new EventArgs<IMouseData>({ mousePosition }));

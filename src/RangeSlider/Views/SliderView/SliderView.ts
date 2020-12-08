@@ -20,18 +20,19 @@ class SliderView extends View {
   }
 
   public build(): void {
-    const modelData = this.viewManager.getModelData();
+    this.viewManager.onExtractModelData.invoke();
+    const { values } = this.viewManager.modelData;
     this.parts = [];
 
     this.containerElement.innerHTML = '';
     this.renderContainer();
 
     this.parts.push(new EmptyStrip(this));
-    modelData.values.forEach((value, index) => {
+    values.forEach((value, index) => {
       this.parts.push(new Handle(this, index));
     });
     if (this.viewManager.data.hasTooltip) {
-      modelData.values.forEach((value, index) => {
+      values.forEach((value, index) => {
         this.parts.push(new Tooltip(this, index));
       });
     }
@@ -61,7 +62,8 @@ class SliderView extends View {
   }
 
   public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber?: number): number {
-    const modelData = this.viewManager.getModelData();
+    this.viewManager.onExtractModelData.invoke();
+    const { values, deltaMaxMin, minValue } = this.viewManager.modelData;
     const {
       sliderLength,
       handleWidth,
@@ -71,9 +73,9 @@ class SliderView extends View {
 
     let shiftCoefficient;
     if (handleCountNumber !== undefined) shiftCoefficient = isHandlesSeparated ? handleCountNumber : 0;
-    else shiftCoefficient = isHandlesSeparated ? modelData.values.length / 2 : 0.5;
+    else shiftCoefficient = isHandlesSeparated ? values.length / 2 : 0.5;
 
-    const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
+    const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
     const vectorizedShift = Vector.calculateVector(handleWidth * shiftCoefficient, angleInRadians);
     cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedShift);
     const containerCapacity = sliderLength - handleWidth * maxShiftCoefficient;
@@ -83,18 +85,19 @@ class SliderView extends View {
     if (cursorPositionProjectionOnSliderMainAxis < 0) cursorPositionProjectionOnSliderMainAxis = 0;
     else if (cursorPositionProjectionOnSliderMainAxis > sliderLength) cursorPositionProjectionOnSliderMainAxis = sliderLength;
 
-    const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
+    const proportionalValue = (deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + minValue;
     return proportionalValue;
   }
 
   public calculateProportionalPixelValue(value: number): number {
-    const modelData = this.viewManager.getModelData();
+    this.viewManager.onExtractModelData.invoke();
+    const { values, deltaMaxMin, minValue } = this.viewManager.modelData;
     const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.data;
 
-    const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
+    const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
     const usedLength = sliderLength - handleWidth * maxShiftCoefficient;
 
-    return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
+    return ((value - minValue) * usedLength) / deltaMaxMin;
   }
 
   public calculateMouseGlobalPosition(event: UIEvent): Vector {
@@ -128,7 +131,8 @@ class SliderView extends View {
   }
 
   public setClosestHandle(targetValue: number): number[] {
-    const { values } = this.viewManager.getModelData();
+    this.viewManager.onExtractModelData.invoke();
+    const { values } = this.viewManager.modelData;
 
     const deltaValuesToTargetValue = values.map((value, index) => ({
       index,

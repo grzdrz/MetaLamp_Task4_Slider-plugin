@@ -5,7 +5,7 @@ import EventHandler from './EventHandler';
 class Event<TData> {
   private handlers = new Array<EventHandler<TData>>();
 
-  public invoke = (args: EventArgs<TData>) => {
+  public invoke = (args?: EventArgs<TData>) => {
     this.handlers.forEach((eventHandler) => eventHandler(args));
   };
 

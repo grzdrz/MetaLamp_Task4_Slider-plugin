@@ -92,8 +92,9 @@ class ModelDataValidator {
   }
 
   private updateFilledStrips(): void {
-    const viewData = this.model.getViewData();
-    const { filledStrips } = viewData;
+    this.model.onExtractViewData.invoke();
+    const { filledStrips } = this.model.viewData;
+
     const newFilledStrips = new Array<boolean>();
     for (let i = 0; i < this.model.data.values.length + 1; i += 1) {
       if (i < filledStrips.length) {

@@ -4,7 +4,6 @@ import IModelData from '../Data/IModelData';
 import ModelData from '../Data/ModelData';
 import IMouseData from '../Data/IMouseData';
 import Event from '../Events/Event';
-import EventArgs from '../Events/EventArgs';
 import SliderView from './SliderView/SliderView';
 import InputsView from './InputsView/InputsView';
 import ViewDataValidator from './ViewDataValidator';
@@ -13,12 +12,13 @@ import View from './View';
 class ViewManager {
   public containerElement: HTMLElement;
   public data: ViewData;
+  public modelData = new ModelData({});
   public views: View[] = new Array<View>();
   public validator: ViewDataValidator;
 
   public onSetViewData = new Event<IViewData>();
   public onSetModelData = new Event<IModelData>();
-  public onGetModelData = new Event<IModelData>();
+  public onExtractModelData = new Event<IModelData>();
 
   public onHandleMove = new Event<IModelData>();
   public onInputsChange = new Event<IModelData>();
@@ -61,13 +61,7 @@ class ViewManager {
     if (data.filledStrips !== undefined) this.data.filledStrips = this.validator.validateFilledStrips(data.filledStrips);
   }
 
-  public getModelData(): ModelData {
-    const optionsEventArgs = new EventArgs<IModelData>({});
-    this.onGetModelData.invoke(optionsEventArgs);
-    return <ModelData>optionsEventArgs.data;
-  }
-
-  public getData(): IViewData {
+  public getData(): ViewData {
     return new ViewData(this.data);
   }
 }
