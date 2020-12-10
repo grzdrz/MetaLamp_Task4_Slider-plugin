@@ -14,7 +14,7 @@ describe('EmptyStrip', function () {
   it('handleClick в EmptyStrip, клик по левому краю пустой рельсы', () => {
     const view = <SliderView>(presenter.viewManager.views[0]);
     const emptyStrip = new EmptyStrip(view);
-    presenter.viewManager.data.filledStrips = [false];
+    presenter./* viewManager */model.data.filledStrips = [false];
 
     emptyStrip.element.dispatchEvent(new MouseEvent('click', {
       bubbles: true,
@@ -31,7 +31,7 @@ describe('EmptyStrip', function () {
   it('handleClick в EmptyStrip, клик по правому краю пустой рельсы', () => {
     const view = <SliderView>(presenter.viewManager.views[0]);
     const emptyStrip = new EmptyStrip(view);
-    presenter.viewManager.data.filledStrips = [false];
+    presenter./* viewManager */model.data.filledStrips = [false];
     presenter.viewManager.data.sliderLength = 1000;
 
     emptyStrip.element.dispatchEvent(new MouseEvent('click', {

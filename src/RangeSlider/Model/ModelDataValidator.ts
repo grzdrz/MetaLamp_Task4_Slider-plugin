@@ -1,6 +1,4 @@
 import IModelData from '../Data/IModelData';
-import IViewData from '../Data/IViewData';
-import EventArgs from '../Events/EventArgs';
 import MathFunctions from '../Helpers/MathFunctions';
 import Model from './Model';
 
@@ -91,22 +89,6 @@ class ModelDataValidator {
     return changedValueIndex;
   }
 
-  private updateFilledStrips(): void {
-    this.model.onExtractViewData.invoke();
-    const { filledStrips } = this.model.viewData;
-
-    const newFilledStrips = new Array<boolean>();
-    for (let i = 0; i < this.model.data.values.length + 1; i += 1) {
-      if (i < filledStrips.length) {
-        newFilledStrips.push(filledStrips[i]);
-      } else {
-        newFilledStrips.push(false);
-      }
-    }
-
-    this.model.onSetViewData.invoke(new EventArgs<IViewData>({ filledStrips: newFilledStrips }));
-  }
-
   private validateValue(value: number, countNumber: number, canPush: boolean): number {
     const newTargetInputValue = this.calculateNearestPositionForHandle(value);
     const { values } = this.model.data;
@@ -126,6 +108,35 @@ class ModelDataValidator {
     if (value < minValue) return minValue;
     if (value > maxValue) return maxValue;
     return value;
+  }
+
+  public validateFilledStrips(filledStrips: boolean[]): boolean[] {
+    const { values } = this.model.data;
+
+    const newFilledStrips = new Array<boolean>();
+    for (let i = 0; i < values.length + 1; i += 1) {
+      if (i < filledStrips.length) {
+        newFilledStrips.push(filledStrips[i]);
+      } else {
+        newFilledStrips.push(false);
+      }
+    }
+    return newFilledStrips;
+  }
+
+  private updateFilledStrips(): void {
+    const { filledStrips } = this.model.data;
+
+    const newFilledStrips = new Array<boolean>();
+    for (let i = 0; i < this.model.data.values.length + 1; i += 1) {
+      if (i < filledStrips.length) {
+        newFilledStrips.push(filledStrips[i]);
+      } else {
+        newFilledStrips.push(false);
+      }
+    }
+
+    this.model.data.filledStrips = this.model.validator.validateFilledStrips(newFilledStrips);
   }
 
   private calculateNearestPositionForHandle(value: number): number {

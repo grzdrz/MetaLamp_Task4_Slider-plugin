@@ -10,6 +10,7 @@ class ModelData implements IModelData {
   public stepSize = 10;
 
   public canPush = true;
+  public filledStrips = [true, false];
 
   constructor(data: IModelData) {
     this.initialize(data);
@@ -25,6 +26,7 @@ class ModelData implements IModelData {
     if (data.stepSize !== undefined) this.stepSize = data.stepSize;
     if (data.canPush !== undefined) this.canPush = data.canPush;
     if (data.values !== undefined) this.values = data.values.map((e) => e).sort((a, b) => a - b);
+    if (data.filledStrips !== undefined) this.filledStrips = [...data.filledStrips];
   }
 }
 

@@ -15,8 +15,6 @@ class ViewData implements IViewData {
 
   public angle = 0;
 
-  public filledStrips = [true, false];
-
   public isHandlesSeparated = false;
 
   public hasScale = true;
@@ -38,7 +36,6 @@ class ViewData implements IViewData {
     if (data.borderThickness !== undefined) this.borderThickness = data.borderThickness;
     if (data.maxSegmentsCount !== undefined) this.maxSegmentsCount = data.maxSegmentsCount;
     if (data.angle !== undefined) this.angle = data.angle;
-    if (data.filledStrips !== undefined) this.filledStrips = [...data.filledStrips];
     if (data.isHandlesSeparated !== undefined) this.isHandlesSeparated = data.isHandlesSeparated;
     if (data.hasScale !== undefined) this.hasScale = data.hasScale;
     if (data.hasTooltip !== undefined) this.hasTooltip = data.hasTooltip;

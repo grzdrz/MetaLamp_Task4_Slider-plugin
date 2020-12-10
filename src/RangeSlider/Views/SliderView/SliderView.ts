@@ -21,7 +21,7 @@ class SliderView extends View {
 
   public build(): void {
     this.viewManager.onExtractModelData.invoke();
-    const { values } = this.viewManager.modelData;
+    const { values, filledStrips } = this.viewManager.modelData;
     this.parts = [];
 
     this.containerElement.innerHTML = '';
@@ -36,7 +36,7 @@ class SliderView extends View {
         this.parts.push(new Tooltip(this, index));
       });
     }
-    this.viewManager.data.filledStrips.forEach((value, index) => {
+    filledStrips.forEach((value, index) => {
       if (value) this.parts.push(new FilledStrip(this, index));
     });
     if (this.viewManager.data.hasScale) {

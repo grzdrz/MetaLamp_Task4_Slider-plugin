@@ -33,6 +33,9 @@ class Model {
       this.data.stepSize = data.stepSize;
       this.data.maxValue = this.validator.validateMaxValue(data.stepSize, this.data.maxValue);
     }
+    if (data.filledStrips !== undefined) {
+      this.data.filledStrips = this.validator.validateFilledStrips(data.filledStrips);
+    }
     this.validator.validateValues(data);
   }
 

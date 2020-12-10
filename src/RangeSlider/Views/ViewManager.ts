@@ -58,7 +58,6 @@ class ViewManager {
     this.data.update(data);
     if (data.maxSegmentsCount !== undefined) this.data.maxSegmentsCount = this.validator.validateMaxSegmentsCount(data.maxSegmentsCount);
     if (data.angle !== undefined) this.data.angle = this.validator.validateAngle(data.angle);
-    if (data.filledStrips !== undefined) this.data.filledStrips = this.validator.validateFilledStrips(data.filledStrips);
   }
 
   public getData(): ViewData {

@@ -7,7 +7,6 @@ interface IViewData {
   borderThickness?: number,
   maxSegmentsCount?: number,
   angle?: number,
-  filledStrips?: boolean[],
   isHandlesSeparated?: boolean,
   hasScale?: boolean,
   hasTooltip?: boolean,

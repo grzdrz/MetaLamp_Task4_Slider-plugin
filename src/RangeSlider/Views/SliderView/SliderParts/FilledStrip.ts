@@ -65,13 +65,12 @@ class FilledStrip extends SliderPart {
 
   private calculateSize(args: ISizeCalculationParameters): Vector {
     this.view.viewManager.onExtractModelData.invoke();
-    const { maxValue } = this.view.viewManager.modelData;
+    const { maxValue, filledStrips } = this.view.viewManager.modelData;
     const {
       handleWidth,
       angleInRadians,
       sliderStripThickness,
       isHandlesSeparated,
-      filledStrips,
     } = this.view.viewManager.data;
     const {
       vectorizedLastHandlePosition,

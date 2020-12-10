@@ -23,7 +23,7 @@ class ListOfFilledStrip extends OptionPanelElement {
     filledStripsTitle.className = 'options__title';
     this.filledStripsContainer.className = 'options__inputs';
 
-    const { filledStrips } = this.view.getViewData();
+    const { filledStrips } = this.view.getModelData();
     for (let i = 0; i < filledStrips.length; i += 1) {
       const valueInput = document.createElement('input');
       valueInput.type = 'checkbox';
@@ -46,7 +46,7 @@ class ListOfFilledStrip extends OptionPanelElement {
     this.inputsDOMElements = [];
     this.filledStripsContainer.innerHTML = '';
 
-    const { filledStrips } = this.view.getViewData();
+    const { filledStrips } = this.view.getModelData();
     for (let i = 0; i < filledStrips.length; i += 1) {
       const valueInput = document.createElement('input');
       valueInput.type = 'checkbox';
@@ -67,7 +67,7 @@ class ListOfFilledStrip extends OptionPanelElement {
   }
 
   private handleInputChange = () => {
-    const { filledStrips } = this.view.getViewData();
+    const { filledStrips } = this.view.getModelData();
     this.inputsDOMElements.forEach((input, i) => {
       const value = input.checked;
       filledStrips[i] = value;
@@ -77,7 +77,7 @@ class ListOfFilledStrip extends OptionPanelElement {
       filledStrips,
     };
 
-    this.view.setViewData(dataToUpdate);
+    this.view.setModelData(dataToUpdate);
   };
 }
 
