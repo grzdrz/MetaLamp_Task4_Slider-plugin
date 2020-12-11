@@ -23,16 +23,16 @@ class Presenter {
   }
 
   private setEventHandlers() {
-    this.viewManager.onHandleMove.subscribe(this.setModelData);
-    this.viewManager.onInputsChange.subscribe(this.setModelData);
-    this.model.onUpdated.subscribe(this.updateViewState);
+    this.viewManager.onHandleMove.subscribe(this.updateModel);
+    this.viewManager.onInputsChange.subscribe(this.updateModel);
+    this.model.onUpdated.subscribe(this.updateView);
   }
 
-  private setModelData = (args?: EventArgs<IModelData>) => {
-    if (args) this.model.update(args.data);
+  private updateModel = (args?: EventArgs<IModelData>) => {
+    if (args) this.model.updateData(args.data);
   };
 
-  private updateViewState = (args?: EventArgs<IModelData>) => {
+  private updateView = (args?: EventArgs<IModelData>) => {
     if (args) this.viewManager.modelData = <ModelData>args.data;
   };
 }

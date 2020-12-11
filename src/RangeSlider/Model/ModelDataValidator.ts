@@ -52,6 +52,20 @@ class ModelDataValidator {
     }
   }
 
+  public validateFilledStrips(filledStrips: boolean[]): boolean[] {
+    const { values } = this.model.data;
+
+    const newFilledStrips = new Array<boolean>();
+    for (let i = 0; i < values.length + 1; i += 1) {
+      if (i < filledStrips.length) {
+        newFilledStrips.push(filledStrips[i]);
+      } else {
+        newFilledStrips.push(false);
+      }
+    }
+    return newFilledStrips;
+  }
+
   private moveHandle(changedValueIndex: number, targetHandleShift: number): void {
     const wasHandleMoved = changedValueIndex !== -1 && targetHandleShift !== 0;
     const needMoveMoreThanOneHandle = this.model.data.values.length > 1 && wasHandleMoved;
@@ -108,20 +122,6 @@ class ModelDataValidator {
     if (value < minValue) return minValue;
     if (value > maxValue) return maxValue;
     return value;
-  }
-
-  public validateFilledStrips(filledStrips: boolean[]): boolean[] {
-    const { values } = this.model.data;
-
-    const newFilledStrips = new Array<boolean>();
-    for (let i = 0; i < values.length + 1; i += 1) {
-      if (i < filledStrips.length) {
-        newFilledStrips.push(filledStrips[i]);
-      } else {
-        newFilledStrips.push(false);
-      }
-    }
-    return newFilledStrips;
   }
 
   private updateFilledStrips(): void {

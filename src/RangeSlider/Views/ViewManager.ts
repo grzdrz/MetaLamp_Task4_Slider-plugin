@@ -17,36 +17,18 @@ class ViewManager {
   public views: View[] = new Array<View>();
   public validator: ViewDataValidator;
 
-  public onSetViewData = new Event<IViewData>();
-
   public onHandleMove = new Event<IModelData>();
   public onInputsChange = new Event<IModelData>();
   public onMouseDown = new Event<IMouseData>();
   public onMouseMove = new Event<IMouseData>();
   public onMouseUp = new Event<IMouseData>();
 
+  public onUpdated = new Event<IViewData>();
+
   constructor(viewData: ViewData, containerElement: HTMLElement) {
     this.data = viewData;
     this.containerElement = containerElement;
     this.validator = new ViewDataValidator(this);
-  }
-
-  public update(data: IViewData = this.data): void {
-    this.data.update(data);
-    if (data.maxSegmentsCount !== undefined) this.data.maxSegmentsCount = this.validator.validateMaxSegmentsCount(data.maxSegmentsCount);
-    if (data.angle !== undefined) this.data.angle = this.validator.validateAngle(data.angle);
-  }
-
-  public updateViewsWithoutRender = (): void => {
-    this.views.forEach((view) => view.update(false));
-  };
-
-  public updateViewsWithRender = (): void => {
-    this.views.forEach((view) => view.update(true));
-  };
-
-  public getData(): ViewData {
-    return new ViewData(this.data);
   }
 
   public initialize(): void {
@@ -69,19 +51,33 @@ class ViewManager {
     this.views.forEach((view) => view.initialize());
 
     this.setEventsHandlers();
-    this.update();
+    this.updateData();
+  }
+
+  public updateData(data: IViewData = this.data): void {
+    this.data.update(data);
+    if (data.maxSegmentsCount !== undefined) this.data.maxSegmentsCount = this.validator.validateMaxSegmentsCount(data.maxSegmentsCount);
+    if (data.angle !== undefined) this.data.angle = this.validator.validateAngle(data.angle);
+
+    this.onUpdated.invoke(new EventArgs(this.getData()));
+  }
+
+  public updateViewsWithoutRender = (): void => {
+    this.views.forEach((view) => view.update(false));
+  };
+
+  public updateViewsWithRender = (): void => {
+    this.views.forEach((view) => view.update(true));
+  };
+
+  public getData(): ViewData {
+    return new ViewData(this.data);
   }
 
   private setEventsHandlers() {
-    this.onSetViewData.subscribe(this.handleSetViewData);
-    this.onSetViewData.subscribe(this.updateViewsWithRender);
     this.onHandleMove.subscribe(this.updateViewsWithoutRender);
     this.onInputsChange.subscribe(this.updateViewsWithoutRender);
   }
-
-  private handleSetViewData = (args?: EventArgs<IViewData>) => {
-    if (args) this.update(args.data);
-  };
 }
 
 export default ViewManager;

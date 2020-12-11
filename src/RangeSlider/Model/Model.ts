@@ -18,10 +18,10 @@ class Model {
   }
 
   public initialize(): void {
-    this.update(this.data);
+    this.updateData(this.data);
   }
 
-  public update(data: IModelData): void {
+  public updateData(data: IModelData): void {
     if (data.canPush !== undefined) this.data.canPush = data.canPush;
     if (data.minValue !== undefined) {
       this.data.minValue = this.validator.validateMinValue(data.minValue, this.data.stepSize);

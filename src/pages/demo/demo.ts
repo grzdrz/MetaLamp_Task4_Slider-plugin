@@ -18,6 +18,7 @@ const options = [
       values: [-99, -7, -3, 3, 99],
       stepSize: 1,
       canPush: true,
+      filledStrips: [true, false],
     },
     viewData: {
       sliderStripThickness: 10,
@@ -27,7 +28,6 @@ const options = [
       maxSegmentsCount: 6,
       scaleFontSize: 15,
       angle: 45,
-      filledStrips: [true, false],
       isHandlesSeparated: false,
       hasScale: true,
       scaleMargin: 30,
@@ -41,6 +41,7 @@ const options = [
       values: [0, 50],
       stepSize: 1,
       canPush: true,
+      filledStrips: [false, true],
     },
     viewData: {
       sliderStripThickness: 12,
@@ -50,7 +51,6 @@ const options = [
       maxSegmentsCount: 6,
       scaleFontSize: 15,
       angle: 70,
-      filledStrips: [false, true],
       isHandlesSeparated: true,
       hasTooltip: true,
       hasScale: true,

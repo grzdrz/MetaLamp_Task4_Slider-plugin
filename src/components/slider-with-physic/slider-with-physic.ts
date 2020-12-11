@@ -16,6 +16,7 @@ const modelData = {
   maxValue: 1000,
   values: [1000],
   stepSize: 0.0000001,
+  filledStrips: [false, false],
 };
 const viewData = {
   sliderStripThickness: 10,
@@ -25,7 +26,6 @@ const viewData = {
   maxSegmentsCount: 1,
   scaleFontSize: 15,
   angle: 90,
-  filledStrips: [false, false],
   hasScale: false,
   hasTooltip: true,
   tooltipMargin: 10,

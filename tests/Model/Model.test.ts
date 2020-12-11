@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('Model', function () {
   it('validateValues без data.values', function () {
     const oldData = presenter.model.getData();
-    presenter.model.update({
+    presenter.model.updateData({
       stepSize: 5,
       maxValue: 10,
       minValue: 0,
@@ -22,7 +22,7 @@ describe('Model', function () {
 
   it('validateValues без изменения значений', function () {
     const oldData = presenter.model.getData();
-    presenter.model.update({
+    presenter.model.updateData({
       values: oldData.values,
     });
 
@@ -31,7 +31,7 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением до 1го значения', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       values: [0],
     });
     const newData = presenter.model.getData();
@@ -39,7 +39,7 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения вперед направлении', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       canPush: false,
       values: [0, 30],
     });
@@ -49,7 +49,7 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения вперед направлении с проталкиванием вперед', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       canPush: true,
       values: [10, 0],
     });
@@ -59,7 +59,7 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения назад направлении с проталкиванием назад', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       canPush: true,
       values: [0, -10],
     });
@@ -69,7 +69,7 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения вперед с выходом за максимальное значение', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       canPush: true,
       values: [0, 110],
     });
@@ -79,7 +79,7 @@ describe('Model', function () {
   });
 
   it('validateValues с изменением более 1го значения назад с выходом за минимальное значение', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       canPush: true,
       values: [-110, 0],
     });
@@ -89,7 +89,7 @@ describe('Model', function () {
   });
 
   it('validateMaxValue', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       maxValue: 50,
     });
 
@@ -98,7 +98,7 @@ describe('Model', function () {
   });
 
   it('validateMaxValue с попыткой установить значение не кратное шагу', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       maxValue: 109,
     });
 
@@ -107,7 +107,7 @@ describe('Model', function () {
   });
 
   it('validateMaxValue с попыткой зайти за минимальное значение', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       maxValue: -110,
     });
 
@@ -116,7 +116,7 @@ describe('Model', function () {
   });
 
   it('validateMinValue', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       minValue: -50,
     });
 
@@ -125,7 +125,7 @@ describe('Model', function () {
   });
 
   it('validateMinValue с попыткой установить значение не кратное шагу', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       minValue: -109,
     });
 
@@ -134,7 +134,7 @@ describe('Model', function () {
   });
 
   it('validateMinValue с попыткой зайти за максимально значение', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       minValue: 110,
     });
 
@@ -143,25 +143,25 @@ describe('Model', function () {
   });
 
   it('calculateNearestPositionForHandle с минимальным значение больше 0', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       stepSize: 1,
     });
-    presenter.model.update({
+    presenter.model.updateData({
       maxValue: 11,
     });
-    presenter.model.update({
+    presenter.model.updateData({
       minValue: 1,
     });
 
     const data1 = presenter.model.getData();
     if (data1.values) data1.values[1] = 12;
-    presenter.model.update({
+    presenter.model.updateData({
       values: data1.values,
     });
 
     const data2 = presenter.model.getData();
     if (data2.values) data2.values[0] = 0;
-    presenter.model.update({
+    presenter.model.updateData({
       values: data2.values,
     });
 
@@ -174,25 +174,25 @@ describe('Model', function () {
   });
 
   it('calculateNearestPositionForHandle с минимальным значение меньше 0', function () {
-    presenter.model.update({
+    presenter.model.updateData({
       stepSize: 1,
     });
-    presenter.model.update({
+    presenter.model.updateData({
       maxValue: 11,
     });
-    presenter.model.update({
+    presenter.model.updateData({
       minValue: -1,
     });
 
     const data1 = presenter.model.getData();
     if (data1.values) data1.values[1] = 12;
-    presenter.model.update({
+    presenter.model.updateData({
       values: data1.values,
     });
 
     const data2 = presenter.model.getData();
     if (data2.values) data2.values[0] = -2;
-    presenter.model.update({
+    presenter.model.updateData({
       values: data2.values,
     });
 

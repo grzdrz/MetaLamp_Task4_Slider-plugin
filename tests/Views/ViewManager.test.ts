@@ -13,7 +13,7 @@ beforeEach(() => {
 describe('ViewManager', function () {
   it('обновление viewManager без указания данных', function () {
     const oldData = presenter.viewManager.getData();
-    presenter.viewManager.update({});
+    presenter.viewManager.updateData({});
     const newData = presenter.viewManager.getData();
 
     assert.equal(oldData.angle, newData.angle);
@@ -31,7 +31,7 @@ describe('ViewManager', function () {
   });
 
   it('валидация угла при передачи в update более 90 градусов', function () {
-    presenter.viewManager.update({
+    presenter.viewManager.updateData({
       angle: 91,
     });
 
@@ -40,7 +40,7 @@ describe('ViewManager', function () {
   });
 
   it('валидация угла при передачи в update менее 0 градусов', function () {
-    presenter.viewManager.update({
+    presenter.viewManager.updateData({
       angle: -1,
     });
 
