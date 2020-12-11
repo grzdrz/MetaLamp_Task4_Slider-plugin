@@ -26,7 +26,6 @@ class Scale extends SliderPart {
 
   private buildSegments(): void {
     this.segments = [];
-    this.view.viewManager.onExtractModelData.invoke();
     const {
       stepSize,
       minValue,
@@ -51,7 +50,6 @@ class Scale extends SliderPart {
   }
 
   private buildSegment(segmentValue: number): void {
-    this.view.viewManager.onExtractModelData.invoke();
     const { stepSize } = this.view.viewManager.modelData;
 
     const segment = document.createElement('div');
@@ -69,7 +67,6 @@ class Scale extends SliderPart {
   }
 
   private calculateSegmentDensityLimit(): number {
-    this.view.viewManager.onExtractModelData.invoke();
     const { deltaMaxMin, stepSize } = this.view.viewManager.modelData;
 
     const density = deltaMaxMin / stepSize;
@@ -77,7 +74,6 @@ class Scale extends SliderPart {
   }
 
   private calculateSegmentPosition(segment: HTMLElement, value: number): void {
-    this.view.viewManager.onExtractModelData.invoke();
     const { values } = this.view.viewManager.modelData;
     const {
       angleInRadians,

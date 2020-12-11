@@ -14,7 +14,6 @@ class Tooltip extends SliderPart {
   public build(): void {
     super.build();
 
-    this.view.viewManager.onExtractModelData.invoke();
     const { values } = this.view.viewManager.modelData;
 
     this.element.className = `range-slider__tooltip range-slider__tooltip_${this.countNumber}`;
@@ -24,7 +23,6 @@ class Tooltip extends SliderPart {
   }
 
   public update(): void {
-    this.view.viewManager.onExtractModelData.invoke();
     const { values } = this.view.viewManager.modelData;
 
     this.element.textContent = `${values[this.countNumber]}`;
@@ -34,7 +32,6 @@ class Tooltip extends SliderPart {
   }
 
   private calculatePosition(): Vector {
-    this.view.viewManager.onExtractModelData.invoke();
     const { values } = this.view.viewManager.modelData;
     const {
       handleWidth,

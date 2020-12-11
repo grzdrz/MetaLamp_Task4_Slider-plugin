@@ -4,6 +4,7 @@ import IModelData from '../Data/IModelData';
 import ModelData from '../Data/ModelData';
 import IMouseData from '../Data/IMouseData';
 import Event from '../Events/Event';
+import EventArgs from '../Events/EventArgs';
 import SliderView from './SliderView/SliderView';
 import InputsView from './InputsView/InputsView';
 import ViewDataValidator from './ViewDataValidator';
@@ -17,8 +18,6 @@ class ViewManager {
   public validator: ViewDataValidator;
 
   public onSetViewData = new Event<IViewData>();
-  public onSetModelData = new Event<IModelData>();
-  public onExtractModelData = new Event<IModelData>();
 
   public onHandleMove = new Event<IModelData>();
   public onInputsChange = new Event<IModelData>();
@@ -30,6 +29,24 @@ class ViewManager {
     this.data = viewData;
     this.containerElement = containerElement;
     this.validator = new ViewDataValidator(this);
+  }
+
+  public update(data: IViewData = this.data): void {
+    this.data.update(data);
+    if (data.maxSegmentsCount !== undefined) this.data.maxSegmentsCount = this.validator.validateMaxSegmentsCount(data.maxSegmentsCount);
+    if (data.angle !== undefined) this.data.angle = this.validator.validateAngle(data.angle);
+  }
+
+  public updateViewsWithoutRender = (): void => {
+    this.views.forEach((view) => view.update(false));
+  };
+
+  public updateViewsWithRender = (): void => {
+    this.views.forEach((view) => view.update(true));
+  };
+
+  public getData(): ViewData {
+    return new ViewData(this.data);
   }
 
   public initialize(): void {
@@ -51,18 +68,20 @@ class ViewManager {
 
     this.views.forEach((view) => view.initialize());
 
+    this.setEventsHandlers();
     this.update();
   }
 
-  public update(data: IViewData = this.data): void {
-    this.data.update(data);
-    if (data.maxSegmentsCount !== undefined) this.data.maxSegmentsCount = this.validator.validateMaxSegmentsCount(data.maxSegmentsCount);
-    if (data.angle !== undefined) this.data.angle = this.validator.validateAngle(data.angle);
+  private setEventsHandlers() {
+    this.onSetViewData.subscribe(this.handleSetViewData);
+    this.onSetViewData.subscribe(this.updateViewsWithRender);
+    this.onHandleMove.subscribe(this.updateViewsWithoutRender);
+    this.onInputsChange.subscribe(this.updateViewsWithoutRender);
   }
 
-  public getData(): ViewData {
-    return new ViewData(this.data);
-  }
+  private handleSetViewData = (args?: EventArgs<IViewData>) => {
+    if (args) this.update(args.data);
+  };
 }
 
 export default ViewManager;

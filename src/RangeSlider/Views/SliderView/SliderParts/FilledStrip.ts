@@ -33,7 +33,6 @@ class FilledStrip extends SliderPart {
   }
 
   public update(): void {
-    this.view.viewManager.onExtractModelData.invoke();
     const { values } = this.view.viewManager.modelData;
 
     const {
@@ -64,7 +63,6 @@ class FilledStrip extends SliderPart {
   }
 
   private calculateSize(args: ISizeCalculationParameters): Vector {
-    this.view.viewManager.onExtractModelData.invoke();
     const { maxValue, filledStrips } = this.view.viewManager.modelData;
     const {
       handleWidth,

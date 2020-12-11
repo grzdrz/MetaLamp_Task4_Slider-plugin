@@ -13,21 +13,20 @@ $.fn.rangeSlider = function (this: JQuery, modelData: IModelData = {}, viewData:
   const presenter = createRangeSlider(this[0], modelData, viewData);
 
   $(this).data().setModelData = function setModelData(modelData: IModelData): void {
-    presenter.viewManager.onSetModelData.invoke(new EventArgs<IModelData>(modelData));
+    presenter.model.update(modelData);
+    presenter.viewManager.updateViewsWithRender();
   };
   $(this).data().setViewData = function setViewData(viewData: IViewData): void {
     presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>(viewData));
   };
   $(this).data().getModelData = function getModelData(): ModelData {
-    presenter.viewManager.onExtractModelData.invoke();
-    return presenter.viewManager.modelData;
+    return presenter.model.getData();
   };
   $(this).data().getViewData = function getViewData(): ViewData {
-    presenter.model.onExtractViewData.invoke();
-    return presenter.model.viewData;
+    return presenter.viewManager.getData();
   };
 
-  $(this).data().subscribeOnSetModelData = presenter.viewManager.onSetModelData.subscribe;
+  $(this).data().subscribeOnSetModelData = presenter.model.onUpdated.subscribe;
   $(this).data().subscribeOnSetViewData = presenter.viewManager.onSetViewData.subscribe;
 
   $(this).data().subscribeOnHandleMove = presenter.viewManager.onHandleMove.subscribe;

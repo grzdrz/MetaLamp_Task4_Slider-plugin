@@ -20,7 +20,6 @@ class SliderView extends View {
   }
 
   public build(): void {
-    this.viewManager.onExtractModelData.invoke();
     const { values, filledStrips } = this.viewManager.modelData;
     this.parts = [];
 
@@ -62,7 +61,6 @@ class SliderView extends View {
   }
 
   public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber?: number): number {
-    this.viewManager.onExtractModelData.invoke();
     const { values, deltaMaxMin, minValue } = this.viewManager.modelData;
     const {
       sliderLength,
@@ -90,7 +88,6 @@ class SliderView extends View {
   }
 
   public calculateProportionalPixelValue(value: number): number {
-    this.viewManager.onExtractModelData.invoke();
     const { values, deltaMaxMin, minValue } = this.viewManager.modelData;
     const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.data;
 
@@ -131,7 +128,6 @@ class SliderView extends View {
   }
 
   public setClosestHandle(targetValue: number): number[] {
-    this.viewManager.onExtractModelData.invoke();
     const { values } = this.viewManager.modelData;
 
     const deltaValuesToTargetValue = values.map((value, index) => ({

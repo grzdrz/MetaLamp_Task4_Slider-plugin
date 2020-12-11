@@ -11,7 +11,6 @@ class InputsView extends View {
   }
 
   public build(): void {
-    this.viewManager.onExtractModelData.invoke();
     const { values, minValue } = this.viewManager.modelData;
 
     this.containerElement.innerHTML = '';
@@ -39,7 +38,6 @@ class InputsView extends View {
   }
 
   public update(isNeedRebuild: boolean): void {
-    this.viewManager.onExtractModelData.invoke();
     const { values } = this.viewManager.modelData;
 
     if (isNeedRebuild) this.build();
@@ -49,7 +47,6 @@ class InputsView extends View {
   }
 
   private handleInputChange = () => {
-    this.viewManager.onExtractModelData.invoke();
     const { values } = this.viewManager.modelData;
 
     this.valueInputsDOMElements.forEach((element, i) => {
