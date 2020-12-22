@@ -12,7 +12,7 @@ $.fn.rangeSlider = function rangeSlider(this: JQuery, modelData: IModelData = {}
 
   $(this).data().setModelData = function setModelData(modelData: IModelData): void {
     presenter.model.updateData(modelData);
-    presenter.viewManager.updateViewsWithRender();
+    /* presenter.viewManager.updateViewsWithRender(); */
   };
   $(this).data().setViewData = function setViewData(viewData: IViewData): void {
     presenter.viewManager.updateData(viewData);

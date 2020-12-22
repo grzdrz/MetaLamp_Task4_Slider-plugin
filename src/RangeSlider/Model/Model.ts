@@ -13,6 +13,7 @@ class Model {
   public validator: ModelDataValidator;
 
   public onUpdated = new Event<IModelData>();
+  public onValuesUpdated = new Event<IModelData>();
 
   constructor(data: ModelData) {
     this.data = data;
@@ -24,6 +25,11 @@ class Model {
   }
 
   public updateData(data: IModelData): void {
+    const oldValues = [...this.data.values];
+    const oldFilledStrips = [...this.data.filledStrips];
+    const oldMaxValue = this.data.maxValue;
+    const oldMinValue = this.data.minValue;
+
     if (data.canPush !== undefined) this.data.canPush = data.canPush;
     if (data.minValue !== undefined) {
       this.data.minValue = this.validator.validateMinValue(data.minValue, this.data.stepSize);
@@ -40,15 +46,37 @@ class Model {
     }
     this.validator.validateValues(data);
 
-    this.onUpdated.invoke(new EventArgs(this.getData()));
+    const newValues = [...this.data.values];
+    const newFilledStrips = [...this.data.filledStrips];
+    const newMaxValue = this.data.maxValue;
+    const newMinValue = this.data.minValue;
+
+    const valuesCountChanged = oldValues.length !== newValues.length;
+    const filledStripsEquals = this.compareFilledStrips(oldFilledStrips, newFilledStrips);
+    const extremeValuesChanged = oldMaxValue !== newMaxValue || oldMinValue !== newMinValue;
+
+    const needFullReRender = valuesCountChanged || !filledStripsEquals || extremeValuesChanged;
+    if (needFullReRender) this.onUpdated.invoke(new EventArgs(this.getData()));
+    else this.onValuesUpdated.invoke(new EventArgs(this.getData()));
+  }
+
+  public compareFilledStrips(oldFilledStrips: boolean[], newFilledStrips: boolean[]): boolean {
+    if (oldFilledStrips.length !== newFilledStrips.length) return false;
+    return oldFilledStrips.every((strip, index) => strip === newFilledStrips[index]);
   }
 
   public valuesChange = (handleData: IHandleData): void => {
     const changedValue = this.calculateProportionalValue(handleData);
+    const values = [...this.data.values];
+    if (handleData.countNumber !== undefined) values[handleData.countNumber] = changedValue;
+
+    this.updateData({ values });
   };
 
-  public clickByScale = (targetValue: number) => {
+  public clickByScale = (targetValue: number): void => {
     const values = this.setClosestHandle(targetValue);
+
+    this.updateData({ values });
   };
 
   public calculateProportionalValue(handleData: IHandleData/* cursorPositionInContainer: Vector, handleCountNumber?: number */): number {

@@ -54,7 +54,7 @@ class ViewManager {
 
     this.views.forEach((view) => view.initialize());
 
-    this.setEventsHandlers();
+    /* this.setEventsHandlers(); */
     this.updateData();
   }
 
@@ -78,10 +78,10 @@ class ViewManager {
     return new ViewData(this.data);
   }
 
-  private setEventsHandlers() {
+  /* private setEventsHandlers() {
     this.onHandleMove.subscribe(this.updateViewsWithoutRender);
     this.onInputsChange.subscribe(this.updateViewsWithoutRender);
-  }
+  } */
 }
 
 export default ViewManager;
