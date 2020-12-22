@@ -9,6 +9,7 @@ import SliderView from './SliderView/SliderView';
 import InputsView from './InputsView/InputsView';
 import ViewDataValidator from './ViewDataValidator';
 import View from './View';
+import IHandleData from '../Data/IHandleData';
 
 class ViewManager {
   public containerElement: HTMLElement;
@@ -24,6 +25,9 @@ class ViewManager {
   public onMouseUp = new Event<IMouseData>();
 
   public onUpdated = new Event<IViewData>();
+
+  public onHandlesChange = new Event<IHandleData>();
+  public onScaleClick = new Event<number>();
 
   constructor(viewData: ViewData, containerElement: HTMLElement) {
     this.data = viewData;

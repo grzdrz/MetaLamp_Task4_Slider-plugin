@@ -8,6 +8,7 @@ import Vector from '../../../Helpers/Vector';
 import View from '../../View';
 import SliderView from '../SliderView';
 import SliderPart from './SliderPart';
+import IHandleData from '../../../Data/IHandleData';
 
 interface IMouseDownEventArgs {
   handleMouseMove: (event: UIEvent) => void,
@@ -142,11 +143,17 @@ class Handle extends SliderPart {
     const mousePosition = this.view.calculateMouseGlobalPosition(event);
     const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition, mousePositionInsideHandle);
 
-    const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer, this.countNumber);
+    /* const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer, this.countNumber);
 
     const { values } = this.view.viewManager.modelData;
-    values[this.countNumber] = proportionalValue;
-    this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
+    const valuesCopy = [...values];
+    valuesCopy[this.countNumber] = proportionalValue;
+    this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values: valuesCopy })); */
+    this.view.viewManager.onHandlesChange.invoke(new EventArgs<IHandleData>({
+      mousePosition: mousePositionInsideContainer,
+      viewData: this.view.viewManager.data,
+      countNumber: this.countNumber,
+    }));
     this.view.viewManager.onMouseMove.invoke(new EventArgs<IMouseData>({ mousePosition }));
   }
 

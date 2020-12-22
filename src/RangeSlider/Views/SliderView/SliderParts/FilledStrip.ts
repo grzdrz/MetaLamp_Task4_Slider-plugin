@@ -3,6 +3,7 @@ import EventArgs from '../../../Events/EventArgs';
 import IModelData from '../../../Data/IModelData';
 import SliderView from '../SliderView';
 import SliderPart from './SliderPart';
+import IHandleData from '../../../Data/IHandleData';
 
 interface ISizeCalculationParameters {
   vectorizedLastHandlePosition: Vector,
@@ -129,9 +130,13 @@ class FilledStrip extends SliderPart {
     const mousePosition = this.view.calculateMouseGlobalPosition(event);
     const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
 
-    const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
+    /* const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
     const values = this.view.setClosestHandle(proportionalValue);
-    this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
+    this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values })); */
+    this.view.viewManager.onHandlesChange.invoke(new EventArgs<IHandleData>({
+      viewData: this.view.viewManager.data,
+      mousePosition: mousePositionInsideContainer,
+    }));
   };
 }
 

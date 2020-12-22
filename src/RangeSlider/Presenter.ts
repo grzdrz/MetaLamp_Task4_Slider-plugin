@@ -4,6 +4,7 @@ import Model from './Model/Model';
 import ViewManager from './Views/ViewManager';
 import './Styles/RangeSlider.scss';
 import ModelData from './Data/ModelData';
+import IHandleData from './Data/IHandleData';
 
 class Presenter {
   public model: Model;
@@ -26,7 +27,18 @@ class Presenter {
     this.viewManager.onHandleMove.subscribe(this.updateModel);
     this.viewManager.onInputsChange.subscribe(this.updateModel);
     this.model.onUpdated.subscribe(this.updateView);
+
+    this.viewManager.onHandlesChange.subscribe(this.handleChange);
+    this.viewManager.onScaleClick.subscribe(this.handleClickByScale);
   }
+
+  private handleChange = (args?: EventArgs<IHandleData>) => {
+    if (args) this.model.valuesChange(args?.data);
+  };
+
+  private handleClickByScale = (args?: EventArgs<number>) => {
+    if (args) this.model.clickByScale(args?.data);
+  };
 
   private updateModel = (args?: EventArgs<IModelData>) => {
     if (args) this.model.updateData(args.data);

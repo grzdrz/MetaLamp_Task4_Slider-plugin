@@ -60,7 +60,7 @@ class SliderView extends View {
     this.renderContainer();
   }
 
-  public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber?: number): number {
+  /* public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber?: number): number {
     const { values, deltaMaxMin, minValue } = this.viewManager.modelData;
     const {
       sliderLength,
@@ -85,7 +85,7 @@ class SliderView extends View {
 
     const proportionalValue = (deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + minValue;
     return proportionalValue;
-  }
+  } */
 
   public calculateProportionalPixelValue(value: number): number {
     const { values, deltaMaxMin, minValue } = this.viewManager.modelData;
@@ -127,7 +127,7 @@ class SliderView extends View {
     return mouseGlobalPosition.subtract(containerCoord);
   }
 
-  public setClosestHandle(targetValue: number): number[] {
+  /* public setClosestHandle(targetValue: number): number[] {
     const { values } = this.viewManager.modelData;
 
     const deltaValuesToTargetValue = values.map((value, index) => ({
@@ -151,7 +151,7 @@ class SliderView extends View {
     }
 
     return values;
-  }
+  } */
 
   private renderContainer(): void {
     const { sliderLength, angleInRadians } = this.viewManager.data;
