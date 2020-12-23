@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-shadow */
-
 import EventArgs from '../../../Events/EventArgs';
 import IMouseData from '../../../Data/IMouseData';
-import IModelData from '../../../Data/IModelData';
+import IHandleData from '../../../Data/IHandleData';
+import ModelData from '../../../Data/ModelData';
 import Vector from '../../../Helpers/Vector';
 import View from '../../View';
 import SliderView from '../SliderView';
 import SliderPart from './SliderPart';
-import IHandleData from '../../../Data/IHandleData';
 
 interface IMouseDownEventArgs {
   handleMouseMove: (event: UIEvent) => void,
@@ -26,8 +25,8 @@ class Handle extends SliderPart {
     this.countNumber = countNumber;
   }
 
-  public build(): void {
-    super.build();
+  public build(modelData: ModelData): void {
+    super.build(modelData);
 
     const { handleWidth, handleHeight } = this.view.viewManager.data;
 
@@ -45,13 +44,13 @@ class Handle extends SliderPart {
     this.setDragAndDropHandles();
   }
 
-  public update(): void {
-    const { values } = this.view.viewManager.modelData;
+  public update(modelData: ModelData): void {
+    const { values } = modelData;
     const { handleWidth, angleInRadians, isHandlesSeparated } = this.view.viewManager.data;
 
     const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
     const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient), angleInRadians);
-    const handlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
+    const handlePosition = this.view.calculateProportionalPixelValue(modelData, values[this.countNumber]);
 
     const vectorizedHandlePosition = Vector.calculateVector(handlePosition, angleInRadians).sum(handlesCountShift);
 

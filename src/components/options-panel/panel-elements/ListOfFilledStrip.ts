@@ -7,6 +7,7 @@ class ListOfFilledStrip extends OptionPanelElement {
 
   constructor(view: OptionsPanel) {
     super(view);
+    this.DOMElement = document.createElement('div');
     this.filledStripsContainer = document.createElement('div');
   }
 

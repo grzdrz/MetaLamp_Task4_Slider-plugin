@@ -15,11 +15,11 @@ $.fn.rangeSlider = function rangeSlider(this: JQuery, modelData: IModelData = {}
   };
   $(this).data().setViewDataWithRender = function setViewData(viewData: IViewData): void {
     presenter.viewManager.updateData(viewData);
-    presenter.viewManager.updateViewsWithRender();
+    presenter.viewManager.updateViewsWithRender(presenter.model.data);
   };
   $(this).data().setViewDataWithoutRender = function setViewData(viewData: IViewData): void {
     presenter.viewManager.updateData(viewData);
-    presenter.viewManager.updateViewsWithoutRender();
+    presenter.viewManager.updateViewsWithoutRender(presenter.model.data);
   };
   $(this).data().getModelData = function getModelData(): ModelData {
     return presenter.model.getData();

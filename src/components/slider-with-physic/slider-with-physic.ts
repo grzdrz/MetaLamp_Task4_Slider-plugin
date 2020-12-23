@@ -6,7 +6,6 @@ import '../../plugin';
 import IModelData from '../../RangeSlider/Data/IModelData';
 import IViewData from '../../RangeSlider/Data/IViewData';
 import ModelData from '../../RangeSlider/Data/ModelData';
-import ViewData from '../../RangeSlider/Data/ViewData';
 import IMouseData from '../../RangeSlider/Data/IMouseData';
 import EventHandler from '../../RangeSlider/Events/EventHandler';
 import './slider-with-physic.scss';

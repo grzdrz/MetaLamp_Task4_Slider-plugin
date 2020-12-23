@@ -1,10 +1,12 @@
 import EventArgs from './Events/EventArgs';
 import IModelData from './Data/IModelData';
 import Model from './Model/Model';
+import SliderView from './Views/SliderView/SliderView';
 import ViewManager from './Views/ViewManager';
-import './Styles/RangeSlider.scss';
 import ModelData from './Data/ModelData';
 import IHandleData from './Data/IHandleData';
+import IInputData from './Data/IInputData';
+import './Styles/RangeSlider.scss';
 
 class Presenter {
   public model: Model;
@@ -20,21 +22,20 @@ class Presenter {
   private initialize(): void {
     this.setEventHandlers();
     this.model.initialize();
-    this.viewManager.initialize();
+    this.viewManager.initialize(this.model.data);
   }
 
   private setEventHandlers() {
-    this.model.onValuesUpdated.subscribe(this.updateView);
-    this.model.onValuesUpdated.subscribe(this.viewManager.updateViewsWithoutRender);
-
-    this.model.onUpdated.subscribe(this.updateView);
-    this.model.onUpdated.subscribe(this.viewManager.updateViewsWithRender);
+    this.model.onValuesUpdated.subscribe(this.updateViewsWithoutRender);
+    this.model.onUpdated.subscribe(this.updateViewsWithRender);
 
     this.viewManager.onHandleMove.subscribe(this.handlesMoved);
-
     this.viewManager.onScaleClick.subscribe(this.valueChanged);
+    this.viewManager.onInputsChange.subscribe(this.inputChanged);
 
-    this.viewManager.onInputsChange.subscribe(this.modelChanged);
+    const resizeObserver = new ResizeObserver(this.handleViewportSizeChange);
+    const htmlElement = this.viewManager.containerElement;
+    resizeObserver.observe(htmlElement);
   }
 
   private handlesMoved = (args?: EventArgs<IHandleData>) => {
@@ -45,12 +46,21 @@ class Presenter {
     if (args) this.model.valueChanged(args?.data);
   };
 
-  private modelChanged = (args?: EventArgs<IModelData>) => {
-    if (args) this.model.updateData(args?.data);
+  private inputChanged = (args?: EventArgs<IInputData>) => {
+    if (args) this.model.valueChanged(args?.data.value, args?.data.id);
   };
 
-  private updateView = (args?: EventArgs<IModelData>) => {
-    if (args) this.viewManager.modelData = <ModelData>args.data;
+  private updateViewsWithRender = (args?: EventArgs<IModelData>) => {
+    if (args) this.viewManager.updateViewsWithRender(args.data as ModelData);
+  };
+
+  private updateViewsWithoutRender = (args?: EventArgs<IModelData>) => {
+    if (args) this.viewManager.updateViewsWithoutRender(args.data as ModelData);
+  };
+
+  private handleViewportSizeChange = () => {
+    (<SliderView>(this.viewManager.views[0])).renderContainer();
+    this.viewManager.updateViewsWithoutRender(this.model.data);
   };
 }
 

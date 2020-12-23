@@ -46,14 +46,9 @@ class Model {
     }
     this.validator.validateValues(data);
 
-    const newValues = [...this.data.values];
-    const newFilledStrips = [...this.data.filledStrips];
-    const newMaxValue = this.data.maxValue;
-    const newMinValue = this.data.minValue;
-
-    const valuesCountChanged = oldValues.length !== newValues.length;
-    const filledStripsEquals = this.compareFilledStrips(oldFilledStrips, newFilledStrips);
-    const extremeValuesChanged = oldMaxValue !== newMaxValue || oldMinValue !== newMinValue;
+    const valuesCountChanged = oldValues.length !== this.data.values.length;
+    const filledStripsEquals = this.compareFilledStrips(oldFilledStrips, this.data.filledStrips);
+    const extremeValuesChanged = oldMaxValue !== this.data.maxValue || oldMinValue !== this.data.minValue;
 
     const needFullReRender = valuesCountChanged || !filledStripsEquals || extremeValuesChanged;
     if (needFullReRender) this.onUpdated.invoke(new EventArgs(this.getData()));
@@ -73,8 +68,12 @@ class Model {
     this.updateData({ values });
   };
 
-  public valueChanged = (targetValue: number): void => {
-    const values = this.pullUpNearestValue(targetValue);
+  public valueChanged = (targetValue: number, id?: number): void => {
+    let values: number[];
+    if (id !== undefined) {
+      values = [...this.data.values];
+      values[id] = targetValue;
+    } else values = this.pullUpNearestValue(targetValue);
 
     this.updateData({ values });
   };

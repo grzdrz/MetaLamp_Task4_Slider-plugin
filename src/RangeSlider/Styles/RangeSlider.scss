@@ -59,6 +59,7 @@
     align-items: center;
     padding: 5px;
     position: absolute;
+    border-radius: 4px;
     background: rgb(170, 220, 240);
     color: black;
     white-space: nowrap;
@@ -85,28 +86,14 @@
     flex-direction: column;
     padding: 10px;
     border: 2px solid rgb(80, 189, 165);
-  }
-
-  &__input-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 5px;
+    overflow: auto;
   }
 
   &__input {
-    width: 30%;
+    width: 50%;
     height: 25px;
     border: 1px solid black;
     font-size: 20px;
-  }
-
-  &__input-text {
-    margin: 0px;
-    margin-left: 10px;
-    text-align: center;
-    display: inline-flex;
-    align-items: flex-end;
-    font-size: 20px;
+    margin-bottom: 10px;
   }
 }

@@ -1,9 +1,9 @@
 import Vector from '../../../Helpers/Vector';
 import EventArgs from '../../../Events/EventArgs';
-import IModelData from '../../../Data/IModelData';
+import IHandleData from '../../../Data/IHandleData';
+import ModelData from '../../../Data/ModelData';
 import SliderView from '../SliderView';
 import SliderPart from './SliderPart';
-import IHandleData from '../../../Data/IHandleData';
 
 class EmptyStrip extends SliderPart {
   constructor(view: SliderView) {
@@ -16,8 +16,8 @@ class EmptyStrip extends SliderPart {
     this.element.addEventListener('click', this.handleClick);
   }
 
-  public build(): void {
-    super.build();
+  public build(modelData: ModelData): void {
+    super.build(modelData);
 
     this.element.className = 'range-slider__empty-strip';
     this.view.containerElement.append(this.element);

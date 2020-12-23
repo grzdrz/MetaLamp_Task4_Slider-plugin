@@ -1,20 +1,19 @@
 import IViewData from '../Data/IViewData';
 import ViewData from '../Data/ViewData';
-import IModelData from '../Data/IModelData';
 import ModelData from '../Data/ModelData';
 import IMouseData from '../Data/IMouseData';
+import IHandleData from '../Data/IHandleData';
+import IInputData from '../Data/IInputData';
 import Event from '../Events/Event';
 import EventArgs from '../Events/EventArgs';
 import SliderView from './SliderView/SliderView';
 import InputsView from './InputsView/InputsView';
 import ViewDataValidator from './ViewDataValidator';
 import View from './View';
-import IHandleData from '../Data/IHandleData';
 
 class ViewManager {
   public containerElement: HTMLElement;
   public data: ViewData;
-  public modelData = new ModelData({});
   public views: View[] = new Array<View>();
   public validator: ViewDataValidator;
 
@@ -25,7 +24,7 @@ class ViewManager {
   public onUpdated = new Event<IViewData>();
 
   public onHandleMove = new Event<IHandleData>();
-  public onInputsChange = new Event<IModelData>();
+  public onInputsChange = new Event<IInputData>();
   public onScaleClick = new Event<number>();
 
   constructor(viewData: ViewData, containerElement: HTMLElement) {
@@ -34,7 +33,7 @@ class ViewManager {
     this.validator = new ViewDataValidator(this);
   }
 
-  public initialize(): void {
+  public initialize(modelData: ModelData): void {
     const pluginContainer: HTMLElement = document.createElement('div');
     pluginContainer.className = 'range-slider';
 
@@ -51,7 +50,7 @@ class ViewManager {
     this.containerElement.append(pluginContainer);
     this.containerElement.append(inputsContainer);
 
-    this.views.forEach((view) => view.initialize());
+    this.views.forEach((view) => view.initialize(modelData));
 
     this.updateData();
   }
@@ -64,12 +63,12 @@ class ViewManager {
     this.onUpdated.invoke(new EventArgs(this.getData()));
   }
 
-  public updateViewsWithoutRender = (): void => {
-    this.views.forEach((view) => view.update(false));
+  public updateViewsWithoutRender = (modelData: ModelData): void => {
+    this.views.forEach((view) => view.update(modelData, false));
   };
 
-  public updateViewsWithRender = (): void => {
-    this.views.forEach((view) => view.update(true));
+  public updateViewsWithRender = (modelData: ModelData): void => {
+    this.views.forEach((view) => view.update(modelData, true));
   };
 
   public getData(): ViewData {

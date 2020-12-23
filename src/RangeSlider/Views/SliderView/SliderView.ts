@@ -1,5 +1,5 @@
-import MathFunctions from '../../Helpers/MathFunctions';
 import Vector from '../../Helpers/Vector';
+import ModelData from '../../Data/ModelData';
 import View from '../View';
 import SliderPart from './SliderParts/SliderPart';
 import Handle from './SliderParts/Handle';
@@ -7,20 +7,17 @@ import FilledStrip from './SliderParts/FilledStrip';
 import EmptyStrip from './SliderParts/EmptyStrip';
 import Scale from './SliderParts/Scale';
 import Tooltip from './SliderParts/Tooltip';
+import MathFunctions from '../../Helpers/MathFunctions';
 
 class SliderView extends View {
   public parts: SliderPart[] = [];
 
-  public initialize(): void {
-    const resizeObserver = new ResizeObserver(this.handleViewportSizeChange);
-    const htmlElement = this.viewManager.containerElement;
-    resizeObserver.observe(htmlElement);
-
-    this.update(true);
+  public initialize(modelData: ModelData): void {
+    this.update(modelData, true);
   }
 
-  public build(): void {
-    const { values, filledStrips } = this.viewManager.modelData;
+  public build(modelData: ModelData): void {
+    const { values, filledStrips } = modelData;
     this.parts = [];
 
     this.containerElement.innerHTML = '';
@@ -42,26 +39,26 @@ class SliderView extends View {
       this.parts.push(new Scale(this));
     }
     this.parts.forEach((part) => {
-      part.build();
+      part.build(modelData);
     });
   }
 
-  public update(isNeedRebuild: boolean): void {
+  public update(modelData: ModelData, isNeedRebuild: boolean): void {
     if (isNeedRebuild) {
-      this.build();
+      this.build(modelData);
       this.parts.forEach((part) => {
-        part.update();
+        part.update(modelData);
       });
     } else {
       this.parts.forEach((part) => {
-        part.update();
+        part.update(modelData);
       });
     }
     this.renderContainer();
   }
 
-  public calculateProportionalPixelValue(value: number): number {
-    const { values, deltaMaxMin, minValue } = this.viewManager.modelData;
+  public calculateProportionalPixelValue(modelData: ModelData, value: number): number {
+    const { values, deltaMaxMin, minValue } = modelData;
     const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.data;
 
     const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
@@ -100,7 +97,7 @@ class SliderView extends View {
     return mouseGlobalPosition.subtract(containerCoordinates);
   }
 
-  private renderContainer(): void {
+  public renderContainer(): void {
     const { sliderLength, angleInRadians } = this.viewManager.data;
 
     this.calculateSliderLength();
@@ -109,7 +106,7 @@ class SliderView extends View {
     View.renderSize(this.containerElement, size);
   }
 
-  private calculateSliderLength(): void {
+  public calculateSliderLength(): void {
     const { angleInRadians, borderThickness } = this.viewManager.data;
 
     const rangeSlider = <HTMLElement>(this.containerElement.closest('.range-slider'));
@@ -120,11 +117,6 @@ class SliderView extends View {
     const sliderLength = MathFunctions.calculateEllipseSurfacePointCoordinate(containerActiveWidth, containerActiveHeight, angleInRadians).length;
     this.viewManager.data.sliderLength = sliderLength;
   }
-
-  private handleViewportSizeChange = () => {
-    this.renderContainer();
-    this.update(false);
-  };
 }
 
 export default SliderView;
