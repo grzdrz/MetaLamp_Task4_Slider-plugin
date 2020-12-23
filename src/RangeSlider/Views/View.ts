@@ -1,3 +1,5 @@
+import ModelData from '../Data/ModelData';
+import MathFunctions from '../Helpers/MathFunctions';
 import Vector from '../Helpers/Vector';
 import ViewManager from './ViewManager';
 
@@ -10,11 +12,11 @@ abstract class View {
     this.viewManager = viewManager;
   }
 
-  public abstract initialize(): void;
+  public abstract initialize(modelData: ModelData): void;
 
-  public abstract build(): void;
+  public abstract build(modelData: ModelData): void;
 
-  public abstract update(isNeedRebuild: boolean): void;
+  public abstract update(modelData: ModelData, isNeedRebuild: boolean): void;
 
   public static renderPosition(htmlElement: HTMLElement, position: Vector): void {
     const element = htmlElement;

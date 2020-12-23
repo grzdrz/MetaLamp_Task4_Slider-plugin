@@ -48,7 +48,7 @@ class TooltipMargin extends OptionPanelElement {
       tooltipMargin: inputValue,
     };
 
-    this.view.setViewData(dataToUpdate);
+    this.view.setViewDataWithoutRender(dataToUpdate);
   };
 }
 

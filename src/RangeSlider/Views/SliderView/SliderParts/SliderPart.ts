@@ -1,3 +1,4 @@
+import ModelData from '../../../Data/ModelData';
 import Vector from '../../../Helpers/Vector';
 import View from '../../View';
 import SliderView from '../SliderView';
@@ -12,11 +13,11 @@ abstract class SliderPart {
     this.element = document.createElement('div');
   }
 
-  public build(): void {
+  public build(modelData: ModelData): void {
     this.element.innerHTML = '';
   }
 
-  public abstract update(): void;
+  public abstract update(modelData: ModelData): void;
 
   protected setPosition(position: Vector): void {
     View.renderPosition(this.element, position);

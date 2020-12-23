@@ -37,7 +37,7 @@ class HasTooltip extends OptionPanelElement {
       hasTooltip: input.checked,
     };
 
-    this.view.setViewData(dataToUpdate);
+    this.view.setViewDataWithRender(dataToUpdate);
   };
 }
 

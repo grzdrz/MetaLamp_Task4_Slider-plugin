@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 describe('SliderView', function () {
-  it('calculateProportionalValue с курсором у основания контейнера слайдера', function () {
+  /* it('calculateProportionalValue с курсором у основания контейнера слайдера', function () {
     const view = <SliderView>(presenter.viewManager.views[0]);
     presenter.viewManager.data.sliderLength = 1000;
     const cursorPositionInContainer = new Vector(0, 0);
@@ -55,7 +55,7 @@ describe('SliderView', function () {
     const expected = 0;
 
     assert.equal(actual, expected);
-  });
+  }); */
 
   it('calculateMouseGlobalPosition для тачпада', function () {
     const view = <SliderView>(presenter.viewManager.views[0]);

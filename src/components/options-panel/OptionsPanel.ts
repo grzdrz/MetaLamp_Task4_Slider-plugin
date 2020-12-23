@@ -25,7 +25,8 @@ class OptionsPanel {
   public containerElement: HTMLElement;
 
   public setModelData: (modelData: IModelData) => void;
-  public setViewData: (viewData: IViewData) => void;
+  public setViewDataWithRender: (viewData: IViewData) => void;
+  public setViewDataWithoutRender: (viewData: IViewData) => void;
 
   public getModelData: () => ModelData;
   public getViewData: () => ViewData;
@@ -43,7 +44,8 @@ class OptionsPanel {
     outerContainerElement.append(this.containerElement);
 
     this.setModelData = this.jqueryElement.data('setModelData');
-    this.setViewData = this.jqueryElement.data('setViewData');
+    this.setViewDataWithRender = this.jqueryElement.data('setViewDataWithRender');
+    this.setViewDataWithoutRender = this.jqueryElement.data('setViewDataWithoutRender');
     this.getModelData = this.jqueryElement.data('getModelData');
     this.getViewData = this.jqueryElement.data('getViewData');
 
@@ -74,8 +76,8 @@ class OptionsPanel {
     this.subscribeOnSetViewData(this.handlePanelUpdate);
   }
 
-  public update(neededFullRerender: boolean): void {
-    if (neededFullRerender) {
+  public update(neededFullReRender: boolean): void {
+    if (neededFullReRender) {
       this.panelElements.forEach((element) => element.build());
     } else {
       this.panelElements.forEach((element) => element.update());

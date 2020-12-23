@@ -1,3 +1,4 @@
+import ModelData from '../../../Data/ModelData';
 import Vector from '../../../Helpers/Vector';
 import SliderView from '../SliderView';
 import SliderPart from './SliderPart';
@@ -11,10 +12,10 @@ class Tooltip extends SliderPart {
     this.countNumber = countNumber;
   }
 
-  public build(): void {
-    super.build();
+  public build(modelData: ModelData): void {
+    super.build(modelData);
 
-    const { values } = this.view.viewManager.modelData;
+    const { values } = modelData;
 
     this.element.className = `range-slider__tooltip range-slider__tooltip_${this.countNumber}`;
     this.element.dataset.sliderCountNumber = this.countNumber.toString();
@@ -22,17 +23,17 @@ class Tooltip extends SliderPart {
     this.view.containerElement.append(this.element);
   }
 
-  public update(): void {
-    const { values } = this.view.viewManager.modelData;
+  public update(modelData: ModelData): void {
+    const { values } = modelData;
 
     this.element.textContent = `${values[this.countNumber]}`;
 
-    const position = this.calculatePosition();
+    const position = this.calculatePosition(modelData);
     this.setPosition(position);
   }
 
-  private calculatePosition(): Vector {
-    const { values } = this.view.viewManager.modelData;
+  private calculatePosition(modelData: ModelData): Vector {
+    const { values } = modelData;
     const {
       handleWidth,
       angleInRadians,
@@ -44,7 +45,7 @@ class Tooltip extends SliderPart {
     const vectorizedTooltipLength = this.calculateVectorizedTooltipLength(angleInRadians);
     const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
     const handlesCountShift = Vector.calculateVector(Math.abs(handleWidth * shiftCoefficient), angleInRadians);
-    let handlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
+    let handlePosition = this.view.calculateProportionalPixelValue(modelData, values[this.countNumber]);
     handlePosition = handlePosition + handleWidth / 2 - vectorizedTooltipLength / 2;
     const vectorizedHandlePosition = Vector.calculateVector(handlePosition, angleInRadians).sum(handlesCountShift);
     const reverseVectorizedTooltipLength = this.calculateReversedVectorizedTooltipLength(angleInRadians);

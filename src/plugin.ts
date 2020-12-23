@@ -12,11 +12,14 @@ $.fn.rangeSlider = function rangeSlider(this: JQuery, modelData: IModelData = {}
 
   $(this).data().setModelData = function setModelData(modelData: IModelData): void {
     presenter.model.updateData(modelData);
-    presenter.viewManager.updateViewsWithRender();
   };
-  $(this).data().setViewData = function setViewData(viewData: IViewData): void {
+  $(this).data().setViewDataWithRender = function setViewData(viewData: IViewData): void {
     presenter.viewManager.updateData(viewData);
-    presenter.viewManager.updateViewsWithRender();
+    presenter.viewManager.updateViewsWithRender(presenter.model.data);
+  };
+  $(this).data().setViewDataWithoutRender = function setViewData(viewData: IViewData): void {
+    presenter.viewManager.updateData(viewData);
+    presenter.viewManager.updateViewsWithoutRender(presenter.model.data);
   };
   $(this).data().getModelData = function getModelData(): ModelData {
     return presenter.model.getData();
@@ -29,6 +32,7 @@ $.fn.rangeSlider = function rangeSlider(this: JQuery, modelData: IModelData = {}
   $(this).data().subscribeOnSetViewData = presenter.viewManager.onUpdated.subscribe;
 
   $(this).data().subscribeOnHandleMove = presenter.viewManager.onHandleMove.subscribe;
+  $(this).data().subscribeOnValuesUpdated = presenter.model.onValuesUpdated.subscribe;
   $(this).data().subscribeOnMouseDown = presenter.viewManager.onMouseDown.subscribe;
   $(this).data().subscribeOnMouseMove = presenter.viewManager.onMouseMove.subscribe;
   $(this).data().subscribeOnMouseUp = presenter.viewManager.onMouseUp.subscribe;

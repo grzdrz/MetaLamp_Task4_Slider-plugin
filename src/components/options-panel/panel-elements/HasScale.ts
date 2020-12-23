@@ -37,7 +37,7 @@ class HasScale extends OptionPanelElement {
       hasScale: input.checked,
     };
 
-    this.view.setViewData(dataToUpdate);
+    this.view.setViewDataWithRender(dataToUpdate);
   };
 }
 

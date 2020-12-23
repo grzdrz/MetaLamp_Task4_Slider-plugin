@@ -1,61 +1,37 @@
-import EventArgs from '../../Events/EventArgs';
-import IModelData from '../../Data/IModelData';
 import View from '../View';
+import ModelData from '../../Data/ModelData';
+import ValueInput from './InputParts/ValueInput';
 
 class InputsView extends View {
-  public valueInputsDOMElements: HTMLInputElement[] = new Array<HTMLInputElement>();
+  public valueInputs: ValueInput[] = new Array<ValueInput>();
 
-  public initialize(): void {
-    this.build();
-    this.update(false);
+  public initialize(modelData: ModelData): void {
+    this.build(modelData);
+    this.update(modelData, false);
   }
 
-  public build(): void {
-    const { values, minValue } = this.viewManager.modelData;
+  public build(modelData: ModelData): void {
+    const { values } = modelData;
 
     this.containerElement.innerHTML = '';
-    this.valueInputsDOMElements = [];
+    this.valueInputs = [];
 
     for (let i = 0; i < values.length; i += 1) {
-      const valueInputContainer = document.createElement('div');
-      const valueInput = document.createElement('input');
-      this.valueInputsDOMElements.push(valueInput);
-      const valueInputText = document.createElement('p');
-
-      valueInputContainer.className = `range-slider__input-container range-slider__input-container_${i}`;
-      valueInput.dataset.countNumber = `${i}`;
-      valueInput.className = `range-slider__input range-slider__input_${i}`;
-      valueInput.value = `${minValue}`;
-      valueInputText.className = 'range-slider__input-text';
-      valueInputText.textContent = `value ${i + 1}`;
-
-      valueInputContainer.append(valueInput);
-      valueInputContainer.append(valueInputText);
-      this.containerElement.append(valueInputContainer);
-
-      valueInput.addEventListener('change', this.handleInputChange);
+      const valueInput = new ValueInput(this, i);
+      valueInput.build();
+      this.valueInputs.push(valueInput);
+      this.containerElement.append(valueInput.element);
     }
   }
 
-  public update(isNeedRebuild: boolean): void {
-    const { values } = this.viewManager.modelData;
+  public update(modelData: ModelData, isNeedRebuild: boolean): void {
+    const { values } = modelData;
 
-    if (isNeedRebuild) this.build();
-    this.valueInputsDOMElements.forEach((element, i) => {
-      element.value = values[i].toString();
+    if (isNeedRebuild) this.build(modelData);
+    this.valueInputs.forEach((input, i) => {
+      input.element.value = values[i].toString();
     });
   }
-
-  private handleInputChange = () => {
-    const { values } = this.viewManager.modelData;
-
-    this.valueInputsDOMElements.forEach((element, i) => {
-      const value = Number.parseFloat(element.value);
-      values[i] = value;
-    });
-
-    this.viewManager.onInputsChange.invoke(new EventArgs<IModelData>({ values }));
-  };
 }
 
 export default InputsView;

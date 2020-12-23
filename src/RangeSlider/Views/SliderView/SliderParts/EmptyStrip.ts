@@ -1,6 +1,7 @@
 import Vector from '../../../Helpers/Vector';
 import EventArgs from '../../../Events/EventArgs';
-import IModelData from '../../../Data/IModelData';
+import IHandleData from '../../../Data/IHandleData';
+import ModelData from '../../../Data/ModelData';
 import SliderView from '../SliderView';
 import SliderPart from './SliderPart';
 
@@ -15,8 +16,8 @@ class EmptyStrip extends SliderPart {
     this.element.addEventListener('click', this.handleClick);
   }
 
-  public build(): void {
-    super.build();
+  public build(modelData: ModelData): void {
+    super.build(modelData);
 
     this.element.className = 'range-slider__empty-strip';
     this.view.containerElement.append(this.element);
@@ -54,9 +55,10 @@ class EmptyStrip extends SliderPart {
     const mousePosition = this.view.calculateMouseGlobalPosition(event);
     const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
 
-    const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
-    const values = this.view.setClosestHandle(proportionalValue);
-    this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values }));
+    this.view.viewManager.onHandleMove.invoke(new EventArgs<IHandleData>({
+      viewData: this.view.viewManager.data,
+      mousePosition: mousePositionInsideContainer,
+    }));
   };
 }
 

@@ -1,5 +1,5 @@
-import MathFunctions from '../../Helpers/MathFunctions';
 import Vector from '../../Helpers/Vector';
+import ModelData from '../../Data/ModelData';
 import View from '../View';
 import SliderPart from './SliderParts/SliderPart';
 import Handle from './SliderParts/Handle';
@@ -7,20 +7,17 @@ import FilledStrip from './SliderParts/FilledStrip';
 import EmptyStrip from './SliderParts/EmptyStrip';
 import Scale from './SliderParts/Scale';
 import Tooltip from './SliderParts/Tooltip';
+import MathFunctions from '../../Helpers/MathFunctions';
 
 class SliderView extends View {
   public parts: SliderPart[] = [];
 
-  public initialize(): void {
-    const resizeObserver = new ResizeObserver(this.handleViewportSizeChange);
-    const htmlElement = this.viewManager.containerElement;
-    resizeObserver.observe(htmlElement);
-
-    this.update(true);
+  public initialize(modelData: ModelData): void {
+    this.update(modelData, true);
   }
 
-  public build(): void {
-    const { values, filledStrips } = this.viewManager.modelData;
+  public build(modelData: ModelData): void {
+    const { values, filledStrips } = modelData;
     this.parts = [];
 
     this.containerElement.innerHTML = '';
@@ -42,53 +39,26 @@ class SliderView extends View {
       this.parts.push(new Scale(this));
     }
     this.parts.forEach((part) => {
-      part.build();
+      part.build(modelData);
     });
   }
 
-  public update(isNeedRebuild: boolean): void {
+  public update(modelData: ModelData, isNeedRebuild: boolean): void {
     if (isNeedRebuild) {
-      this.build();
+      this.build(modelData);
       this.parts.forEach((part) => {
-        part.update();
+        part.update(modelData);
       });
     } else {
       this.parts.forEach((part) => {
-        part.update();
+        part.update(modelData);
       });
     }
     this.renderContainer();
   }
 
-  public calculateProportionalValue(cursorPositionInContainer: Vector, handleCountNumber?: number): number {
-    const { values, deltaMaxMin, minValue } = this.viewManager.modelData;
-    const {
-      sliderLength,
-      handleWidth,
-      angleInRadians,
-      isHandlesSeparated,
-    } = this.viewManager.data;
-
-    let shiftCoefficient;
-    if (handleCountNumber !== undefined) shiftCoefficient = isHandlesSeparated ? handleCountNumber : 0;
-    else shiftCoefficient = isHandlesSeparated ? values.length / 2 : 0.5;
-
-    const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
-    const vectorizedShift = Vector.calculateVector(handleWidth * shiftCoefficient, angleInRadians);
-    cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedShift);
-    const containerCapacity = sliderLength - handleWidth * maxShiftCoefficient;
-
-    const mainAxisVector = Vector.calculateVector(sliderLength, angleInRadians);
-    let cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
-    if (cursorPositionProjectionOnSliderMainAxis < 0) cursorPositionProjectionOnSliderMainAxis = 0;
-    else if (cursorPositionProjectionOnSliderMainAxis > sliderLength) cursorPositionProjectionOnSliderMainAxis = sliderLength;
-
-    const proportionalValue = (deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + minValue;
-    return proportionalValue;
-  }
-
-  public calculateProportionalPixelValue(value: number): number {
-    const { values, deltaMaxMin, minValue } = this.viewManager.modelData;
+  public calculateProportionalPixelValue(modelData: ModelData, value: number): number {
+    const { values, deltaMaxMin, minValue } = modelData;
     const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.data;
 
     const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
@@ -116,44 +86,18 @@ class SliderView extends View {
 
   public calculateMousePositionInsideContainer(mouseGlobalPosition: Vector, mousePositionInsideTargetSlider?: Vector): Vector {
     const containerBoundingRect = this.containerElement.getBoundingClientRect();
-    const containerCoord = new Vector(
+    const containerCoordinates = new Vector(
       containerBoundingRect.x,
       (document.documentElement.clientHeight + window.pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height),
     );
 
     if (mousePositionInsideTargetSlider) {
-      return mouseGlobalPosition.subtract(containerCoord).subtract(mousePositionInsideTargetSlider);
+      return mouseGlobalPosition.subtract(containerCoordinates).subtract(mousePositionInsideTargetSlider);
     }
-    return mouseGlobalPosition.subtract(containerCoord);
+    return mouseGlobalPosition.subtract(containerCoordinates);
   }
 
-  public setClosestHandle(targetValue: number): number[] {
-    const { values } = this.viewManager.modelData;
-
-    const deltaValuesToTargetValue = values.map((value, index) => ({
-      index,
-      deltaValue: Math.abs(value - targetValue),
-    }));
-
-    const sortedDeltaValues = deltaValuesToTargetValue.sort((a, b) => a.deltaValue - b.deltaValue);
-    const smallestDeltaValues = sortedDeltaValues.filter((tuple) => tuple.deltaValue === sortedDeltaValues[0].deltaValue);
-    const closestValues = smallestDeltaValues.map((tuple) => ({ index: tuple.index, value: values[tuple.index] }));
-
-    const firstClosestValue = closestValues[0].value;
-    const isTargetValueToRightOfClosestValues = targetValue > firstClosestValue;
-    const isTargetValueToLeftOfClosestValues = targetValue < firstClosestValue;
-    if (isTargetValueToRightOfClosestValues) {
-      const indexOfLastClosestValue = closestValues.length - 1;
-      values[closestValues[indexOfLastClosestValue].index] = targetValue;
-    } else if (isTargetValueToLeftOfClosestValues) {
-      const indexOfFirstClosestValue = 0;
-      values[closestValues[indexOfFirstClosestValue].index] = targetValue;
-    }
-
-    return values;
-  }
-
-  private renderContainer(): void {
+  public renderContainer(): void {
     const { sliderLength, angleInRadians } = this.viewManager.data;
 
     this.calculateSliderLength();
@@ -162,7 +106,7 @@ class SliderView extends View {
     View.renderSize(this.containerElement, size);
   }
 
-  private calculateSliderLength(): void {
+  public calculateSliderLength(): void {
     const { angleInRadians, borderThickness } = this.viewManager.data;
 
     const rangeSlider = <HTMLElement>(this.containerElement.closest('.range-slider'));
@@ -173,11 +117,6 @@ class SliderView extends View {
     const sliderLength = MathFunctions.calculateEllipseSurfacePointCoordinate(containerActiveWidth, containerActiveHeight, angleInRadians).length;
     this.viewManager.data.sliderLength = sliderLength;
   }
-
-  private handleViewportSizeChange = () => {
-    this.renderContainer();
-    this.update(false);
-  };
 }
 
 export default SliderView;
