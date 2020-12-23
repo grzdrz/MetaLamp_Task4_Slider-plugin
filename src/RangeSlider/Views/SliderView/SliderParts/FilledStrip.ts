@@ -130,10 +130,7 @@ class FilledStrip extends SliderPart {
     const mousePosition = this.view.calculateMouseGlobalPosition(event);
     const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
 
-    /* const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
-    const values = this.view.setClosestHandle(proportionalValue);
-    this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values })); */
-    this.view.viewManager.onHandlesChange.invoke(new EventArgs<IHandleData>({
+    this.view.viewManager.onHandleMove.invoke(new EventArgs<IHandleData>({
       viewData: this.view.viewManager.data,
       mousePosition: mousePositionInsideContainer,
     }));

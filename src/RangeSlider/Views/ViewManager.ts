@@ -18,15 +18,14 @@ class ViewManager {
   public views: View[] = new Array<View>();
   public validator: ViewDataValidator;
 
-  public onHandleMove = new Event<IModelData>();
-  public onInputsChange = new Event<IModelData>();
   public onMouseDown = new Event<IMouseData>();
   public onMouseMove = new Event<IMouseData>();
   public onMouseUp = new Event<IMouseData>();
 
   public onUpdated = new Event<IViewData>();
 
-  public onHandlesChange = new Event<IHandleData>();
+  public onHandleMove = new Event<IHandleData>();
+  public onInputsChange = new Event<IModelData>();
   public onScaleClick = new Event<number>();
 
   constructor(viewData: ViewData, containerElement: HTMLElement) {
@@ -54,7 +53,6 @@ class ViewManager {
 
     this.views.forEach((view) => view.initialize());
 
-    /* this.setEventsHandlers(); */
     this.updateData();
   }
 
@@ -77,11 +75,6 @@ class ViewManager {
   public getData(): ViewData {
     return new ViewData(this.data);
   }
-
-  /* private setEventsHandlers() {
-    this.onHandleMove.subscribe(this.updateViewsWithoutRender);
-    this.onInputsChange.subscribe(this.updateViewsWithoutRender);
-  } */
 }
 
 export default ViewManager;

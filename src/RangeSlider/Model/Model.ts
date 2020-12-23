@@ -65,42 +65,41 @@ class Model {
     return oldFilledStrips.every((strip, index) => strip === newFilledStrips[index]);
   }
 
-  public valuesChange = (handleData: IHandleData): void => {
+  public handlesMoved = (handleData: IHandleData): void => {
     const changedValue = this.calculateProportionalValue(handleData);
     const values = [...this.data.values];
-    if (handleData.countNumber !== undefined) values[handleData.countNumber] = changedValue;
+    if (handleData.id !== undefined) values[handleData.id] = changedValue;
 
     this.updateData({ values });
   };
 
-  public clickByScale = (targetValue: number): void => {
-    const values = this.setClosestHandle(targetValue);
+  public valueChanged = (targetValue: number): void => {
+    const values = this.pullUpNearestValue(targetValue);
 
     this.updateData({ values });
   };
 
-  public calculateProportionalValue(handleData: IHandleData/* cursorPositionInContainer: Vector, handleCountNumber?: number */): number {
-    const { values, deltaMaxMin, minValue } = this.data/* this.viewManager.modelData */;
+  public calculateProportionalValue(handleData: IHandleData): number {
+    const { values, deltaMaxMin, minValue } = this.data;
     const {
       sliderLength,
       handleWidth,
       angleInRadians,
       isHandlesSeparated,
-    } = handleData.viewData/* this.viewManager.data */;
-    const { mousePosition, countNumber } = handleData;
+    } = handleData.viewData;
+    const { mousePosition, id } = handleData;
 
     let shiftCoefficient;
-    if (countNumber/* handleCountNumber */ !== undefined) shiftCoefficient = isHandlesSeparated ? countNumber/* handleCountNumber */ : 0;
+    if (id !== undefined) shiftCoefficient = isHandlesSeparated ? id : 0;
     else shiftCoefficient = isHandlesSeparated ? values.length / 2 : 0.5;
 
     const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
     const vectorizedShift = Vector.calculateVector(handleWidth * shiftCoefficient, angleInRadians);
-    /* cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedShift); */
     const shiftedCursorPositionInContainer = mousePosition.subtract(vectorizedShift);
     const containerCapacity = sliderLength - handleWidth * maxShiftCoefficient;
 
     const mainAxisVector = Vector.calculateVector(sliderLength, angleInRadians);
-    let cursorPositionProjectionOnSliderMainAxis = shiftedCursorPositionInContainer/* cursorPositionInContainer */
+    let cursorPositionProjectionOnSliderMainAxis = shiftedCursorPositionInContainer
       .calculateVectorProjectionOnTargetVector(mainAxisVector);
     if (cursorPositionProjectionOnSliderMainAxis < 0) cursorPositionProjectionOnSliderMainAxis = 0;
     else if (cursorPositionProjectionOnSliderMainAxis > sliderLength) cursorPositionProjectionOnSliderMainAxis = sliderLength;
@@ -109,8 +108,8 @@ class Model {
     return proportionalValue;
   }
 
-  public setClosestHandle(targetValue: number): number[] {
-    const { values } = this.data/* this.viewManager.modelData */;
+  public pullUpNearestValue(targetValue: number): number[] {
+    const { values } = this.data;
 
     const deltaValuesToTargetValue = values.map((value, index) => ({
       index,

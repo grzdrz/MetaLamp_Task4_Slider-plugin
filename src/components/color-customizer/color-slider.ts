@@ -6,6 +6,7 @@ import '../../plugin';
 import IModelData from '../../RangeSlider/Data/IModelData';
 import ModelData from '../../RangeSlider/Data/ModelData';
 import ViewData from '../../RangeSlider/Data/ViewData';
+import EventArgs from '../../RangeSlider/Events/EventArgs';
 import EventHandler from '../../RangeSlider/Events/EventHandler';
 import ColorCustomizer from './color-customizer';
 
@@ -36,7 +37,7 @@ class ColorSlider {
 
   public getModelData: () => ModelData;
   public getViewData: () => ViewData;
-  public subscribeOnHandleMove: (handler: EventHandler<IModelData>) => void;
+  public subscribeOnValuesUpdated: (handler: EventHandler<IModelData>) => void;
 
   public color = 0;
 
@@ -47,21 +48,24 @@ class ColorSlider {
     this.jqueryElement = $(this.containerElement).rangeSlider(modelData, viewData);
     this.getModelData = this.jqueryElement.data('getModelData');
     this.getViewData = this.jqueryElement.data('getViewData');
-    this.subscribeOnHandleMove = this.jqueryElement.data('subscribeOnHandleMove');
+    this.subscribeOnValuesUpdated = this.jqueryElement.data('subscribeOnValuesUpdated');
 
     this.initialize();
   }
 
   initialize(): void {
-    this.subscribeOnHandleMove(this.handleChangeColor);
+    this.subscribeOnValuesUpdated(this.handleChangeColor);
 
     const { values } = this.getModelData();
     this.color = values[0];
   }
 
-  private handleChangeColor = () => {
-    const { values } = this.getModelData();
-    this.color = values[0];
+  private handleChangeColor = (args?: EventArgs<IModelData>) => {
+    let valuesCopy: number[];
+    if (args?.data) valuesCopy = args?.data && args?.data.values as number[];
+    else valuesCopy = this.getModelData().values;
+
+    this.color = valuesCopy[0];
     this.manager.changeSquareColor();
   };
 }

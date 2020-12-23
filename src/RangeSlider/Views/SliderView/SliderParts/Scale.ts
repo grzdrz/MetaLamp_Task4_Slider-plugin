@@ -104,8 +104,6 @@ class Scale extends SliderPart {
     const segmentValueString = <string>(currentSegment.dataset.value);
     const value = Number.parseFloat(segmentValueString);
 
-    /* const values = this.view.setClosestHandle(value);
-    this.view.viewManager.onHandleMove.invoke(new EventArgs<IModelData>({ values })); */
     this.view.viewManager.onScaleClick.invoke(new EventArgs<number>(value));
   };
 }

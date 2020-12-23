@@ -24,31 +24,30 @@ class Presenter {
   }
 
   private setEventHandlers() {
-    /* this.viewManager.onHandleMove.subscribe(this.updateModel);
-    this.viewManager.onInputsChange.subscribe(this.updateModel); */
-
     this.model.onValuesUpdated.subscribe(this.updateView);
     this.model.onValuesUpdated.subscribe(this.viewManager.updateViewsWithoutRender);
 
     this.model.onUpdated.subscribe(this.updateView);
     this.model.onUpdated.subscribe(this.viewManager.updateViewsWithRender);
 
-    this.viewManager.onHandlesChange.subscribe(this.handleChange);
+    this.viewManager.onHandleMove.subscribe(this.handlesMoved);
 
-    this.viewManager.onScaleClick.subscribe(this.handleClickByScale);
+    this.viewManager.onScaleClick.subscribe(this.valueChanged);
+
+    this.viewManager.onInputsChange.subscribe(this.modelChanged);
   }
 
-  private handleChange = (args?: EventArgs<IHandleData>) => {
-    if (args) this.model.valuesChange(args?.data);
+  private handlesMoved = (args?: EventArgs<IHandleData>) => {
+    if (args) this.model.handlesMoved(args?.data);
   };
 
-  private handleClickByScale = (args?: EventArgs<number>) => {
-    if (args) this.model.clickByScale(args?.data);
+  private valueChanged = (args?: EventArgs<number>) => {
+    if (args) this.model.valueChanged(args?.data);
   };
 
-  /* private updateModel = (args?: EventArgs<IModelData>) => {
-    if (args) this.model.updateData(args.data);
-  }; */
+  private modelChanged = (args?: EventArgs<IModelData>) => {
+    if (args) this.model.updateData(args?.data);
+  };
 
   private updateView = (args?: EventArgs<IModelData>) => {
     if (args) this.viewManager.modelData = <ModelData>args.data;

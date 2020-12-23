@@ -38,9 +38,7 @@ class SliderWithPhysic {
 
   public setModelData: (modelData: IModelData, viewData: IViewData) => void;
   public getModelData: () => ModelData;
-  public getViewData: () => ViewData;
 
-  public subscribeOnHandleMove: (handler: EventHandler<IModelData>) => void;
   public subscribeOnMouseDown: (handler: EventHandler<IMouseData>) => void;
   public subscribeOnMouseMove: (handler: EventHandler<IMouseData>) => void;
   public subscribeOnMouseUp: (handler: EventHandler<IMouseData>) => void;
@@ -73,8 +71,6 @@ class SliderWithPhysic {
 
     this.setModelData = this.jqueryElement.data('setModelData');
     this.getModelData = this.jqueryElement.data('getModelData');
-    this.getViewData = this.jqueryElement.data('getViewData');
-    this.subscribeOnHandleMove = this.jqueryElement.data('subscribeOnHandleMove');
     this.subscribeOnMouseDown = this.jqueryElement.data('subscribeOnMouseDown');
     this.subscribeOnMouseMove = this.jqueryElement.data('subscribeOnMouseMove');
     this.subscribeOnMouseUp = this.jqueryElement.data('subscribeOnMouseUp');
