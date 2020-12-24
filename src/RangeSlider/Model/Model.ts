@@ -41,10 +41,10 @@ class Model {
       this.data.stepSize = data.stepSize;
       this.data.maxValue = this.validator.validateMaxValue(data.stepSize, this.data.maxValue);
     }
+    this.validator.validateValues(data);
     if (data.filledStrips !== undefined) {
       this.data.filledStrips = this.validator.validateFilledStrips(data.filledStrips);
     }
-    this.validator.validateValues(data);
 
     const valuesCountChanged = oldValues.length !== this.data.values.length;
     const filledStripsEquals = this.compareFilledStrips(oldFilledStrips, this.data.filledStrips);
@@ -61,9 +61,15 @@ class Model {
   }
 
   public handlesMoved = (handleData: IHandleData): void => {
-    const changedValue = this.calculateProportionalValue(handleData);
-    const values = [...this.data.values];
-    if (handleData.id !== undefined) values[handleData.id] = changedValue;
+    let values: number[];
+    if (handleData.id !== undefined) {
+      const changedValue = this.calculateProportionalValue(handleData);
+      values = [...this.data.values];
+      values[handleData.id] = changedValue;
+    } else {
+      const changedValue = this.calculateProportionalValue(handleData);
+      values = this.pullUpNearestValue(changedValue);
+    }
 
     this.updateData({ values });
   };
@@ -108,7 +114,7 @@ class Model {
   }
 
   public pullUpNearestValue(targetValue: number): number[] {
-    const { values } = this.data;
+    const values = [...this.data.values];
 
     const deltaValuesToTargetValue = values.map((value, index) => ({
       index,

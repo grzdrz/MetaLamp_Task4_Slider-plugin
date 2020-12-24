@@ -132,7 +132,7 @@ class FilledStrip extends SliderPart {
     const mousePosition = this.view.calculateMouseGlobalPosition(event);
     const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
 
-    this.view.viewManager.onHandleMove.invoke(new EventArgs<IHandleData>({
+    this.view.viewManager.onFilledRailClick.invoke(new EventArgs<IHandleData>({
       viewData: this.view.viewManager.data,
       mousePosition: mousePositionInsideContainer,
     }));

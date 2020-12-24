@@ -31,11 +31,15 @@ $.fn.rangeSlider = function rangeSlider(this: JQuery, modelData: IModelData = {}
   $(this).data().subscribeOnSetModelData = presenter.model.onUpdated.subscribe;
   $(this).data().subscribeOnSetViewData = presenter.viewManager.onUpdated.subscribe;
 
-  $(this).data().subscribeOnHandleMove = presenter.viewManager.onHandleMove.subscribe;
   $(this).data().subscribeOnValuesUpdated = presenter.model.onValuesUpdated.subscribe;
   $(this).data().subscribeOnMouseDown = presenter.viewManager.onMouseDown.subscribe;
   $(this).data().subscribeOnMouseMove = presenter.viewManager.onMouseMove.subscribe;
   $(this).data().subscribeOnMouseUp = presenter.viewManager.onMouseUp.subscribe;
+  $(this).data().subscribeOnHandleMove = presenter.viewManager.onHandleMove.subscribe;
+  $(this).data().subscribeOnScaleClick = presenter.viewManager.onScaleClick.subscribe;
+  $(this).data().subscribeOnInputsChange = presenter.viewManager.onInputsChange.subscribe;
+  $(this).data().subscribeOnEmptyRailClick = presenter.viewManager.onEmptyRailClick.subscribe;
+  $(this).data().subscribeOnFilledRailClick = presenter.viewManager.onFilledRailClick.subscribe;
 
   return this;
 };

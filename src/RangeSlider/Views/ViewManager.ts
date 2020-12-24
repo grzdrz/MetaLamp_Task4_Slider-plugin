@@ -26,6 +26,8 @@ class ViewManager {
   public onHandleMove = new Event<IHandleData>();
   public onInputsChange = new Event<IInputData>();
   public onScaleClick = new Event<number>();
+  public onEmptyRailClick = new Event<IHandleData>();
+  public onFilledRailClick = new Event<IHandleData>();
 
   constructor(viewData: ViewData, containerElement: HTMLElement) {
     this.data = viewData;
