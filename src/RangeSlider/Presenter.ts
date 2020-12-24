@@ -32,6 +32,8 @@ class Presenter {
     this.viewManager.onHandleMove.subscribe(this.handlesMoved);
     this.viewManager.onScaleClick.subscribe(this.valueChanged);
     this.viewManager.onInputsChange.subscribe(this.inputChanged);
+    this.viewManager.onEmptyRailClick.subscribe(this.clickByRail);
+    this.viewManager.onFilledRailClick.subscribe(this.clickByRail);
 
     const resizeObserver = new ResizeObserver(this.handleViewportSizeChange);
     const htmlElement = this.viewManager.containerElement;
@@ -48,6 +50,10 @@ class Presenter {
 
   private inputChanged = (args?: EventArgs<IInputData>) => {
     if (args) this.model.valueChanged(args?.data.value, args?.data.id);
+  };
+
+  private clickByRail = (args?: EventArgs<IHandleData>) => {
+    if (args) this.model.handlesMoved(args?.data);
   };
 
   private updateViewsWithRender = (args?: EventArgs<IModelData>) => {
