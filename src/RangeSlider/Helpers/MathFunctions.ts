@@ -34,7 +34,7 @@ class MathFunctions {
       }
       return currentNumberString + leftNumberPart.replace(/^\-/, '');
     }
-    valueOfE -= leftNumberPart.length;
+    valueOfE = valueOfE - leftNumberPart.length + (number < 0 ? 1 : 0);
     while (valueOfE) {
       currentNumberString = `${currentNumberString}0`;
       valueOfE -= 1;

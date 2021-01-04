@@ -80,9 +80,21 @@ describe('MathFunctions', function () {
       assert.equal(actual, expected);
     })
 
+    it('-1e-10 -> 0.0000000001', function () {
+      let actual = MathFunctions.getStringOfNumberWithoutE(-1e-10);
+      let expected = '-0.0000000001';
+      assert.equal(actual, expected);
+    })
+
     it('1e21 -> 1000000000000000000000', function () {
       let actual = MathFunctions.getStringOfNumberWithoutE(1e21);
       let expected = '1000000000000000000000';
+      assert.equal(actual, expected);
+    })
+
+    it('-1e21 -> 1000000000000000000000', function () {
+      let actual = MathFunctions.getStringOfNumberWithoutE(-1e21);
+      let expected = '-1000000000000000000000';
       assert.equal(actual, expected);
     })
   });

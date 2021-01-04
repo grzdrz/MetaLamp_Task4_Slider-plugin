@@ -1,6 +1,6 @@
-import Handle from "../../src/RangeSlider/Views/SliderView/SliderParts/Handle";
-import SliderView from "../../src/RangeSlider/Views/SliderView/SliderView";
-import Presenter from "../../src/RangeSlider/Presenter";
+import Handle from '../../src/RangeSlider/Views/SliderView/SliderParts/Handle';
+import SliderView from '../../src/RangeSlider/Views/SliderView/SliderView';
+import Presenter from '../../src/RangeSlider/Presenter';
 import createRangeSlider from '../../src/RangeSlider/createRangeSlider';
 
 let container: HTMLDivElement;

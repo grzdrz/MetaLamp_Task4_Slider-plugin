@@ -1,4 +1,6 @@
 import createRangeSlider from '../../src/RangeSlider/createRangeSlider';
+import IHandleData from '../../src/RangeSlider/Data/IHandleData';
+import Vector from '../../src/RangeSlider/Helpers/Vector';
 import Presenter from '../../src/RangeSlider/Presenter';
 
 let container: HTMLDivElement;
@@ -9,198 +11,95 @@ beforeEach(() => {
 });
 
 describe('Model', function () {
-  it('validateValues без data.values', function () {
-    const oldData = presenter.model.getData();
-    presenter.model.updateData({
-      stepSize: 5,
-      maxValue: 10,
-      minValue: 0,
+  describe('calculateProportionalValue', function () {
+    it('с курсором у основания контейнера слайдера', function () {
+      const model = presenter.model;
+      presenter.viewManager.data.sliderLength = 1000;
+      const cursorPositionInContainer = new Vector(0, 0);
+      const handleData: IHandleData = {
+        mousePosition: cursorPositionInContainer,
+        viewData: presenter.viewManager.data,
+        id: 0,
+      };
+
+      const actual = model.calculateProportionalValue(handleData);
+      const expected = -100;
+
+      assert.equal(actual, expected);
     });
-    const newData = presenter.model.getData();
-    assert.deepEqual(oldData.values, newData.values);
+
+    it('с курсором у основания контейнера слайдера и isHandlesSeparated = true', function () {
+      const model = presenter.model;
+      presenter.viewManager.data.sliderLength = 1000;
+      presenter.viewManager.data.isHandlesSeparated = true;
+      const cursorPositionInContainer = new Vector(0, 0);
+      const handleData: IHandleData = {
+        mousePosition: cursorPositionInContainer,
+        viewData: presenter.viewManager.data,
+        id: 0,
+      };
+
+      const actual = model.calculateProportionalValue(handleData);
+      const expected = -100;
+
+      assert.equal(actual, expected);
+    });
+
+    it('с курсором в центре контейнера слайдера и без передачи id ползунка', function () {
+      const model = presenter.model;
+      presenter.viewManager.data.sliderLength = 1000;
+      const cursorPositionInContainer = new Vector(500, 0);
+      const handleData: IHandleData = {
+        mousePosition: cursorPositionInContainer,
+        viewData: presenter.viewManager.data,
+      };
+
+      const actual = model.calculateProportionalValue(handleData);
+      const expected = 0;
+
+      assert.equal(actual, expected);
+    });
+
+    it('с курсором в центре контейнера слайдера, isHandlesSeparated = true и без передачи handleCountNumber', function () {
+      const model = presenter.model;
+      presenter.viewManager.data.sliderLength = 1000;
+      presenter.viewManager.data.isHandlesSeparated = true;
+      const cursorPositionInContainer = new Vector(500, 0);
+      const handleData: IHandleData = {
+        mousePosition: cursorPositionInContainer,
+        viewData: presenter.viewManager.data,
+      };
+
+      const actual = model.calculateProportionalValue(handleData);
+      const expected = 0;
+
+      assert.equal(actual, expected);
+    });
   });
 
-  it('validateValues без изменения значений', function () {
-    const oldData = presenter.model.getData();
-    presenter.model.updateData({
-      values: oldData.values,
-    });
+  describe('pullUpNearestValue', function () {
+    it('c правым ближайшим значением', function(){
+      const model = presenter.model;
+      model.data.values
 
-    const newData = presenter.model.getData();
-    assert.deepEqual(newData.values, oldData.values);
-  });
+      debugger;
+      const updatedValues = model.pullUpNearestValue(-10);
 
-  it('validateValues с изменением до 1го значения', function () {
-    presenter.model.updateData({
-      values: [0],
-    });
-    const newData = presenter.model.getData();
-    assert.deepEqual(newData.values, [0]);
-  });
+      const actual = updatedValues;
+      const expected = [-10, 0];
+      assert.deepEqual(actual, expected);
+    })
 
-  it('validateValues с изменением более 1го значения вперед направлении', function () {
-    presenter.model.updateData({
-      canPush: false,
-      values: [0, 30],
-    });
+    it('c левым ближайшим значением', function(){
+      const model = presenter.model;
+      model.data.values
 
-    const newData = presenter.model.getData();
-    assert.deepEqual(newData.values, [0, 30]);
-  });
+      debugger;
+      const updatedValues = model.pullUpNearestValue(10);
 
-  it('validateValues с изменением более 1го значения вперед направлении с проталкиванием вперед', function () {
-    presenter.model.updateData({
-      canPush: true,
-      values: [10, 0],
-    });
-
-    const newData = presenter.model.getData();
-    assert.deepEqual(newData.values, [10, 10]);
-  });
-
-  it('validateValues с изменением более 1го значения назад направлении с проталкиванием назад', function () {
-    presenter.model.updateData({
-      canPush: true,
-      values: [0, -10],
-    });
-
-    const newData = presenter.model.getData();
-    assert.deepEqual(newData.values, [-10, -10]);
-  });
-
-  it('validateValues с изменением более 1го значения вперед с выходом за максимальное значение', function () {
-    presenter.model.updateData({
-      canPush: true,
-      values: [0, 110],
-    });
-
-    const newData = presenter.model.getData();
-    assert.deepEqual(newData.values, [0, 100]);
-  });
-
-  it('validateValues с изменением более 1го значения назад с выходом за минимальное значение', function () {
-    presenter.model.updateData({
-      canPush: true,
-      values: [-110, 0],
-    });
-
-    const newData = presenter.model.getData();
-    assert.deepEqual(newData.values, [-100, 0]);
-  });
-
-  it('validateMaxValue', function () {
-    presenter.model.updateData({
-      maxValue: 50,
-    });
-
-    const newData = presenter.model.getData();
-    assert.equal(newData.maxValue, 50);
-  });
-
-  it('validateMaxValue с попыткой установить значение не кратное шагу', function () {
-    presenter.model.updateData({
-      maxValue: 109,
-    });
-
-    const newData = presenter.model.getData();
-    assert.equal(newData.maxValue, 110);
-  });
-
-  it('validateMaxValue с попыткой зайти за минимальное значение', function () {
-    presenter.model.updateData({
-      maxValue: -110,
-    });
-
-    const newData = presenter.model.getData();
-    assert.equal(newData.maxValue, -90);
-  });
-
-  it('validateMinValue', function () {
-    presenter.model.updateData({
-      minValue: -50,
-    });
-
-    const newData = presenter.model.getData();
-    assert.equal(newData.minValue, -50);
-  });
-
-  it('validateMinValue с попыткой установить значение не кратное шагу', function () {
-    presenter.model.updateData({
-      minValue: -109,
-    });
-
-    const newData = presenter.model.getData();
-    assert.equal(newData.minValue, -110);
-  });
-
-  it('validateMinValue с попыткой зайти за максимально значение', function () {
-    presenter.model.updateData({
-      minValue: 110,
-    });
-
-    const newData = presenter.model.getData();
-    assert.equal(newData.minValue, 90);
-  });
-
-  it('calculateNearestPositionForHandle с минимальным значение больше 0', function () {
-    presenter.model.updateData({
-      stepSize: 1,
-    });
-    presenter.model.updateData({
-      maxValue: 11,
-    });
-    presenter.model.updateData({
-      minValue: 1,
-    });
-
-    const data1 = presenter.model.getData();
-    if (data1.values) data1.values[1] = 12;
-    presenter.model.updateData({
-      values: data1.values,
-    });
-
-    const data2 = presenter.model.getData();
-    if (data2.values) data2.values[0] = 0;
-    presenter.model.updateData({
-      values: data2.values,
-    });
-
-    const newData = presenter.model.getData();
-
-    assert.equal(newData.stepSize, 1);
-    assert.equal(newData.maxValue, 11);
-    assert.equal(newData.minValue, 1);
-    assert.deepEqual(newData.values, [1, 11]);
-  });
-
-  it('calculateNearestPositionForHandle с минимальным значение меньше 0', function () {
-    presenter.model.updateData({
-      stepSize: 1,
-    });
-    presenter.model.updateData({
-      maxValue: 11,
-    });
-    presenter.model.updateData({
-      minValue: -1,
-    });
-
-    const data1 = presenter.model.getData();
-    if (data1.values) data1.values[1] = 12;
-    presenter.model.updateData({
-      values: data1.values,
-    });
-
-    const data2 = presenter.model.getData();
-    if (data2.values) data2.values[0] = -2;
-    presenter.model.updateData({
-      values: data2.values,
-    });
-
-    const newData = presenter.model.getData();
-
-    assert.equal(newData.stepSize, 1);
-    assert.equal(newData.maxValue, 11);
-    assert.equal(newData.minValue, -1);
-    assert.deepEqual(newData.values, [-1, 11]);
+      const actual = updatedValues;
+      const expected = [0, 10];
+      assert.deepEqual(actual, expected);
+    })
   });
 });

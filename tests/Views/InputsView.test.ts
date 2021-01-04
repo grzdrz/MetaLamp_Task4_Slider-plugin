@@ -10,17 +10,6 @@ beforeEach(() => {
 });
 
 describe('InputsView', function () {
-  /* it('build был вызван при обновлении с полным перерендером', function () {
-    const view = <InputsView>(presenter.viewManager.views[1]);
-    const buildSpy = spyOn(view, 'build');
-
-    view.update(true);
-
-    const callsCount = buildSpy.calls.count();
-
-    assert.equal(callsCount, 1);
-  }); */
-
   it('handleInputChange', () => {
     const view = <InputsView>(presenter.viewManager.views[1]);
     const firstInput = <HTMLInputElement>view.containerElement.querySelector('.range-slider__input_0');

@@ -62,6 +62,7 @@ class Vector {
   }
 
   public calculateVectorProjectionOnTargetVector(targetVector: Vector): number {
+    if (targetVector.length === 0) return 0;
     return this.calculateScalarProduct(targetVector) / targetVector.length;
   }
 

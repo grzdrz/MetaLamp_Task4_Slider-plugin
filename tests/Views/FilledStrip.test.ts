@@ -1,6 +1,6 @@
-import FilledStrip from "../../src/RangeSlider/Views/SliderView/SliderParts/FilledStrip";
-import SliderView from "../../src/RangeSlider/Views/SliderView/SliderView";
-import Presenter from "../../src/RangeSlider/Presenter";
+import FilledStrip from '../../src/RangeSlider/Views/SliderView/SliderParts/FilledStrip';
+import SliderView from '../../src/RangeSlider/Views/SliderView/SliderView';
+import Presenter from '../../src/RangeSlider/Presenter';
 import createRangeSlider from '../../src/RangeSlider/createRangeSlider';
 
 let container: HTMLDivElement;
@@ -14,7 +14,7 @@ describe('FilledStrip', function () {
   it('handleClick в FilledStrip, клик по левому краю закрашенной рельсы', () => {
     const view = <SliderView>(presenter.viewManager.views[0]);
     const filledStrip = new FilledStrip(view, 0);
-    presenter./* viewManager */model.data.filledStrips = [true];
+    presenter.model.data.filledStrips = [true];
 
     filledStrip.element.dispatchEvent(new MouseEvent('click', {
       bubbles: true,
@@ -31,7 +31,7 @@ describe('FilledStrip', function () {
   it('handleClick в FilledStrip, клик по правому краю закрашенной рельсы', () => {
     const view = <SliderView>(presenter.viewManager.views[0]);
     const filledStrip = new FilledStrip(view, 2);
-    presenter./* viewManager */model.data.filledStrips = [false, false, true];
+    presenter.model.data.filledStrips = [false, false, true];
     presenter.viewManager.data.sliderLength = 1000;
 
     filledStrip.element.dispatchEvent(new MouseEvent('click', {

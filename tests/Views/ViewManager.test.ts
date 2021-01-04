@@ -1,5 +1,3 @@
-import IViewData from '../../src/RangeSlider/Data/IViewData';
-import EventArgs from '../../src/RangeSlider/Events/EventArgs';
 import createRangeSlider from '../../src/RangeSlider/createRangeSlider';
 import Presenter from '../../src/RangeSlider/Presenter';
 
@@ -18,7 +16,6 @@ describe('ViewManager', function () {
 
     assert.equal(oldData.angle, newData.angle);
     assert.equal(oldData.borderThickness, newData.borderThickness);
-    /* assert.deepEqual(oldData.filledStrips, newData.filledStrips); */
     assert.equal(oldData.handleHeight, newData.handleHeight);
     assert.equal(oldData.handleWidth, newData.handleWidth);
     assert.equal(oldData.hasScale, newData.hasScale);
@@ -47,35 +44,4 @@ describe('ViewManager', function () {
     const updatedData = presenter.viewManager.getData();
     assert.equal(updatedData.angle, 0);
   });
-
-  /* it('валидация численности интервальных полос при большей численности значений', function () {
-    presenter.viewManager.update({
-      filledStrips: [true],
-    });
-
-    const updatedData = presenter.viewManager.getData();
-    assert.deepEqual(updatedData.filledStrips, [true, false, false]);
-  }); */
-
-  /* it('invoke eventsА', function () {
-    presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
-      isHandlesSeparated: true,
-      hasTooltip: false,
-      filledStrips: [true, true, true],
-    }));
-
-    const data1 = presenter.viewManager.getData();
-    assert.deepEqual(data1.filledStrips, [true, true, true]);
-
-
-    presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
-      isHandlesSeparated: false,
-    }));
-    presenter.viewManager.onSetViewData.invoke(new EventArgs<IViewData>({
-      filledStrips: [true, true, true],
-    }));
-
-    const data2 = presenter.viewManager.getData();
-    assert.deepEqual(data2.filledStrips, [true, true, true]);
-  }); */
 });

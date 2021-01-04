@@ -262,7 +262,6 @@ describe('Vector', function () {
     });
   });
 
-
   describe('rotateVector(повернуть вектор на заданный угол)', function () {
     it('Возвращает вектор', function () {
       let vector1 = new Vector(1, 1);

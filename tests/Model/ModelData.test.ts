@@ -9,6 +9,7 @@ describe('ModelData', function () {
     assert.deepEqual(defaultData.values, [0, 0]);
     assert.equal(defaultData.stepSize, 10);
     assert.equal(defaultData.canPush, true);
+    assert.deepEqual(defaultData.filledStrips, [true, false]);
   });
 
   it('кастомные значения', function () {
@@ -18,6 +19,7 @@ describe('ModelData', function () {
       values: [-3, 3],
       stepSize: 0.000001,
       canPush: false,
+      filledStrips: [true, false, true],
     });
 
     assert.equal(defaultData.minValue, -9);
@@ -25,6 +27,7 @@ describe('ModelData', function () {
     assert.deepEqual(defaultData.values, [-3, 3]);
     assert.equal(defaultData.stepSize, 0.000001);
     assert.equal(defaultData.canPush, false);
+    assert.deepEqual(defaultData.filledStrips, [true, false, true]);
   });
 
   it('deltaMaxMin', function () {
