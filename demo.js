@@ -11376,6 +11376,7 @@ class ModelData {
         this.maxValue = 100;
         this.stepSize = 10;
         this.canPush = true;
+        this.filledStrips = [true, false];
         this.initialize(data);
     }
     get deltaMaxMin() {
@@ -11392,6 +11393,8 @@ class ModelData {
             this.canPush = data.canPush;
         if (data.values !== undefined)
             this.values = data.values.map((e) => e).sort((a, b) => a - b);
+        if (data.filledStrips !== undefined)
+            this.filledStrips = [...data.filledStrips];
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (ModelData);
@@ -11417,7 +11420,6 @@ class ViewData {
         this.borderThickness = 5;
         this.maxSegmentsCount = 10;
         this.angle = 0;
-        this.filledStrips = [true, false];
         this.isHandlesSeparated = false;
         this.hasScale = true;
         this.scaleMargin = 30;
@@ -11438,8 +11440,6 @@ class ViewData {
             this.maxSegmentsCount = data.maxSegmentsCount;
         if (data.angle !== undefined)
             this.angle = data.angle;
-        if (data.filledStrips !== undefined)
-            this.filledStrips = [...data.filledStrips];
         if (data.isHandlesSeparated !== undefined)
             this.isHandlesSeparated = data.isHandlesSeparated;
         if (data.hasScale !== undefined)
@@ -11667,24 +11667,56 @@ class Vector {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Data_ModelData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Data/ModelData */ "./src/RangeSlider/Data/ModelData.ts");
-/* harmony import */ var _Events_Event__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Events/Event */ "./src/RangeSlider/Events/Event.ts");
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _ModelDataValidator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ModelDataValidator */ "./src/RangeSlider/Model/ModelDataValidator.ts");
+/* harmony import */ var _Data_ViewData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Data/ViewData */ "./src/RangeSlider/Data/ViewData.ts");
+/* harmony import */ var _Events_Event__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Events/Event */ "./src/RangeSlider/Events/Event.ts");
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
+/* harmony import */ var _ModelDataValidator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ModelDataValidator */ "./src/RangeSlider/Model/ModelDataValidator.ts");
+
+
 
 
 
 
 class Model {
     constructor(data) {
-        this.onGetViewData = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
-        this.onSetViewData = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.viewData = new _Data_ViewData__WEBPACK_IMPORTED_MODULE_1__["default"]({});
+        this.onUpdated = new _Events_Event__WEBPACK_IMPORTED_MODULE_2__["default"]();
+        this.onValuesUpdated = new _Events_Event__WEBPACK_IMPORTED_MODULE_2__["default"]();
+        this.handlesMoved = (handleData) => {
+            let values;
+            if (handleData.id !== undefined) {
+                const changedValue = this.calculateProportionalValue(handleData);
+                values = [...this.data.values];
+                values[handleData.id] = changedValue;
+            }
+            else {
+                const changedValue = this.calculateProportionalValue(handleData);
+                values = this.pullUpNearestValue(changedValue);
+            }
+            this.updateData({ values });
+        };
+        this.valueChanged = (targetValue, id) => {
+            let values;
+            if (id !== undefined) {
+                values = [...this.data.values];
+                values[id] = targetValue;
+            }
+            else
+                values = this.pullUpNearestValue(targetValue);
+            this.updateData({ values });
+        };
         this.data = data;
-        this.validator = new _ModelDataValidator__WEBPACK_IMPORTED_MODULE_3__["default"](this);
+        this.validator = new _ModelDataValidator__WEBPACK_IMPORTED_MODULE_5__["default"](this);
     }
     initialize() {
-        this.update(this.data);
+        this.updateData(this.data);
     }
-    update(data) {
+    updateData(data) {
+        const oldValues = [...this.data.values];
+        const oldFilledStrips = [...this.data.filledStrips];
+        const oldMaxValue = this.data.maxValue;
+        const oldMinValue = this.data.minValue;
         if (data.canPush !== undefined)
             this.data.canPush = data.canPush;
         if (data.minValue !== undefined) {
@@ -11698,11 +11730,67 @@ class Model {
             this.data.maxValue = this.validator.validateMaxValue(data.stepSize, this.data.maxValue);
         }
         this.validator.validateValues(data);
+        if (data.filledStrips !== undefined) {
+            this.data.filledStrips = this.validator.validateFilledStrips(data.filledStrips);
+        }
+        const valuesCountChanged = oldValues.length !== this.data.values.length;
+        const filledStripsEquals = this.compareFilledStrips(oldFilledStrips, this.data.filledStrips);
+        const extremeValuesChanged = oldMaxValue !== this.data.maxValue || oldMinValue !== this.data.minValue;
+        const needFullReRender = valuesCountChanged || !filledStripsEquals || extremeValuesChanged;
+        if (needFullReRender)
+            this.onUpdated.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_3__["default"](this.getData()));
+        else
+            this.onValuesUpdated.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_3__["default"](this.getData()));
     }
-    getViewData() {
-        const eventArgs = new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_2__["default"]({});
-        this.onGetViewData.invoke(eventArgs);
-        return eventArgs.data;
+    compareFilledStrips(oldFilledStrips, newFilledStrips) {
+        if (oldFilledStrips.length !== newFilledStrips.length)
+            return false;
+        return oldFilledStrips.every((strip, index) => strip === newFilledStrips[index]);
+    }
+    calculateProportionalValue(handleData) {
+        const { values, deltaMaxMin, minValue } = this.data;
+        const { sliderLength, handleWidth, angleInRadians, isHandlesSeparated, } = handleData.viewData;
+        const { mousePosition, id } = handleData;
+        let shiftCoefficient;
+        if (id !== undefined)
+            shiftCoefficient = isHandlesSeparated ? id : 0;
+        else
+            shiftCoefficient = isHandlesSeparated ? values.length / 2 : 0.5;
+        const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
+        const vectorizedShift = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_4__["default"].calculateVector(handleWidth * shiftCoefficient, angleInRadians);
+        const shiftedCursorPositionInContainer = mousePosition.subtract(vectorizedShift);
+        const containerCapacity = sliderLength - handleWidth * maxShiftCoefficient;
+        const mainAxisVector = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_4__["default"].calculateVector(sliderLength, angleInRadians);
+        let cursorPositionProjectionOnSliderMainAxis = shiftedCursorPositionInContainer
+            .calculateVectorProjectionOnTargetVector(mainAxisVector);
+        if (cursorPositionProjectionOnSliderMainAxis < 0)
+            cursorPositionProjectionOnSliderMainAxis = 0;
+        else if (cursorPositionProjectionOnSliderMainAxis > sliderLength)
+            cursorPositionProjectionOnSliderMainAxis = sliderLength;
+        const proportionalValue = (deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + minValue;
+        return proportionalValue;
+    }
+    pullUpNearestValue(targetValue) {
+        const values = [...this.data.values];
+        const deltaValuesToTargetValue = values.map((value, index) => ({
+            index,
+            deltaValue: Math.abs(value - targetValue),
+        }));
+        const sortedDeltaValues = deltaValuesToTargetValue.sort((a, b) => a.deltaValue - b.deltaValue);
+        const smallestDeltaValues = sortedDeltaValues.filter((tuple) => tuple.deltaValue === sortedDeltaValues[0].deltaValue);
+        const closestValues = smallestDeltaValues.map((tuple) => ({ index: tuple.index, value: values[tuple.index] }));
+        const firstClosestValue = closestValues[0].value;
+        const isTargetValueToRightOfClosestValues = targetValue > firstClosestValue;
+        const isTargetValueToLeftOfClosestValues = targetValue < firstClosestValue;
+        if (isTargetValueToRightOfClosestValues) {
+            const indexOfLastClosestValue = closestValues.length - 1;
+            values[closestValues[indexOfLastClosestValue].index] = targetValue;
+        }
+        else if (isTargetValueToLeftOfClosestValues) {
+            const indexOfFirstClosestValue = 0;
+            values[closestValues[indexOfFirstClosestValue].index] = targetValue;
+        }
+        return values;
     }
     getData() {
         return new _Data_ModelData__WEBPACK_IMPORTED_MODULE_0__["default"](this.data);
@@ -11722,9 +11810,7 @@ class Model {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
-
+/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
 
 class ModelDataValidator {
     constructor(model) {
@@ -11737,12 +11823,12 @@ class ModelDataValidator {
         let valueOfOneStep = deltaMaxMin / stepSize;
         if (valueOfOneStep < 1)
             valueOfOneStep += 1;
-        const fraction = _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__["default"].getFractionOfNumber(valueOfOneStep);
+        const fraction = _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_0__["default"].getFractionOfNumber(valueOfOneStep);
         if (fraction === 0)
             return maxValue;
         const roundedValueOfOneStep = Math.round(valueOfOneStep);
         const newMaxValue = stepSize * roundedValueOfOneStep + this.model.data.minValue;
-        const result = _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__["default"].cutOffJunkValuesFromFraction(newMaxValue, stepSize);
+        const result = _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_0__["default"].cutOffJunkValuesFromFraction(newMaxValue, stepSize);
         return result;
     }
     validateMinValue(minValue, stepSize) {
@@ -11750,7 +11836,7 @@ class ModelDataValidator {
         if (deltaMaxMin <= 0)
             return this.model.data.maxValue - stepSize;
         const valueOfOneStep = (this.model.data.maxValue - minValue) / stepSize;
-        const fraction = _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__["default"].getFractionOfNumber(valueOfOneStep);
+        const fraction = _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_0__["default"].getFractionOfNumber(valueOfOneStep);
         if (fraction === 0)
             return minValue;
         const roundedValueOfOneStep = Math.round(valueOfOneStep);
@@ -11771,6 +11857,19 @@ class ModelDataValidator {
             this.moveHandle(changedValueIndex, targetHandleShift);
             this.updateFilledStrips();
         }
+    }
+    validateFilledStrips(filledStrips) {
+        const { values } = this.model.data;
+        const newFilledStrips = new Array();
+        for (let i = 0; i < values.length + 1; i += 1) {
+            if (i < filledStrips.length) {
+                newFilledStrips.push(filledStrips[i]);
+            }
+            else {
+                newFilledStrips.push(false);
+            }
+        }
+        return newFilledStrips;
     }
     moveHandle(changedValueIndex, targetHandleShift) {
         const wasHandleMoved = changedValueIndex !== -1 && targetHandleShift !== 0;
@@ -11804,20 +11903,6 @@ class ModelDataValidator {
         });
         return changedValueIndex;
     }
-    updateFilledStrips() {
-        const viewData = this.model.getViewData();
-        const { filledStrips } = viewData;
-        const newFilledStrips = new Array();
-        for (let i = 0; i < this.model.data.values.length + 1; i += 1) {
-            if (i < filledStrips.length) {
-                newFilledStrips.push(filledStrips[i]);
-            }
-            else {
-                newFilledStrips.push(false);
-            }
-        }
-        this.model.onSetViewData.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__["default"]({ filledStrips: newFilledStrips }));
-    }
     validateValue(value, countNumber, canPush) {
         const newTargetInputValue = this.calculateNearestPositionForHandle(value);
         const { values } = this.model.data;
@@ -11839,6 +11924,19 @@ class ModelDataValidator {
             return maxValue;
         return value;
     }
+    updateFilledStrips() {
+        const { filledStrips } = this.model.data;
+        const newFilledStrips = new Array();
+        for (let i = 0; i < this.model.data.values.length + 1; i += 1) {
+            if (i < filledStrips.length) {
+                newFilledStrips.push(filledStrips[i]);
+            }
+            else {
+                newFilledStrips.push(false);
+            }
+        }
+        this.model.data.filledStrips = this.model.validator.validateFilledStrips(newFilledStrips);
+    }
     calculateNearestPositionForHandle(value) {
         let absoluteValue;
         let resultValue;
@@ -11853,7 +11951,7 @@ class ModelDataValidator {
             const roundedAbsoluteValue = Math.round(absoluteValue);
             resultValue = roundedAbsoluteValue * stepSize + Math.abs(minValue);
         }
-        return _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__["default"].cutOffJunkValuesFromFraction(resultValue, stepSize);
+        return _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_0__["default"].cutOffJunkValuesFromFraction(resultValue, stepSize);
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (ModelDataValidator);
@@ -11875,42 +11973,54 @@ __webpack_require__.r(__webpack_exports__);
 
 class Presenter {
     constructor(model, viewManager) {
-        this.handleSetModelData = (args) => {
-            this.model.update(args.data);
+        this.handlesMoved = (args) => {
+            if (args)
+                this.model.handlesMoved(args === null || args === void 0 ? void 0 : args.data);
         };
-        this.handleSetViewData = (args) => {
-            this.viewManager.update(args.data);
+        this.valueChanged = (args) => {
+            if (args)
+                this.model.valueChanged(args === null || args === void 0 ? void 0 : args.data);
         };
-        this.handleGetModelData = (args) => {
-            args.data = this.model.getData();
+        this.inputChanged = (args) => {
+            if (args)
+                this.model.valueChanged(args === null || args === void 0 ? void 0 : args.data.value, args === null || args === void 0 ? void 0 : args.data.id);
         };
-        this.handleGetViewData = (args) => {
-            args.data = this.viewManager.getData();
+        this.clickByRail = (args) => {
+            if (args)
+                this.model.handlesMoved(args === null || args === void 0 ? void 0 : args.data);
         };
-        this.handleViewsUpdate = () => {
-            this.viewManager.views.forEach((view) => view.update(true));
+        this.updateViewsWithRender = (args) => {
+            if (args)
+                this.viewManager.updateViewsWithRender(args.data);
         };
-        this.handleHandleMove = () => {
-            this.viewManager.views.forEach((view) => view.update(false));
+        this.updateViewsWithoutRender = (args) => {
+            if (args)
+                this.viewManager.updateViewsWithoutRender(args.data);
+        };
+        this.handleViewportSizeChange = () => {
+            (this.viewManager.views[0]).renderContainer();
+            this.viewManager.updateViewsWithoutRender(this.model.data);
         };
         this.model = model;
         this.viewManager = viewManager;
         this.initialize();
     }
     initialize() {
-        this.viewManager.onSetModelData.subscribe(this.handleSetModelData);
-        this.viewManager.onSetModelData.subscribe(this.handleViewsUpdate);
-        this.viewManager.onSetViewData.subscribe(this.handleSetViewData);
-        this.viewManager.onSetViewData.subscribe(this.handleViewsUpdate);
-        this.model.onSetViewData.subscribe(this.handleSetViewData);
-        this.viewManager.onHandleMove.subscribe(this.handleSetModelData);
-        this.viewManager.onHandleMove.subscribe(this.handleHandleMove);
-        this.viewManager.onInputsChange.subscribe(this.handleSetModelData);
-        this.viewManager.onInputsChange.subscribe(this.handleHandleMove);
-        this.model.onGetViewData.subscribe(this.handleGetViewData);
-        this.viewManager.onGetModelData.subscribe(this.handleGetModelData);
+        this.setEventHandlers();
         this.model.initialize();
-        this.viewManager.initialize();
+        this.viewManager.initialize(this.model.data);
+    }
+    setEventHandlers() {
+        this.model.onValuesUpdated.subscribe(this.updateViewsWithoutRender);
+        this.model.onUpdated.subscribe(this.updateViewsWithRender);
+        this.viewManager.onHandleMove.subscribe(this.handlesMoved);
+        this.viewManager.onScaleClick.subscribe(this.valueChanged);
+        this.viewManager.onInputsChange.subscribe(this.inputChanged);
+        this.viewManager.onEmptyRailClick.subscribe(this.clickByRail);
+        this.viewManager.onFilledRailClick.subscribe(this.clickByRail);
+        const resizeObserver = new ResizeObserver(this.handleViewportSizeChange);
+        const htmlElement = this.viewManager.containerElement;
+        resizeObserver.observe(htmlElement);
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Presenter);
@@ -11947,6 +12057,40 @@ module.exports = content.locals || {};
 
 /***/ }),
 
+/***/ "./src/RangeSlider/Views/InputsView/InputParts/ValueInput.ts":
+/*!*******************************************************************!*\
+  !*** ./src/RangeSlider/Views/InputsView/InputParts/ValueInput.ts ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
+
+class ValueInput {
+    constructor(view, id) {
+        this.handleInputChange = () => {
+            this.view.viewManager.onInputsChange.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__["default"]({
+                value: Number.parseInt(this.element.value, 10),
+                id: this.id,
+            }));
+        };
+        this.view = view;
+        this.id = id;
+        this.element = document.createElement('input');
+    }
+    build() {
+        this.element = document.createElement('input');
+        this.element.className = `range-slider__input range-slider__input_${this.id}`;
+        this.element.addEventListener('change', this.handleInputChange);
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (ValueInput);
+
+
+/***/ }),
+
 /***/ "./src/RangeSlider/Views/InputsView/InputsView.ts":
 /*!********************************************************!*\
   !*** ./src/RangeSlider/Views/InputsView/InputsView.ts ***!
@@ -11956,56 +12100,36 @@ module.exports = content.locals || {};
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../View */ "./src/RangeSlider/Views/View.ts");
+/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../View */ "./src/RangeSlider/Views/View.ts");
+/* harmony import */ var _InputParts_ValueInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InputParts/ValueInput */ "./src/RangeSlider/Views/InputsView/InputParts/ValueInput.ts");
 
 
-class InputsView extends _View__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class InputsView extends _View__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor() {
         super(...arguments);
-        this.valueInputsDOMElements = new Array();
-        this.handleInputChange = () => {
-            const modelData = this.viewManager.getModelData();
-            const { values } = modelData;
-            this.valueInputsDOMElements.forEach((element, i) => {
-                const value = Number.parseFloat(element.value);
-                values[i] = value;
-            });
-            this.viewManager.onInputsChange.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__["default"]({ values }));
-        };
+        this.valueInputs = new Array();
     }
-    initialize() {
-        this.build();
-        this.update(false);
+    initialize(modelData) {
+        this.build(modelData);
+        this.update(modelData, false);
     }
-    build() {
-        const modelData = this.viewManager.getModelData();
+    build(modelData) {
+        const { values } = modelData;
         this.containerElement.innerHTML = '';
-        this.valueInputsDOMElements = [];
-        for (let i = 0; i < modelData.values.length; i += 1) {
-            const valueInputContainer = document.createElement('div');
-            const valueInput = document.createElement('input');
-            this.valueInputsDOMElements.push(valueInput);
-            const valueInputText = document.createElement('p');
-            valueInputContainer.className = `range-slider__input-container range-slider__input-container_${i}`;
-            valueInput.dataset.countNumber = `${i}`;
-            valueInput.className = `range-slider__input range-slider__input_${i}`;
-            valueInput.value = `${modelData.minValue}`;
-            valueInputText.className = 'range-slider__input-text';
-            valueInputText.textContent = `value ${i + 1}`;
-            valueInputContainer.append(valueInput);
-            valueInputContainer.append(valueInputText);
-            this.containerElement.append(valueInputContainer);
-            valueInput.addEventListener('change', this.handleInputChange);
+        this.valueInputs = [];
+        for (let i = 0; i < values.length; i += 1) {
+            const valueInput = new _InputParts_ValueInput__WEBPACK_IMPORTED_MODULE_1__["default"](this, i);
+            valueInput.build();
+            this.valueInputs.push(valueInput);
+            this.containerElement.append(valueInput.element);
         }
     }
-    update(isNeedRebuild) {
-        const modelData = this.viewManager.getModelData();
+    update(modelData, isNeedRebuild) {
         const { values } = modelData;
         if (isNeedRebuild)
-            this.build();
-        this.valueInputsDOMElements.forEach((element, i) => {
-            element.value = values[i].toString();
+            this.build(modelData);
+        this.valueInputs.forEach((input, i) => {
+            input.element.value = values[i].toString();
         });
     }
 }
@@ -12035,17 +12159,18 @@ class EmptyStrip extends _SliderPart__WEBPACK_IMPORTED_MODULE_2__["default"] {
         this.handleClick = (event) => {
             const mousePosition = this.view.calculateMouseGlobalPosition(event);
             const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
-            const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
-            const values = this.view.setClosestHandle(proportionalValue);
-            this.view.viewManager.onHandleMove.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__["default"]({ values }));
+            this.view.viewManager.onEmptyRailClick.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__["default"]({
+                viewData: this.view.viewManager.data,
+                mousePosition: mousePositionInsideContainer,
+            }));
         };
         this.initialize();
     }
     initialize() {
         this.element.addEventListener('click', this.handleClick);
     }
-    build() {
-        super.build();
+    build(modelData) {
+        super.build(modelData);
         this.element.className = 'range-slider__empty-strip';
         this.view.containerElement.append(this.element);
     }
@@ -12092,9 +12217,10 @@ class FilledStrip extends _SliderPart__WEBPACK_IMPORTED_MODULE_2__["default"] {
         this.handleClick = (event) => {
             const mousePosition = this.view.calculateMouseGlobalPosition(event);
             const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition);
-            const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer);
-            const values = this.view.setClosestHandle(proportionalValue);
-            this.view.viewManager.onHandleMove.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__["default"]({ values }));
+            this.view.viewManager.onFilledRailClick.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__["default"]({
+                viewData: this.view.viewManager.data,
+                mousePosition: mousePositionInsideContainer,
+            }));
         };
         this.countNumber = countNumber;
         this.initialize();
@@ -12102,24 +12228,23 @@ class FilledStrip extends _SliderPart__WEBPACK_IMPORTED_MODULE_2__["default"] {
     initialize() {
         this.element.addEventListener('click', this.handleClick);
     }
-    build() {
-        super.build();
+    build(modelData) {
+        super.build(modelData);
         this.element.className = `range-slider__filled-strip range-slider__filled-strip_${this.countNumber}`;
         this.view.containerElement.append(this.element);
     }
-    update() {
-        const modelData = this.view.viewManager.getModelData();
+    update(modelData) {
         const { values } = modelData;
         const { handleWidth, angleInRadians, isHandlesSeparated, } = this.view.viewManager.data;
         this.rotate();
         const vectorizedHandleWidth = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"].calculateVector(handleWidth, angleInRadians);
         const shiftCoefficient = isHandlesSeparated ? this.countNumber : 0;
         const handlesCountShift = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"].calculateVector(Math.abs(handleWidth * shiftCoefficient - handleWidth / 2), angleInRadians);
-        const firstHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber - 1]);
-        const lastHandlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
+        const firstHandlePosition = this.view.calculateProportionalPixelValue(modelData, values[this.countNumber - 1]);
+        const lastHandlePosition = this.view.calculateProportionalPixelValue(modelData, values[this.countNumber]);
         const vectorizedFirstHandlePosition = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"].calculateVector(firstHandlePosition, angleInRadians);
         const vectorizedLastHandlePosition = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"].calculateVector(lastHandlePosition, angleInRadians);
-        const size = this.calculateSize({
+        const size = this.calculateSize(modelData, {
             vectorizedLastHandlePosition,
             vectorizedFirstHandlePosition,
             vectorizedHandleWidth,
@@ -12129,9 +12254,9 @@ class FilledStrip extends _SliderPart__WEBPACK_IMPORTED_MODULE_2__["default"] {
         this.setSize(size);
         this.setPosition(position);
     }
-    calculateSize(args) {
-        const modelData = this.view.viewManager.getModelData();
-        const { handleWidth, angleInRadians, sliderStripThickness, isHandlesSeparated, filledStrips, } = this.view.viewManager.data;
+    calculateSize(modelData, args) {
+        const { maxValue, filledStrips } = modelData;
+        const { handleWidth, angleInRadians, sliderStripThickness, isHandlesSeparated, } = this.view.viewManager.data;
         const { vectorizedLastHandlePosition, vectorizedFirstHandlePosition, vectorizedHandleWidth, handlesCountShift, } = args;
         let size;
         if (this.countNumber === 0) {
@@ -12139,7 +12264,7 @@ class FilledStrip extends _SliderPart__WEBPACK_IMPORTED_MODULE_2__["default"] {
             size = new _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"](width, sliderStripThickness);
         }
         else if (this.countNumber === filledStrips.length - 1) {
-            const maxValueLength = this.view.calculateProportionalPixelValue(modelData.maxValue);
+            const maxValueLength = this.view.calculateProportionalPixelValue(modelData, maxValue);
             const vectorizedMaxValueLength = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"].calculateVector(maxValueLength - handleWidth / 2, angleInRadians);
             const width = vectorizedMaxValueLength.subtract(vectorizedFirstHandlePosition).sum(vectorizedHandleWidth).length;
             size = new _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"](width, sliderStripThickness);
@@ -12221,8 +12346,8 @@ class Handle extends _SliderPart__WEBPACK_IMPORTED_MODULE_3__["default"] {
         this.backgroundElement = document.createElement('div');
         this.countNumber = countNumber;
     }
-    build() {
-        super.build();
+    build(modelData) {
+        super.build(modelData);
         const { handleWidth, handleHeight } = this.view.viewManager.data;
         this.element.className = `range-slider__handle range-slider__handle_${this.countNumber}`;
         this.element.dataset.sliderCountNumber = this.countNumber.toString();
@@ -12235,13 +12360,12 @@ class Handle extends _SliderPart__WEBPACK_IMPORTED_MODULE_3__["default"] {
         this.view.containerElement.append(this.backgroundElement);
         this.setDragAndDropHandles();
     }
-    update() {
-        const modelData = this.view.viewManager.getModelData();
+    update(modelData) {
         const { values } = modelData;
         const { handleWidth, angleInRadians, isHandlesSeparated } = this.view.viewManager.data;
         const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
         const handlesCountShift = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"].calculateVector(Math.abs(handleWidth * shiftCoefficient), angleInRadians);
-        const handlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
+        const handlePosition = this.view.calculateProportionalPixelValue(modelData, values[this.countNumber]);
         const vectorizedHandlePosition = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"].calculateVector(handlePosition, angleInRadians).sum(handlesCountShift);
         this.setPosition(vectorizedHandlePosition);
         this.rotate();
@@ -12284,10 +12408,11 @@ class Handle extends _SliderPart__WEBPACK_IMPORTED_MODULE_3__["default"] {
         const { mousePositionInsideHandle, } = optionsFromMouseDown;
         const mousePosition = this.view.calculateMouseGlobalPosition(event);
         const mousePositionInsideContainer = this.view.calculateMousePositionInsideContainer(mousePosition, mousePositionInsideHandle);
-        const proportionalValue = this.view.calculateProportionalValue(mousePositionInsideContainer, this.countNumber);
-        const { values } = this.view.viewManager.getModelData();
-        values[this.countNumber] = proportionalValue;
-        this.view.viewManager.onHandleMove.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__["default"]({ values }));
+        this.view.viewManager.onHandleMove.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__["default"]({
+            mousePosition: mousePositionInsideContainer,
+            viewData: this.view.viewManager.data,
+            id: this.countNumber,
+        }));
         this.view.viewManager.onMouseMove.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__["default"]({ mousePosition }));
     }
     handleMouseUp(optionsFromMouseDown, event) {
@@ -12332,27 +12457,26 @@ class Scale extends _SliderPart__WEBPACK_IMPORTED_MODULE_4__["default"] {
             const currentSegment = (event.currentTarget);
             const segmentValueString = (currentSegment.dataset.value);
             const value = Number.parseFloat(segmentValueString);
-            const values = this.view.setClosestHandle(value);
-            this.view.viewManager.onHandleMove.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__["default"]({ values }));
+            this.view.viewManager.onScaleClick.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_0__["default"](value));
         };
     }
-    build() {
-        super.build();
+    build(modelData) {
+        super.build(modelData);
         this.element.className = 'range-slider__scale-container';
         this.view.containerElement.append(this.element);
-        this.buildSegments();
+        this.buildSegments(modelData);
     }
-    update() {
+    update(modelData) {
         this.segments.forEach((segment) => {
             const value = Number.parseFloat((segment.dataset.value));
-            this.calculateSegmentPosition(segment, value);
+            this.calculateSegmentPosition(modelData, segment, value);
         });
     }
-    buildSegments() {
+    buildSegments(modelData) {
         this.segments = [];
-        const { stepSize, minValue, maxValue, } = this.view.viewManager.getModelData();
+        const { stepSize, minValue, maxValue, } = modelData;
         const { maxSegmentsCount } = this.view.viewManager.data;
-        const segmentDensityLimit = this.calculateSegmentDensityLimit();
+        const segmentDensityLimit = this.calculateSegmentDensityLimit(modelData);
         let exactMaxSegmentsCount = maxSegmentsCount;
         if (maxSegmentsCount >= segmentDensityLimit) {
             exactMaxSegmentsCount = segmentDensityLimit;
@@ -12362,36 +12486,36 @@ class Scale extends _SliderPart__WEBPACK_IMPORTED_MODULE_4__["default"] {
             const segmentValue = i * stepSize * stepsInOneSegment + minValue;
             if (segmentValue >= maxValue)
                 break;
-            this.buildSegment(segmentValue);
+            this.buildSegment(modelData, segmentValue);
         }
-        this.buildSegment(maxValue);
+        this.buildSegment(modelData, maxValue);
     }
-    buildSegment(segmentValue) {
-        const { stepSize } = this.view.viewManager.getModelData();
+    buildSegment(modelData, segmentValue) {
+        const { stepSize } = modelData;
         const segment = document.createElement('div');
         segment.className = 'range-slider__scale-segment';
         const value = _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_1__["default"].cutOffJunkValuesFromFraction(segmentValue, stepSize);
         segment.textContent = `${value}`;
         segment.dataset.value = `${value}`;
         segment.addEventListener('click', this.handleSegmentClick);
-        this.calculateSegmentPosition(segment, segmentValue);
+        this.calculateSegmentPosition(modelData, segment, segmentValue);
         this.segments.push(segment);
         this.element.append(segment);
     }
-    calculateSegmentDensityLimit() {
-        const modelData = this.view.viewManager.getModelData();
-        const density = modelData.deltaMaxMin / modelData.stepSize;
+    calculateSegmentDensityLimit(modelData) {
+        const { deltaMaxMin, stepSize } = modelData;
+        const density = deltaMaxMin / stepSize;
         return density;
     }
-    calculateSegmentPosition(segment, value) {
-        const modelData = this.view.viewManager.getModelData();
+    calculateSegmentPosition(modelData, segment, value) {
+        const { values } = modelData;
         const { angleInRadians, handleWidth, isHandlesSeparated, scaleMargin, } = this.view.viewManager.data;
         const segmentRect = segment.getBoundingClientRect();
         const segmentWidth = segmentRect.width * Math.cos(angleInRadians);
         const segmentHeight = segmentRect.height * Math.sin(angleInRadians);
         const vectorizedSegmentLength = new _Helpers_Vector__WEBPACK_IMPORTED_MODULE_2__["default"](segmentWidth, segmentHeight).length;
-        let handlePositionInContainer = this.view.calculateProportionalPixelValue(value);
-        const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
+        let handlePositionInContainer = this.view.calculateProportionalPixelValue(modelData, value);
+        const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
         handlePositionInContainer = handlePositionInContainer - vectorizedSegmentLength / 2 + handleWidth * (maxShiftCoefficient / 2);
         const vectorizedMargin = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_2__["default"].calculateVector(scaleMargin, angleInRadians);
         const rotatedMargin = vectorizedMargin.rotateVector(-Math.PI / 2);
@@ -12421,7 +12545,7 @@ class SliderPart {
         this.view = view;
         this.element = document.createElement('div');
     }
-    build() {
+    build(modelData) {
         this.element.innerHTML = '';
     }
     setPosition(position) {
@@ -12455,27 +12579,27 @@ class Tooltip extends _SliderPart__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.segments = new Array();
         this.countNumber = countNumber;
     }
-    build() {
-        super.build();
-        const { values } = this.view.viewManager.getModelData();
+    build(modelData) {
+        super.build(modelData);
+        const { values } = modelData;
         this.element.className = `range-slider__tooltip range-slider__tooltip_${this.countNumber}`;
         this.element.dataset.sliderCountNumber = this.countNumber.toString();
         this.element.textContent = `${values[this.countNumber]}`;
         this.view.containerElement.append(this.element);
     }
-    update() {
-        const { values } = this.view.viewManager.getModelData();
+    update(modelData) {
+        const { values } = modelData;
         this.element.textContent = `${values[this.countNumber]}`;
-        const position = this.calculatePosition();
+        const position = this.calculatePosition(modelData);
         this.setPosition(position);
     }
-    calculatePosition() {
-        const { values } = this.view.viewManager.getModelData();
+    calculatePosition(modelData) {
+        const { values } = modelData;
         const { handleWidth, angleInRadians, isHandlesSeparated, tooltipMargin, borderThickness, } = this.view.viewManager.data;
         const vectorizedTooltipLength = this.calculateVectorizedTooltipLength(angleInRadians);
         const shiftCoefficient = (isHandlesSeparated ? this.countNumber : 0);
         const handlesCountShift = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"].calculateVector(Math.abs(handleWidth * shiftCoefficient), angleInRadians);
-        let handlePosition = this.view.calculateProportionalPixelValue(values[this.countNumber]);
+        let handlePosition = this.view.calculateProportionalPixelValue(modelData, values[this.countNumber]);
         handlePosition = handlePosition + handleWidth / 2 - vectorizedTooltipLength / 2;
         const vectorizedHandlePosition = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"].calculateVector(handlePosition, angleInRadians).sum(handlesCountShift);
         const reverseVectorizedTooltipLength = this.calculateReversedVectorizedTooltipLength(angleInRadians);
@@ -12511,14 +12635,14 @@ class Tooltip extends _SliderPart__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
-/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
-/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../View */ "./src/RangeSlider/Views/View.ts");
-/* harmony import */ var _SliderParts_Handle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SliderParts/Handle */ "./src/RangeSlider/Views/SliderView/SliderParts/Handle.ts");
-/* harmony import */ var _SliderParts_FilledStrip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SliderParts/FilledStrip */ "./src/RangeSlider/Views/SliderView/SliderParts/FilledStrip.ts");
-/* harmony import */ var _SliderParts_EmptyStrip__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SliderParts/EmptyStrip */ "./src/RangeSlider/Views/SliderView/SliderParts/EmptyStrip.ts");
-/* harmony import */ var _SliderParts_Scale__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SliderParts/Scale */ "./src/RangeSlider/Views/SliderView/SliderParts/Scale.ts");
-/* harmony import */ var _SliderParts_Tooltip__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SliderParts/Tooltip */ "./src/RangeSlider/Views/SliderView/SliderParts/Tooltip.ts");
+/* harmony import */ var _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Helpers/Vector */ "./src/RangeSlider/Helpers/Vector.ts");
+/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../View */ "./src/RangeSlider/Views/View.ts");
+/* harmony import */ var _SliderParts_Handle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SliderParts/Handle */ "./src/RangeSlider/Views/SliderView/SliderParts/Handle.ts");
+/* harmony import */ var _SliderParts_FilledStrip__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SliderParts/FilledStrip */ "./src/RangeSlider/Views/SliderView/SliderParts/FilledStrip.ts");
+/* harmony import */ var _SliderParts_EmptyStrip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SliderParts/EmptyStrip */ "./src/RangeSlider/Views/SliderView/SliderParts/EmptyStrip.ts");
+/* harmony import */ var _SliderParts_Scale__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SliderParts/Scale */ "./src/RangeSlider/Views/SliderView/SliderParts/Scale.ts");
+/* harmony import */ var _SliderParts_Tooltip__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SliderParts/Tooltip */ "./src/RangeSlider/Views/SliderView/SliderParts/Tooltip.ts");
+/* harmony import */ var _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Helpers/MathFunctions */ "./src/RangeSlider/Helpers/MathFunctions.ts");
 
 
 
@@ -12527,87 +12651,59 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class SliderView extends _View__WEBPACK_IMPORTED_MODULE_2__["default"] {
+class SliderView extends _View__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor() {
         super(...arguments);
         this.parts = [];
-        this.handleViewportSizeChange = () => {
-            this.renderContainer();
-            this.update(false);
-        };
     }
-    initialize() {
-        const resizeObserver = new ResizeObserver(this.handleViewportSizeChange);
-        const htmlElement = this.viewManager.containerElement;
-        resizeObserver.observe(htmlElement);
-        this.update(true);
+    initialize(modelData) {
+        this.update(modelData, true);
     }
-    build() {
-        const modelData = this.viewManager.getModelData();
+    build(modelData) {
+        const { values, filledStrips } = modelData;
         this.parts = [];
         this.containerElement.innerHTML = '';
         this.renderContainer();
-        this.parts.push(new _SliderParts_EmptyStrip__WEBPACK_IMPORTED_MODULE_5__["default"](this));
-        modelData.values.forEach((value, index) => {
-            this.parts.push(new _SliderParts_Handle__WEBPACK_IMPORTED_MODULE_3__["default"](this, index));
+        this.parts.push(new _SliderParts_EmptyStrip__WEBPACK_IMPORTED_MODULE_4__["default"](this));
+        values.forEach((value, index) => {
+            this.parts.push(new _SliderParts_Handle__WEBPACK_IMPORTED_MODULE_2__["default"](this, index));
         });
         if (this.viewManager.data.hasTooltip) {
-            modelData.values.forEach((value, index) => {
-                this.parts.push(new _SliderParts_Tooltip__WEBPACK_IMPORTED_MODULE_7__["default"](this, index));
+            values.forEach((value, index) => {
+                this.parts.push(new _SliderParts_Tooltip__WEBPACK_IMPORTED_MODULE_6__["default"](this, index));
             });
         }
-        this.viewManager.data.filledStrips.forEach((value, index) => {
+        filledStrips.forEach((value, index) => {
             if (value)
-                this.parts.push(new _SliderParts_FilledStrip__WEBPACK_IMPORTED_MODULE_4__["default"](this, index));
+                this.parts.push(new _SliderParts_FilledStrip__WEBPACK_IMPORTED_MODULE_3__["default"](this, index));
         });
         if (this.viewManager.data.hasScale) {
-            this.parts.push(new _SliderParts_Scale__WEBPACK_IMPORTED_MODULE_6__["default"](this));
+            this.parts.push(new _SliderParts_Scale__WEBPACK_IMPORTED_MODULE_5__["default"](this));
         }
         this.parts.forEach((part) => {
-            part.build();
+            part.build(modelData);
         });
     }
-    update(isNeedRebuild) {
+    update(modelData, isNeedRebuild) {
         if (isNeedRebuild) {
-            this.build();
+            this.build(modelData);
             this.parts.forEach((part) => {
-                part.update();
+                part.update(modelData);
             });
         }
         else {
             this.parts.forEach((part) => {
-                part.update();
+                part.update(modelData);
             });
         }
         this.renderContainer();
     }
-    calculateProportionalValue(cursorPositionInContainer, handleCountNumber) {
-        const modelData = this.viewManager.getModelData();
-        const { sliderLength, handleWidth, angleInRadians, isHandlesSeparated, } = this.viewManager.data;
-        let shiftCoefficient;
-        if (handleCountNumber !== undefined)
-            shiftCoefficient = isHandlesSeparated ? handleCountNumber : 0;
-        else
-            shiftCoefficient = isHandlesSeparated ? modelData.values.length / 2 : 0.5;
-        const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
-        const vectorizedShift = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"].calculateVector(handleWidth * shiftCoefficient, angleInRadians);
-        cursorPositionInContainer = cursorPositionInContainer.subtract(vectorizedShift);
-        const containerCapacity = sliderLength - handleWidth * maxShiftCoefficient;
-        const mainAxisVector = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"].calculateVector(sliderLength, angleInRadians);
-        let cursorPositionProjectionOnSliderMainAxis = cursorPositionInContainer.calculateVectorProjectionOnTargetVector(mainAxisVector);
-        if (cursorPositionProjectionOnSliderMainAxis < 0)
-            cursorPositionProjectionOnSliderMainAxis = 0;
-        else if (cursorPositionProjectionOnSliderMainAxis > sliderLength)
-            cursorPositionProjectionOnSliderMainAxis = sliderLength;
-        const proportionalValue = (modelData.deltaMaxMin * cursorPositionProjectionOnSliderMainAxis) / (containerCapacity) + modelData.minValue;
-        return proportionalValue;
-    }
-    calculateProportionalPixelValue(value) {
-        const modelData = this.viewManager.getModelData();
+    calculateProportionalPixelValue(modelData, value) {
+        const { values, deltaMaxMin, minValue } = modelData;
         const { sliderLength, handleWidth, isHandlesSeparated } = this.viewManager.data;
-        const maxShiftCoefficient = (isHandlesSeparated ? modelData.values.length : 1);
+        const maxShiftCoefficient = (isHandlesSeparated ? values.length : 1);
         const usedLength = sliderLength - handleWidth * maxShiftCoefficient;
-        return ((value - modelData.minValue) * usedLength) / modelData.deltaMaxMin;
+        return ((value - minValue) * usedLength) / deltaMaxMin;
     }
     calculateMouseGlobalPosition(event) {
         let x;
@@ -12623,51 +12719,29 @@ class SliderView extends _View__WEBPACK_IMPORTED_MODULE_2__["default"] {
             y = mouseEvent.clientY;
         }
         y = (document.documentElement.clientHeight + window.pageYOffset) - y;
-        return new _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"](x, y);
+        return new _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"](x, y);
     }
     calculateMousePositionInsideContainer(mouseGlobalPosition, mousePositionInsideTargetSlider) {
         const containerBoundingRect = this.containerElement.getBoundingClientRect();
-        const containerCoord = new _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"](containerBoundingRect.x, (document.documentElement.clientHeight + window.pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height));
+        const containerCoordinates = new _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"](containerBoundingRect.x, (document.documentElement.clientHeight + window.pageYOffset) - (containerBoundingRect.y + containerBoundingRect.height));
         if (mousePositionInsideTargetSlider) {
-            return mouseGlobalPosition.subtract(containerCoord).subtract(mousePositionInsideTargetSlider);
+            return mouseGlobalPosition.subtract(containerCoordinates).subtract(mousePositionInsideTargetSlider);
         }
-        return mouseGlobalPosition.subtract(containerCoord);
-    }
-    setClosestHandle(targetValue) {
-        const { values } = this.viewManager.getModelData();
-        const deltaValuesToTargetValue = values.map((value, index) => ({
-            index,
-            deltaValue: Math.abs(value - targetValue),
-        }));
-        const sortedDeltaValues = deltaValuesToTargetValue.sort((a, b) => a.deltaValue - b.deltaValue);
-        const smallestDeltaValues = sortedDeltaValues.filter((tuple) => tuple.deltaValue === sortedDeltaValues[0].deltaValue);
-        const closestValues = smallestDeltaValues.map((tuple) => ({ index: tuple.index, value: values[tuple.index] }));
-        const firstClosestValue = closestValues[0].value;
-        const isTargetValueToRightOfClosestValues = targetValue > firstClosestValue;
-        const isTargetValueToLeftOfClosestValues = targetValue < firstClosestValue;
-        if (isTargetValueToRightOfClosestValues) {
-            const indexOfLastClosestValue = closestValues.length - 1;
-            values[closestValues[indexOfLastClosestValue].index] = targetValue;
-        }
-        else if (isTargetValueToLeftOfClosestValues) {
-            const indexOfFirstClosestValue = 0;
-            values[closestValues[indexOfFirstClosestValue].index] = targetValue;
-        }
-        return values;
+        return mouseGlobalPosition.subtract(containerCoordinates);
     }
     renderContainer() {
         const { sliderLength, angleInRadians } = this.viewManager.data;
         this.calculateSliderLength();
-        const size = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_1__["default"].calculateVector(sliderLength, angleInRadians);
-        _View__WEBPACK_IMPORTED_MODULE_2__["default"].renderSize(this.containerElement, size);
+        const size = _Helpers_Vector__WEBPACK_IMPORTED_MODULE_0__["default"].calculateVector(sliderLength, angleInRadians);
+        _View__WEBPACK_IMPORTED_MODULE_1__["default"].renderSize(this.containerElement, size);
     }
     calculateSliderLength() {
         const { angleInRadians, borderThickness } = this.viewManager.data;
-        const rangleSlider = (this.containerElement.closest('.range-slider'));
-        const boundingRect = rangleSlider.getBoundingClientRect();
+        const rangeSlider = (this.containerElement.closest('.range-slider'));
+        const boundingRect = rangeSlider.getBoundingClientRect();
         const containerActiveWidth = boundingRect.width - borderThickness * 2;
         const containerActiveHeight = boundingRect.height - borderThickness * 2;
-        const sliderLength = _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_0__["default"].calculateEllipseSurfacePointCoordinate(containerActiveWidth, containerActiveHeight, angleInRadians).length;
+        const sliderLength = _Helpers_MathFunctions__WEBPACK_IMPORTED_MODULE_7__["default"].calculateEllipseSurfacePointCoordinate(containerActiveWidth, containerActiveHeight, angleInRadians).length;
         this.viewManager.data.sliderLength = sliderLength;
     }
 }
@@ -12725,20 +12799,6 @@ class ViewDataValidator {
     constructor(viewManager) {
         this.viewManager = viewManager;
     }
-    validateFilledStrips(filledStrips) {
-        const modelData = this.viewManager.getModelData();
-        const { values } = modelData;
-        const newFilledStrips = new Array();
-        for (let i = 0; i < values.length + 1; i += 1) {
-            if (i < filledStrips.length) {
-                newFilledStrips.push(filledStrips[i]);
-            }
-            else {
-                newFilledStrips.push(false);
-            }
-        }
-        return newFilledStrips;
-    }
     validateAngle(angle) {
         if (angle > _utils_constants__WEBPACK_IMPORTED_MODULE_0__["default"].MAX_ANGLE)
             return _utils_constants__WEBPACK_IMPORTED_MODULE_0__["default"].MAX_ANGLE;
@@ -12781,19 +12841,26 @@ __webpack_require__.r(__webpack_exports__);
 class ViewManager {
     constructor(viewData, containerElement) {
         this.views = new Array();
-        this.onSetViewData = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
-        this.onSetModelData = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
-        this.onGetModelData = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
-        this.onHandleMove = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
-        this.onInputsChange = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
         this.onMouseDown = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
         this.onMouseMove = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
         this.onMouseUp = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.onUpdated = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.onHandleMove = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.onInputsChange = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.onScaleClick = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.onEmptyRailClick = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.onFilledRailClick = new _Events_Event__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.updateViewsWithoutRender = (modelData) => {
+            this.views.forEach((view) => view.update(modelData, false));
+        };
+        this.updateViewsWithRender = (modelData) => {
+            this.views.forEach((view) => view.update(modelData, true));
+        };
         this.data = viewData;
         this.containerElement = containerElement;
         this.validator = new _ViewDataValidator__WEBPACK_IMPORTED_MODULE_5__["default"](this);
     }
-    initialize() {
+    initialize(modelData) {
         const pluginContainer = document.createElement('div');
         pluginContainer.className = 'range-slider';
         const sliderContainer = document.createElement('div');
@@ -12805,22 +12872,16 @@ class ViewManager {
         pluginContainer.append(sliderContainer);
         this.containerElement.append(pluginContainer);
         this.containerElement.append(inputsContainer);
-        this.views.forEach((view) => view.initialize());
-        this.update();
+        this.views.forEach((view) => view.initialize(modelData));
+        this.updateData();
     }
-    update(data = this.data) {
+    updateData(data = this.data) {
         this.data.update(data);
         if (data.maxSegmentsCount !== undefined)
             this.data.maxSegmentsCount = this.validator.validateMaxSegmentsCount(data.maxSegmentsCount);
         if (data.angle !== undefined)
             this.data.angle = this.validator.validateAngle(data.angle);
-        if (data.filledStrips !== undefined)
-            this.data.filledStrips = this.validator.validateFilledStrips(data.filledStrips);
-    }
-    getModelData() {
-        const optionsEventArgs = new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_2__["default"]({});
-        this.onGetModelData.invoke(optionsEventArgs);
-        return optionsEventArgs.data;
+        this.onUpdated.invoke(new _Events_EventArgs__WEBPACK_IMPORTED_MODULE_2__["default"](this.getData()));
     }
     getData() {
         return new _Data_ViewData__WEBPACK_IMPORTED_MODULE_0__["default"](this.data);
@@ -12973,6 +13034,7 @@ const modelData = {
     maxValue: 255,
     values: [50],
     stepSize: 1,
+    filledStrips: [false, false],
 };
 const viewData = {
     sliderStripThickness: 10,
@@ -12982,7 +13044,6 @@ const viewData = {
     maxSegmentsCount: 1,
     scaleFontSize: 15,
     angle: 90,
-    filledStrips: [false, false],
     hasScale: false,
     hasTooltip: true,
     scaleMargin: 30,
@@ -12990,9 +13051,13 @@ const viewData = {
 class ColorSlider {
     constructor(manager, containerElement) {
         this.color = 0;
-        this.handleChangeColor = () => {
-            const { values } = this.getModelData();
-            this.color = values[0];
+        this.handleChangeColor = (args) => {
+            let valuesCopy;
+            if (args === null || args === void 0 ? void 0 : args.data)
+                valuesCopy = (args === null || args === void 0 ? void 0 : args.data) && (args === null || args === void 0 ? void 0 : args.data.values);
+            else
+                valuesCopy = this.getModelData().values;
+            this.color = valuesCopy[0];
             this.manager.changeSquareColor();
         };
         this.manager = manager;
@@ -13000,11 +13065,11 @@ class ColorSlider {
         this.jqueryElement = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.containerElement).rangeSlider(modelData, viewData);
         this.getModelData = this.jqueryElement.data('getModelData');
         this.getViewData = this.jqueryElement.data('getViewData');
-        this.subscribeOnHandleMove = this.jqueryElement.data('subscribeOnHandleMove');
+        this.subscribeOnValuesUpdated = this.jqueryElement.data('subscribeOnValuesUpdated');
         this.initialize();
     }
     initialize() {
-        this.subscribeOnHandleMove(this.handleChangeColor);
+        this.subscribeOnValuesUpdated(this.handleChangeColor);
         const { values } = this.getModelData();
         this.color = values[0];
     }
@@ -13063,7 +13128,8 @@ class OptionsPanel {
         this.containerElement.className = 'options';
         outerContainerElement.append(this.containerElement);
         this.setModelData = this.jqueryElement.data('setModelData');
-        this.setViewData = this.jqueryElement.data('setViewData');
+        this.setViewDataWithRender = this.jqueryElement.data('setViewDataWithRender');
+        this.setViewDataWithoutRender = this.jqueryElement.data('setViewDataWithoutRender');
         this.getModelData = this.jqueryElement.data('getModelData');
         this.getViewData = this.jqueryElement.data('getViewData');
         this.subscribeOnSetModelData = this.jqueryElement.data('subscribeOnSetModelData');
@@ -13088,8 +13154,8 @@ class OptionsPanel {
         this.subscribeOnSetModelData(this.handlePanelUpdate);
         this.subscribeOnSetViewData(this.handlePanelUpdate);
     }
-    update(neededFullRerender) {
-        if (neededFullRerender) {
+    update(neededFullReRender) {
+        if (neededFullReRender) {
             this.panelElements.forEach((element) => element.build());
         }
         else {
@@ -13154,7 +13220,7 @@ class Angle extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default"] 
             const dataToUpdate = {
                 angle: inputValue,
             };
-            this.view.setViewData(dataToUpdate);
+            this.view.setViewDataWithRender(dataToUpdate);
         };
     }
     build() {
@@ -13311,7 +13377,7 @@ class HandlesSeparated extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__[
             const dataToUpdate = {
                 isHandlesSeparated: input.checked,
             };
-            this.view.setViewData(dataToUpdate);
+            this.view.setViewDataWithoutRender(dataToUpdate);
         };
     }
     build() {
@@ -13360,7 +13426,7 @@ class HasScale extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["default
             const dataToUpdate = {
                 hasScale: input.checked,
             };
-            this.view.setViewData(dataToUpdate);
+            this.view.setViewDataWithRender(dataToUpdate);
         };
     }
     build() {
@@ -13409,7 +13475,7 @@ class HasTooltip extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["defau
             const dataToUpdate = {
                 hasTooltip: input.checked,
             };
-            this.view.setViewData(dataToUpdate);
+            this.view.setViewDataWithRender(dataToUpdate);
         };
     }
     build() {
@@ -13454,7 +13520,7 @@ class ListOfFilledStrip extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__
         super(view);
         this.inputsDOMElements = new Array();
         this.handleInputChange = () => {
-            const { filledStrips } = this.view.getViewData();
+            const { filledStrips } = this.view.getModelData();
             this.inputsDOMElements.forEach((input, i) => {
                 const value = input.checked;
                 filledStrips[i] = value;
@@ -13462,8 +13528,9 @@ class ListOfFilledStrip extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__
             const dataToUpdate = {
                 filledStrips,
             };
-            this.view.setViewData(dataToUpdate);
+            this.view.setModelData(dataToUpdate);
         };
+        this.DOMElement = document.createElement('div');
         this.filledStripsContainer = document.createElement('div');
     }
     build() {
@@ -13475,7 +13542,7 @@ class ListOfFilledStrip extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__
         filledStripsTitle.textContent = 'Filled strips';
         filledStripsTitle.className = 'options__title';
         this.filledStripsContainer.className = 'options__inputs';
-        const { filledStrips } = this.view.getViewData();
+        const { filledStrips } = this.view.getModelData();
         for (let i = 0; i < filledStrips.length; i += 1) {
             const valueInput = document.createElement('input');
             valueInput.type = 'checkbox';
@@ -13493,7 +13560,7 @@ class ListOfFilledStrip extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__
     update() {
         this.inputsDOMElements = [];
         this.filledStripsContainer.innerHTML = '';
-        const { filledStrips } = this.view.getViewData();
+        const { filledStrips } = this.view.getModelData();
         for (let i = 0; i < filledStrips.length; i += 1) {
             const valueInput = document.createElement('input');
             valueInput.type = 'checkbox';
@@ -13535,7 +13602,7 @@ class MaxSegmentCount extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["
             const dataToUpdate = {
                 maxSegmentsCount: inputValue,
             };
-            this.view.setViewData(dataToUpdate);
+            this.view.setViewDataWithRender(dataToUpdate);
         };
     }
     build() {
@@ -13723,7 +13790,7 @@ class ScaleMargin extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["defa
             const dataToUpdate = {
                 scaleMargin: inputValue,
             };
-            this.view.setViewData(dataToUpdate);
+            this.view.setViewDataWithoutRender(dataToUpdate);
         };
     }
     build() {
@@ -13836,7 +13903,7 @@ class TooltipMargin extends _OptionPanelElement__WEBPACK_IMPORTED_MODULE_0__["de
             const dataToUpdate = {
                 tooltipMargin: inputValue,
             };
-            this.view.setViewData(dataToUpdate);
+            this.view.setViewDataWithoutRender(dataToUpdate);
         };
     }
     build() {
@@ -13938,6 +14005,7 @@ const modelData = {
     maxValue: 1000,
     values: [1000],
     stepSize: 0.0000001,
+    filledStrips: [false, false],
 };
 const viewData = {
     sliderStripThickness: 10,
@@ -13947,7 +14015,6 @@ const viewData = {
     maxSegmentsCount: 1,
     scaleFontSize: 15,
     angle: 90,
-    filledStrips: [false, false],
     hasScale: false,
     hasTooltip: true,
     tooltipMargin: 10,
@@ -14006,8 +14073,6 @@ class SliderWithPhysic {
         this.jqueryElement = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.containerElement).rangeSlider(modelData, viewData);
         this.setModelData = this.jqueryElement.data('setModelData');
         this.getModelData = this.jqueryElement.data('getModelData');
-        this.getViewData = this.jqueryElement.data('getViewData');
-        this.subscribeOnHandleMove = this.jqueryElement.data('subscribeOnHandleMove');
         this.subscribeOnMouseDown = this.jqueryElement.data('subscribeOnMouseDown');
         this.subscribeOnMouseMove = this.jqueryElement.data('subscribeOnMouseMove');
         this.subscribeOnMouseUp = this.jqueryElement.data('subscribeOnMouseUp');
@@ -14287,6 +14352,7 @@ const options = [
             values: [-99, -7, -3, 3, 99],
             stepSize: 1,
             canPush: true,
+            filledStrips: [true, false],
         },
         viewData: {
             sliderStripThickness: 10,
@@ -14296,7 +14362,6 @@ const options = [
             maxSegmentsCount: 6,
             scaleFontSize: 15,
             angle: 45,
-            filledStrips: [true, false],
             isHandlesSeparated: false,
             hasScale: true,
             scaleMargin: 30,
@@ -14310,6 +14375,7 @@ const options = [
             values: [0, 50],
             stepSize: 1,
             canPush: true,
+            filledStrips: [false, true],
         },
         viewData: {
             sliderStripThickness: 12,
@@ -14319,7 +14385,6 @@ const options = [
             maxSegmentsCount: 6,
             scaleFontSize: 15,
             angle: 70,
-            filledStrips: [false, true],
             isHandlesSeparated: true,
             hasTooltip: true,
             hasScale: true,
@@ -14352,33 +14417,40 @@ const sliderWithPhysic = new _components_slider_with_physic_slider_with_physic__
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _RangeSlider_Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RangeSlider/Events/EventArgs */ "./src/RangeSlider/Events/EventArgs.ts");
-/* harmony import */ var _RangeSlider_createRangeSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RangeSlider/createRangeSlider */ "./src/RangeSlider/createRangeSlider.ts");
-/* eslint-disable func-names */
+/* harmony import */ var _RangeSlider_createRangeSlider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RangeSlider/createRangeSlider */ "./src/RangeSlider/createRangeSlider.ts");
 /* eslint-disable no-shadow */
 
 
-
-jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.rangeSlider = function (modelData = {}, viewData = {}) {
-    const presenter = Object(_RangeSlider_createRangeSlider__WEBPACK_IMPORTED_MODULE_2__["default"])(this[0], modelData, viewData);
+jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.rangeSlider = function rangeSlider(modelData = {}, viewData = {}) {
+    const presenter = Object(_RangeSlider_createRangeSlider__WEBPACK_IMPORTED_MODULE_1__["default"])(this[0], modelData, viewData);
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().setModelData = function setModelData(modelData) {
-        presenter.viewManager.onSetModelData.invoke(new _RangeSlider_Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__["default"](modelData));
+        presenter.model.updateData(modelData);
     };
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().setViewData = function setViewData(viewData) {
-        presenter.viewManager.onSetViewData.invoke(new _RangeSlider_Events_EventArgs__WEBPACK_IMPORTED_MODULE_1__["default"](viewData));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().setViewDataWithRender = function setViewData(viewData) {
+        presenter.viewManager.updateData(viewData);
+        presenter.viewManager.updateViewsWithRender(presenter.model.data);
+    };
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().setViewDataWithoutRender = function setViewData(viewData) {
+        presenter.viewManager.updateData(viewData);
+        presenter.viewManager.updateViewsWithoutRender(presenter.model.data);
     };
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().getModelData = function getModelData() {
-        return presenter.viewManager.getModelData();
+        return presenter.model.getData();
     };
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().getViewData = function getViewData() {
-        return presenter.model.getViewData();
+        return presenter.viewManager.getData();
     };
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnSetModelData = presenter.viewManager.onSetModelData.subscribe;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnSetViewData = presenter.viewManager.onSetViewData.subscribe;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnHandleMove = presenter.viewManager.onHandleMove.subscribe;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnSetModelData = presenter.model.onUpdated.subscribe;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnSetViewData = presenter.viewManager.onUpdated.subscribe;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnValuesUpdated = presenter.model.onValuesUpdated.subscribe;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnMouseDown = presenter.viewManager.onMouseDown.subscribe;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnMouseMove = presenter.viewManager.onMouseMove.subscribe;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnMouseUp = presenter.viewManager.onMouseUp.subscribe;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnHandleMove = presenter.viewManager.onHandleMove.subscribe;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnScaleClick = presenter.viewManager.onScaleClick.subscribe;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnInputsChange = presenter.viewManager.onInputsChange.subscribe;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnEmptyRailClick = presenter.viewManager.onEmptyRailClick.subscribe;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data().subscribeOnFilledRailClick = presenter.viewManager.onFilledRailClick.subscribe;
     return this;
 };
 
@@ -14386,4 +14458,4 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.rangeSlider = function (modelDa
 /***/ })
 
 /******/ });
-//# sourceMappingURL=demo.js.map?v=102fc4c7c8248245b476
+//# sourceMappingURL=demo.js.map?v=24f2d1620b17d64256c7
