@@ -4,7 +4,7 @@
 
 # Загрузка
 ```
-$ git clone https://github.com/grzdrz/FSD_Task2.git
+$ git clone https://github.com/grzdrz/MetaLamp_Task4_Slider-plugin.git
 ```
 
 # Установка
